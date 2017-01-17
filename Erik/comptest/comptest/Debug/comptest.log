@@ -1,0 +1,18 @@
+﻿  Utilities.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\comptest\comptest\utilities.h(10): fatal error C1083: Cannot open include file: 'OpenGL/gl3.h': No such file or directory
+  Texture.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\comptest\comptest\texture.h(9): fatal error C1083: Cannot open include file: 'Magick++.h': No such file or directory
+  SphereNode.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\comptest\comptest\texture.h(9): fatal error C1083: Cannot open include file: 'Magick++.h': No such file or directory
+  Shader.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\comptest\comptest\utilities.h(10): fatal error C1083: Cannot open include file: 'OpenGL/gl3.h': No such file or directory
+  main.cpp
+c:\gamessoftware\glfw\3.2.1\include\glfw\glfw3.h(147): fatal error C1083: Cannot open include file: 'GL/glcorearb.h': No such file or directory
+  Entity.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\comptest\comptest\texture.h(9): fatal error C1083: Cannot open include file: 'Magick++.h': No such file or directory
+  Camera.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\comptest\comptest\camera.cpp(24): error C2065: 'M_PI_4': undeclared identifier
+\\cs-fs01\profiles\ug\bzpetras\desktop\comptest\comptest\camera.cpp(27): error C2065: 'M_PI': undeclared identifier
+\\cs-fs01\profiles\ug\bzpetras\desktop\comptest\comptest\camera.cpp(28): warning C4305: '=': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\comptest\comptest\camera.cpp(37): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
