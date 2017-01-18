@@ -20,10 +20,16 @@ vector<vec3> _normals;
 
 int width = 512, height = 512;
 
-float _rotation_y;
+double mouse_old_x, mouse_old_y;
+
+
+float _translate_z = 1.0;
+
+float _rotate_x = 0.0;
+float _rotate_y = 0.0;
 mat4 _modelview;
 mat4 _projection;
-
+mat4 winRatio = mat4(1.f);
 Camera camera;
 vec3 _lightSource = vec3(0.f, 1.f, 0.f);
 //TriMesh* _mesh;

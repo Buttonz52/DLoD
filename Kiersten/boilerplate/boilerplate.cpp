@@ -45,7 +45,7 @@ bool InitializeGeometry(MyGeometry *geometry)
 	obj.LoadObject("obj/teapot.obj", _vertices, _normals, _faces, _uv);
 
 	//Adding red colour for all vertices so it shows up. 
-	for (unsigned int i = 0; i < _faces.size(); i++) {
+	for (int i = 0; i < _faces.size(); i++) {
 		_colours.push_back(vec3(1.0, 0, 0));
 	}
 	// three vertex positions and assocated colours of a triangle
@@ -128,7 +128,7 @@ void DestroyGeometry(MyGeometry *geometry)
 // --------------------------------------------------------------------------
 // Function that rotates the object around the y axis.
 void RotateObject(float factor) {
-	_rotation_y += factor;
+	_rotate_y += factor;
 
 }
 // --------------------------------------------------------------------------
@@ -148,7 +148,7 @@ void RenderTriangle(MyGeometry *geometry, MyShader *shader)
 
 	vec3 fp = vec3(0, 0, 0);
 
-	_projection = camera.calculateProjectionMatrix((float)width / (float)height);
+	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
 	_modelview = camera.calculateViewMatrix(fp);
 	//scene matrices and camera setup
 	glm::vec3 eye(0.0f, 0.3f, -4.0);
@@ -160,9 +160,11 @@ void RenderTriangle(MyGeometry *geometry, MyShader *shader)
 //	_projection = glm::perspective(45.0f, 1.0f, 0.01f, 100.0f);
 
 	mat4 identity(1.0f);
-	mat4 rotationX = rotate(identity, float (_rotation_y  * PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-	_modelview *= rotationX;
+	mat4 zoomZ = glm::scale(vec3(_translate_z, _translate_z, _translate_z));
+	mat4 rotationX = rotate(identity, float (_rotate_y  * PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	mat4 rotationY = rotate(identity, float(_rotate_x * PI / 180.0f), glm::vec3(glm::column(rotationX,4)));
+	_modelview *= zoomZ;
+	_modelview *= (rotationX*rotationY); 
 	//uniform variables
 	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, glm::value_ptr(_modelview));
 	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, glm::value_ptr(_projection));
@@ -230,6 +232,56 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	}
 }
 
+void mouse(GLFWwindow* window, int button, int action, int mods)
+{
+	if (action == GLFW_PRESS)
+	{
+		double x, y;
+		glfwGetCursorPos(window, &x, &y);
+		mouse_old_x = x;
+		mouse_old_y = y;
+	}
+}
+
+void motion(GLFWwindow* w, double x, double y)
+{
+
+	double dx, dy;
+	dx = (x - mouse_old_x);
+	dy = (y - mouse_old_y);
+
+	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_1))
+	{
+		_rotate_x += dy * 0.5f;
+		_rotate_y += dx * 0.5f;
+	}
+	else if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_2))
+	{
+		_translate_z += dy/16.f;
+	}
+
+	mouse_old_x = x;
+	mouse_old_y = y;
+}
+
+void scroll_callback(GLFWwindow* window, double x, double y)
+{
+	_translate_z += y/8;
+	cout << _translate_z << endl;
+}
+
+//Jeremy Hart, CPSC 587 code
+void resizeCallback(GLFWwindow* window, int width, int height)
+{
+	int vp[4];
+	glGetIntegerv(GL_VIEWPORT, vp);
+
+	glViewport(0, 0, width, height);
+
+	float minDim = float(min(width, height));
+
+	winRatio[0][0] = minDim / float(width);
+}
 // ==========================================================================
 // PROGRAM ENTRY POINT
 
@@ -256,10 +308,15 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
+	glfwMakeContextCurrent(window);
 	// set keyboard callback function and make our context current (active)
 	glfwSetKeyCallback(window, KeyCallback);
-	glfwMakeContextCurrent(window);
-	
+	glfwSetMouseButtonCallback(window, mouse);
+	glfwSetCursorPosCallback(window, motion);
+	glfwSetScrollCallback(window, scroll_callback);
+	glfwSetWindowSizeCallback(window, resizeCallback);
+
+
 
 	//Intialize GLAD
 	#ifndef LAB_LINUX

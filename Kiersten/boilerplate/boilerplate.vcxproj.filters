@@ -16,9 +16,6 @@
     <Filter Include="Source Files\External">
       <UniqueIdentifier>{3dc13694-cbab-43ed-94a7-7a9a9176ec37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shaders">
-      <UniqueIdentifier>{fabc75b3-ad6d-440d-a53c-9a51191d6cdf}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="boilerplate.cpp">
@@ -44,12 +41,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\vertex.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="shaders\fragment.glsl">
-      <Filter>Source Files</Filter>
-    </None>
+    <None Include="shaders\fragment.glsl" />
+    <None Include="shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\boilerplate.h">
