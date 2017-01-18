@@ -45,7 +45,7 @@ bool InitializeGeometry(MyGeometry *geometry)
 	obj.LoadObject("obj/teapot.obj", _vertices, _normals, _faces, _uv);
 
 	//Adding red colour for all vertices so it shows up. 
-	for (int i = 0; i < _faces.size(); i++) {
+	for (unsigned int i = 0; i < _faces.size(); i++) {
 		_colours.push_back(vec3(1.0, 0, 0));
 	}
 	// three vertex positions and assocated colours of a triangle
@@ -259,6 +259,7 @@ int main(int argc, char *argv[])
 	// set keyboard callback function and make our context current (active)
 	glfwSetKeyCallback(window, KeyCallback);
 	glfwMakeContextCurrent(window);
+	
 
 	//Intialize GLAD
 	#ifndef LAB_LINUX
