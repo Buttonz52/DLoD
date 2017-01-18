@@ -1,0 +1,25 @@
+CXX = CC
+
+ifdef DEBUG
+	CXXFLAGS = -LANG:std -64 -mips4 -g
+else
+	CXXFLAGS = -LANG:std -64 -mips4 -Ofast=ip27
+endif
+
+CXXFLAGS += -I$(TRIMESH_DIR)/include -I/usr/common/include
+LDFLAGS = -L$(TRIMESH_DIR)/lib.$(UNAME) -L/usr/common/lib64
+LIBS = -ltrimesh -lm
+GLLIBS = -lglut -lGL -lGLU -lX11 -lXmu
+
+
+$(OBJDIR)/%.o: %.cc
+	$(CXX) -MDupdate $(OBJDIR)/Makedepend $(CXXFLAGS) -c $< -o $@
+
+$(OBJDIR):
+	mkdir $@
+
+-include $(OBJDIR)/Makedepend
+
+
+AR = $(CXX) $(CXXOPTS) -ar -o
+
