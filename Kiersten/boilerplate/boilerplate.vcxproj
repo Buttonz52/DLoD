@@ -137,6 +137,7 @@
   <ItemGroup>
     <ClCompile Include="..\middleware\glad\src\glad.c" />
     <ClCompile Include="boilerplate.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="MyTexture.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="objloader.cpp" />
@@ -147,6 +148,7 @@
     <None Include="shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\Camera.h" />
     <ClInclude Include="headers\MyTexture.h" />
     <ClInclude Include="headers\objloader.h" />
     <ClInclude Include="headers\Shader.h" />

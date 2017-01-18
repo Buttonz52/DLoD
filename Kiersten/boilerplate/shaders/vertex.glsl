@@ -25,7 +25,7 @@ out vec3 V;
 void main()
 {
 	//very arbitrary scale for the moment; testing purposes.
-	float scale = 0.01f;
+	float scale = 0.05f;
     // assign vertex position without modification
 	vec4 vertexCameraSpace = modelview * vec4(VertexPosition*scale,1.0);
 	P = vertexCameraSpace.xyz/vertexCameraSpace.w;

@@ -7,6 +7,7 @@
 #include "headers/Shader.h"
 #include "headers/Utility.h"
 #include "headers/MyTexture.h"
+#include "headers/Camera.h"
 //#include "trimesh.h"
 
 // --------------------------------------------------------------------------
@@ -16,11 +17,14 @@ vector<vec3> _vertices;
 vector<vec2> _uv;
 vector<GLushort> _faces;
 vector<vec3> _normals;
-	
+
+int width = 512, height = 512;
+
 float _rotation_y;
 mat4 _modelview;
 mat4 _projection;
 
+Camera camera;
 vec3 _lightSource = vec3(0.f, 1.f, 0.f);
 //TriMesh* _mesh;
 //std::vector<unsigned int> _triangleIndices;

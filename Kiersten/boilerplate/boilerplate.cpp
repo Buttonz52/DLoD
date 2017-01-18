@@ -145,14 +145,19 @@ void RenderTriangle(MyGeometry *geometry, MyShader *shader)
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shader->program);
 	glBindVertexArray(geometry->vertexArray);
+
+	vec3 fp = vec3(0, 0, 0);
+
+	_projection = camera.calculateProjectionMatrix((float)width / (float)height);
+	_modelview = camera.calculateViewMatrix(fp);
 	//scene matrices and camera setup
 	glm::vec3 eye(0.0f, 0.3f, -4.0);
 	glm::vec3 up(0.0f, 1.0f, 0.0f);
 	glm::vec3 center(0.0f, 0.0f, 0.0f);
 
-	_modelview = glm::lookAt(eye, center, up);
+	//_modelview = glm::lookAt(eye, center, up);
 
-	_projection = glm::perspective(45.0f, 1.0f, 0.01f, 100.0f);
+//	_projection = glm::perspective(45.0f, 1.0f, 0.01f, 100.0f);
 
 	mat4 identity(1.0f);
 	mat4 rotationX = rotate(identity, float (_rotation_y  * PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -189,14 +194,39 @@ void ErrorCallback(int error, const char* description)
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
+	if (action == GLFW_RELEASE)
+		return;
 
-	if (key == GLFW_KEY_A) {
+	switch (key) {
+	case GLFW_KEY_ESCAPE:
+		glfwSetWindowShouldClose(window, GL_TRUE);
+		break;
+
+	case GLFW_KEY_RIGHT:
+		camera.azu += M_PI / 180;
+		break;
+
+	case GLFW_KEY_LEFT:
+		camera.azu -= M_PI / 180;
+		break;
+
+	case GLFW_KEY_UP:
+		camera.alt = min(max((float)(camera.alt - M_PI / 180), 0.01f), (float)M_PI - 0.01f);
+		break;
+
+	case GLFW_KEY_DOWN:
+		camera.alt = min(max((float)(camera.alt + M_PI / 180), 0.01f), (float)M_PI - 0.01f);
+		break;
+
+	case GLFW_KEY_A:
 		RotateObject(1.0f);
-	}
-	if (key == GLFW_KEY_D) {
+		break;
+	case GLFW_KEY_D:
 		RotateObject(-1.0f);
+		break;
+
+	default:
+		break;
 	}
 }
 
@@ -218,7 +248,7 @@ int main(int argc, char *argv[])
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	int width = 512, height = 512;
+
 	window = glfwCreateWindow(width, height, "CPSC 453 OpenGL Boilerplate", 0, 0);
 	if (!window) {
 		cout << "Program failed to create GLFW window, TERMINATING" << endl;
@@ -241,7 +271,7 @@ int main(int argc, char *argv[])
 
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
-
+	Camera camera;
 	// call function to load and compile shader programs
 	MyShader shader;
 	if (!InitializeShaders(&shader)) {
@@ -279,6 +309,7 @@ int main(int argc, char *argv[])
 void PrintDirections() {
 	cout << "Directions: " << endl;
 	cout << "A: Rotate object ccw \nD: Rotate object cw" << endl;
+	cout << "UP/DOWN/LEFT/RIGHT: Rotate camera" << endl;
 	cout << "ESC: Exit program" << endl;
 }
 
