@@ -42,7 +42,7 @@ bool InitializeGeometry(MyGeometry *geometry)
 //void LoadObject(string &filename, vector<vec3> &vertices, vector<vec3> &normals, vector<vec3> &faces,  vector<vec3> &uv) {
 	ObjLoader obj;
 	//obj loader works for teapot, not for sphere.
-	obj.LoadObject("obj/teapot.obj", _vertices, _normals, _faces, _uv);
+	obj.LoadObject("models/teapot.obj", _vertices, _normals, _faces, _uv);
 
 	//Adding red colour for all vertices so it shows up. 
 	for (int i = 0; i < _faces.size(); i++) {
