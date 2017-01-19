@@ -162,9 +162,9 @@ void RenderTriangle(MyGeometry *geometry, MyShader *shader)
 	mat4 identity(1.0f);
 	mat4 zoomZ = glm::scale(vec3(_translate_z, _translate_z, _translate_z));
 	mat4 rotationX = rotate(identity, float (_rotate_y  * PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	mat4 rotationY = rotate(identity, float(_rotate_x * PI / 180.0f), glm::vec3(glm::column(rotationX,4)));
+	mat4 rotationY = rotate(identity, float(_rotate_x * PI / 180.0f), glm::vec3(rotationX*(vec4(0.0f, 0.0f, 1.0f, 0.0f))));
 	_modelview *= zoomZ;
-	_modelview *= (rotationX*rotationY); 
+	_modelview *= (rotationY*rotationX); 
 	//uniform variables
 	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, glm::value_ptr(_modelview));
 	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, glm::value_ptr(_projection));
@@ -252,7 +252,7 @@ void motion(GLFWwindow* w, double x, double y)
 
 	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_1))
 	{
-		_rotate_x += dy * 0.5f;
+		_rotate_x -= dy * 0.5f;
 		_rotate_y += dx * 0.5f;
 	}
 	else if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_2))
@@ -297,7 +297,7 @@ int main(int argc, char *argv[])
 	// attempt to create a window with an OpenGL 4.1 core profile context
 	GLFWwindow *window = 0;
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
@@ -347,7 +347,16 @@ int main(int argc, char *argv[])
 	while (!glfwWindowShouldClose(window))
 	{
 		// call function to draw our scene
+		/*
+		if(g_play){
+		t += dt;
+		animateQuad(t);
+		}
+		*/
+		
 		RenderTriangle(&geometry, &shader);
+		//moveCamera()
+		
 
 		glfwSwapBuffers(window);
 
