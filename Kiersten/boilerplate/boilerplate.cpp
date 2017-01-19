@@ -200,35 +200,51 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		return;
 
 	switch (key) {
-	case GLFW_KEY_ESCAPE:
-		glfwSetWindowShouldClose(window, GL_TRUE);
-		break;
+    case GLFW_KEY_ESCAPE:
+      glfwSetWindowShouldClose(window, GL_TRUE);
+      break;
+      
+    case GLFW_KEY_I:
+      camera.moveCameraBy(glm::vec3(0,0.2,0));
+      break;
+      
+    case GLFW_KEY_K:
+      camera.moveCameraBy(glm::vec3(0,-0.2,0));
+      break;
+      
+    case GLFW_KEY_J:
+      camera.moveCameraBy(glm::vec3(-0.2,0,0));
+      break;
+      
+    case GLFW_KEY_L:
+      camera.moveCameraBy(glm::vec3(0.2,0,0));
+      break;
 
-	case GLFW_KEY_RIGHT:
-		camera.azu += M_PI / 180;
-		break;
+    case GLFW_KEY_RIGHT:
+      camera.incrementAzu(-M_PI/180);
+      break;
+      
+    case GLFW_KEY_LEFT:
+      camera.incrementAzu(M_PI/180);
+      break;
+      
+    case GLFW_KEY_UP:
+      camera.incrementAlt(-M_PI/180);
+      break;
+      
+    case GLFW_KEY_DOWN:
+      camera.incrementAlt(M_PI/180);
+      break;
 
-	case GLFW_KEY_LEFT:
-		camera.azu -= M_PI / 180;
-		break;
+    case GLFW_KEY_A:
+      RotateObject(1.0f);
+      break;
+    case GLFW_KEY_D:
+      RotateObject(-1.0f);
+      break;
 
-	case GLFW_KEY_UP:
-		camera.alt = min(max((float)(camera.alt - M_PI / 180), 0.01f), (float)M_PI - 0.01f);
-		break;
-
-	case GLFW_KEY_DOWN:
-		camera.alt = min(max((float)(camera.alt + M_PI / 180), 0.01f), (float)M_PI - 0.01f);
-		break;
-
-	case GLFW_KEY_A:
-		RotateObject(1.0f);
-		break;
-	case GLFW_KEY_D:
-		RotateObject(-1.0f);
-		break;
-
-	default:
-		break;
+    default:
+      break;
 	}
 }
 
@@ -252,15 +268,11 @@ void motion(GLFWwindow* w, double x, double y)
 
 	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_1))
 	{
-		_rotate_x -= dy * 0.5f;
-		_rotate_y += dx * 0.5f;
+    camera->incrementAzu(dx * 0.0025f);
+    camera->incrementAlt(dy * 0.0025f);
 	}
-	else if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_2))
-	{
-		_translate_z += dy/16.f;
-	}
-
-	mouse_old_x = x;
+  
+  mouse_old_x = x;
 	mouse_old_y = y;
 }
 
