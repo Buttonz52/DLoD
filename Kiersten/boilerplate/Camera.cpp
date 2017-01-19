@@ -1,5 +1,16 @@
 
-#include "headers/Camera.h"
+#include "Camera.h"
+#include <stdio.h>
+
+#include <iostream>
+#include <cmath>
+#include <vector>
+#include <algorithm>
+#include <fstream>
+#include <string>
+#include <iterator>
+#include <assert.h>
+
 
 
 std::string str(glm::vec3 v)
@@ -15,37 +26,97 @@ Camera::Camera()
   radius = 20;
   
   fov = M_PI/3;
-  _near = 0.001;
-  _far = 100;
+  near = 0.001;
+  far = 100;
   
   focalPoint = glm::vec3(0,0,0);
 }
 
-Camera::~Camera() {
+void Camera::setAlt(float newAlt)
+{
+
+  alt = min(max((float) (newAlt), 0.00001f), (float) M_PI - 0.000001f);
 }
+
+void Camera::setAzu(float newAzu)
+{
+  
+  while(newAzu >= M_PI * 2)
+  {
+    newAzu -= M_PI * 2;
+  }
+  while(newAzu < 0)
+  {
+    newAzu += M_PI * 2;
+  }
+  
+  azu = newAzu;
+}
+
+void Camera::incrementAlt(float newAlt)
+{
+  alt += newAlt;
+  alt = min(max((float) (alt), 0.00001f), (float) M_PI - 0.000001f);
+}
+
+void Camera::incrementAzu(float newAzu)
+{
+  azu += newAzu;
+
+  while(azu >= M_PI * 2)
+  {
+    azu -= M_PI * 2;
+  }
+  while(azu < 0)
+  {
+    azu += M_PI * 2;
+  }
+}
+
+void Camera::setRadius(float newRad)
+{
+  radius = newRad;
+}
+
+void Camera::incrementRadius(float newRad)
+{
+  radius = min(max((float) (radius - newRad), 1.0f),70.0f);
+}
+
+
+
+
 glm::mat4 Camera::calculateProjectionMatrix(float asp) {
 
-  float dy = _near * tan(fov * 0.5);
+  float dy = near * tan(fov * 0.5);
   float dx = dy * asp;
   
   glm::mat4 projection = glm::mat4(1);
   
-  projection[0][0] = _near / dx;
-  projection[1][1] = _near / dy;
-  projection[2][2] = -(_far + _near)/(_far - _near);
+  projection[0][0] = near / dx;
+  projection[1][1] = near / dy;
+  projection[2][2] = -(far + near)/(far - near);
   projection[2][3] = -1;
-  projection[3][2] = (2 * _far * _near) / (_far - _near);
+  projection[3][2] = (2 * far * near) / (far - near);
   projection[3][3] = 1;
   
   return projection;
 }
 
+void Camera::moveCameraBy(glm::vec3 delta)
+{
+  glm::vec4 temp = glm::vec4(focalPoint,0);
+  
+  temp = temp + glm::vec4(delta,0) * calculateViewMatrix();
+  
+  focalPoint = glm::vec3(temp);
+}
 
-glm::mat4 Camera::calculateViewMatrix(glm::vec3 center) {
+glm::mat4 Camera::calculateViewMatrix() {
   
   // Calculate view matrix
 
-  focalPoint = center;
+  focalPoint;
   
   glm::mat4 camera = glm::mat4();
   
