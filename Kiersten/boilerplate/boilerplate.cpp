@@ -40,12 +40,14 @@ bool InitializeGeometry(MyGeometry *geometry)
 	_faces.clear();
 	_uv.clear();
 //void LoadObject(string &filename, vector<vec3> &vertices, vector<vec3> &normals, vector<vec3> &faces,  vector<vec3> &uv) {
+	Mesh mesh;
+	mesh.ReadMesh("obj/teapot.obj");
 	ObjLoader obj;
 	//obj loader works for teapot, not for sphere.
 	obj.LoadObject("obj/teapot.obj", _vertices, _normals, _faces, _uv);
 
 	//Adding red colour for all vertices so it shows up. 
-	for (unsigned int i = 0; i < _faces.size(); i++) {
+	for (int i = 0; i < mesh.faces.size(); i++) {
 		_colours.push_back(vec3(1.0, 0, 0));
 	}
 	// three vertex positions and assocated colours of a triangle
@@ -67,7 +69,7 @@ bool InitializeGeometry(MyGeometry *geometry)
 	_colours.push_back(c3);*/
 
 		//geometry->elementCount = _faces.size() * 3;
-		geometry->elementCount = _faces.size();
+		geometry->elementCount = mesh.faces.size();
 	// these vertex attribute indices correspond to those specified for the
 	// input variables in the vertex shader
 	const GLuint VERTEX_INDEX = 0;
@@ -81,28 +83,28 @@ bool InitializeGeometry(MyGeometry *geometry)
 	// create an array buffer object for storing our vertices
 	glGenBuffers(1, &geometry->vertexBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, geometry->vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, _vertices.size() * sizeof(vec3), _vertices.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, mesh.vertices.size() * sizeof(vec3), mesh.vertices.data(), GL_STATIC_DRAW);
 	glVertexAttribPointer(VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(VERTEX_INDEX);
 
 	// create another one for storing our colours
 	glGenBuffers(1, &geometry->colourBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, geometry->colourBuffer);
-	glBufferData(GL_ARRAY_BUFFER, _colours.size() * sizeof(vec3), _colours.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, mesh.colours.size() * sizeof(vec3), mesh.colours.data(), GL_STATIC_DRAW);
 	glVertexAttribPointer(COLOUR_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(COLOUR_INDEX);
 
 	// create another one for storing our colours
 	glGenBuffers(1, &geometry->normalBuffer);
 	glBindBuffer(GL_ARRAY_BUFFER, geometry->normalBuffer);
-	glBufferData(GL_ARRAY_BUFFER, _normals.size() * sizeof(vec3), _normals.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, mesh.normals.size() * sizeof(vec3), mesh.normals.data(), GL_STATIC_DRAW);
 	glVertexAttribPointer(NORMAL_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(NORMAL_INDEX);
 
 	//Indices buffer.
 	glGenBuffers(1, &geometry->indicesBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, geometry->indicesBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, _faces.size() * sizeof(GLushort), _faces.data(), GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.faces.size() * sizeof(GLushort), mesh.faces.data(), GL_STATIC_DRAW);
 
 	// unbind our buffers, resetting to default state
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -148,7 +150,7 @@ void RenderTriangle(MyGeometry *geometry, MyShader *shader)
 
 	vec3 fp = vec3(0, 0, 0);
 
-	_projection = camera.calculateProjectionMatrix((float)width / (float)height);
+	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
 	_modelview = camera.calculateViewMatrix(fp);
 	//scene matrices and camera setup
 	glm::vec3 eye(0.0f, 0.3f, -4.0);
@@ -230,6 +232,18 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	}
 }
 
+//Jeremy Hart, CPSC 587 code
+void resizeCallback(GLFWwindow* window, int width, int height)
+{
+	int vp[4];
+	glGetIntegerv(GL_VIEWPORT, vp);
+
+	glViewport(0, 0, width, height);
+
+	float minDim = float(min(width, height));
+
+	winRatio[0][0] = minDim / float(width);
+}
 // ==========================================================================
 // PROGRAM ENTRY POINT
 
@@ -258,8 +272,9 @@ int main(int argc, char *argv[])
 
 	// set keyboard callback function and make our context current (active)
 	glfwSetKeyCallback(window, KeyCallback);
+	glfwSetWindowSizeCallback(window, resizeCallback);
 	glfwMakeContextCurrent(window);
-	
+
 
 	//Intialize GLAD
 	#ifndef LAB_LINUX

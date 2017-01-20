@@ -11,7 +11,7 @@ class Camera
   public:
   
   Camera();
-  
+  ~Camera();
   float azu;
   float alt;
   float radius;

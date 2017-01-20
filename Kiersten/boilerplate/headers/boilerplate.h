@@ -2,11 +2,10 @@
 #ifndef BOILERPLATE_H
 #define BOILERPLATE_H
 
-
+#include "headers/Mesh.h"
 #include "headers/objloader.h"
 #include "headers/Shader.h"
-#include "headers/Utility.h"
-#include "headers/MyTexture.h"
+
 #include "headers/Camera.h"
 //#include "trimesh.h"
 
@@ -23,7 +22,7 @@ int width = 512, height = 512;
 float _rotation_y;
 mat4 _modelview;
 mat4 _projection;
-
+mat4 winRatio = mat4(1.f);
 Camera camera;
 vec3 _lightSource = vec3(0.f, 1.f, 0.f);
 //TriMesh* _mesh;

@@ -16,9 +16,6 @@
     <Filter Include="Source Files\External">
       <UniqueIdentifier>{3dc13694-cbab-43ed-94a7-7a9a9176ec37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="shaders">
-      <UniqueIdentifier>{fabc75b3-ad6d-440d-a53c-9a51191d6cdf}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="boilerplate.cpp">
@@ -36,20 +33,19 @@
     <ClCompile Include="Utility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MyTexture.cpp">
+    <ClCompile Include="Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\vertex.glsl">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="shaders\fragment.glsl">
-      <Filter>Source Files</Filter>
-    </None>
+    <None Include="shaders\fragment.glsl" />
+    <None Include="shaders\vertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\boilerplate.h">
@@ -64,10 +60,13 @@
     <ClInclude Include="headers\objloader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\MyTexture.h">
+    <ClInclude Include="headers\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Camera.h">
+    <ClInclude Include="headers\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

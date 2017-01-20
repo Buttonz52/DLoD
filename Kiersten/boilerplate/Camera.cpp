@@ -21,7 +21,8 @@ Camera::Camera()
   focalPoint = glm::vec3(0,0,0);
 }
 
-
+Camera::~Camera() {
+}
 glm::mat4 Camera::calculateProjectionMatrix(float asp) {
 
   float dy = _near * tan(fov * 0.5);
