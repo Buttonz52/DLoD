@@ -27,7 +27,7 @@ float _translate_z = 1.0;
 
 float _rotate_x = 0.0;
 float _rotate_y = 0.0;
-mat4 _modelview;
+mat4 _view;
 mat4 _projection;
 mat4 winRatio = mat4(1.f);
 Camera camera;

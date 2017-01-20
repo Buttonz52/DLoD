@@ -149,24 +149,10 @@ void RenderTriangle(MyGeometry *geometry, MyShader *shader)
 	vec3 fp = vec3(0, 0, 0);
 
 	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
-	_modelview = camera.calculateViewMatrix(fp);
-	//scene matrices and camera setup
-	glm::vec3 eye(0.0f, 0.3f, -4.0);
-	glm::vec3 up(0.0f, 1.0f, 0.0f);
-	glm::vec3 center(0.0f, 0.0f, 0.0f);
-
-	//_modelview = glm::lookAt(eye, center, up);
-
-//	_projection = glm::perspective(45.0f, 1.0f, 0.01f, 100.0f);
-
-	mat4 identity(1.0f);
-	mat4 zoomZ = glm::scale(vec3(_translate_z, _translate_z, _translate_z));
-	mat4 rotationX = rotate(identity, float (_rotate_y  * PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	mat4 rotationY = rotate(identity, float(_rotate_x * PI / 180.0f), glm::vec3(rotationX*(vec4(0.0f, 0.0f, 1.0f, 0.0f))));
-	_modelview *= zoomZ;
-	_modelview *= (rotationY*rotationX); 
+	_view = camera.calculateViewMatrix();
+	
 	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, glm::value_ptr(_modelview));
+	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, glm::value_ptr(_view));
 	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, glm::value_ptr(_projection));
 	glUniform3fv(glGetUniformLocation(shader->program, "lightPosition"), 1, glm::value_ptr(_lightSource));
 
@@ -205,19 +191,19 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
       break;
       
     case GLFW_KEY_I:
-      camera.moveCameraBy(glm::vec3(0,0.2,0));
+      camera.translate3D(vec3(0,0.2,0));
       break;
       
     case GLFW_KEY_K:
-      camera.moveCameraBy(glm::vec3(0,-0.2,0));
+      camera.translate3D(vec3(0,-0.2,0));
       break;
       
     case GLFW_KEY_J:
-      camera.moveCameraBy(glm::vec3(-0.2,0,0));
+      camera.translate3D(vec3(-0.2,0,0));
       break;
       
     case GLFW_KEY_L:
-      camera.moveCameraBy(glm::vec3(0.2,0,0));
+      camera.translate3D(vec3(0.2,0,0));
       break;
 
     case GLFW_KEY_RIGHT:
@@ -268,18 +254,17 @@ void motion(GLFWwindow* w, double x, double y)
 
 	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_1))
 	{
-    camera->incrementAzu(dx * 0.0025f);
-    camera->incrementAlt(dy * 0.0025f);
+    camera.incrementAzu(dx * 0.005f);
+    camera.incrementAlt(dy * 0.005f);
 	}
   
-  mouse_old_x = x;
+	mouse_old_x = x;
 	mouse_old_y = y;
 }
 
 void scroll_callback(GLFWwindow* window, double x, double y)
 {
-	_translate_z += y/8;
-	cout << _translate_z << endl;
+	camera.incrementRadius(y / 2);
 }
 
 //Jeremy Hart, CPSC 587 code
