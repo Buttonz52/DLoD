@@ -52,8 +52,8 @@ bool Mesh::ReadMesh(const string &filename) {
 		faces.push_back(face.mIndices[1]);
 		faces.push_back(face.mIndices[2]);
 	}
-	delete mesh;
-	delete scene;
+	//delete mesh;
+	//delete scene;
 	return true;
 }
 
