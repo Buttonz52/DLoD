@@ -1,6 +1,6 @@
 /*Note: cpp files aren't in classes, probably should do that. */
-#ifndef BOILERPLATE_H
-#define BOILERPLATE_H
+#ifndef MAIN_H
+#define MAIN_H
 
 #include "headers/Mesh.h"
 #include "headers/objloader.h"

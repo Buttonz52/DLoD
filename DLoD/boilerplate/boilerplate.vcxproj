@@ -136,7 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\middleware\glad\src\glad.c" />
-    <ClCompile Include="boilerplate.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MyTexture.cpp" />
@@ -155,7 +155,7 @@
     <ClInclude Include="headers\objloader.h" />
     <ClInclude Include="headers\Shader.h" />
     <ClInclude Include="headers\Utility.h" />
-    <ClInclude Include="headers\boilerplate.h" />
+    <ClInclude Include="headers\main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

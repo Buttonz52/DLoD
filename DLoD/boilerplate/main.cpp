@@ -10,7 +10,7 @@
 // Date:    December 2015
 // ==========================================================================
 
-#include "headers/boilerplate.h"
+#include "headers/main.h"
 
 // --------------------------------------------------------------------------
 // Functions to set up OpenGL buffers for storing geometry data
