@@ -2,19 +2,15 @@
 
 Mesh::Mesh()
 {
-
 }
 
 Mesh::~Mesh()
 {
-	glDeleteBuffers(1, &vertexBuffer);
-	glDeleteBuffers(1, &normalBuffer);
-	glDeleteBuffers(1, &indicesBuffer);
-	glDeleteBuffers(1, &textureBuffer);
-	glDeleteBuffers(1, &colourBuffer);
-
-	glDeleteVertexArrays(1, &vertexArray);
+	DestroyMesh();
 }
+
+//Reads object file using Assimp and converts to vectors of respective types.
+//Resource: https://learnopengl.com/#!Model-Loading/Model
 
 bool Mesh::ReadMesh(const string &filename) {
 	Assimp::Importer importer;
@@ -54,21 +50,126 @@ bool Mesh::ReadMesh(const string &filename) {
 	}
 	//delete mesh;
 	//delete scene;
-	cout << "Loaded " << filename << endl;
+	//cout << "Loaded " << filename << endl;
 	return true;
 }
 
+void Mesh::AddColour(vec3 *colour) {
+	if (faces.size() == 0) {
+		cout << "ERROR MESH: Mesh not loaded to add colour." << endl;
+	}
+	else {
+		for (int i = 0; i < faces.size(); i++) {
+			colours.push_back(*colour);
+		}
+	}
+}
 void Mesh::AddTexture(const char *filename) {
 	//if (!texture.InitializeTexture(filename, GL_TEXTURE_2D)) {
 	//	cout << "Error with mesh: Failed to initialize texture!" << endl;
 	//}
 }
-void Mesh::Initialize() {
+bool Mesh::Initialize() {
 
 	/* Initialization of buffers for mesh goes here */
+	elementCount = faces.size();
+	// these vertex attribute indices correspond to those specified for the
+	// input variables in the vertex shader
+	const GLuint VERTEX_INDEX = 0;
+	const GLuint COLOUR_INDEX = 1;
+	const GLuint NORMAL_INDEX = 2;
+
+	// create a vertex array object encapsulating all our vertex attributes
+	glGenVertexArrays(1, &vertexArray);
+	glBindVertexArray(vertexArray);
+
+	// create an array buffer object for storing our vertices
+	glGenBuffers(1, &vertexBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), vertices.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(VERTEX_INDEX);
+
+	// create another one for storing our colours
+	glGenBuffers(1, &colourBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
+	glBufferData(GL_ARRAY_BUFFER, colours.size() * sizeof(vec3), colours.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(COLOUR_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(COLOUR_INDEX);
+
+	// create another one for storing our colours
+	glGenBuffers(1, &normalBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
+	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), normals.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(NORMAL_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(NORMAL_INDEX);
+
+	//Indices buffer.
+	glGenBuffers(1, &indicesBuffer);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, faces.size() * sizeof(GLushort), faces.data(), GL_STATIC_DRAW);
+
+	// unbind our buffers, resetting to default state
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+
+	// check for OpenGL errors and return false if error occurred
+	return !CheckGLErrors();
 }
 
-void Mesh::Render() {
-	/* Rendering code for mesh goes here */
+//Render isn't working with camera at the moment: Issues with updating
+//matrices or something.
+/*void Mesh::Render(MyShader *shader, CameraInfo *c) {
+	// Rendering code for mesh goes here 
+	// clear screen to a dark grey colour
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glEnable(GL_DEPTH_TEST);
+
+	// bind our shader program and the vertex array object containing our
+	// scene geometry, then tell OpenGL to draw our geometry
+	glUseProgram(shader->program);
+	glBindVertexArray(vertexArray);
+
+	vec3 fp = vec3(0, 0, 0);
+
+
+
+	//uniform variables
+	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, glm::value_ptr(c->_view));
+	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, glm::value_ptr(c->_projection));
+	glUniform3fv(glGetUniformLocation(shader->program, "lightPosition"), 1, glm::value_ptr(c->_lightSource));
+
+	//Drawing obj files doesn't work yet.
+	//glDrawArrays(GL_TRIANGLES, 0, geometry->elementCount);
+
+	//JAN 16: This works now. //This is in Allan's code, but nothing appears.  TODO: Fix it.
+	glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_SHORT, 0);
+	// reset state to default (no shader or geometry bound)
+	glBindVertexArray(0);
+	glUseProgram(0);
+
+	// check for an report any OpenGL errors
+	CheckGLErrors();
+}*/
+
+//Clears all vectors
+void Mesh::ClearMesh() {
+	colours.clear();
+	vertices.clear();
+	uvs.clear();
+	faces.clear();
+	normals.clear();
+	DestroyMesh();
+
 }
 
+void Mesh::DestroyMesh() {
+	glDeleteBuffers(1, &vertexBuffer);
+	glDeleteBuffers(1, &normalBuffer);
+	glDeleteBuffers(1, &indicesBuffer);
+	glDeleteBuffers(1, &textureBuffer);
+	glDeleteBuffers(1, &colourBuffer);
+
+	glDeleteVertexArrays(1, &vertexArray);
+}

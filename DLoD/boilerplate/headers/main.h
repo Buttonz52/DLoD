@@ -8,6 +8,7 @@
 #include "headers/Utility.h"
 #include "headers/MyTexture.h"
 #include "headers/Camera.h"
+#include <dirent.h>
 //#include "trimesh.h"
 
 // --------------------------------------------------------------------------
@@ -17,7 +18,7 @@ vector<vec3> _vertices;
 vector<vec2> _uv;
 vector<GLushort> _faces;
 vector<vec3> _normals;
-
+vector<Mesh> meshes;
 int width = 512, height = 512;
 
 double mouse_old_x, mouse_old_y;
@@ -43,5 +44,7 @@ GLuint LinkProgram(GLuint vertexShader, GLuint fragmentShader);
 
 void RotateObject(float factor);
 void PrintDirections();
+void LoadAllObjFiles(const char *pathname);
+void AddMesh(const string *pathname);
 // --------------------------------------------------------------------------
 #endif

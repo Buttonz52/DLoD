@@ -13,6 +13,7 @@
 #include "headers/main.h"
 
 // --------------------------------------------------------------------------
+
 // Functions to set up OpenGL buffers for storing geometry data
 
 struct MyGeometry
@@ -47,9 +48,8 @@ bool InitializeGeometry(MyGeometry *geometry)
 	//obj.LoadObject("models/teapot.obj", _vertices, _normals, _faces, _uv);
 
 	//Adding red colour for all vertices so it shows up. 
-	for (int i = 0; i < mesh.faces.size(); i++) {
-		mesh.colours.push_back(vec3(1.0, 0, 0));
-	}
+	vec3 red(1.f, 0.f, 0.f);
+	mesh.AddColour(&red);
 	// three vertex positions and assocated colours of a triangle
 	/*vec3 v1(-0.6f, -0.4f, -1.f);
 	vec3 v2(0.f, 0.6f, 0.f);
@@ -136,7 +136,7 @@ void RotateObject(float factor) {
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer
 
-void RenderTriangle(MyGeometry *geometry, MyShader *shader)
+void RenderMesh(Mesh *mesh, MyShader *shader)
 {
 	// clear screen to a dark grey colour
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -146,7 +146,7 @@ void RenderTriangle(MyGeometry *geometry, MyShader *shader)
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shader->program);
-	glBindVertexArray(geometry->vertexArray);
+	glBindVertexArray(mesh->vertexArray);
 
 	vec3 fp = vec3(0, 0, 0);
 
@@ -162,7 +162,7 @@ void RenderTriangle(MyGeometry *geometry, MyShader *shader)
 	//glDrawArrays(GL_TRIANGLES, 0, geometry->elementCount);
 
 	//JAN 16: This works now. //This is in Allan's code, but nothing appears.  TODO: Fix it.
-	glDrawElements(GL_TRIANGLES, geometry->elementCount, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, mesh->elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);
 	glUseProgram(0);
@@ -338,11 +338,28 @@ int main(int argc, char *argv[])
 
 	// call function to create and fill buffers with geometry data
 	MyGeometry geometry;
-	if (!InitializeGeometry(&geometry))
-		cout << "Program failed to intialize geometry!" << endl;
+	//if (!InitializeGeometry(&geometry))
+	//	cout << "Program failed to intialize geometry!" << endl;
 
 	// run an event-triggered main loop
 	PrintDirections();
+
+	int numObjFiles;
+
+	LoadAllObjFiles("models");
+
+	//Read mesh contents
+	//mesh.ReadMesh("models/teapot.obj");
+
+	//void LoadObject(string &filename, vector<vec3> &vertices, vector<vec3> &normals, vector<vec3> &faces,  vector<vec3> &uv) {
+	//ObjLoader obj;
+	//obj loader works for teapot, not for sphere.
+	//obj.LoadObject("models/teapot.obj", _vertices, _normals, _faces, _uv);
+
+	//Adding red colour for all mesh's vertices so it shows up. 
+	if (!meshes[0].Initialize()) {
+		cout << "ERROR: Could not initialize mesh." << endl;
+	}
 	while (!glfwWindowShouldClose(window))
 	{
 		// call function to draw our scene
@@ -353,7 +370,18 @@ int main(int argc, char *argv[])
 		}
 		*/
 		
-		RenderTriangle(&geometry, &shader);
+		//Just renders first mesh for now.
+		RenderMesh(&meshes[0], &shader);
+
+		//This code isn't working properly right now.
+	/*	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
+		_view = camera.calculateViewMatrix();
+		mesh.cameraInfo._projection = _projection;
+		mesh.cameraInfo._view = _view;
+		mesh.cameraInfo._lightSource = _lightSource;
+		mesh.Render(&shader, &mesh.cameraInfo);*/
+
+		//RenderTriangle(&geometry, &shader);
 		//moveCamera()
 		
 
@@ -379,3 +407,60 @@ void PrintDirections() {
 	cout << "ESC: Exit program" << endl;
 }
 
+//Loads meshes
+void LoadAllObjFiles(const char *pathname) {
+
+	//Get the files in the directory desired.
+	//Resource: http://www.cplusplus.com/forum/beginner/9173/
+	DIR *dir;
+	struct dirent *entity;
+	//Check if directory exists
+	if ((dir = opendir(pathname)) != NULL) {
+		size_t found;
+		//Check if entities exist.
+		while ((entity = readdir(dir)) != NULL) {
+			//Only parse files with .obj
+			//ASSUMPTION: People are smart enough to only have
+			//.obj at end of file.
+
+			//TODO: add extensions for different types of 
+			//mesh files.
+			found = string(entity->d_name).find(".obj");
+			if (found!=string::npos) 
+			{
+				//Get path name for parsing file
+				//Set to 30 arbitrarily
+
+				//Resource: http://www.cplusplus.com/reference/cstring/strcat/
+				char s[30];
+				strcpy(s, pathname);
+				strcat(s, "/");
+				strcat(s, entity->d_name);
+				//Add mesh to mesh vector
+				AddMesh(&string(s));
+			}
+		}
+	}
+	//Unable to find directory.
+	else {
+		cout << "ERROR LoadAllObjFiles: Directory not found." << endl;
+	}
+	closedir(dir);
+
+}
+
+//Adds mesh file to mesh vector based on directory
+void AddMesh(const string *pathname) {
+	Mesh mesh;
+	//Get all information for mesh
+	mesh.ReadMesh(*pathname);
+
+	//Add colour for the moment; this can be taken out
+	//or colour changed/colour added to obj files and 
+	//not here
+	vec3 red(1.f, 0.f, 0.f);
+	mesh.AddColour(&red);
+
+	meshes.push_back(mesh);
+	cout << "Loaded " << *pathname << endl;
+}
