@@ -1,0 +1,46 @@
+GIT MANUAL OF OPERATOIN
+-----------------------
+This is what I think the git procedure should be.
+
+INITIALIZE
+----------
+-Create new git repo: git init
+-Add remote repo: git remote add origin <<URL>>
+
+BRANCHES
+--------
+Make new branch: git checkout -b <<new branch name>>
+Show all available branches: git branch
+Move to different branch: git checkout <<branch name>>
+
+PULL
+----
+If your branch is behind the master branch, pull before working on new content.
+
+Pull: git pull origin master
+
+
+
+PUSH
+----
+Push only to your own branch. NEVER TO MASTER.
+
+Add: git add -A
+Commit: git commit -m "Unique message here"
+Push: git push origin <<Your Branch>>
+
+MERGING WITH MASTER
+-------------------
+First move to the master branch: git checkout master
+Check if it is up-to-date by trying to do a pull.
+
+Merge: git merge <<Your Branch>>
+
+If two people do not change the same lines of code in a given file there will be no merge conflicts.
+
+else merge conflicts arise:
+
+If the merging window appears type ":q" to get out of it.
+If it looks like there are merging conflicts, note which file they are in.
+CTRL + F in the file for "<<" this will show you the merge conflict spots.
+Then manually choose the most up-to-date version of the code.
