@@ -16,117 +16,6 @@
 
 // Functions to set up OpenGL buffers for storing geometry data
 
-struct MyGeometry
-{
-	// OpenGL names for array buffer objects, vertex array object
-	GLuint  vertexBuffer;
-	GLuint  textureBuffer;
-	GLuint normalBuffer;
-	GLuint indicesBuffer;
-	GLuint  colourBuffer;
-	GLuint  vertexArray;
-	GLsizei elementCount;
-
-	// initialize object names to zero (OpenGL reserved value)
-	MyGeometry() : vertexBuffer(0), textureBuffer(0), normalBuffer(0), colourBuffer(0), indicesBuffer(0), vertexArray(0), elementCount(0)
-	{}
-};
-
-// create buffers and fill with geometry data, returning true if successful
-bool InitializeGeometry(MyGeometry *geometry)
-{
-	//_vertices.clear();
-	//_colours.clear();
-	//_normals.clear();
-	//_faces.clear();
-	//_uv.clear();
-	Mesh mesh;
-	mesh.ReadMesh("models/teapot.obj");
-//void LoadObject(string &filename, vector<vec3> &vertices, vector<vec3> &normals, vector<vec3> &faces,  vector<vec3> &uv) {
-	//ObjLoader obj;
-	//obj loader works for teapot, not for sphere.
-	//obj.LoadObject("models/teapot.obj", _vertices, _normals, _faces, _uv);
-
-	//Adding red colour for all vertices so it shows up. 
-	vec3 red(1.f, 0.f, 0.f);
-	mesh.AddColour(&red);
-	// three vertex positions and assocated colours of a triangle
-	/*vec3 v1(-0.6f, -0.4f, -1.f);
-	vec3 v2(0.f, 0.6f, 0.f);
-	vec3 v3(0.6f, -0.4f, 1.f);
-
-	_vertices.push_back(v1);
-	_vertices.push_back(v2);
-	_vertices.push_back(v3);
-
-
-	vec3 c1(1.0f, 0.0f, 0.0f);
-	vec3 c2(0.0f, 1.0f, 0.0f);
-	vec3 c3(0.0f, 0.0f, 1.0f);
-	
-	_colours.push_back(c1);
-	_colours.push_back(c2);
-	_colours.push_back(c3);*/
-
-		//geometry->elementCount = _faces.size() * 3;
-		geometry->elementCount = mesh.faces.size();
-	// these vertex attribute indices correspond to those specified for the
-	// input variables in the vertex shader
-	const GLuint VERTEX_INDEX = 0;
-	const GLuint COLOUR_INDEX = 1;
-	const GLuint NORMAL_INDEX = 2;
-
-	// create a vertex array object encapsulating all our vertex attributes
-	glGenVertexArrays(1, &geometry->vertexArray);
-	glBindVertexArray(geometry->vertexArray);
-
-	// create an array buffer object for storing our vertices
-	glGenBuffers(1, &geometry->vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, geometry->vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, mesh.vertices.size() * sizeof(vec3), mesh.vertices.data(), GL_STATIC_DRAW);
-	glVertexAttribPointer(VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(VERTEX_INDEX);
-
-	// create another one for storing our colours
-	glGenBuffers(1, &geometry->colourBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, geometry->colourBuffer);
-	glBufferData(GL_ARRAY_BUFFER, mesh.colours.size() * sizeof(vec3), mesh.colours.data(), GL_STATIC_DRAW);
-	glVertexAttribPointer(COLOUR_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(COLOUR_INDEX);
-
-	// create another one for storing our colours
-	glGenBuffers(1, &geometry->normalBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, geometry->normalBuffer);
-	glBufferData(GL_ARRAY_BUFFER, mesh.normals.size() * sizeof(vec3), mesh.normals.data(), GL_STATIC_DRAW);
-	glVertexAttribPointer(NORMAL_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(NORMAL_INDEX);
-
-	//Indices buffer.
-	glGenBuffers(1, &geometry->indicesBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, geometry->indicesBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.faces.size() * sizeof(GLushort), mesh.faces.data(), GL_STATIC_DRAW);
-
-	// unbind our buffers, resetting to default state
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-
-	// check for OpenGL errors and return false if error occurred
-	return !CheckGLErrors();
-}
-
-// deallocate geometry-related objects
-void DestroyGeometry(MyGeometry *geometry)
-{
-	// unbind and destroy our vertex array object and associated buffers
-	glBindVertexArray(0);
-	glDeleteVertexArrays(1, &geometry->vertexArray);
-	glDeleteBuffers(1, &geometry->vertexBuffer);
-	glDeleteBuffers(1, &geometry->colourBuffer);
-	glDeleteBuffers(1, &geometry->indicesBuffer);
-	glDeleteBuffers(1, &geometry->normalBuffer);
-	glDeleteBuffers(1, &geometry->textureBuffer);
-}
-
 // --------------------------------------------------------------------------
 // Function that rotates the object around the y axis.
 void RotateObject(float factor) {
@@ -136,7 +25,7 @@ void RotateObject(float factor) {
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer
 
-void RenderMesh(Mesh *mesh, MyShader *shader)
+void RenderMesh(Mesh *mesh, Shader *shader)
 {
 	// clear screen to a dark grey colour
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -330,23 +219,21 @@ int main(int argc, char *argv[])
 	QueryGLVersion();
 	Camera camera;
 	// call function to load and compile shader programs
-	MyShader shader;
-	if (!InitializeShaders(&shader)) {
+	int numObjFiles = LoadAllObjFiles("models");
+	cout << "Num obj files: " << numObjFiles << endl;
+
+	//Just loads for meshes[0] for now.
+	if (!meshes[0].shader.InitializeShaders("shaders/mesh.vert", "shaders/mesh.frag")) {
 		cout << "Program could not initialize shaders, TERMINATING" << endl;
-		return -1;
 	}
 
 	// call function to create and fill buffers with geometry data
-	MyGeometry geometry;
+	//MyGeometry geometry;
 	//if (!InitializeGeometry(&geometry))
 	//	cout << "Program failed to intialize geometry!" << endl;
 
 	// run an event-triggered main loop
-	PrintDirections();
-
-	int numObjFiles;
-
-	LoadAllObjFiles("models");
+	PrintDirections();	//can remove, just prints directions to console
 
 	//Read mesh contents
 	//mesh.ReadMesh("models/teapot.obj");
@@ -355,8 +242,7 @@ int main(int argc, char *argv[])
 	//ObjLoader obj;
 	//obj loader works for teapot, not for sphere.
 	//obj.LoadObject("models/teapot.obj", _vertices, _normals, _faces, _uv);
-
-	//Adding red colour for all mesh's vertices so it shows up. 
+ 
 	if (!meshes[0].Initialize()) {
 		cout << "ERROR: Could not initialize mesh." << endl;
 	}
@@ -371,7 +257,7 @@ int main(int argc, char *argv[])
 		*/
 		
 		//Just renders first mesh for now.
-		RenderMesh(&meshes[0], &shader);
+		RenderMesh(&meshes[0], &meshes[0].shader);
 
 		//This code isn't working properly right now.
 	/*	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
@@ -390,9 +276,11 @@ int main(int argc, char *argv[])
 		glfwPollEvents();
 	}
 
-	// clean up allocated resources before exit
-	DestroyGeometry(&geometry);
-	DestroyShaders(&shader);
+	// clean up allocated resources before exits
+	for (int i = 0; i < meshes.size(); i++) {
+		meshes[i].DestroyMesh();
+	}
+
 	glfwDestroyWindow(window);
 	glfwTerminate();
 
@@ -408,12 +296,13 @@ void PrintDirections() {
 }
 
 //Loads meshes
-void LoadAllObjFiles(const char *pathname) {
+int LoadAllObjFiles(const char *pathname) {
 
 	//Get the files in the directory desired.
 	//Resource: http://www.cplusplus.com/forum/beginner/9173/
 	DIR *dir;
 	struct dirent *entity;
+	int numObjFiles =0;
 	//Check if directory exists
 	if ((dir = opendir(pathname)) != NULL) {
 		size_t found;
@@ -438,6 +327,7 @@ void LoadAllObjFiles(const char *pathname) {
 				strcat(s, entity->d_name);
 				//Add mesh to mesh vector
 				AddMesh(&string(s));
+				numObjFiles++;
 			}
 		}
 	}
@@ -446,7 +336,7 @@ void LoadAllObjFiles(const char *pathname) {
 		cout << "ERROR LoadAllObjFiles: Directory not found." << endl;
 	}
 	closedir(dir);
-
+	return numObjFiles;
 }
 
 //Adds mesh file to mesh vector based on directory
@@ -460,6 +350,10 @@ void AddMesh(const string *pathname) {
 	//not here
 	vec3 red(1.f, 0.f, 0.f);
 	mesh.AddColour(&red);
+
+//	if (!mesh.shader.InitializeShaders("shaders/mesh.vert", "shaders/mesh.frag")) {
+	//	cout << "Program could not initialize shaders, TERMINATING" << endl;
+	//}
 
 	meshes.push_back(mesh);
 	cout << "Loaded " << *pathname << endl;

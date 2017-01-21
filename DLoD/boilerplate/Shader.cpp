@@ -4,32 +4,32 @@
 
 
 // load, compile, and link shaders, returning true if successful
-bool InitializeShaders(MyShader *shader)
+bool Shader::InitializeShaders(const string &vert, const string &frag)
 {
 	// load shader source from files
-	string vertexSource = LoadSource("shaders/vertex.glsl");
-	string fragmentSource = LoadSource("shaders/fragment.glsl");
+	string vertexSource = LoadSource(vert);
+	string fragmentSource = LoadSource(frag);
 	if (vertexSource.empty() || fragmentSource.empty()) return false;
 
 	// compile shader source into shader objects
-	shader->vertex = CompileShader(GL_VERTEX_SHADER, vertexSource);
-	shader->fragment = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
+	vertex = CompileShader(GL_VERTEX_SHADER, vertexSource);
+	fragment = CompileShader(GL_FRAGMENT_SHADER, fragmentSource);
 
 	// link shader program
-	shader->program = LinkProgram(shader->vertex, shader->fragment);
+	program = LinkProgram(vertex, fragment);
 
 	// check for OpenGL errors and return false if error occurred
 	return !CheckGLErrors();
 }
 
 // deallocate shader-related objects
-void DestroyShaders(MyShader *shader)
+void Shader::DestroyShaders()
 {
 	// unbind any shader programs and destroy shader objects
 	glUseProgram(0);
-	glDeleteProgram(shader->program);
-	glDeleteShader(shader->vertex);
-	glDeleteShader(shader->fragment);
+	glDeleteProgram(program);
+	glDeleteShader(vertex);
+	glDeleteShader(fragment);
 }
 
 
@@ -37,7 +37,7 @@ void DestroyShaders(MyShader *shader)
 // OpenGL shader support functions
 
 // reads a text file with the given name into a string
-string LoadSource(const string &filename)
+string Shader::LoadSource(const string &filename)
 {
 	string source;
 
@@ -57,7 +57,7 @@ string LoadSource(const string &filename)
 }
 
 // creates and returns a shader object compiled from the given source
-GLuint CompileShader(GLenum shaderType, const string &source)
+GLuint Shader::CompileShader(GLenum shaderType, const string &source)
 {
 	// allocate shader object name
 	GLuint shaderObject = glCreateShader(shaderType);
@@ -86,7 +86,7 @@ GLuint CompileShader(GLenum shaderType, const string &source)
 
 
 // creates and returns a program object linked from vertex and fragment shaders
-GLuint LinkProgram(GLuint vertexShader, GLuint fragmentShader)
+GLuint Shader::LinkProgram(GLuint vertexShader, GLuint fragmentShader)
 {
 	// allocate program object name
 	GLuint programObject = glCreateProgram();

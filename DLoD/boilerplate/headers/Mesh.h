@@ -40,6 +40,7 @@ public:
 	vector<vec3> normals;
 	GLuint vertexArray;
 	GLsizei elementCount;
+	Shader shader;
 	//Texture texture;
 private:
 

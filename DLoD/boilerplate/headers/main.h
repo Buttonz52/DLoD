@@ -44,7 +44,7 @@ GLuint LinkProgram(GLuint vertexShader, GLuint fragmentShader);
 
 void RotateObject(float factor);
 void PrintDirections();
-void LoadAllObjFiles(const char *pathname);
+int LoadAllObjFiles(const char *pathname);
 void AddMesh(const string *pathname);
 // --------------------------------------------------------------------------
 #endif

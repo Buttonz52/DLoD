@@ -145,8 +145,8 @@
     <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\fragment.glsl" />
-    <None Include="shaders\vertex.glsl" />
+    <None Include="shaders\mesh.frag" />
+    <None Include="shaders\mesh.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Camera.h" />

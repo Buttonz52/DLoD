@@ -160,8 +160,6 @@ void Mesh::ClearMesh() {
 	uvs.clear();
 	faces.clear();
 	normals.clear();
-	DestroyMesh();
-
 }
 
 void Mesh::DestroyMesh() {
@@ -172,4 +170,7 @@ void Mesh::DestroyMesh() {
 	glDeleteBuffers(1, &colourBuffer);
 
 	glDeleteVertexArrays(1, &vertexArray);
+
+	//Destroy the shader
+	shader.DestroyShaders();
 }

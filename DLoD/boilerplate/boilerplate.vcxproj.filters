@@ -56,10 +56,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\fragment.glsl">
+    <None Include="shaders\mesh.frag">
       <Filter>Shaders\Fragment</Filter>
     </None>
-    <None Include="shaders\vertex.glsl">
+    <None Include="shaders\mesh.vert">
       <Filter>Shaders\Vertex</Filter>
     </None>
   </ItemGroup>
