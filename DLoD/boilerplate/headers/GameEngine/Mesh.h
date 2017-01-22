@@ -1,6 +1,6 @@
 #ifndef MESH_H
 #define MESH_H
-#include "Utility.h"
+#include "../Game/Utility.h"
 #include "Shader.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

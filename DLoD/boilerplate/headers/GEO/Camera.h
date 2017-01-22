@@ -1,6 +1,7 @@
-#include "headers/Utility.h"
+#include "../Game/Utility.h"
+#include "GEO.h"
 
-class Camera
+class Camera : GEO
 {
 private:
 	float azu;

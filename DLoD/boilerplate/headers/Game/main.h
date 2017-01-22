@@ -2,12 +2,11 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include "headers/Mesh.h"
-#include "headers/objloader.h"
-#include "headers/Shader.h"
-#include "headers/Utility.h"
-#include "headers/MyTexture.h"
-#include "headers/Camera.h"
+#include "../GameEngine/Mesh.h"
+#include "../GameEngine/Shader.h"
+#include "Utility.h"
+#include "../GameEngine/MyTexture.h"
+#include "../GEO/Camera.h"
 #include <dirent.h>
 
 // --------------------------------------------------------------------------

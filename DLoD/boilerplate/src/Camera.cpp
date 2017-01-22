@@ -1,4 +1,4 @@
-#include "headers/Camera.h"
+#include "GEO\Camera.h"
 
 Camera::Camera()
 {

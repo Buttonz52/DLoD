@@ -1,4 +1,4 @@
-#include "headers/Shader.h"
+#include "GameEngine/Shader.h"
 
 // Functions to set up OpenGL shader programs for rendering
 

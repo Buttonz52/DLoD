@@ -5,7 +5,7 @@
 #ifndef MYTEXTURE_H
 #define MYTEXTURE_H
 
-#include "Utility.h"
+#include "../Game/Utility.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>

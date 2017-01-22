@@ -1,4 +1,4 @@
-#include "headers/main.h"
+#include "Game/main.h"
 
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer

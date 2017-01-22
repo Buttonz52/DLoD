@@ -81,7 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\boilerplate\headers;$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
@@ -108,7 +108,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\boilerplate\headers;$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
@@ -136,26 +136,61 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\middleware\glad\src\glad.c" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="MyTexture.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="objloader.cpp" />
-    <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="src\AI.cpp" />
+    <ClCompile Include="src\Arena.cpp" />
+    <ClCompile Include="src\ArmourPack.cpp" />
+    <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\GameState.cpp" />
+    <ClCompile Include="src\GameTimer.cpp" />
+    <ClCompile Include="src\GEO.cpp" />
+    <ClCompile Include="src\HealthPack.cpp" />
+    <ClCompile Include="src\HeavyVehicle.cpp" />
+    <ClCompile Include="src\Human.cpp" />
+    <ClCompile Include="src\Item.cpp" />
+    <ClCompile Include="src\Light.cpp" />
+    <ClCompile Include="src\LightVehicle.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MediumVehicle.cpp" />
+    <ClCompile Include="src\Mesh.cpp" />
+    <ClCompile Include="src\PhysXMain.cpp" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Trap.cpp" />
+    <ClCompile Include="src\TrapPack.cpp" />
+    <ClCompile Include="src\Utility.cpp" />
+    <ClCompile Include="src\Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\mesh.frag" />
     <None Include="shaders\mesh.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\Camera.h" />
-    <ClInclude Include="headers\Mesh.h" />
-    <ClInclude Include="headers\MyTexture.h" />
-    <ClInclude Include="headers\objloader.h" />
-    <ClInclude Include="headers\Shader.h" />
-    <ClInclude Include="headers\Utility.h" />
-    <ClInclude Include="headers\main.h" />
+    <ClInclude Include="headers\GameEngine\Mesh.h" />
+    <ClInclude Include="headers\GameEngine\MyTexture.h" />
+    <ClInclude Include="headers\GameEngine\Shader.h" />
+    <ClInclude Include="headers\GameState.h" />
+    <ClInclude Include="headers\Game\Audio.h" />
+    <ClInclude Include="headers\Game\GameTimer.h" />
+    <ClInclude Include="headers\Game\main.h" />
+    <ClInclude Include="headers\Game\Utility.h" />
+    <ClInclude Include="headers\GEO\Arena.h" />
+    <ClInclude Include="headers\GEO\Camera.h" />
+    <ClInclude Include="headers\GEO\GEO.h" />
+    <ClInclude Include="headers\GEO\item\ArmourPack.h" />
+    <ClInclude Include="headers\GEO\item\HealthPack.h" />
+    <ClInclude Include="headers\GEO\item\Item.h" />
+    <ClInclude Include="headers\GEO\item\TrapPack.h" />
+    <ClInclude Include="headers\GEO\Light.h" />
+    <ClInclude Include="headers\GEO\player\AI.h" />
+    <ClInclude Include="headers\GEO\player\Human.h" />
+    <ClInclude Include="headers\GEO\player\Player.h" />
+    <ClInclude Include="headers\GEO\Trap.h" />
+    <ClInclude Include="headers\GEO\vehicle\HeavyVehicle.h" />
+    <ClInclude Include="headers\GEO\vehicle\LightVehicle.h" />
+    <ClInclude Include="headers\GEO\vehicle\MediumVehicle.h" />
+    <ClInclude Include="headers\GEO\vehicle\Vehicle.h" />
+    <ClInclude Include="headers\PhysXMain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
