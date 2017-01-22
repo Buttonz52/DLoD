@@ -1,2 +1,51 @@
-﻿  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\ksmort\Desktop\585git2\DLoD\dontSubmit\bin\Release\boilerplate.exe
-  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\ksmort\Desktop\585git2\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)
+﻿  glad.c
+  AI.cpp
+  Arena.cpp
+  ArmourPack.cpp
+  Audio.cpp
+  Camera.cpp
+src\Camera.cpp(5): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(6): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(9): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(10): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(51): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  GameState.cpp
+  GameTimer.cpp
+  GEO.cpp
+  HealthPack.cpp
+  HeavyVehicle.cpp
+  Human.cpp
+  Item.cpp
+  Light.cpp
+  LightVehicle.cpp
+  main.cpp
+src\main.cpp(74): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(78): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(82): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(86): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(123): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(124): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(134): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(240): warning C4018: '<': signed/unsigned mismatch
+  MediumVehicle.cpp
+  Mesh.cpp
+src\Mesh.cpp(34): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(49): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(68): warning C4018: '<': signed/unsigned mismatch
+  PhysXMain.cpp
+  Player.cpp
+  Shader.cpp
+  Compiling...
+  Trap.cpp
+  TrapPack.cpp
+  Utility.cpp
+  Vehicle.cpp
+  Generating code
+  704 of 708 functions (99.4%) were compiled, the rest were copied from previous compilation.
+    17 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\boilerplate.exe
+  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)
