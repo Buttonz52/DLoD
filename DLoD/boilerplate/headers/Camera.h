@@ -3,7 +3,6 @@
 class Camera
 {
 private:
-  
 	float azu;
 	float alt;
 	float radius;
@@ -13,7 +12,6 @@ private:
 	float _far;
  
 public:
-  
 	Camera();
 
 	void setAzu(float);
