@@ -1,0 +1,239 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files\External">
+      <UniqueIdentifier>{3dc13694-cbab-43ed-94a7-7a9a9176ec37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Input">
+      <UniqueIdentifier>{3ea4d207-9af6-4ae4-9aab-16ca1249ce77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{1efda997-437b-4d6d-b126-efd83d11fa25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Fragment">
+      <UniqueIdentifier>{72c52d1c-0f83-4d11-8f95-e184437b05a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Vertex">
+      <UniqueIdentifier>{b912c26f-7d9b-46f6-b77f-582c00ffaa93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Input">
+      <UniqueIdentifier>{4a030151-bfbe-4ad7-96b9-d0a606c21b55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{b3e478c8-a32a-4fbb-94d9-11a27d864c98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{4b8ae1a1-7b91-4859-9cc3-ab94c744b0da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{0a5a467a-6a45-4f71-8314-a2808b2de0a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{63c589cd-dc62-4f72-b887-e7bdc24a3d79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\GEO">
+      <UniqueIdentifier>{c4f3433f-8069-494e-9ef0-542a74ce8e6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GEO">
+      <UniqueIdentifier>{1bd81c56-0940-4975-bad5-dc1f1bf47c46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GameEngine">
+      <UniqueIdentifier>{b5275767-1b86-4447-9c48-2e138a384d64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameEngine">
+      <UniqueIdentifier>{f950085e-f035-4c12-90d5-85b62eaa2633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GEO\player">
+      <UniqueIdentifier>{3aae6ac1-3722-498d-a3c2-e73e8992bc7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GEO\player">
+      <UniqueIdentifier>{be869e80-f518-496d-924c-ea05355375ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GEO\itempickup">
+      <UniqueIdentifier>{9f861f5d-b028-4c9f-969b-b8228f87a7d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GEO\itempickup">
+      <UniqueIdentifier>{eb48898c-8176-436b-b125-8581d7103924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GEO\vehicle">
+      <UniqueIdentifier>{1c4600b4-28b2-4b7e-bd0b-b747344b1355}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GEO\vehicle">
+      <UniqueIdentifier>{5797f7aa-d265-4a84-bcda-b95e15891de9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\middleware\glad\src\glad.c">
+      <Filter>Source Files\External</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ArmourPack.cpp">
+      <Filter>Source Files\GEO\itempickup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HealthPack.cpp">
+      <Filter>Source Files\GEO\itempickup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TrapPack.cpp">
+      <Filter>Source Files\GEO\itempickup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Item.cpp">
+      <Filter>Source Files\GEO\itempickup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HeavyVehicle.cpp">
+      <Filter>Source Files\GEO\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LightVehicle.cpp">
+      <Filter>Source Files\GEO\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MediumVehicle.cpp">
+      <Filter>Source Files\GEO\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vehicle.cpp">
+      <Filter>Source Files\GEO\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AI.cpp">
+      <Filter>Source Files\GEO\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Human.cpp">
+      <Filter>Source Files\GEO\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Player.cpp">
+      <Filter>Source Files\GEO\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Arena.cpp">
+      <Filter>Source Files\GEO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source Files\GEO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GEO.cpp">
+      <Filter>Source Files\GEO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Light.cpp">
+      <Filter>Source Files\GEO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trap.cpp">
+      <Filter>Source Files\GEO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Mesh.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhysXMain.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Audio.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameTimer.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utility.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\mesh.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\mesh.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\PhysXMain.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\Trap.h">
+      <Filter>Header Files\GEO</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\Arena.h">
+      <Filter>Header Files\GEO</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\GEO.h">
+      <Filter>Header Files\GEO</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\Light.h">
+      <Filter>Header Files\GEO</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\player\AI.h">
+      <Filter>Header Files\GEO\player</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\player\Player.h">
+      <Filter>Header Files\GEO\player</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\player\Human.h">
+      <Filter>Header Files\GEO\player</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\item\HealthPack.h">
+      <Filter>Header Files\GEO\itempickup</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\item\ArmourPack.h">
+      <Filter>Header Files\GEO\itempickup</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\item\TrapPack.h">
+      <Filter>Header Files\GEO\itempickup</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\item\Item.h">
+      <Filter>Header Files\GEO\itempickup</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\vehicle\MediumVehicle.h">
+      <Filter>Header Files\GEO\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\vehicle\LightVehicle.h">
+      <Filter>Header Files\GEO\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\vehicle\HeavyVehicle.h">
+      <Filter>Header Files\GEO\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\vehicle\Vehicle.h">
+      <Filter>Header Files\GEO\vehicle</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Audio.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\GameTimer.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Utility.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\main.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GameEngine\Mesh.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GameEngine\MyTexture.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GameEngine\Shader.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\Camera.h">
+      <Filter>Header Files\GEO</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
