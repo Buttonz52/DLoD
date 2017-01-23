@@ -7,5 +7,6 @@ class Arena :
 public:
 	Arena();
 	~Arena();
+	vector<GEO> arenaObjects;
 };
 #endif

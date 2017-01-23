@@ -1,5 +1,7 @@
 #ifndef GEO_H
 #define GEO_H
+#include "..\Game\Utility.h"
+#include "..\GameEngine\Mesh.h"
 \
 //Game Entity Object
 class GEO
@@ -7,5 +9,16 @@ class GEO
 public:
 	GEO();
 	~GEO();
+
+
+
+	vec3 GetPosition();
+	void SetPosition(vec3 pos);
+	double GetRadius();
+
+private:
+	vec3 position;
+	double radius;
+	Mesh mesh;
 };
 #endif

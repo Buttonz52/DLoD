@@ -5,5 +5,8 @@ class GameState
 public:
 	GameState();
 	~GameState();
+
+	bool GameFinished();
+	bool CheckWinCondition();
 };
 #endif

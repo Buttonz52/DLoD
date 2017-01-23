@@ -150,14 +150,9 @@
     <ClCompile Include="src\Utility.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="shaders\mesh.frag">
-      <Filter>Shaders\Fragment</Filter>
-    </None>
-    <None Include="shaders\mesh.vert">
-      <Filter>Shaders\Vertex</Filter>
-    </None>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\PhysXMain.h">
@@ -226,14 +221,34 @@
     <ClInclude Include="headers\GameEngine\Mesh.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
-    <ClInclude Include="headers\GameEngine\MyTexture.h">
-      <Filter>Header Files\GameEngine</Filter>
-    </ClInclude>
     <ClInclude Include="headers\GameEngine\Shader.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
     <ClInclude Include="headers\GEO\Camera.h">
       <Filter>Header Files\GEO</Filter>
     </ClInclude>
+    <ClInclude Include="headers\GameEngine\Texture.h">
+      <Filter>Header Files\GameEngine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\cube.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\sphere.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\teapot.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\cube.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\sphere.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\teapot.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
   </ItemGroup>
 </Project>

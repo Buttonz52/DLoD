@@ -8,3 +8,9 @@ HealthPack::HealthPack()
 HealthPack::~HealthPack()
 {
 }
+
+int HealthPack::ReturnValue()
+{
+	return 0;
+}
+

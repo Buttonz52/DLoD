@@ -1,7 +1,9 @@
 #ifndef MESH_H
 #define MESH_H
+
 #include "../Game/Utility.h"
 #include "Shader.h"
+#include "Texture.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -39,9 +41,10 @@ public:
 	vector<GLushort> faces;
 	vector<vec3> normals;
 	GLuint vertexArray;
+	GLuint program;
 	GLsizei elementCount;
 	Shader shader;
-	//Texture texture;
+	Texture texture;
 private:
 
 	GLuint vertexBuffer;
@@ -49,7 +52,7 @@ private:
 	GLuint indicesBuffer;
 	GLuint textureBuffer;
 	GLuint colourBuffer; //might not need
-
+	aiVector3D AddUV(aiVector3D vertex);
 	//GLuint vertexArray;
 
 

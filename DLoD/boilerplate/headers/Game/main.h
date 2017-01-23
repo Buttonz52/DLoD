@@ -5,10 +5,10 @@
 #include "../GameEngine/Mesh.h"
 #include "../GameEngine/Shader.h"
 #include "Utility.h"
-#include "../GameEngine/MyTexture.h"
+#include "../GameEngine/Texture.h"
 #include "../GEO/Camera.h"
 #include <dirent.h>
-
+using namespace std;
 // --------------------------------------------------------------------------
 // Variables
 vector<vec3> _colours;
@@ -36,6 +36,6 @@ void PrintDirections();
 
 // Mesh functions
 int LoadAllObjFiles(const char *pathname);	
-void AddMesh(const string *pathname);		
+void AddMesh(const string *pathname, const string * filename);
 // --------------------------------------------------------------------------
 #endif

@@ -8,3 +8,10 @@ ArmourPack::ArmourPack()
 ArmourPack::~ArmourPack()
 {
 }
+
+int ArmourPack::ReturnValue()
+{
+	return 0;
+}
+
+

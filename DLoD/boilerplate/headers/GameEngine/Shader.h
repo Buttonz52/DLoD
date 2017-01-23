@@ -14,7 +14,7 @@ public:
 	GLuint  fragment;
 	GLuint  program;
 
-	bool InitializeShaders(const string &vert, const string &frag);
+	GLuint InitializeShaders(const string &vert, const string &frag);
 	void DestroyShaders();
 	GLuint CompileShader(GLenum shaderType, const string &source);
 	string LoadSource(const string &filename);

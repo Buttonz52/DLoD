@@ -24,11 +24,13 @@ void RenderMesh(Mesh *mesh, Shader *shader)
 	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, value_ptr(_projection));
 	glUniform3fv(glGetUniformLocation(shader->program, "lightPosition"), 1, value_ptr(_lightSource));
 
+	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
+
 	glDrawElements(GL_TRIANGLES, mesh->elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);
 	glUseProgram(0);
-
+	//mesh->texture.UnbindTexture(GL_TEXTURE_2D);
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 }
@@ -194,15 +196,14 @@ int main(int argc, char *argv[])
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
 
+
 	// call function to load and compile shader programs
 	int numObjFiles = LoadAllObjFiles("models");
 	cout << "Num obj files: " << numObjFiles << endl;
+	//meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
 
-	//Just loads for meshes[0] for now.
-	if (!meshes[2].shader.InitializeShaders("shaders/mesh.vert", "shaders/mesh.frag")) {
-		cout << "Program could not initialize shaders, TERMINATING" << endl;
-	}
- 
+	meshes[2].shader.InitializeShaders("shaders/teapot.vert", "shaders/teapot.frag");
+	//glEnable(GL_TEXTURE_2D);
 	if (!meshes[2].Initialize()) {
 		cout << "ERROR: Could not initialize mesh." << endl;
 	}
@@ -215,8 +216,9 @@ int main(int argc, char *argv[])
 		animateQuad(t);
 		}
 		*/
-		
 		//Just renders first mesh for now.
+		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
+
 		RenderMesh(&meshes[2], &meshes[2].shader);
 
 		//This code isn't working properly right now.
@@ -286,7 +288,7 @@ int LoadAllObjFiles(const char *pathname) {
 				strcat(s, "/");
 				strcat(s, entity->d_name);
 				//Add mesh to mesh vector
-				AddMesh(&string(s));
+				AddMesh(&string(s), &string (entity->d_name));
 				numObjFiles++;
 			}
 		}
@@ -300,9 +302,10 @@ int LoadAllObjFiles(const char *pathname) {
 }
 
 //Adds mesh file to mesh vector based on directory
-void AddMesh(const string *pathname) {
+void AddMesh(const string *pathname, const string * filename) {
 	Mesh mesh;
 	//Get all information for mesh
+
 	mesh.ReadMesh(*pathname);
 
 	//Add colour for the moment; this can be taken out
@@ -310,10 +313,18 @@ void AddMesh(const string *pathname) {
 	//not here
 	vec3 red(1.f, 0.f, 0.f);
 	mesh.AddColour(&red);
+	string vertex;
+	string frag;
 
-//	if (!mesh.shader.InitializeShaders("shaders/mesh.vert", "shaders/mesh.frag")) {
-	//	cout << "Program could not initialize shaders, TERMINATING" << endl;
-	//}
+	size_t endpos = string(*filename).find(".obj");
+	string shadername = string(*filename).substr(0, endpos);
+
+	string shaderpath = "shaders/";
+	vertex = shaderpath + shadername + ".vert";
+	frag = shaderpath + shadername + ".frag";
+
+	//This gives an invalid valie.
+	//mesh.program = mesh.shader.InitializeShaders(vertex, frag);
 
 	meshes.push_back(mesh);
 	cout << "Loaded " << *pathname << endl;

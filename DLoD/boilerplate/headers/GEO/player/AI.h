@@ -7,5 +7,8 @@ class AI :
 public:
 	AI();
 	~AI();
+	int difficultyState;
+
+	int DetermineBehaviour();
 };
 #endif

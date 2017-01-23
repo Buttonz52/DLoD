@@ -7,6 +7,8 @@ class Item :
 public:
 	Item();
 	~Item();
+
+	virtual int ReturnValue();
 };
 
 #endif

@@ -34,13 +34,13 @@ bool Mesh::ReadMesh(const string &filename) {
 	for (int i = 0; i < mesh->mNumVertices; i++) {
 		const aiVector3D pVertex = mesh->mVertices[i];
 		const aiVector3D pNormal = mesh->mNormals[i];
-		const aiVector3D pUV = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : empty;
+		const aiVector3D pUV = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : AddUV(pVertex);
 		
 		vec3 _vertex(pVertex.x, pVertex.y, pVertex.z);
 		vertices.push_back(_vertex);
 
 		vec3 _normal(pNormal.x, pNormal.y, pNormal.z);
-		normals.push_back(_normal*-1.f);	//normals are negative???? but multiplying my -1 scalar fixes it -bp
+		normals.push_back(_normal);	//normals are negative???? but multiplying my -1 scalar fixes it -bp
 
 		vec2 _uv(pUV.x, pUV.y);
 		uvs.push_back(_uv);
@@ -84,6 +84,7 @@ bool Mesh::Initialize() {
 	const GLuint VERTEX_INDEX = 0;
 	const GLuint COLOUR_INDEX = 1;
 	const GLuint NORMAL_INDEX = 2;
+	const GLuint UV_INDEX = 3;
 
 	// create a vertex array object encapsulating all our vertex attributes
 	glGenVertexArrays(1, &vertexArray);
@@ -109,6 +110,13 @@ bool Mesh::Initialize() {
 	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), normals.data(), GL_STATIC_DRAW);
 	glVertexAttribPointer(NORMAL_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(NORMAL_INDEX);
+
+	// create another one for storing our uv
+	glGenBuffers(1, &textureBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(vec3), uvs.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(UV_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(UV_INDEX);
 
 	//Indices buffer.
 	glGenBuffers(1, &indicesBuffer);
@@ -159,6 +167,26 @@ bool Mesh::Initialize() {
 	CheckGLErrors();
 }*/
 
+aiVector3D Mesh::AddUV(aiVector3D vertex) {
+	float theta;
+	float phi;
+	float r = sqrt(vertex.x*vertex.x + vertex.y*vertex.y + vertex.z*vertex.z);
+	if (r == 0.f) {
+		theta = 0.f;
+		phi = 0.f;
+	}
+	else {
+		//This creates a seam
+		//	theta = 0.5f*((atan2(vertex.x,vertex.z)/PI)+1.0f);
+		//	phi = 0.5f + asin(-vertex.y)/PI;
+
+		//No seam, but texture is doubled and looks kind of funny at edges.
+		theta = asin(vertex.x / r) / (PI)+0.5f;
+		phi = (acos(vertex.y / r)) / (PI);
+	}
+	return aiVector3D(theta, phi, r);
+}
+
 //Clears all vectors
 void Mesh::ClearMesh() {
 	colours.clear();
@@ -176,7 +204,7 @@ void Mesh::DestroyMesh() {
 	glDeleteBuffers(1, &colourBuffer);
 
 	glDeleteVertexArrays(1, &vertexArray);
-
+	glDeleteProgram(program);
 	//Destroy the shader
 	shader.DestroyShaders();
 }

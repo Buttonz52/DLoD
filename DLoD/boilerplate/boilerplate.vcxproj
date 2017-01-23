@@ -156,18 +156,15 @@
     <ClCompile Include="src\PhysXMain.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Trap.cpp" />
     <ClCompile Include="src\TrapPack.cpp" />
     <ClCompile Include="src\Utility.cpp" />
     <ClCompile Include="src\Vehicle.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\mesh.frag" />
-    <None Include="shaders\mesh.vert" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="headers\GameEngine\Mesh.h" />
-    <ClInclude Include="headers\GameEngine\MyTexture.h" />
+    <ClInclude Include="headers\GameEngine\Texture.h" />
     <ClInclude Include="headers\GameEngine\Shader.h" />
     <ClInclude Include="headers\GameState.h" />
     <ClInclude Include="headers\Game\Audio.h" />
@@ -191,6 +188,14 @@
     <ClInclude Include="headers\GEO\vehicle\MediumVehicle.h" />
     <ClInclude Include="headers\GEO\vehicle\Vehicle.h" />
     <ClInclude Include="headers\PhysXMain.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\cube.frag" />
+    <None Include="shaders\cube.vert" />
+    <None Include="shaders\sphere.frag" />
+    <None Include="shaders\sphere.vert" />
+    <None Include="shaders\teapot.frag" />
+    <None Include="shaders\teapot.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
