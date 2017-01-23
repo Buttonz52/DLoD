@@ -17,7 +17,12 @@ public:
 
 	void PauseMusic();
 
+	void ResumeMusic();
+
+	void PausePlay();
+
 private:
+	bool on;
 	Mix_Music *music_file = NULL;
 }
 ;

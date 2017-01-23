@@ -55,6 +55,10 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     case GLFW_KEY_ESCAPE:
       glfwSetWindowShouldClose(window, GL_TRUE);
       break;
+
+	case GLFW_KEY_P:
+		audio.PausePlay();
+		break;
       
     case GLFW_KEY_I:
       camera.translate3D(vec3(0,0.2,0));
@@ -208,7 +212,7 @@ int main(int argc, char *argv[])
 	if (!meshes[2].Initialize()) {
 		cout << "ERROR: Could not initialize mesh." << endl;
 	}
-	Audio audio;
+
 	if (!audio.InitMusic()) {
 		cout << "Failed to load music." << endl;
 	}

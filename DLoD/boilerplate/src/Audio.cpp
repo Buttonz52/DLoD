@@ -4,6 +4,7 @@
 
 Audio::Audio()
 {
+	on;
 }
 
 
@@ -22,10 +23,11 @@ bool Audio::InitMusic() {
 		return false;
 	}
 	//Load the music file.  If there's nothing in the file, return false.
-	music_file = Mix_LoadMUS("music.wav");
+	music_file = Mix_LoadMUS("music/music.wav");
 	if (music_file == NULL) {
 		return false;
 	}
+	on = true;
 	//Return true if everything is good.
 	return true;
 }
@@ -47,4 +49,21 @@ bool Audio::PlayMusic() {
 
 void Audio::PauseMusic() {
 	Mix_PauseMusic();
+}
+
+void Audio::ResumeMusic() {
+	Mix_ResumeMusic();
+}
+
+void Audio::PausePlay() {
+	if (on)
+	{
+		PauseMusic();
+		on = false;
+	}
+	else
+	{
+		ResumeMusic();
+		on = true;
+	}
 }
