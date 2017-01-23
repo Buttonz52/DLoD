@@ -184,6 +184,7 @@ int main(int argc, char *argv[])
 	glfwSetScrollCallback(window, scroll_callback);
 	glfwSetWindowSizeCallback(window, resizeCallback);
 
+
 	//Intialize GLAD
 	#ifndef LAB_LINUX
 	if (!gladLoadGL())
@@ -206,6 +207,13 @@ int main(int argc, char *argv[])
 	//glEnable(GL_TEXTURE_2D);
 	if (!meshes[2].Initialize()) {
 		cout << "ERROR: Could not initialize mesh." << endl;
+	}
+	Audio audio;
+	if (!audio.InitMusic()) {
+		cout << "Failed to load music." << endl;
+	}
+	if (!audio.PlayMusic()) {
+		cout << "Failed to play music" << endl;
 	}
 	while (!glfwWindowShouldClose(window))
 	{
