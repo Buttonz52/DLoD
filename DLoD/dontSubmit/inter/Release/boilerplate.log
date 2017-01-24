@@ -1,0 +1,16 @@
+﻿  main.cpp
+src\main.cpp(45): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(49): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(53): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(57): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(94): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(95): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(105): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(214): warning C4018: '<': signed/unsigned mismatch
+  Generating code
+  1 of 834 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  boilerplate.vcxproj -> C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\585-master\DLoD\dontSubmit\bin\Release\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\585-master\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)
