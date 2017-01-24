@@ -4,6 +4,13 @@
 
 Player::Player()
 {
+	x_trans = 0;
+	y_trans = 0;
+	z_trans = 0;
+	scale = 1.f;
+	x_rot = 0.f;
+	y_rot = 0.f;
+	z_rot = 0.f;
 }
 
 
@@ -29,20 +36,23 @@ bool Player::RenderMesh(mat4 winRatio, vec3 lightSource, int width, int height) 
 
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
+	mat4 _translation = translate(vec3(x_trans, y_trans,z_trans));
 	mat4 _projection = winRatio * playerCam.calculateProjectionMatrix((float)width / (float)height);
 	mat4 _view = playerCam.calculateViewMatrix();
 
 	//uniform variables
+
 	glUniformMatrix4fv(glGetUniformLocation(vehicle.mesh.shader.program, "modelview"), 1, GL_FALSE, value_ptr(_view));
 	glUniformMatrix4fv(glGetUniformLocation(vehicle.mesh.shader.program, "projection"), 1, GL_FALSE, value_ptr(_projection));
 	glUniform3fv(glGetUniformLocation(vehicle.mesh.shader.program, "lightPosition"), 1, value_ptr(lightSource));
 
-	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
+	vehicle.mesh.texture.BindTexture(vehicle.mesh.shader.program, GL_TEXTURE_2D, "sampler");
 
 	glDrawElements(GL_TRIANGLES, vehicle.mesh.elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);
 	glUseProgram(0);
+	vehicle.mesh.texture.UnbindTexture(GL_TEXTURE_2D);
 	//mesh->texture.UnbindTexture(GL_TEXTURE_2D);
 	// check for an report any OpenGL errors
 	return !CheckGLErrors();

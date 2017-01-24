@@ -38,7 +38,7 @@ public:
 	// Variables
 	vector<vec3> colours;
 	vector<vec3> vertices;
-	vector<vec2> uvs;
+	vector<vec3> uvs;
 	vector<GLushort> faces;
 	vector<vec3> normals;
 	string vertex, fragment;

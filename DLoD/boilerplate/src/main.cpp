@@ -26,35 +26,35 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		break;
 
     case GLFW_KEY_I:
-      camera.translate3D(vec3(0,0.2,0));
+      curPlayer.playerCam.translate3D(vec3(0,0.2,0));
       break;
       
     case GLFW_KEY_K:
-      camera.translate3D(vec3(0,-0.2,0));
+		curPlayer.playerCam.translate3D(vec3(0,-0.2,0));
       break;
       
     case GLFW_KEY_J:
-      camera.translate3D(vec3(-0.2,0,0));
+		curPlayer.playerCam.translate3D(vec3(-0.2,0,0));
       break;
       
     case GLFW_KEY_L:
-      camera.translate3D(vec3(0.2,0,0));
+		curPlayer.playerCam.translate3D(vec3(0.2,0,0));
       break;
 
     case GLFW_KEY_RIGHT:
-      camera.incrementAzu(-M_PI/180);
+		curPlayer.playerCam.incrementAzu(-M_PI/180);
       break;
       
     case GLFW_KEY_LEFT:
-      camera.incrementAzu(M_PI/180);
+		curPlayer.playerCam.incrementAzu(M_PI/180);
       break;
       
     case GLFW_KEY_UP:
-      camera.incrementAlt(-M_PI/180);
+		curPlayer.playerCam.incrementAlt(-M_PI/180);
       break;
       
     case GLFW_KEY_DOWN:
-      camera.incrementAlt(M_PI/180);
+		curPlayer.playerCam.incrementAlt(M_PI/180);
       break;
 
     case GLFW_KEY_A:
@@ -91,8 +91,8 @@ void motion(GLFWwindow* w, double x, double y)
 
 	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_1))
 	{
-    camera.incrementAzu(dx * 0.005f);
-    camera.incrementAlt(dy * 0.005f);
+		curPlayer.playerCam.incrementAzu(dx * 0.005f);
+		curPlayer.playerCam.incrementAlt(dy * 0.005f);
 	}
   
 	mouse_old_x = x;
@@ -102,7 +102,7 @@ void motion(GLFWwindow* w, double x, double y)
 //handles mouse scroll
 void scroll_callback(GLFWwindow* window, double x, double y)
 {
-	camera.incrementRadius(y / 2);
+	curPlayer.playerCam.incrementRadius(y / 2);
 }
 
 //Jeremy Hart, CPSC 587 code, handles resizing glfw window
@@ -182,14 +182,17 @@ int main(int argc, char *argv[])
 	meshes[2].AddColour(&grcol);
 
 	//meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
+	meshes[0].AddTexture("textures/images/ramp.jpg");
+	meshes[1].AddTexture("textures/images/ramp.jpg");
+	meshes[2].AddTexture("textures/images/ramp.jpg");
 	Player p;
-	p.vehicle.mesh = meshes[2];
+	p.vehicle.mesh = meshes[1];
 	p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
 	//glEnable(GL_TEXTURE_2D);
 	if (!p.vehicle.mesh.Initialize()) {
 		cout << "ERROR: Could not initialize mesh." << endl;
 	}
-
+	curPlayer = p;
 	while (!glfwWindowShouldClose(window))
 	{
 		// call function to draw our scene
@@ -202,8 +205,8 @@ int main(int argc, char *argv[])
 		//Just renders first mesh for now.
 		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
 
-		p.playerCam = camera;	//This is pretty hacky...
-		p.RenderMesh(winRatio, _lightSource, width, height);
+		//p.playerCam = camera;	//This is pretty hacky...
+		curPlayer.RenderMesh(winRatio, _lightSource, width, height);
 
 		glfwSwapBuffers(window);
 

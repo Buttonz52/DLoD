@@ -32,6 +32,7 @@ mat4 _view;
 mat4 _projection;
 mat4 winRatio = mat4(1.f);
 Camera camera;
+Player curPlayer;
 Audio audio;
 vec3 _lightSource = vec3(0.f, 1.f, 2.f);
 //Audio music;

@@ -42,7 +42,7 @@ bool Mesh::ReadMesh(const string &filename) {
 		vec3 _normal(pNormal.x, pNormal.y, pNormal.z);
 		normals.push_back(_normal);	//normals are negative???? but multiplying my -1 scalar fixes it -bp
 
-		vec2 _uv(pUV.x, pUV.y);
+		vec3 _uv(pUV.x, pUV.y, pUV.z);
 		uvs.push_back(_uv);
 	}
 
@@ -72,9 +72,9 @@ void Mesh::AddColour(vec3 *colour) {
 	}
 }
 void Mesh::AddTexture(const char *filename) {
-	//if (!texture.InitializeTexture(filename, GL_TEXTURE_2D)) {
-	//	cout << "Error with mesh: Failed to initialize texture!" << endl;
-	//}
+	if (!texture.InitializeTexture(filename, GL_TEXTURE_2D)) {
+		cout << "Error with mesh: Failed to initialize texture!" << endl;
+	}
 }
 bool Mesh::Initialize() {
 

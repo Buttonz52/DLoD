@@ -12,6 +12,7 @@ in vec3 N;
 in vec3 L;
 in vec3 P;
 in vec3 V;
+in vec3 uv;
 
 // first output is mapped to the framebuffer's colour index by default
 out vec4 FragmentColour;
@@ -39,6 +40,8 @@ void main(void)
 	else {
 		diffuse = 0.1f;
 	}
-    FragmentColour = vec4(Colour*vec3(diffuse) + specular, 1.0);
+	FragmentColour = texture(sampler, uv.xy);
+	//FragmentColour = vec4(uv.xy, 0.0, 1.0);
+  //  FragmentColour = vec4(Colour*vec3(diffuse) + specular, 1.0);
 
 }

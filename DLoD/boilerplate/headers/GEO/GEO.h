@@ -15,6 +15,7 @@ public:
 	vec3 GetPosition();
 	void SetPosition(vec3 pos);
 	double GetRadius();
+	//bool RenderMesh(mat4 winRatio, vec3 lightSource, mat4 view, mat4 proj, int width, int height);
 	Mesh mesh;
 private:
 	vec3 position;
