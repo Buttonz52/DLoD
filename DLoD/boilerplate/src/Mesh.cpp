@@ -61,6 +61,7 @@ bool Mesh::ReadMesh(const string &filename) {
 }
 
 void Mesh::AddColour(vec3 *colour) {
+	colours.clear();
 	if (faces.size() == 0) {
 		cout << "ERROR MESH: Mesh not loaded to add colour." << endl;
 	}

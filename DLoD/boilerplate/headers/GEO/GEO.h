@@ -15,10 +15,10 @@ public:
 	vec3 GetPosition();
 	void SetPosition(vec3 pos);
 	double GetRadius();
-
+	Mesh mesh;
 private:
 	vec3 position;
 	double radius;
-	Mesh mesh;
+
 };
 #endif

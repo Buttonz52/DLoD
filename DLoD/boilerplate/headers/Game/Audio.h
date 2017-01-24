@@ -3,13 +3,16 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <iostream>
+#include <string>
 
+using namespace std;
 class Audio {
 public: 
 	Audio();
 	~Audio();
 
-	bool InitMusic();
+	bool InitMusic(const string &filename);
 
 	void CleanUp();
 

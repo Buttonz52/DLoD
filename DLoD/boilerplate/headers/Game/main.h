@@ -6,7 +6,8 @@
 #include "../GameEngine/Shader.h"
 #include "Utility.h"
 #include "../GameEngine/Texture.h"
-#include "../GEO/Camera.h"
+//#include "../GEO/Camera.h"
+#include "../GEO/player/Player.h"
 #include "Audio.h"
 #include <dirent.h>
 
@@ -30,7 +31,6 @@ float _rotate_y = 0.0;
 mat4 _view;
 mat4 _projection;
 mat4 winRatio = mat4(1.f);
-
 Camera camera;
 Audio audio;
 vec3 _lightSource = vec3(0.f, 1.f, 2.f);

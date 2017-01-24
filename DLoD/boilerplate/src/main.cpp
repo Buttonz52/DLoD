@@ -1,41 +1,6 @@
 #include "Game/main.h"
 
 // --------------------------------------------------------------------------
-// Rendering function that draws our scene to the frame buffer
-void RenderMesh(Mesh *mesh, Shader *shader)
-{
-	// clear screen to a dark grey colour
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-
-	// bind our shader program and the vertex array object containing our
-	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(shader->program);
-	glBindVertexArray(mesh->vertexArray);
-
-	vec3 fp = vec3(0, 0, 0);		//focal point
-
-	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
-	_view = camera.calculateViewMatrix();
-	
-	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, value_ptr(_view));
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, value_ptr(_projection));
-	glUniform3fv(glGetUniformLocation(shader->program, "lightPosition"), 1, value_ptr(_lightSource));
-
-	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
-
-	glDrawElements(GL_TRIANGLES, mesh->elementCount, GL_UNSIGNED_SHORT, 0);
-	// reset state to default (no shader or geometry bound)
-	glBindVertexArray(0);
-	glUseProgram(0);
-	//mesh->texture.UnbindTexture(GL_TEXTURE_2D);
-	// check for an report any OpenGL errors
-	CheckGLErrors();
-}
-
-// --------------------------------------------------------------------------
 // GLFW callback functions
 
 // reports GLFW errors
@@ -55,11 +20,11 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     case GLFW_KEY_ESCAPE:
       glfwSetWindowShouldClose(window, GL_TRUE);
       break;
-
+      
 	case GLFW_KEY_P:
 		audio.PausePlay();
 		break;
-      
+
     case GLFW_KEY_I:
       camera.translate3D(vec3(0,0.2,0));
       break;
@@ -201,24 +166,30 @@ int main(int argc, char *argv[])
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
 
-
-	// call function to load and compile shader programs
-	int numObjFiles = LoadAllObjFiles("models");
-	cout << "Num obj files: " << numObjFiles << endl;
-	//meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
-
-	meshes[2].shader.InitializeShaders("shaders/teapot.vert", "shaders/teapot.frag");
-	//glEnable(GL_TEXTURE_2D);
-	if (!meshes[2].Initialize()) {
-		cout << "ERROR: Could not initialize mesh." << endl;
-	}
-
-	if (!audio.InitMusic()) {
+	if (!audio.InitMusic("music/music.wav")) {
 		cout << "Failed to load music." << endl;
 	}
 	if (!audio.PlayMusic()) {
 		cout << "Failed to play music" << endl;
 	}
+
+	// call function to load and compile shader programs
+	int numObjFiles = LoadAllObjFiles("models");
+	cout << "Num obj files: " << numObjFiles << endl;
+
+	//Random testing purposes
+	vec3 grcol(0.0, 1.0, 0.0);
+	meshes[2].AddColour(&grcol);
+
+	//meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
+	Player p;
+	p.vehicle.mesh = meshes[2];
+	p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
+	//glEnable(GL_TEXTURE_2D);
+	if (!p.vehicle.mesh.Initialize()) {
+		cout << "ERROR: Could not initialize mesh." << endl;
+	}
+
 	while (!glfwWindowShouldClose(window))
 	{
 		// call function to draw our scene
@@ -231,19 +202,8 @@ int main(int argc, char *argv[])
 		//Just renders first mesh for now.
 		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
 
-		RenderMesh(&meshes[2], &meshes[2].shader);
-
-		//This code isn't working properly right now.
-	/*	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
-		_view = camera.calculateViewMatrix();
-		mesh.cameraInfo._projection = _projection;
-		mesh.cameraInfo._view = _view;
-		mesh.cameraInfo._lightSource = _lightSource;
-		mesh.Render(&shader, &mesh.cameraInfo);*/
-
-		//RenderTriangle(&geometry, &shader);
-		//moveCamera()
-		
+		p.playerCam = camera;	//This is pretty hacky...
+		p.RenderMesh(winRatio, _lightSource, width, height);
 
 		glfwSwapBuffers(window);
 
@@ -292,13 +252,9 @@ int LoadAllObjFiles(const char *pathname) {
 			if (found!=string::npos) 
 			{
 				//Get path name for parsing file
-				//Set to 30 arbitrarily
+				string s(pathname);
+				s += "/" + string(entity->d_name);
 
-				//Resource: http://www.cplusplus.com/reference/cstring/strcat/
-				char s[30];
-				strcpy(s, pathname);
-				strcat(s, "/");
-				strcat(s, entity->d_name);
 				//Add mesh to mesh vector
 				AddMesh(&string(s), &string (entity->d_name));
 				numObjFiles++;
@@ -332,8 +288,8 @@ void AddMesh(const string *pathname, const string * filename) {
 	string shadername = string(*filename).substr(0, endpos);
 
 	string shaderpath = "shaders/";
-	vertex = shaderpath + shadername + ".vert";
-	frag = shaderpath + shadername + ".frag";
+	mesh.vertex = shaderpath + shadername + ".vert";
+	mesh.fragment = shaderpath + shadername + ".frag";
 
 	//This gives an invalid valie.
 	//mesh.program = mesh.shader.InitializeShaders(vertex, frag);

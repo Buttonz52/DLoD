@@ -32,6 +32,7 @@ public:
 	//void Mesh::Render(MyShader *shader, CameraInfo *c);
 	void AddTexture(const char *filename);
 	void AddColour(vec3 *colour);
+
 	void ClearMesh();
 	void DestroyMesh();
 	// Variables
@@ -40,6 +41,7 @@ public:
 	vector<vec2> uvs;
 	vector<GLushort> faces;
 	vector<vec3> normals;
+	string vertex, fragment;
 	GLuint vertexArray;
 	GLuint program;
 	GLsizei elementCount;
