@@ -10,7 +10,7 @@ using namespace std;
 class Audio {
 public: 
 	Audio();
-	~Audio();
+	~Audio();	
 
 	bool InitMusic(const string &filename);
 
@@ -18,11 +18,15 @@ public:
 
 	bool PlayMusic();
 
+	void PlaySfx(Mix_Chunk *sfx);
+
 	void PauseMusic();
 
 	void ResumeMusic();
 
 	void PausePlay();
+
+	Mix_Chunk *horn = NULL;
 
 private:
 	bool on;

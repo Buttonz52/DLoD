@@ -25,6 +25,10 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		audio.PausePlay();
 		break;
 
+	case GLFW_KEY_S:
+		audio.PlaySfx(audio.horn);
+		break;
+
     case GLFW_KEY_I:
       camera.translate3D(vec3(0,0.2,0));
       break;
@@ -169,6 +173,7 @@ int main(int argc, char *argv[])
 	if (!audio.InitMusic("music/music.wav")) {
 		cout << "Failed to load music." << endl;
 	}
+
 	if (!audio.PlayMusic()) {
 		cout << "Failed to play music" << endl;
 	}
