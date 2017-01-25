@@ -156,6 +156,7 @@
     <ClCompile Include="src\MediumVehicle.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\PhysXMain.cpp" />
+    <ClCompile Include="src\Plane.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Texture.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="headers\GEO\item\Item.h" />
     <ClInclude Include="headers\GEO\item\TrapPack.h" />
     <ClInclude Include="headers\GEO\Light.h" />
+    <ClInclude Include="headers\GEO\Plane.h" />
     <ClInclude Include="headers\GEO\player\AI.h" />
     <ClInclude Include="headers\GEO\player\Human.h" />
     <ClInclude Include="headers\GEO\player\Player.h" />

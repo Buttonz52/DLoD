@@ -25,6 +25,10 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		audio.PausePlay();
 		break;
 
+	case GLFW_KEY_S:
+		audio.PlaySfx(audio.horn);
+		break;
+
     case GLFW_KEY_I:
       curPlayer.playerCam.translate3D(vec3(0,0.2,0));
       break;
@@ -177,6 +181,34 @@ int main(int argc, char *argv[])
 	int numObjFiles = LoadAllObjFiles("models");
 	cout << "Num obj files: " << numObjFiles << endl;
 
+	Plane plane;
+
+	vec3 planecol = vec3(1.f, 0.f, 0.f);
+	if (!plane.CreatePlane(10.0, &planecol, 1)) {
+		cout << "Failed to create plane." << endl;
+	}
+	plane.mesh.SetScale(1.f);
+	plane.SetPosition(vec3(0, -0.3f, 0.f));
+	plane.mesh.vertex = "shaders/plane.vert";
+	plane.mesh.fragment = "shaders/plane.frag";
+
+	plane.mesh.texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
+	Player p;
+	//p.vehicle.mesh = meshes[2];
+	//p.SetPosition(vec3(0, 0.25, 0));
+	//p.vehicle.mesh.SetScale(0.05f);
+	//p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
+	//glEnable(GL_TEXTURE_2D);
+	//if (!p.vehicle.mesh.Initialize()) {
+	//	cout << "ERROR: Could not initialize mesh." << endl;
+	//}
+	plane.mesh.shader.InitializeShaders(plane.mesh.vertex, plane.mesh.fragment);
+	if (!plane.mesh.Initialize()) {
+		cout << "ERROR: Could not initialize mesh." << endl;
+	}
+
+		//p.RenderMesh(&winRatio, &_lightSource, width, height);
+
 	//Random testing purposes
 	vec3 grcol(0.0, 1.0, 0.0);
 	meshes[2].AddColour(&grcol);
@@ -185,16 +217,19 @@ int main(int argc, char *argv[])
 	meshes[0].AddTexture("textures/images/zebra.png");
 	meshes[1].AddTexture("textures/images/zebra.png");
 	meshes[2].AddTexture("textures/images/zebra.png");
-	Player p;
-	p.vehicle.mesh = meshes[1];
-	p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
+//	Player p;
+	//p.vehicle.mesh = meshes[1];
+	//p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
 	//glEnable(GL_TEXTURE_2D);
-	if (!p.vehicle.mesh.Initialize()) {
-		cout << "ERROR: Could not initialize mesh." << endl;
-	}
-	curPlayer = p;
+	//if (!p.vehicle.mesh.Initialize()) {
+	//	cout << "ERROR: Could not initialize mesh." << endl;
+	//}
+	//curPlayer = p;
 	while (!glfwWindowShouldClose(window))
 	{
+		plane.cam = curPlayer.playerCam;	//just like this for now because I'm lazy 
+		plane.RenderPlane(winRatio, _lightSource, width, height);
+
 		// call function to draw our scene
 		/*
 		if(g_play){
@@ -206,7 +241,7 @@ int main(int argc, char *argv[])
 		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
 
 		//p.playerCam = camera;	//This is pretty hacky...
-		curPlayer.RenderMesh(winRatio, _lightSource, width, height);
+		//curPlayer.RenderMesh(winRatio, _lightSource, width, height);
 
 		glfwSwapBuffers(window);
 

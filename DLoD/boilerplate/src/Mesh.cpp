@@ -2,6 +2,7 @@
 
 Mesh::Mesh()
 {
+	scale = 1.f;
 }
 
 Mesh::~Mesh()
@@ -60,6 +61,9 @@ bool Mesh::ReadMesh(const string &filename) {
 	return true;
 }
 
+void Mesh::SetScale(float s) {
+	scale = s;
+}
 void Mesh::AddColour(vec3 *colour) {
 	colours.clear();
 	if (faces.size() == 0) {

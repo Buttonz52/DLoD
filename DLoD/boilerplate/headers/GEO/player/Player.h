@@ -10,7 +10,7 @@ public:
 	Vehicle vehicle;
 	Camera playerCam;
 
-	bool RenderMesh(mat4 winRatio, vec3 lightSource, int width, int height);
+	bool RenderMesh(mat4 *winRatio, vec3 *lightSource, int width, int height);
 
 	double x_trans;
 	double y_trans;

@@ -1,3 +1,5 @@
+#ifndef CAMERA_H
+#define CAMERA_H
 #include "../Game/Utility.h"
 #include "GEO.h"
 
@@ -29,3 +31,4 @@ public:
 
 	void translate3D(vec3);
 };
+#endif

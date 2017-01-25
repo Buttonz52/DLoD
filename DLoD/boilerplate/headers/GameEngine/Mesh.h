@@ -32,7 +32,7 @@ public:
 	//void Mesh::Render(MyShader *shader, CameraInfo *c);
 	void AddTexture(const char *filename);
 	void AddColour(vec3 *colour);
-
+	void SetScale(float s);
 	void ClearMesh();
 	void DestroyMesh();
 	// Variables
@@ -47,6 +47,7 @@ public:
 	GLsizei elementCount;
 	Shader shader;
 	Texture texture;
+	float scale;
 private:
 
 	GLuint vertexBuffer;

@@ -7,6 +7,7 @@
 #include "Utility.h"
 #include "../GameEngine/Texture.h"
 //#include "../GEO/Camera.h"
+#include "../GEO/Plane.h"
 #include "../GEO/player/Player.h"
 #include "Audio.h"
 #include <dirent.h>

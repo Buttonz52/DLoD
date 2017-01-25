@@ -22,7 +22,7 @@ void Player::GetInput()
 {
 }
 
-bool Player::RenderMesh(mat4 winRatio, vec3 lightSource, int width, int height) {
+bool Player::RenderMesh(mat4 *winRatio, vec3 *lightSource, int width, int height) {
 	// Rendering function that draws our scene to the frame buffer
 		// clear screen to a dark grey colour
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -37,14 +37,14 @@ bool Player::RenderMesh(mat4 winRatio, vec3 lightSource, int width, int height) 
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
 	mat4 _translation = translate(vec3(x_trans, y_trans,z_trans));
-	mat4 _projection = winRatio * playerCam.calculateProjectionMatrix((float)width / (float)height);
+	mat4 _projection = *winRatio * playerCam.calculateProjectionMatrix((float)width / (float)height);
 	mat4 _view = playerCam.calculateViewMatrix();
 
 	//uniform variables
 
 	glUniformMatrix4fv(glGetUniformLocation(vehicle.mesh.shader.program, "modelview"), 1, GL_FALSE, value_ptr(_view));
 	glUniformMatrix4fv(glGetUniformLocation(vehicle.mesh.shader.program, "projection"), 1, GL_FALSE, value_ptr(_projection));
-	glUniform3fv(glGetUniformLocation(vehicle.mesh.shader.program, "lightPosition"), 1, value_ptr(lightSource));
+	glUniform3fv(glGetUniformLocation(vehicle.mesh.shader.program, "lightPosition"), 1, value_ptr(*lightSource));
 
 	vehicle.mesh.texture.BindTexture(vehicle.mesh.shader.program, GL_TEXTURE_2D, "sampler");
 

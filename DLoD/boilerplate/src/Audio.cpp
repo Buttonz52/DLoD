@@ -4,6 +4,7 @@
 
 Audio::Audio()
 {
+	Mix_AllocateChannels(16);
 	on = true;
 }
 
@@ -24,6 +25,7 @@ bool Audio::InitMusic(const string &filename) {
 	}
 	//Load the music file.  If there's nothing in the file, return false.
 	music_file = Mix_LoadMUS(filename.c_str());
+	horn = Mix_LoadWAV("sfx/horn.wav");
 	if (music_file == NULL) {
 		return false;
 	}
@@ -48,6 +50,11 @@ bool Audio::PlayMusic() {
 
 void Audio::PauseMusic() {
 	Mix_PauseMusic();
+}
+
+void Audio::PlaySfx(Mix_Chunk *sfx) {
+	Mix_VolumeChunk(sfx, 45);
+	Mix_PlayChannel(1, sfx, 0);
 }
 
 void Audio::ResumeMusic() {
