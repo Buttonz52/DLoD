@@ -37,7 +37,7 @@ bool Player::RenderMesh(mat4 winRatio, vec3 lightSource, int width, int height) 
 	glUniformMatrix4fv(glGetUniformLocation(vehicle.mesh.shader.program, "projection"), 1, GL_FALSE, value_ptr(_projection));
 	glUniform3fv(glGetUniformLocation(vehicle.mesh.shader.program, "lightPosition"), 1, value_ptr(lightSource));
 
-	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
+	vehicle.mesh.texture.BindTexture(vehicle.mesh.shader.program, GL_TEXTURE_2D, "sampler");
 
 	glDrawElements(GL_TRIANGLES, vehicle.mesh.elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)

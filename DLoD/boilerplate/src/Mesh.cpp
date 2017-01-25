@@ -42,7 +42,7 @@ bool Mesh::ReadMesh(const string &filename) {
 		vec3 _normal(pNormal.x, pNormal.y, pNormal.z);
 		normals.push_back(_normal);	//normals are negative???? but multiplying my -1 scalar fixes it -bp
 
-		vec2 _uv(pUV.x, pUV.y);
+		vec3 _uv(pUV.x, pUV.y, pUV.z);
 		uvs.push_back(_uv);
 	}
 

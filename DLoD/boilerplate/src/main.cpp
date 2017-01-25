@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
 	vec3 grcol(0.0, 1.0, 0.0);
 	meshes[2].AddColour(&grcol);
 
-	//meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
+	meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
 	Player p;
 	p.vehicle.mesh = meshes[2];
 	p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
