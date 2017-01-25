@@ -182,9 +182,9 @@ int main(int argc, char *argv[])
 	meshes[2].AddColour(&grcol);
 
 	//meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
-	meshes[0].AddTexture("textures/images/ramp.jpg");
-	meshes[1].AddTexture("textures/images/ramp.jpg");
-	meshes[2].AddTexture("textures/images/ramp.jpg");
+	meshes[0].AddTexture("textures/images/zebra.png");
+	meshes[1].AddTexture("textures/images/zebra.png");
+	meshes[2].AddTexture("textures/images/zebra.png");
 	Player p;
 	p.vehicle.mesh = meshes[1];
 	p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
