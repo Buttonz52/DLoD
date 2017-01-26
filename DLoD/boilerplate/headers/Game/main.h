@@ -18,7 +18,7 @@ vector<vec3> _vertices;
 vector<vec2> _uv;
 vector<GLushort> _faces;
 vector<vec3> _normals;
-vector<Mesh> meshes;
+vector<GEO> gameObjects;
 
 int width = 512, height = 512;
 

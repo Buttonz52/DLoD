@@ -2,7 +2,6 @@
 #define MESH_H
 
 #include "../Game/Utility.h"
-#include "Shader.h"
 #include "Texture.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -34,6 +33,7 @@ public:
 	void AddColour(vec3 *colour);
 	void ClearMesh();
 	void DestroyMesh();
+
 	// Variables
 	vector<vec3> colours;
 	vector<vec3> vertices;
@@ -43,8 +43,7 @@ public:
 	GLuint vertexArray;
 	GLuint program;
 	GLsizei elementCount;
-	Shader shader;
-	Texture texture;
+	
 private:
 
 	GLuint vertexBuffer;

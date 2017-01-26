@@ -202,16 +202,25 @@ int main(int argc, char *argv[])
 	QueryGLVersion();
 
 
-	// call function to load and compile shader programs
-	int numObjFiles = LoadAllObjFiles("models");
-	cout << "Num obj files: " << numObjFiles << endl;
-	//meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
+	//// call function to load and compile shader programs
+	//int numObjFiles = LoadAllObjFiles("models");
+	//cout << "Num obj files: " << numObjFiles << endl;
+	////meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
 
-	meshes[2].shader.InitializeShaders("shaders/teapot.vert", "shaders/teapot.frag");
-	//glEnable(GL_TEXTURE_2D);
-	if (!meshes[2].Initialize()) {
-		cout << "ERROR: Could not initialize mesh." << endl;
+	//meshes[3].shader.InitializeShaders("shaders/teapot.vert", "shaders/teapot.frag");
+	////glEnable(GL_TEXTURE_2D);
+	//if (!meshes[3].Initialize()) {
+	//	cout << "ERROR: Could not initialize mesh." << endl;
+	//}
+	
+
+
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		if (!gameObjects[i].init()) 
+			cout << "Failed to load game Objects" << endl;
 	}
+
 
 	if (!audio.InitMusic()) {
 		cout << "Failed to load music." << endl;
@@ -231,7 +240,7 @@ int main(int argc, char *argv[])
 		//Just renders first mesh for now.
 		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
 
-		RenderMesh(&meshes[2], &meshes[2].shader);
+		/*RenderMesh(&meshes[3], &meshes[3].shader);*/
 
 		//This code isn't working properly right now.
 	/*	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
@@ -244,6 +253,11 @@ int main(int argc, char *argv[])
 		//RenderTriangle(&geometry, &shader);
 		//moveCamera()
 		
+		for each (GEO obj in gameObjects)
+		{
+			//obj.Render();
+		}
+
 
 		glfwSwapBuffers(window);
 
@@ -251,8 +265,8 @@ int main(int argc, char *argv[])
 	}
 
 	// clean up allocated resources before exits
-	for (int i = 0; i < meshes.size(); i++) {
-		meshes[i].DestroyMesh();
+	for (int i = 0; i < gameObjects.size(); i++) {
+		gameObjects[i].shutdown();
 	}
 
 	glfwDestroyWindow(window);
