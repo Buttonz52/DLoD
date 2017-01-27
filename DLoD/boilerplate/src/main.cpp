@@ -203,8 +203,7 @@ int main(int argc, char *argv[])
 
 
 	//// call function to load and compile shader programs
-	//int numObjFiles = LoadAllObjFiles("models");
-	//cout << "Num obj files: " << numObjFiles << endl;
+
 	////meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
 
 	//meshes[3].shader.InitializeShaders("shaders/teapot.vert", "shaders/teapot.frag");
@@ -214,29 +213,28 @@ int main(int argc, char *argv[])
 	//}
 	
 
+	//adds a new object for each .obj file in model. populates gameObjects[], only inits the filename
+	int numObjFiles = LoadAllObjFiles("models");			
+	cout << "Num obj files: " << numObjFiles << endl;
 
+	//initalize all gameObject Meshes, Shaders, textures
 	for (int i = 0; i < gameObjects.size(); i++)
 	{
-		if (!gameObjects[i].init()) 
-			cout << "Failed to load game Objects" << endl;
+		gameObjects[3].getMesh().Initialize();
+		gameObjects[3].addMeshShader();
 	}
 
+	//if (!audio.InitMusic()) {
+	//	cout << "Failed to load music." << endl;
+	//}
 
-	if (!audio.InitMusic()) {
-		cout << "Failed to load music." << endl;
-	}
-	if (!audio.PlayMusic()) {
-		cout << "Failed to play music" << endl;
-	}
+	//if (!audio.PlayMusic()) {
+	//	cout << "Failed to play music" << endl;
+	//}
+
 	while (!glfwWindowShouldClose(window))
 	{
-		// call function to draw our scene
-		/*
-		if(g_play){
-		t += dt;
-		animateQuad(t);
-		}
-		*/
+
 		//Just renders first mesh for now.
 		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
 
@@ -253,11 +251,11 @@ int main(int argc, char *argv[])
 		//RenderTriangle(&geometry, &shader);
 		//moveCamera()
 		
-		for each (GEO obj in gameObjects)
-		{
-			//obj.Render();
-		}
-
+		//for each (GEO obj in gameObjects)
+		//{
+		RenderMesh(&gameObjects[3].getMesh(), &gameObjects[3].getShader());
+		//}
+	
 
 		glfwSwapBuffers(window);
 
@@ -313,8 +311,13 @@ int LoadAllObjFiles(const char *pathname) {
 				strcpy(s, pathname);
 				strcat(s, "/");
 				strcat(s, entity->d_name);
-				//Add mesh to mesh vector
-				AddMesh(&string(s), &string (entity->d_name));
+
+				//GEO geo;
+				//geo.setFilename(entity->d_name);
+				
+				gameObjects.emplace_back();
+				gameObjects.at(gameObjects.size()-1).setFilename(entity->d_name);
+
 				numObjFiles++;
 			}
 		}
@@ -324,34 +327,6 @@ int LoadAllObjFiles(const char *pathname) {
 		cout << "ERROR LoadAllObjFiles: Directory not found." << endl;
 	}
 	closedir(dir);
-	return numObjFiles;
+	return gameObjects.size();
 }
 
-//Adds mesh file to mesh vector based on directory
-void AddMesh(const string *pathname, const string * filename) {
-	Mesh mesh;
-	//Get all information for mesh
-
-	mesh.ReadMesh(*pathname);
-
-	//Add colour for the moment; this can be taken out
-	//or colour changed/colour added to obj files and 
-	//not here
-	vec3 red(1.f, 0.f, 0.f);
-	mesh.AddColour(&red);
-	string vertex;
-	string frag;
-
-	size_t endpos = string(*filename).find(".obj");
-	string shadername = string(*filename).substr(0, endpos);
-
-	string shaderpath = "shaders/";
-	vertex = shaderpath + shadername + ".vert";
-	frag = shaderpath + shadername + ".frag";
-
-	//This gives an invalid valie.
-	//mesh.program = mesh.shader.InitializeShaders(vertex, frag);
-
-	meshes.push_back(mesh);
-	cout << "Loaded " << *pathname << endl;
-}

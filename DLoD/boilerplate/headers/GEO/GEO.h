@@ -11,26 +11,25 @@ public:
 	GEO();
 	~GEO();
 
-
-
 	vec3 GetPosition();
 	void SetPosition(vec3 pos);
 	double GetRadius();
-	string filename;
+	void setFilename(const string &fname);
+	string getFilename();
+	void addMeshShader();
+	void setMesh(Mesh m);
+	Mesh& getMesh();
+	Shader getShader();
+	void setShader(Shader s);
 
-	bool init();
 	void shutdown();		//destroy shader, texture, mesh
-	void ReadObjects(const string &filename);
 
 private:
 	vec3 position;
 	double radius;
+	string filename;
 	Mesh mesh;
 	Shader shader;
 	Texture texture;
-
-
-	
-
 };
 #endif

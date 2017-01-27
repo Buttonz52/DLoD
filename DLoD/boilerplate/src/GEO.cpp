@@ -25,15 +25,66 @@ double GEO::GetRadius()
 	return 0.0;
 }
 
-bool GEO::init()
+void GEO::setFilename(const string &fname)
 {
-	//read shader
-	//read mesh add give mesh data to that object
-	return false;
+	filename = fname;
 }
 
-void ReadObjects(const string &filename)
+string GEO::getFilename()
 {
-	//fill this function out first
-	//read in the filename and give THIS object filename that name.
+	return filename;
+}
+
+void GEO::setMesh(Mesh m)
+{
+	mesh = m;
+}
+
+Mesh& GEO::getMesh()
+{
+	return mesh;
+}
+
+Shader GEO::getShader()
+{
+	return shader;
+}
+
+void GEO::setShader(Shader s)
+{
+	shader = s;
+}
+
+//Adds mesh file to mesh vector based on directory
+void GEO::addMeshShader()
+{
+	//Get all information for mesh
+
+	if (!mesh.ReadMesh("models/" + filename))
+		cout << "Error reading mesh" << endl;
+
+	//Add colour for the moment; this can be taken out
+	//or colour changed/colour added to obj files and 
+	//not here
+	vec3 red(1.f, 0.f, 0.f);
+	mesh.AddColour(&red);
+	string vertex;
+	string frag;
+
+	size_t endpos = string(getFilename()).find(".obj");
+	string shadername = string(getFilename()).substr(0, endpos);
+
+	string shaderpath = "shaders/";
+	//vertex = shaderpath + shadername + ".vert";			<- if each object has a shaderfile
+	//frag = shaderpath + shadername + ".frag";
+	vertex = shaderpath + "teapot.vert";
+	frag = shaderpath + "teapot.frag";
+
+	shader.program = getShader().InitializeShaders(vertex, frag);
+
+	cout << "number of verts: " << mesh.vertices.size() << endl;
+	cout << "Loaded " << getFilename() << endl;
+}
+void GEO::shutdown()
+{
 }

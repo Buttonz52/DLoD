@@ -6,12 +6,14 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
-	DestroyMesh();
+	//DestroyMesh();
 }
 
 //Reads object file using Assimp and converts to vectors of respective types.
 //Resources: https://learnopengl.com/#!Model-Loading/Model
 //https://nickthecoder.wordpress.com/2013/01/20/mesh-loading-with-assimp/
+
+//this-> to access mesh im calling this function from
 
 bool Mesh::ReadMesh(const string &filename) {
 	Assimp::Importer importer;
@@ -54,6 +56,8 @@ bool Mesh::ReadMesh(const string &filename) {
 		faces.push_back(face.mIndices[1]);
 		faces.push_back(face.mIndices[2]);
 	}
+	elementCount = faces.size();
+
 	//delete mesh;
 	//delete scene;
 	//cout << "Loaded " << filename << endl;
@@ -78,7 +82,7 @@ void Mesh::AddTexture(const char *filename) {
 bool Mesh::Initialize() {
 
 	/* Initialization of buffers for mesh goes here */
-	elementCount = faces.size();
+	
 	// these vertex attribute indices correspond to those specified for the
 	// input variables in the vertex shader
 	const GLuint VERTEX_INDEX = 0;
@@ -206,5 +210,5 @@ void Mesh::DestroyMesh() {
 	glDeleteVertexArrays(1, &vertexArray);
 	glDeleteProgram(program);
 	//Destroy the shader
-	shader.DestroyShaders();
+	//shader.DestroyShaders();
 }
