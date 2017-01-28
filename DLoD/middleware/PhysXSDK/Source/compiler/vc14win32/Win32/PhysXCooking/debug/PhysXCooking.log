@@ -1,0 +1,17 @@
+﻿  WindowsCookingDelayLoadHook.cpp
+  HeightFieldCooking.cpp
+  RTreeCooking.cpp
+  TriangleMeshBuilder.cpp
+  BigConvexDataBuilder.cpp
+  ConvexHullBuilder.cpp
+  ConvexMeshBuilder.cpp
+  hulllib.cpp
+..\..\PhysXCooking\src\windows\WindowsCookingDelayLoadHook.cpp(64): error C2373: '__pfnDliNotifyHook2': redefinition; different type modifiers
+  C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\include\delayimp.h(134): note: see declaration of '__pfnDliNotifyHook2'
+  VolumeIntegration.cpp
+  Adjacencies.cpp
+  Cooking.cpp
+  CookingUtils.cpp
+  EdgeList.cpp
+  InternalTriangleMeshBuilder.cpp
+  MeshCleaner.cpp

@@ -181,7 +181,7 @@ int main(int argc, char *argv[])
 	int numObjFiles = LoadAllObjFiles("models");
 	cout << "Num obj files: " << numObjFiles << endl;
 
-	Plane plane;
+	/*Plane plane;
 
 	vec3 planecol = vec3(1.f, 0.f, 0.f);
 	if (!plane.CreatePlane(10.0, &planecol, 1)) {
@@ -193,19 +193,12 @@ int main(int argc, char *argv[])
 	plane.mesh.fragment = "shaders/plane.frag";
 
 	plane.mesh.texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
-	Player p;
-	//p.vehicle.mesh = meshes[2];
-	//p.SetPosition(vec3(0, 0.25, 0));
-	//p.vehicle.mesh.SetScale(0.05f);
-	//p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
-	//glEnable(GL_TEXTURE_2D);
-	//if (!p.vehicle.mesh.Initialize()) {
+	*/
+
+	//plane.mesh.shader.InitializeShaders(plane.mesh.vertex, plane.mesh.fragment);
+	//if (!plane.mesh.Initialize()) {
 	//	cout << "ERROR: Could not initialize mesh." << endl;
 	//}
-	plane.mesh.shader.InitializeShaders(plane.mesh.vertex, plane.mesh.fragment);
-	if (!plane.mesh.Initialize()) {
-		cout << "ERROR: Could not initialize mesh." << endl;
-	}
 
 		//p.RenderMesh(&winRatio, &_lightSource, width, height);
 
@@ -217,18 +210,18 @@ int main(int argc, char *argv[])
 	meshes[0].AddTexture("textures/images/zebra.png");
 	meshes[1].AddTexture("textures/images/zebra.png");
 	meshes[2].AddTexture("textures/images/zebra.png");
-//	Player p;
-	//p.vehicle.mesh = meshes[1];
-	//p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
-	//glEnable(GL_TEXTURE_2D);
-	//if (!p.vehicle.mesh.Initialize()) {
-	//	cout << "ERROR: Could not initialize mesh." << endl;
-	//}
-	//curPlayer = p;
+	Player p;
+	p.vehicle.mesh = meshes[1];
+	p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
+
+	if (!p.vehicle.mesh.Initialize()) {
+		cout << "ERROR: Could not initialize mesh." << endl;
+	}
+	curPlayer = p;
 	while (!glfwWindowShouldClose(window))
 	{
-		plane.cam = curPlayer.playerCam;	//just like this for now because I'm lazy 
-		plane.RenderPlane(winRatio, _lightSource, width, height);
+		//plane.cam = curPlayer.playerCam;	//just like this for now because I'm lazy 
+		//plane.RenderPlane(winRatio, _lightSource, width, height);
 
 		// call function to draw our scene
 		/*
@@ -240,8 +233,8 @@ int main(int argc, char *argv[])
 		//Just renders first mesh for now.
 		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
 
-		//p.playerCam = camera;	//This is pretty hacky...
-		//curPlayer.RenderMesh(winRatio, _lightSource, width, height);
+		p.playerCam = camera;	//This is pretty hacky...
+		p.RenderMesh(&winRatio, &_lightSource, width, height);
 
 		glfwSwapBuffers(window);
 

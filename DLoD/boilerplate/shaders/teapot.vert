@@ -17,12 +17,10 @@ layout(location = 3) in vec3 UV;
 uniform mat4 modelview;
 uniform mat4 projection;
 uniform vec3 lightPosition;
-<<<<<<< HEAD
-uniform float scale;
-uniform vec3 position;
 
-=======
->>>>>>> b4d2ebc266ed111dd240de1ea64fd8be57695084
+//uniform float scale;
+//uniform vec3 position;
+
 out vec3 Colour;
 out vec3 N;
 out vec3 L;
@@ -32,14 +30,12 @@ out vec3 uv;
 void main()
 {
 	//very arbitrary scale for the moment; testing purposes.
-<<<<<<< HEAD
     // assign vertex position without modification
-	vec4 vertexCameraSpace = modelview * vec4(VertexPosition*scale + position,1.0);
-=======
 	float scale = 0.05f;
     // assign vertex position without modification
 	vec4 vertexCameraSpace = modelview * vec4(VertexPosition*scale,1.0);
->>>>>>> b4d2ebc266ed111dd240de1ea64fd8be57695084
+	//	vec4 vertexCameraSpace = modelview * vec4(VertexPosition*scale + position,1.0);
+
 	P = vertexCameraSpace.xyz/vertexCameraSpace.w;
 
 	mat3 normalMatrix = mat3(transpose(inverse(modelview)));
