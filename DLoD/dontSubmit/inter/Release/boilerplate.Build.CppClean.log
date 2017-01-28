@@ -1,19 +1,39 @@
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\vc140.pdb
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\glad.obj
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\utility.obj
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\objloader.obj
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\shader.obj
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\mytexture.obj
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\mesh.obj
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\camera.obj
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\main.obj
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\bin\release\boilerplate.exe
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\bin\release\boilerplate.ipdb
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\bin\release\boilerplate.iobj
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\bin\release\boilerplate.pdb
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\cl.command.1.tlog
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\cl.read.1.tlog
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\cl.write.1.tlog
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\link.command.1.tlog
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\link.read.1.tlog
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\link.write.1.tlog
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\vc140.pdb
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\glad.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\shader.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\player.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\physxmain.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\mesh.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\mediumvehicle.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\lightvehicle.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\light.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\item.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\human.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\heavyvehicle.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\healthpack.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\geo.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\gametimer.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\gamestate.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\camera.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\audio.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\armourpack.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\arena.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\ai.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\vehicle.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\utility.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\trappack.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\trap.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\texture.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\main.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\bin\release\boilerplate.exe
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\bin\release\boilerplate.ipdb
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\bin\release\boilerplate.iobj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\bin\release\boilerplate.pdb
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\mytexture.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\objloader.obj
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\cl.command.1.tlog
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\cl.read.1.tlog
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\cl.write.1.tlog
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\link.command.1.tlog
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\link.read.1.tlog
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\dontsubmit\inter\release\boilerplate.tlog\link.write.1.tlog
