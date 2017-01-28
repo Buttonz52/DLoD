@@ -2,17 +2,39 @@
 
 Camera::Camera()
 {
+	setInitValues();
+	center = vec3(0);
+	focalPoint = glm::vec3(0, 0, 0);
+}
+
+Camera::Camera(vec3 &c) {
+	setInitValues();
+	focalPoint = glm::vec3(0, 0, 0);
+	center = c;
+}
+Camera::Camera(vec3 &c, vec3 &f) {
+	setInitValues();
+	center = c;
+	focalPoint = f;
+	//focalPoint = c;
+}
+Camera::~Camera() {}
+
+void Camera::setInitValues() {
 	azu = M_PI_4;
 	alt = M_PI_4;
 	radius = 15;
-  
-	fov = M_PI/3;
+
+	fov = M_PI / 3;
 	_near = 0.001;
 	_far = 100;
-  
-	focalPoint = glm::vec3(0,0,0);
+
+
 }
 
+void Camera::setCenter(vec3 &c) {
+	center = c;
+}
 void Camera::setAlt(float newAlt)
 {
 	alt = newAlt;
@@ -65,15 +87,16 @@ void Camera::translate3D(vec3 delta)
 }
 
 mat4 Camera::calculateViewMatrix() {
+	//this->center = center;
   	// Calculate x,y,z from spherical coordinates
 	float x = radius * sin(alt) * cos(azu);
 	float y = radius * cos(alt);
 	float z = radius * sin(alt) * sin(azu);
 	//  cout << "x: " << x << " y: " << y << " z: " << z << endl;
-
+	//focalPoint = c;
 	vec3 eye(x, y, z);
 	vec3 up(0.0f, 1.0f, 0.0f);
-	vec3 center(0.0f, 0.0f, 0.0f);
+	//vec3 center(0.0f, 0.0f, 0.0f);
 
 	mat4 view = lookAt(eye, center, up);
   
@@ -81,4 +104,8 @@ mat4 Camera::calculateViewMatrix() {
 	view = translate(view, translateFromFocal);
 	
 	return view;
+}
+
+vec3 * Camera::getCenter() {
+	return &center;
 }

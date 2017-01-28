@@ -15,7 +15,7 @@ bool Texture::InitializeTexture(const char* filename, GLuint target)
 	unsigned char *data = stbi_load(filename, &width, &height, &numComponents, 0);
 	if (data != nullptr)
 	{
-		Target = target;
+		target = target;
 		glGenTextures(1, &textureID);
 		glBindTexture(target, textureID);
 		GLuint format = GL_RGB;
@@ -37,14 +37,14 @@ bool Texture::InitializeTexture(const char* filename, GLuint target)
 			cout << "Invalid Texture Format" << endl;
 			break;
 		};
-		glTexImage2D(Target, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(target, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 
 		// Note: Only wrapping modes supported for GL_TEXTURE_RECTANGLE when defining
 		// GL_TEXTURE_WRAP are GL_CLAMP_TO_EDGE or GL_CLAMP_TO_BORDER
-		glTexParameteri(Target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(Target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(Target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(Target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// Clean up
 		glBindTexture(target, 0);
@@ -115,6 +115,6 @@ bool Texture::InitializeSkybox(vector<const char*> * filename, GLuint target) {
 // deallocate texture-related objects
 void Texture::DestroyTexture()
 {
-	glBindTexture(Target, 0);
+	glBindTexture(target, 0);
 	glDeleteTextures(1, &textureID);
 }

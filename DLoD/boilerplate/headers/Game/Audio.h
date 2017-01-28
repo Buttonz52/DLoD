@@ -3,22 +3,17 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
-#include <iostream>
-#include <string>
 
-using namespace std;
 class Audio {
 public: 
 	Audio();
 	~Audio();
 
-	bool InitMusic(const string &filename);
+	bool InitMusic();
 
 	void CleanUp();
 
 	bool PlayMusic();
-
-	void PlaySfx(Mix_Chunk *sfx);
 
 	void PauseMusic();
 
@@ -26,7 +21,6 @@ public:
 
 	void PausePlay();
 
-	Mix_Chunk *horn = NULL;
 private:
 	bool on;
 	Mix_Music *music_file = NULL;

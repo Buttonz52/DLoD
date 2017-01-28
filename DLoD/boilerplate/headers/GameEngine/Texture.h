@@ -10,7 +10,7 @@
 class Texture {
 public:
 	GLuint textureID;
-	GLuint Target;
+	GLuint target;
 	int width;
 	int height;
 	Texture();

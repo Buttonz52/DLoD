@@ -1,5 +1,3 @@
-#ifndef CAMERA_H
-#define CAMERA_H
 #include "../Game/Utility.h"
 #include "GEO.h"
 
@@ -13,9 +11,15 @@ private:
 	float fov;
 	float _near;
 	float _far;
- 
+	
+	vec3 center;
 public:
 	Camera();
+	Camera(vec3 &center);
+	Camera(vec3 &center, vec3 &focalPoint);
+	~Camera();
+
+	void setCenter(vec3 &);
 
 	void setAzu(float);
 	void setAlt(float);
@@ -30,5 +34,6 @@ public:
 	mat4 calculateViewMatrix();
 
 	void translate3D(vec3);
+	vec3 *getCenter();
+	void setInitValues();
 };
-#endif

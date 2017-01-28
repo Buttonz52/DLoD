@@ -153,9 +153,6 @@
     <ClCompile Include="src\Texture.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="src\Plane.cpp">
-      <Filter>Source Files\GEO</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\PhysXMain.h">
@@ -232,9 +229,6 @@
     </ClInclude>
     <ClInclude Include="headers\GameEngine\Texture.h">
       <Filter>Header Files\GameEngine</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\GEO\Plane.h">
-      <Filter>Header Files\GEO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

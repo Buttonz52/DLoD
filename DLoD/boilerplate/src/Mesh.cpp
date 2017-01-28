@@ -2,17 +2,18 @@
 
 Mesh::Mesh()
 {
-	scale = 1.f;
 }
 
 Mesh::~Mesh()
 {
-	DestroyMesh();
+	//DestroyMesh();
 }
 
 //Reads object file using Assimp and converts to vectors of respective types.
 //Resources: https://learnopengl.com/#!Model-Loading/Model
 //https://nickthecoder.wordpress.com/2013/01/20/mesh-loading-with-assimp/
+
+//this-> to access mesh im calling this function from
 
 bool Mesh::ReadMesh(const string &filename) {
 	Assimp::Importer importer;
@@ -43,7 +44,7 @@ bool Mesh::ReadMesh(const string &filename) {
 		vec3 _normal(pNormal.x, pNormal.y, pNormal.z);
 		normals.push_back(_normal);	//normals are negative???? but multiplying my -1 scalar fixes it -bp
 
-		vec3 _uv(pUV.x, pUV.y, pUV.z);
+		vec2 _uv(pUV.x, pUV.y);
 		uvs.push_back(_uv);
 	}
 
@@ -55,15 +56,14 @@ bool Mesh::ReadMesh(const string &filename) {
 		faces.push_back(face.mIndices[1]);
 		faces.push_back(face.mIndices[2]);
 	}
+	elementCount = faces.size();
+
 	//delete mesh;
 	//delete scene;
 	//cout << "Loaded " << filename << endl;
 	return true;
 }
 
-void Mesh::SetScale(float s) {
-	scale = s;
-}
 void Mesh::AddColour(vec3 *colour) {
 	colours.clear();
 	if (faces.size() == 0) {
@@ -76,14 +76,14 @@ void Mesh::AddColour(vec3 *colour) {
 	}
 }
 void Mesh::AddTexture(const char *filename) {
-	if (!texture.InitializeTexture(filename, GL_TEXTURE_2D)) {
-		cout << "Error with mesh: Failed to initialize texture!" << endl;
-	}
+	//if (!texture.InitializeTexture(filename, GL_TEXTURE_2D)) {
+	//	cout << "Error with mesh: Failed to initialize texture!" << endl;
+	//}
 }
 bool Mesh::Initialize() {
 
 	/* Initialization of buffers for mesh goes here */
-	elementCount = faces.size();
+	
 	// these vertex attribute indices correspond to those specified for the
 	// input variables in the vertex shader
 	const GLuint VERTEX_INDEX = 0;
@@ -173,6 +173,7 @@ bool Mesh::Initialize() {
 }*/
 
 aiVector3D Mesh::AddUV(aiVector3D vertex) {
+
 	float theta;
 	float phi;
 	float r = sqrt(vertex.x*vertex.x + vertex.y*vertex.y + vertex.z*vertex.z);
@@ -211,5 +212,5 @@ void Mesh::DestroyMesh() {
 	glDeleteVertexArrays(1, &vertexArray);
 	glDeleteProgram(program);
 	//Destroy the shader
-	shader.DestroyShaders();
+	//shader.DestroyShaders();
 }

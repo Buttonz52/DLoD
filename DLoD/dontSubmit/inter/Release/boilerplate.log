@@ -1,2 +1,3 @@
-﻿  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\bin\Release\boilerplate.exe
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\Brendan-branch\DLoD\dontSubmit\inter\Release\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  boilerplate.vcxproj -> C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\Brendan-branch\DLoD\dontSubmit\bin\Release\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\Brendan-branch\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)

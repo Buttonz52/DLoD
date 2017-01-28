@@ -1,6 +1,56 @@
 #include "Game/main.h"
 
 // --------------------------------------------------------------------------
+// Rendering function that draws our scene to the frame buffer
+void RenderMesh(Mesh *mesh, Shader *shader, vec3 &position)
+{
+
+
+	// bind our shader program and the vertex array object containing our
+	// scene geometry, then tell OpenGL to draw our geometry
+	glUseProgram(shader->program);
+	glBindVertexArray(mesh->vertexArray);
+
+	vec3 fp = vec3(0, 0, 0);		//focal point
+
+	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
+	_view = camera.calculateViewMatrix();
+	
+	//uniform variables
+	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, value_ptr(_projection));
+	glUniform3fv(glGetUniformLocation(shader->program, "lightPosition"), 1, value_ptr(_lightSource));
+	glUniform3fv(glGetUniformLocation(shader->program, "position"), 1, value_ptr(position));
+
+	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
+
+	glDrawElements(GL_TRIANGLES, mesh->elementCount, GL_UNSIGNED_SHORT, 0);
+	// reset state to default (no shader or geometry bound)
+	glBindVertexArray(0);
+	glUseProgram(0);
+	//mesh->texture.UnbindTexture(GL_TEXTURE_2D);
+	// check for an report any OpenGL errors
+	CheckGLErrors();
+}
+//changes between cameras
+//This is just messing around with stuff, feel free to change implementation/whatnot.
+//-Kiersten
+
+void changeCamera() {
+	camIndex >= testCams.size()-1 ? camIndex = 0 : camIndex++;	//if statement: increment/reset camIndex 
+	camera = testCams[camIndex];		//new camera
+
+	//testing purposes only
+	vec3 *c = camera.getCenter();		//just printing out camera center for testing purposes, delete later
+	cout << c->x << " " << c->y << " " << c->z << endl;
+}
+
+void clearScreen() {
+	// clear screen to a dark grey colour;
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+// --------------------------------------------------------------------------
 // GLFW callback functions
 
 // reports GLFW errors
@@ -20,49 +70,45 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     case GLFW_KEY_ESCAPE:
       glfwSetWindowShouldClose(window, GL_TRUE);
       break;
-      
+
 	case GLFW_KEY_P:
 		audio.PausePlay();
 		break;
-
-	case GLFW_KEY_S:
-		audio.PlaySfx(audio.horn);
-		break;
-
+      
     case GLFW_KEY_I:
-      curPlayer.playerCam.translate3D(vec3(0,0.2,0));
+      camera.translate3D(vec3(0,0.2,0));
       break;
       
     case GLFW_KEY_K:
-		curPlayer.playerCam.translate3D(vec3(0,-0.2,0));
+      camera.translate3D(vec3(0,-0.2,0));
       break;
       
     case GLFW_KEY_J:
-		curPlayer.playerCam.translate3D(vec3(-0.2,0,0));
+      camera.translate3D(vec3(-0.2,0,0));
       break;
       
     case GLFW_KEY_L:
-		curPlayer.playerCam.translate3D(vec3(0.2,0,0));
+      camera.translate3D(vec3(0.2,0,0));
       break;
 
     case GLFW_KEY_RIGHT:
-		curPlayer.playerCam.incrementAzu(-M_PI/180);
+      camera.incrementAzu(-M_PI/180);
       break;
       
     case GLFW_KEY_LEFT:
-		curPlayer.playerCam.incrementAzu(M_PI/180);
+      camera.incrementAzu(M_PI/180);
       break;
       
     case GLFW_KEY_UP:
-		curPlayer.playerCam.incrementAlt(-M_PI/180);
+      camera.incrementAlt(-M_PI/180);
       break;
       
     case GLFW_KEY_DOWN:
-		curPlayer.playerCam.incrementAlt(M_PI/180);
+      camera.incrementAlt(M_PI/180);
       break;
 
     case GLFW_KEY_A:
-	  _rotate_y += 1.0f;
+		changeCamera();
       break;
     case GLFW_KEY_D:
 	  _rotate_y -= 1.0f;
@@ -95,8 +141,8 @@ void motion(GLFWwindow* w, double x, double y)
 
 	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_1))
 	{
-		curPlayer.playerCam.incrementAzu(dx * 0.005f);
-		curPlayer.playerCam.incrementAlt(dy * 0.005f);
+    camera.incrementAzu(dx * 0.005f);
+    camera.incrementAlt(dy * 0.005f);
 	}
   
 	mouse_old_x = x;
@@ -106,7 +152,7 @@ void motion(GLFWwindow* w, double x, double y)
 //handles mouse scroll
 void scroll_callback(GLFWwindow* window, double x, double y)
 {
-	curPlayer.playerCam.incrementRadius(y / 2);
+	camera.incrementRadius(y / 2);
 }
 
 //Jeremy Hart, CPSC 587 code, handles resizing glfw window
@@ -159,82 +205,88 @@ int main(int argc, char *argv[])
 
 
 	//Intialize GLAD
-	#ifndef LAB_LINUX
+#ifndef LAB_LINUX
 	if (!gladLoadGL())
 	{
 		cout << "GLAD init failed" << endl;
 		return -1;
 	}
-	#endif
+#endif
 
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
 
-	if (!audio.InitMusic("music/music.wav")) {
-		cout << "Failed to load music." << endl;
-	}
-	if (!audio.PlayMusic()) {
-		cout << "Failed to play music" << endl;
-	}
 
-	// call function to load and compile shader programs
-	int numObjFiles = LoadAllObjFiles("models");
-	cout << "Num obj files: " << numObjFiles << endl;
+	//// call function to load and compile shader programs
 
-	/*Plane plane;
+	////meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
 
-	vec3 planecol = vec3(1.f, 0.f, 0.f);
-	if (!plane.CreatePlane(10.0, &planecol, 1)) {
-		cout << "Failed to create plane." << endl;
-	}
-	plane.mesh.SetScale(1.f);
-	plane.SetPosition(vec3(0, -0.3f, 0.f));
-	plane.mesh.vertex = "shaders/plane.vert";
-	plane.mesh.fragment = "shaders/plane.frag";
-
-	plane.mesh.texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
-	*/
-
-	//plane.mesh.shader.InitializeShaders(plane.mesh.vertex, plane.mesh.fragment);
-	//if (!plane.mesh.Initialize()) {
+	//meshes[3].shader.InitializeShaders("shaders/teapot.vert", "shaders/teapot.frag");
+	////glEnable(GL_TEXTURE_2D);
+	//if (!meshes[3].Initialize()) {
 	//	cout << "ERROR: Could not initialize mesh." << endl;
 	//}
 
-		//p.RenderMesh(&winRatio, &_lightSource, width, height);
 
-	//Random testing purposes
-	vec3 grcol(0.0, 1.0, 0.0);
-	meshes[2].AddColour(&grcol);
+	//adds a new object for each .obj file in model. populates gameObjects[], only inits the filename
+	int numObjFiles = LoadAllObjFiles("models");
+	cout << "Num obj files: " << numObjFiles << endl;
 
-	//meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
-	meshes[0].AddTexture("textures/images/zebra.png");
-	meshes[1].AddTexture("textures/images/zebra.png");
-	meshes[2].AddTexture("textures/images/zebra.png");
-	Player p;
-	p.vehicle.mesh = meshes[1];
-	p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
-
-	if (!p.vehicle.mesh.Initialize()) {
-		cout << "ERROR: Could not initialize mesh." << endl;
+	//initalize all gameObject Meshes, Shaders, textures; not working exactly
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		if (!gameObjects[3].getMesh().Initialize()) {
+			cout << "Failed to initialize mesh." << endl;
+		}
+		gameObjects[3].addMeshShader();
 	}
-	curPlayer = p;
+	gameObjects[2] = gameObjects[3];	//another teapot for now
+	vec3 col(0, 1, 0);
+	gameObjects[2].getMesh().AddColour(&col);	//this doesn't set the colour
+	
+	vec3 pos = vec3(-3, 0, -10);
+	gameObjects[2].SetPosition(pos);	//this doesn't set the position
+
+	//if (!audio.InitMusic()) {
+	//	cout << "Failed to load music." << endl;
+	//}
+
+	//if (!audio.PlayMusic()) {
+	//	cout << "Failed to play music" << endl;
+	//}
+
+	glEnable(GL_DEPTH_TEST);
+
 	while (!glfwWindowShouldClose(window))
 	{
-		//plane.cam = curPlayer.playerCam;	//just like this for now because I'm lazy 
-		//plane.RenderPlane(winRatio, _lightSource, width, height);
-
-		// call function to draw our scene
-		/*
-		if(g_play){
-		t += dt;
-		animateQuad(t);
-		}
-		*/
+		clearScreen();
 		//Just renders first mesh for now.
 		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
 
-		p.playerCam = camera;	//This is pretty hacky...
-		p.RenderMesh(&winRatio, &_lightSource, width, height);
+		/*RenderMesh(&meshes[3], &meshes[3].shader);*/
+
+		//This code isn't working properly right now.
+	/*	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
+		_view = camera.calculateViewMatrix();
+		mesh.cameraInfo._projection = _projection;
+		mesh.cameraInfo._view = _view;
+		mesh.cameraInfo._lightSource = _lightSource;
+		mesh.Render(&shader, &mesh.cameraInfo);*/
+
+		//RenderTriangle(&geometry, &shader);
+		//moveCamera()
+		
+		//for each (GEO obj in gameObjects)
+		//{
+
+		RenderMesh(&gameObjects[3].getMesh(), &gameObjects[3].getShader(),gameObjects[3].GetPosition());
+		RenderMesh(&gameObjects[2].getMesh(), &gameObjects[2].getShader(), vec3(-3,0,-10));
+
+
+		//RenderMesh(&gameObjects[2].getMesh(), &gameObjects[2].getShader());
+
+		//}
+	
 
 		glfwSwapBuffers(window);
 
@@ -242,8 +294,8 @@ int main(int argc, char *argv[])
 	}
 
 	// clean up allocated resources before exits
-	for (int i = 0; i < meshes.size(); i++) {
-		meshes[i].DestroyMesh();
+	for (int i = 0; i < gameObjects.size(); i++) {
+		gameObjects[i].shutdown();
 	}
 
 	glfwDestroyWindow(window);
@@ -283,11 +335,20 @@ int LoadAllObjFiles(const char *pathname) {
 			if (found!=string::npos) 
 			{
 				//Get path name for parsing file
-				string s(pathname);
-				s += "/" + string(entity->d_name);
+				//Set to 30 arbitrarily
 
-				//Add mesh to mesh vector
-				AddMesh(&string(s), &string (entity->d_name));
+				//Resource: http://www.cplusplus.com/reference/cstring/strcat/
+				char s[30];
+				strcpy(s, pathname);
+				strcat(s, "/");
+				strcat(s, entity->d_name);
+
+				//GEO geo;
+				//geo.setFilename(entity->d_name);
+				
+				gameObjects.emplace_back();
+				gameObjects.at(gameObjects.size()-1).setFilename(entity->d_name);
+
 				numObjFiles++;
 			}
 		}
@@ -297,34 +358,6 @@ int LoadAllObjFiles(const char *pathname) {
 		cout << "ERROR LoadAllObjFiles: Directory not found." << endl;
 	}
 	closedir(dir);
-	return numObjFiles;
+	return gameObjects.size();
 }
 
-//Adds mesh file to mesh vector based on directory
-void AddMesh(const string *pathname, const string * filename) {
-	Mesh mesh;
-	//Get all information for mesh
-
-	mesh.ReadMesh(*pathname);
-
-	//Add colour for the moment; this can be taken out
-	//or colour changed/colour added to obj files and 
-	//not here
-	vec3 red(1.f, 0.f, 0.f);
-	mesh.AddColour(&red);
-	string vertex;
-	string frag;
-
-	size_t endpos = string(*filename).find(".obj");
-	string shadername = string(*filename).substr(0, endpos);
-
-	string shaderpath = "shaders/";
-	mesh.vertex = shaderpath + shadername + ".vert";
-	mesh.fragment = shaderpath + shadername + ".frag";
-
-	//This gives an invalid valie.
-	//mesh.program = mesh.shader.InitializeShaders(vertex, frag);
-
-	meshes.push_back(mesh);
-	cout << "Loaded " << *pathname << endl;
-}
