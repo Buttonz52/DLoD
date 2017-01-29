@@ -1,3 +1,21 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\inter\Release\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main.cpp
+src\main.cpp(46): warning C4018: '>=': signed/unsigned mismatch
+src\main.cpp(101): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(105): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(109): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(113): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(147): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(148): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(158): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(248): warning C4018: '<': signed/unsigned mismatch
+src\main.cpp(281): warning C4018: '<': signed/unsigned mismatch
+src\main.cpp(293): warning C4018: '<': signed/unsigned mismatch
+src\main.cpp(303): warning C4018: '<': signed/unsigned mismatch
+  Generating code
+  1 of 878 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
   boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\bin\Release\boilerplate.exe
   boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)

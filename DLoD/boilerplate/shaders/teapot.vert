@@ -16,8 +16,9 @@ layout(location = 3) in vec3 UV;
 // output to be interpolated between vertices and passed to the fragment stage
 uniform mat4 modelview;
 uniform mat4 projection;
+uniform mat4 model;
 uniform vec3 lightPosition;
-uniform vec3 position;
+//uniform vec3 position;
 out vec3 Colour;
 out vec3 N;
 out vec3 L;
@@ -29,7 +30,7 @@ void main()
 	//very arbitrary scale for the moment; testing purposes.
 	float scale = 0.05f;
     // assign vertex position without modification
-	vec4 vertexCameraSpace = modelview * vec4(VertexPosition*scale + position,1.0);
+	vec4 vertexCameraSpace = modelview * model * vec4(VertexPosition,1.0);
 	P = vertexCameraSpace.xyz/vertexCameraSpace.w;
 
 	mat3 normalMatrix = mat3(transpose(inverse(modelview)));

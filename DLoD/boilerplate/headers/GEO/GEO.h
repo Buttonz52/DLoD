@@ -10,8 +10,12 @@ class GEO
 public:
 	GEO();
 	~GEO();
-
-	vec3 GetPosition();
+	
+	void setScale(const vec3 &scale);
+	vec3 &getScale();
+	void setRotation(const vec3 &rotation);
+	vec3 &getRotation(); 
+	vec3 &getPosition();
 	void SetPosition(const vec3 &pos);
 	double GetRadius();
 	void setFilename(const string &fname);
@@ -20,6 +24,7 @@ public:
 	void addShaders(const string &vertex, const string &fragment);
 	void setMesh(const Mesh &m);
 	void setColour(const vec3 &col);
+	
 	Mesh& getMesh();
 	Shader getShader();
 	void setShader(const Shader &s);
@@ -28,6 +33,8 @@ public:
 	void shutdown();		//destroy shader, texture, mesh
 
 private:
+	vec3 scale;
+	vec3 rotation;
 	vec3 position;
 	double radius;
 	string filename;
