@@ -5,9 +5,12 @@
 #include "../GameEngine/Mesh.h"
 #include "../GameEngine/Shader.h"
 #include "Utility.h"
-#include "../GameEngine/MyTexture.h"
+#include "../GameEngine/Texture.h"
 #include "../GEO/Camera.h"
+#include "Audio.h"
 #include <dirent.h>
+
+using namespace std;
 
 // --------------------------------------------------------------------------
 // Variables
@@ -16,7 +19,16 @@ vector<vec3> _vertices;
 vector<vec2> _uv;
 vector<GLushort> _faces;
 vector<vec3> _normals;
-vector<Mesh> meshes;
+vector<GEO> gameObjects;
+
+//test cameras
+vector<Camera> testCams = {	//just objects for now, make pointers or smth later
+	Camera(vec3(0, 0, 0)),	//first teapot
+	Camera(vec3(-3, 0, -10)),	//second teapot
+	Camera(vec3(0, 10, -10)),	//random
+	Camera(vec3(-4, -4, -5), vec3(-3, 0, -10))	//random
+};
+int camIndex = 0;	//index of test cameras
 
 int width = 512, height = 512;
 
@@ -28,14 +40,18 @@ float _rotate_y = 0.0;
 mat4 _view;
 mat4 _projection;
 mat4 winRatio = mat4(1.f);
+
 Camera camera;
+Audio audio;
 vec3 _lightSource = vec3(0.f, 1.f, 2.f);
+
+//Audio music;
 
 // OpenGL utility and support function prototypes
 void PrintDirections();
 
 // Mesh functions
 int LoadAllObjFiles(const char *pathname);	
-void AddMesh(const string *pathname);		
+void AddMesh(const string *pathname, const string * filename);
 // --------------------------------------------------------------------------
 #endif

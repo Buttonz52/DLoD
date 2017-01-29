@@ -7,5 +7,10 @@ class ArmourPack :
 public:
 	ArmourPack();
 	~ArmourPack();
+
+	int ReturnValue();
+
+private: 
+	int ap;
 };
 #endif

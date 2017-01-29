@@ -7,5 +7,6 @@ class Light :
 public:
 	Light();
 	~Light();
+	float intensity;
 };
 #endif

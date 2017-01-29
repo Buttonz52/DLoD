@@ -10,3 +10,8 @@ AI::AI()
 AI::~AI()
 {
 }
+
+int AI::DetermineBehaviour()
+{
+	return 0;
+}

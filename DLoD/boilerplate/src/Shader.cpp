@@ -4,7 +4,7 @@
 
 
 // load, compile, and link shaders, returning true if successful
-bool Shader::InitializeShaders(const string &vert, const string &frag)
+GLuint Shader::InitializeShaders(const string &vert, const string &frag)
 {
 	// load shader source from files
 	string vertexSource = LoadSource(vert);
@@ -19,7 +19,10 @@ bool Shader::InitializeShaders(const string &vert, const string &frag)
 	program = LinkProgram(vertex, fragment);
 
 	// check for OpenGL errors and return false if error occurred
-	return !CheckGLErrors();
+	if (CheckGLErrors()) {
+		cout << "ERROR INITIALIZING SHADERS." << endl;
+	}
+	return program;
 }
 
 // deallocate shader-related objects

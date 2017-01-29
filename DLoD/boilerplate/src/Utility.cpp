@@ -26,9 +26,11 @@ bool CheckGLErrors()
 		cout << "OpenGL ERROR:  ";
 		switch (flag) {
 		case GL_INVALID_ENUM:
-			cout << "GL_INVALID_ENUM" << endl; break;
+			cout << "GL_INVALID_ENUM" << endl; 
+			break;
 		case GL_INVALID_VALUE:
-			cout << "GL_INVALID_VALUE" << endl; break;
+			cout << "GL_INVALID_VALUE" << endl; 
+			break;
 		case GL_INVALID_OPERATION:
 			cout << "GL_INVALID_OPERATION" << endl; 
 			break;

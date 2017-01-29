@@ -7,6 +7,12 @@ class TrapPack :
 public:
 	TrapPack();
 	~TrapPack();
+
+	int ReturnValue();
+
+private:
+	int ammo;
+
 };
 
 #endif

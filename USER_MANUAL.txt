@@ -1,0 +1,13 @@
+ESC: close program
+P: Pause background audio
+I: translate camera up
+K: translate camera down
+J: translate camera left
+L: translate camera right
+RIGHT: rotate camera ccw
+LEFT: rotate camera cw
+UP: rotate camera up
+DOWN: rotate camera down
+A: change cameras
+MOUSE: drag to move camera 
+SCROLL: zoom in/out

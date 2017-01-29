@@ -7,6 +7,10 @@ class HealthPack :
 public:
 	HealthPack();
 	~HealthPack();
+
+	int ReturnValue();
+private:
+	int hp;
 };
 
 #endif
