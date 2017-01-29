@@ -2,7 +2,7 @@
 
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer
-void RenderMesh(Mesh *mesh, Shader *shader)
+void RenderMesh(GEO *object)
 {
 	// clear screen to a dark grey colour
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -11,8 +11,8 @@ void RenderMesh(Mesh *mesh, Shader *shader)
 
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(shader->program);
-	glBindVertexArray(mesh->vertexArray);
+	glUseProgram(object->getShader().program);
+	glBindVertexArray(object->getMesh().vertexArray);
 
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
@@ -20,13 +20,14 @@ void RenderMesh(Mesh *mesh, Shader *shader)
 	_view = camera.calculateViewMatrix();
 	
 	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, value_ptr(_view));
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, value_ptr(_projection));
-	glUniform3fv(glGetUniformLocation(shader->program, "lightPosition"), 1, value_ptr(_lightSource));
+	glUniformMatrix4fv(glGetUniformLocation(object->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	glUniformMatrix4fv(glGetUniformLocation(object->getShader().program, "projection"), 1, GL_FALSE, value_ptr(_projection));
+	glUniform3fv(glGetUniformLocation(object->getShader().program, "lightPosition"), 1, value_ptr(_lightSource));
+	glUniform3fv(glGetUniformLocation(object->getShader().program, "position"), 1, value_ptr(object->getPosition()));
 
 	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
 
-	glDrawElements(GL_TRIANGLES, mesh->elementCount, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, object->getMesh().elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);
 	glUseProgram(0);
@@ -58,6 +59,10 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 	case GLFW_KEY_P:
 		audio.PausePlay();
+		break;
+
+	case GLFW_KEY_S:
+		audio.PlaySfx(audio.horn);
 		break;
       
     case GLFW_KEY_I:
@@ -218,11 +223,16 @@ int main(int argc, char *argv[])
 	cout << "Num obj files: " << numObjFiles << endl;
 
 	//initalize all gameObject Meshes, Shaders, textures
-	for (int i = 0; i < gameObjects.size(); i++)
+	for (int i = 0; i < 4; i++)
 	{
-		gameObjects[3].getMesh().Initialize();
+		if (!gameObjects[i].getMesh().Initialize())
+			cout << "Failed to initialize mesh" << endl;
+
 		gameObjects[3].addMeshShader();
 	}
+	
+
+	//gameObjects[2] = gameObjects[3];	//another teapot for now
 
 	//if (!audio.InitMusic()) {
 	//	cout << "Failed to load music." << endl;
@@ -253,7 +263,7 @@ int main(int argc, char *argv[])
 		
 		//for each (GEO obj in gameObjects)
 		//{
-		RenderMesh(&gameObjects[3].getMesh(), &gameObjects[3].getShader());
+		RenderMesh(&gameObjects[3]);
 		//}
 	
 
@@ -312,11 +322,12 @@ int LoadAllObjFiles(const char *pathname) {
 				strcat(s, "/");
 				strcat(s, entity->d_name);
 
-				//GEO geo;
-				//geo.setFilename(entity->d_name);
-				
-				gameObjects.emplace_back();
-				gameObjects.at(gameObjects.size()-1).setFilename(entity->d_name);
+				GEO g;
+				g.setFilename(entity->d_name);
+
+				gameObjects.push_back(g);
+				//gameObjects.emplace_back();
+				//gameObjects.at(gameObjects.size()-1).setFilename(entity->d_name);
 
 				numObjFiles++;
 			}

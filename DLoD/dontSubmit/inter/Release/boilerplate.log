@@ -1,18 +1,24 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Release\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (B:\Desktop\DLoD\DLoD\dontSubmit\inter\Release\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  GEO.cpp
+  Mesh.cpp
+src\Mesh.cpp(36): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(51): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(72): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(152): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Mesh.cpp(153): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   main.cpp
-src\main.cpp(80): warning C4305: 'argument': truncation from 'double' to 'float'
-src\main.cpp(84): warning C4305: 'argument': truncation from 'double' to 'float'
-src\main.cpp(88): warning C4305: 'argument': truncation from 'double' to 'float'
-src\main.cpp(92): warning C4305: 'argument': truncation from 'double' to 'float'
-src\main.cpp(129): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-src\main.cpp(130): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-src\main.cpp(140): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-src\main.cpp(221): warning C4018: '<': signed/unsigned mismatch
-src\main.cpp(266): warning C4018: '<': signed/unsigned mismatch
+src\main.cpp(85): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(89): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(93): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(97): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(134): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(135): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(145): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(276): warning C4018: '<': signed/unsigned mismatch
   Generating code
-  1 of 764 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  46 of 776 functions ( 5.9%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    16 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\boilerplate.exe
-  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)
+  boilerplate.vcxproj -> B:\Desktop\DLoD\DLoD\dontSubmit\bin\Release\boilerplate.exe
+  boilerplate.vcxproj -> B:\Desktop\DLoD\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)

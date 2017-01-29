@@ -41,6 +41,5 @@ void PrintDirections();
 
 // Mesh functions
 int LoadAllObjFiles(const char *pathname);	
-void AddMesh(const string *pathname, const string * filename);
 // --------------------------------------------------------------------------
 #endif

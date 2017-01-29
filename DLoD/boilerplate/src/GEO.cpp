@@ -4,6 +4,9 @@
 
 GEO::GEO()
 {
+	position = vec3(0);
+	radius = 1.f;
+	filename = "";
 }
 
 
@@ -11,16 +14,17 @@ GEO::~GEO()
 {
 }
 
-vec3 GEO::GetPosition()
+vec3& GEO::getPosition()
 {
-	return vec3();
+	return position;
 }
 
-void GEO::SetPosition(vec3 pos)
+void GEO::setPosition(vec3 &pos)
 {
+	position = pos;
 }
 
-double GEO::GetRadius()
+double GEO::getRadius()
 {
 	return 0.0;
 }
@@ -30,14 +34,9 @@ void GEO::setFilename(const string &fname)
 	filename = fname;
 }
 
-string GEO::getFilename()
+string& GEO::getFilename()
 {
 	return filename;
-}
-
-void GEO::setMesh(Mesh m)
-{
-	mesh = m;
 }
 
 Mesh& GEO::getMesh()
@@ -50,10 +49,6 @@ Shader GEO::getShader()
 	return shader;
 }
 
-void GEO::setShader(Shader s)
-{
-	shader = s;
-}
 
 //Adds mesh file to mesh vector based on directory
 void GEO::addMeshShader()
@@ -87,4 +82,6 @@ void GEO::addMeshShader()
 }
 void GEO::shutdown()
 {
+	mesh.DestroyMesh();
+	shader.DestroyShaders();
 }

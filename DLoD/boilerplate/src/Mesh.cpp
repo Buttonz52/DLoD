@@ -6,7 +6,7 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
-	//DestroyMesh();
+	DestroyMesh();
 }
 
 //Reads object file using Assimp and converts to vectors of respective types.
@@ -135,42 +135,6 @@ bool Mesh::Initialize() {
 	return !CheckGLErrors();
 }
 
-//Render isn't working with camera at the moment: Issues with updating
-//matrices or something.
-/*void Mesh::Render(MyShader *shader, CameraInfo *c) {
-	// Rendering code for mesh goes here 
-	// clear screen to a dark grey colour
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-
-	// bind our shader program and the vertex array object containing our
-	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(shader->program);
-	glBindVertexArray(vertexArray);
-
-	vec3 fp = vec3(0, 0, 0);
-
-
-
-	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, glm::value_ptr(c->_view));
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, glm::value_ptr(c->_projection));
-	glUniform3fv(glGetUniformLocation(shader->program, "lightPosition"), 1, glm::value_ptr(c->_lightSource));
-
-	//Drawing obj files doesn't work yet.
-	//glDrawArrays(GL_TRIANGLES, 0, geometry->elementCount);
-
-	//JAN 16: This works now. //This is in Allan's code, but nothing appears.  TODO: Fix it.
-	glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_SHORT, 0);
-	// reset state to default (no shader or geometry bound)
-	glBindVertexArray(0);
-	glUseProgram(0);
-
-	// check for an report any OpenGL errors
-	CheckGLErrors();
-}*/
-
 aiVector3D Mesh::AddUV(aiVector3D vertex) {
 	float theta;
 	float phi;
@@ -208,7 +172,4 @@ void Mesh::DestroyMesh() {
 	glDeleteBuffers(1, &colourBuffer);
 
 	glDeleteVertexArrays(1, &vertexArray);
-	glDeleteProgram(program);
-	//Destroy the shader
-	//shader.DestroyShaders();
 }

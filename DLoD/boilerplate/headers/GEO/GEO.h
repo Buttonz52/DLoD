@@ -11,16 +11,14 @@ public:
 	GEO();
 	~GEO();
 
-	vec3 GetPosition();
-	void SetPosition(vec3 pos);
-	double GetRadius();
+	vec3& getPosition();
+	void setPosition(vec3 &pos);
+	double getRadius();
 	void setFilename(const string &fname);
-	string getFilename();
+	string& getFilename();
 	void addMeshShader();
-	void setMesh(Mesh m);
 	Mesh& getMesh();
 	Shader getShader();
-	void setShader(Shader s);
 
 	void shutdown();		//destroy shader, texture, mesh
 

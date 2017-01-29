@@ -15,14 +15,19 @@ public:
 
 	bool PlayMusic();
 
+	void PlaySfx(Mix_Chunk *sfx);
+
 	void PauseMusic();
 
 	void ResumeMusic();
 
 	void PausePlay();
 
+	Mix_Chunk *horn = NULL;
+
 private:
 	bool on;
+
 	Mix_Music *music_file = NULL;
 }
 ;
