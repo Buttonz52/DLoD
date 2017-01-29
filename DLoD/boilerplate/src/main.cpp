@@ -13,15 +13,20 @@ void RenderGEO(GEO *geo)
 	glBindVertexArray(geo->getMesh().vertexArray);
 
 	vec3 fp = vec3(0, 0, 0);		//focal point
+	mat4 scale = glm::scale(geo->getScale());
+	mat4 rotation = glm::rotate(mat4(), 0.f, vec3(1));	//no rotation for now; TODO: Implement properly later
+	mat4 translation = translate(geo->getPosition());
 
+	mat4 M = translation * rotation * scale;
 	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
 	_view = camera.calculateViewMatrix();
 	
 	//uniform variables
+	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "model"), 1, GL_FALSE, value_ptr(M));
 	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
 	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "projection"), 1, GL_FALSE, value_ptr(_projection));
 	glUniform3fv(glGetUniformLocation(geo->getShader().program, "lightPosition"), 1, value_ptr(_lightSource));
-	glUniform3fv(glGetUniformLocation(geo->getShader().program, "position"), 1, value_ptr(geo->GetPosition()));
+//	glUniform3fv(glGetUniformLocation(geo->getShader().program, "position"), 1, value_ptr(geo->getPosition()));
 
 	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
 
@@ -231,13 +236,15 @@ int main(int argc, char *argv[])
 	//cout << "Num obj files: " << numObjFiles << endl;
 
 
-	//initalize all gameObject Meshes, Shaders, textures; not working exactly
+	//initialize 5 game objects and push them onto vector for now
 	GEO g;
 	gameObjects.push_back(g);
 	gameObjects.push_back(g);
 	gameObjects.push_back(g);
 	gameObjects.push_back(g);
 	gameObjects.push_back(g);
+
+	//initialize game object meshes
 	for (int i = 0; i < gameObjects.size(); i++)
 	{
 		gameObjects[i].setFilename("teapot.obj");
@@ -245,14 +252,17 @@ int main(int argc, char *argv[])
 			cout << "Failed to initialize mesh." << endl;
 		}
 		gameObjects[i].addShaders("shaders/teapot.vert", "shaders/teapot.frag");
+		gameObjects[i].setScale(vec3(0.01f));
 	}
 
+	//set colours
 	gameObjects[0].setColour(vec3(0,1,0));	//green
 	gameObjects[1].setColour(vec3(1,0,0));	//red
 	gameObjects[2].setColour(vec3(0, 0, 1));	//blue
 	gameObjects[3].setColour(vec3(1, 1, 0));	//yellow
 	gameObjects[4].setColour(vec3(1, 0, 1));	//magenta
 
+	//set positions
 	gameObjects[1].SetPosition(vec3(-3,0,-10));	//this doesn't set the position
 	gameObjects[2].SetPosition(vec3(0, 2, 0));	//this doesn't set the position
 	gameObjects[3].SetPosition(vec3(-3, 0, 0));	//this doesn't set the position
@@ -283,12 +293,6 @@ int main(int argc, char *argv[])
 		for (int i = 0; i < gameObjects.size(); i++) {
 			RenderGEO(&gameObjects[i]);
 		}
-
-
-		//RenderMesh(&gameObjects[2].getMesh(), &gameObjects[2].getShader());
-
-		//}
-	
 
 		glfwSwapBuffers(window);
 

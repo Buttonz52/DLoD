@@ -5,6 +5,8 @@ GEO::GEO()
 	position = vec3(0);
 	radius = 1.f;
 	filename = "";
+	scale = vec3(1.f);
+	rotation = vec3(0);
 }
 
 
@@ -12,7 +14,27 @@ GEO::~GEO()
 {
 }
 
-vec3 GEO::GetPosition()
+void GEO::setScale(const vec3 & s)
+{
+	scale = s;
+}
+
+vec3 &GEO::getScale()
+{
+	return scale;
+}
+
+void GEO::setRotation(const vec3 & r)
+{
+	rotation = r;
+}
+
+vec3 &GEO::getRotation()
+{
+	return rotation;
+}
+
+vec3 &GEO::getPosition()
 {
 	return position;
 }
