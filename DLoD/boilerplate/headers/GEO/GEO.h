@@ -31,5 +31,6 @@ private:
 	Mesh mesh;
 	Shader shader;
 	Texture texture;
+	string audioFile;
 };
 #endif

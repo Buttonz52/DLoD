@@ -199,6 +199,9 @@
     <None Include="shaders\teapot.frag" />
     <None Include="shaders\teapot.vert" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="config\config.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

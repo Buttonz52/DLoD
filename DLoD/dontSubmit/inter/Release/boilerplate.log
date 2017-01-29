@@ -1,3 +1,58 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\Brendan-branch\DLoD\dontSubmit\inter\Release\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  boilerplate.vcxproj -> C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\Brendan-branch\DLoD\dontSubmit\bin\Release\boilerplate.exe
-  boilerplate.vcxproj -> C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\Brendan-branch\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\inter\Release\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  glad.c
+  AI.cpp
+  Arena.cpp
+  ArmourPack.cpp
+  Audio.cpp
+  Camera.cpp
+src\Camera.cpp(24): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(25): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(28): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(29): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(41): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(52): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(73): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  GameState.cpp
+  GameTimer.cpp
+  GEO.cpp
+  HealthPack.cpp
+  HeavyVehicle.cpp
+  Human.cpp
+  Item.cpp
+  Light.cpp
+  LightVehicle.cpp
+  main.cpp
+src\main.cpp(40): warning C4018: '>=': signed/unsigned mismatch
+src\main.cpp(95): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(99): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(103): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(107): warning C4305: 'argument': truncation from 'double' to 'float'
+src\main.cpp(144): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(145): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(155): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(236): warning C4018: '<': signed/unsigned mismatch
+src\main.cpp(297): warning C4018: '<': signed/unsigned mismatch
+  MediumVehicle.cpp
+  Mesh.cpp
+src\Mesh.cpp(36): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(51): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(73): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(190): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Mesh.cpp(191): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  PhysXMain.cpp
+  Player.cpp
+  Shader.cpp
+  Compiling...
+  Texture.cpp
+src\Texture.cpp(69): warning C4018: '<': signed/unsigned mismatch
+  Trap.cpp
+  TrapPack.cpp
+  Utility.cpp
+  Vehicle.cpp
+  Generating code
+  890 of 894 functions (99.6%) were compiled, the rest were copied from previous compilation.
+    21 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\bin\Release\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)
