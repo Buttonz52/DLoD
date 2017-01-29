@@ -5,8 +5,6 @@ using namespace std;
 // Rendering function that draws our scene to the frame buffer
 void RenderGEO(GEO *geo)
 {
-
-
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(geo->getShader().program);
@@ -18,8 +16,8 @@ void RenderGEO(GEO *geo)
 	mat4 translation = translate(geo->getPosition());
 
 	mat4 M = translation * rotation * scale;
-	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
-	_view = camera.calculateViewMatrix();
+	_projection = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
+	_view = camera->calculateViewMatrix();
 	
 	//uniform variables
 	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "model"), 1, GL_FALSE, value_ptr(M));
@@ -41,13 +39,19 @@ void RenderGEO(GEO *geo)
 //changes between cameras
 //This is just messing around with stuff, feel free to change implementation/whatnot.
 //-Kiersten
+void changeGEO() {
+	geoIndex >= gameObjects.size() - 1 ? geoIndex = 0 : geoIndex++;	//if statement: increment/reset camIndex 
+	currentGEO = &gameObjects[geoIndex];
+
+	cout << "Switching control to GEO: " << geoIndex << endl;
+}
 
 void changeCamera() {
 	camIndex >= testCams.size()-1 ? camIndex = 0 : camIndex++;	//if statement: increment/reset camIndex 
-	camera = testCams[camIndex];		//new camera
+	camera = &testCams[camIndex];		//new camera
 
 	//testing purposes only
-	vec3 *c = camera.getCenter();		//just printing out camera center for testing purposes, delete later
+	vec3 *c = camera->getCenter();		//just printing out camera center for testing purposes, delete later
 	cout << c->x << " " << c->y << " " << c->z << endl;
 }
 
@@ -69,6 +73,7 @@ void ErrorCallback(int error, const char* description)
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
+	float factor = 0.05;
 	if (action == GLFW_RELEASE)
 		return;
 
@@ -82,40 +87,71 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		break;
       
     case GLFW_KEY_I:
-      camera.translate3D(vec3(0,0.2,0));
+      camera->translate3D(vec3(0,0.2,0));
       break;
       
     case GLFW_KEY_K:
-      camera.translate3D(vec3(0,-0.2,0));
+      camera->translate3D(vec3(0,-0.2,0));
       break;
       
     case GLFW_KEY_J:
-      camera.translate3D(vec3(-0.2,0,0));
+      camera->translate3D(vec3(-0.2,0,0));
       break;
       
     case GLFW_KEY_L:
-      camera.translate3D(vec3(0.2,0,0));
+      camera->translate3D(vec3(0.2,0,0));
       break;
 
     case GLFW_KEY_RIGHT:
-      camera.incrementAzu(-M_PI/180);
+      camera->incrementAzu(-M_PI/180);
       break;
       
     case GLFW_KEY_LEFT:
-      camera.incrementAzu(M_PI/180);
+      camera->incrementAzu(M_PI/180);
       break;
       
     case GLFW_KEY_UP:
-      camera.incrementAlt(-M_PI/180);
+      camera->incrementAlt(-M_PI/180);
       break;
       
     case GLFW_KEY_DOWN:
-      camera.incrementAlt(M_PI/180);
+      camera->incrementAlt(M_PI/180);
       break;
 
-    case GLFW_KEY_A:
+    case GLFW_KEY_C:
 		changeCamera();
       break;
+	case GLFW_KEY_G:
+		changeGEO();
+		break;
+
+	case GLFW_KEY_W:
+		currentGEO->updatePosition(vec3(0,factor,0));
+		break;
+
+	case GLFW_KEY_A:
+		currentGEO->updatePosition(vec3(-factor, 0, 0));
+		break;
+
+	case GLFW_KEY_S:
+		currentGEO->updatePosition( vec3(0, -factor, 0));
+		break;
+
+	case GLFW_KEY_D:
+		currentGEO->updatePosition(vec3(factor,0, 0));
+		break;
+	case GLFW_KEY_E:
+		currentGEO->updatePosition(vec3(0, 0, -factor));
+		break;
+	case GLFW_KEY_Q:
+		currentGEO->updatePosition(vec3(0, 0, factor));
+		break;
+	case GLFW_KEY_1:
+		currentGEO->updateScale(vec3(factor*0.01));
+		break;
+	case GLFW_KEY_2:
+		currentGEO->updateScale(vec3(-factor*0.01));
+		break;
 
     default:
       break;
@@ -144,8 +180,8 @@ void motion(GLFWwindow* w, double x, double y)
 
 	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_1))
 	{
-    camera.incrementAzu(dx * 0.005f);
-    camera.incrementAlt(dy * 0.005f);
+    camera->incrementAzu(dx * 0.005f);
+    camera->incrementAlt(dy * 0.005f);
 	}
   
 	mouse_old_x = x;
@@ -155,7 +191,7 @@ void motion(GLFWwindow* w, double x, double y)
 //handles mouse scroll
 void scroll_callback(GLFWwindow* window, double x, double y)
 {
-	camera.incrementRadius(y / 2);
+	camera->incrementRadius(y / 2);
 }
 
 //Jeremy Hart, CPSC 587 code, handles resizing glfw window
@@ -263,10 +299,10 @@ int main(int argc, char *argv[])
 	gameObjects[4].setColour(vec3(1, 0, 1));	//magenta
 
 	//set positions
-	gameObjects[1].SetPosition(vec3(-3,0,-10));	//this doesn't set the position
-	gameObjects[2].SetPosition(vec3(0, 2, 0));	//this doesn't set the position
-	gameObjects[3].SetPosition(vec3(-3, 0, 0));	//this doesn't set the position
-	gameObjects[4].SetPosition(vec3(0, -4, 2));	//this doesn't set the position
+	gameObjects[1].setPosition(vec3(-3,0,-10));	//this doesn't set the position
+	gameObjects[2].setPosition(vec3(0, 2, 0));	//this doesn't set the position
+	gameObjects[3].setPosition(vec3(-3, 0, 0));	//this doesn't set the position
+	gameObjects[4].setPosition(vec3(0, -4, 2));	//this doesn't set the position
 
 
 	string musicFile= "music/BTS.wav";
@@ -283,6 +319,8 @@ int main(int argc, char *argv[])
 			cout << "Could not initialize buffers for game object " << i << endl;
 		}
 	}
+	camera = &testCams[camIndex];
+	currentGEO = &gameObjects[geoIndex];
 	glEnable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(window))

@@ -8,6 +8,7 @@ RIGHT: rotate camera ccw
 LEFT: rotate camera cw
 UP: rotate camera up
 DOWN: rotate camera down
-A: change cameras
+C: change cameras
+G: change GEOs
 MOUSE: drag to move camera 
 SCROLL: zoom in/out

@@ -13,10 +13,13 @@ public:
 	
 	void setScale(const vec3 &scale);
 	vec3 &getScale();
+	void updateScale(const vec3 &scale);
 	void setRotation(const vec3 &rotation);
 	vec3 &getRotation(); 
+	void updateRotation(const vec3 &rotation);
 	vec3 &getPosition();
-	void SetPosition(const vec3 &pos);
+	void setPosition(const vec3 &pos);
+	void updatePosition(const vec3 &pos);
 	double GetRadius();
 	void setFilename(const string &fname);
 	string getFilename();
