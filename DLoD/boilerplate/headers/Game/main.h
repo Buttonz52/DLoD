@@ -11,6 +11,7 @@
 #include <dirent.h>
 
 using namespace std;
+
 // --------------------------------------------------------------------------
 // Variables
 vector<vec3> _colours;

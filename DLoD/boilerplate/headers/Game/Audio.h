@@ -9,7 +9,7 @@ public:
 	Audio();
 	~Audio();
 
-	bool InitMusic();
+	bool InitMusic(const char *filename);
 
 	void CleanUp();
 

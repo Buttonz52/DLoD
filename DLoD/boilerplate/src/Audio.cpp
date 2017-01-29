@@ -12,7 +12,7 @@ Audio::~Audio()
 {
 }
 
-bool Audio::InitMusic() {
+bool Audio::InitMusic(const char *filename) {
 	//Make sure everything initializes properly
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
 		return false;
@@ -23,7 +23,7 @@ bool Audio::InitMusic() {
 		return false;
 	}
 	//Load the music file.  If there's nothing in the file, return false.
-	music_file = Mix_LoadMUS("music/music.wav");
+	music_file = Mix_LoadMUS(filename);
 	if (music_file == NULL) {
 		return false;
 	}

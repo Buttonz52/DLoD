@@ -14,10 +14,10 @@ GEO::~GEO()
 
 vec3 GEO::GetPosition()
 {
-	return vec3();
+	return position;
 }
 
-void GEO::SetPosition(vec3 pos)
+void GEO::SetPosition(const vec3 &pos)
 {
 	position = pos;
 }
@@ -37,9 +37,13 @@ string GEO::getFilename()
 	return filename;
 }
 
-void GEO::setMesh(Mesh m)
+void GEO::setMesh(const Mesh &m)
 {
 	mesh = m;
+}
+
+void GEO::setColour(const vec3 &col) {
+	mesh.AddColour(col);
 }
 
 Mesh& GEO::getMesh()
@@ -52,24 +56,39 @@ Shader GEO::getShader()
 	return shader;
 }
 
-void GEO::setShader(Shader &s)
+void GEO::setShader(const Shader &s)
 {
 	shader = s;
 }
 
-//Adds mesh file to mesh vector based on directory
-void GEO::addMeshShader()
-{
+bool GEO::initMesh() {
 	//Get all information for mesh
 
-	if (!mesh.ReadMesh("models/" + filename))
+	if (!mesh.ReadMesh("models/" + filename)) {
 		cout << "Error reading mesh" << endl;
+		return 0;
+	}
+	if (!mesh.Initialize()) {
+		return 0;
+	}
 
-	//Add colour for the moment; this can be taken out
-	//or colour changed/colour added to obj files and 
-	//not here
-	vec3 red(1.f, 0.f, 0.f);
-	mesh.AddColour(&red);
+	cout << "number of verts: " << mesh.vertices.size() << endl;
+	cout << "Loaded " << filename << endl;
+	return 1;
+}
+
+bool GEO::initBuffers() {
+	if (!mesh.Initialize()) {
+		return 0;
+	}
+	return 1;
+}
+//Adds mesh file to mesh vector based on directory
+//NOTE: This is kind of overkill for what we actually need.
+/*
+void GEO::addMeshShader()
+{
+
 	string vertex;
 	string frag;
 
@@ -87,6 +106,16 @@ void GEO::addMeshShader()
 	cout << "number of verts: " << mesh.vertices.size() << endl;
 	cout << "Loaded " << getFilename() << endl;
 }
+*/
+
+//Adds shaders 
+void GEO::addShaders(const string &vert, const string &frag)
+{
+	shader.program = getShader().InitializeShaders(vert, frag);
+}
 void GEO::shutdown()
 {
+	shader.DestroyShaders();
+	texture.DestroyTexture();
+	mesh.DestroyMesh();
 }

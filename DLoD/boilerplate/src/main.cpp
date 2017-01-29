@@ -1,15 +1,16 @@
 #include "Game/main.h"
 
+using namespace std;
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer
-void RenderMesh(Mesh *mesh, Shader *shader, vec3 &position)
+void RenderGEO(GEO *geo)
 {
 
 
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(shader->program);
-	glBindVertexArray(mesh->vertexArray);
+	glUseProgram(geo->getShader().program);
+	glBindVertexArray(geo->getMesh().vertexArray);
 
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
@@ -17,14 +18,14 @@ void RenderMesh(Mesh *mesh, Shader *shader, vec3 &position)
 	_view = camera.calculateViewMatrix();
 	
 	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, value_ptr(_view));
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, value_ptr(_projection));
-	glUniform3fv(glGetUniformLocation(shader->program, "lightPosition"), 1, value_ptr(_lightSource));
-	glUniform3fv(glGetUniformLocation(shader->program, "position"), 1, value_ptr(position));
+	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "projection"), 1, GL_FALSE, value_ptr(_projection));
+	glUniform3fv(glGetUniformLocation(geo->getShader().program, "lightPosition"), 1, value_ptr(_lightSource));
+	glUniform3fv(glGetUniformLocation(geo->getShader().program, "position"), 1, value_ptr(geo->GetPosition()));
 
 	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
 
-	glDrawElements(GL_TRIANGLES, mesh->elementCount, GL_UNSIGNED_SHORT, 0);
+	glDrawElements(GL_TRIANGLES, geo->getMesh().elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);
 	glUseProgram(0);
@@ -109,9 +110,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
     case GLFW_KEY_A:
 		changeCamera();
-      break;
-    case GLFW_KEY_D:
-	  _rotate_y -= 1.0f;
       break;
 
     default:
@@ -229,58 +227,62 @@ int main(int argc, char *argv[])
 
 
 	//adds a new object for each .obj file in model. populates gameObjects[], only inits the filename
-	int numObjFiles = LoadAllObjFiles("models");
-	cout << "Num obj files: " << numObjFiles << endl;
+	//int numObjFiles = LoadAllObjFiles("models");
+	//cout << "Num obj files: " << numObjFiles << endl;
+
 
 	//initalize all gameObject Meshes, Shaders, textures; not working exactly
+	GEO g;
+	gameObjects.push_back(g);
+	gameObjects.push_back(g);
+	gameObjects.push_back(g);
+	gameObjects.push_back(g);
+	gameObjects.push_back(g);
 	for (int i = 0; i < gameObjects.size(); i++)
 	{
-		if (!gameObjects[3].getMesh().Initialize()) {
+		gameObjects[i].setFilename("teapot.obj");
+		if (!gameObjects[i].initMesh()) {
 			cout << "Failed to initialize mesh." << endl;
 		}
-		gameObjects[3].addMeshShader();
+		gameObjects[i].addShaders("shaders/teapot.vert", "shaders/teapot.frag");
 	}
-	gameObjects[2] = gameObjects[3];	//another teapot for now
-	vec3 col(0, 1, 0);
-	gameObjects[2].getMesh().AddColour(&col);	//this doesn't set the colour
-	
-	vec3 pos = vec3(-3, 0, -10);
-	gameObjects[2].SetPosition(pos);	//this doesn't set the position
 
-	//if (!audio.InitMusic()) {
-	//	cout << "Failed to load music." << endl;
-	//}
+	gameObjects[0].setColour(vec3(0,1,0));	//green
+	gameObjects[1].setColour(vec3(1,0,0));	//red
+	gameObjects[2].setColour(vec3(0, 0, 1));	//blue
+	gameObjects[3].setColour(vec3(1, 1, 0));	//yellow
+	gameObjects[4].setColour(vec3(1, 0, 1));	//magenta
 
-	//if (!audio.PlayMusic()) {
-	//	cout << "Failed to play music" << endl;
-	//}
+	gameObjects[1].SetPosition(vec3(-3,0,-10));	//this doesn't set the position
+	gameObjects[2].SetPosition(vec3(0, 2, 0));	//this doesn't set the position
+	gameObjects[3].SetPosition(vec3(-3, 0, 0));	//this doesn't set the position
+	gameObjects[4].SetPosition(vec3(0, -4, 2));	//this doesn't set the position
 
+
+	string musicFile= "music/BTS.wav";
+	if (!audio.InitMusic(musicFile.c_str())) {
+		cout << "Failed to load music." << endl;
+	}
+
+	if (!audio.PlayMusic()) {
+		cout << "Failed to play music" << endl;
+	}
+
+	for (int i = 0; i < gameObjects.size(); i++) {
+		if (!gameObjects[i].initBuffers()) {
+			cout << "Could not initialize buffers for game object " << i << endl;
+		}
+	}
 	glEnable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
-		//Just renders first mesh for now.
-		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
 
-		/*RenderMesh(&meshes[3], &meshes[3].shader);*/
-
-		//This code isn't working properly right now.
-	/*	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
-		_view = camera.calculateViewMatrix();
-		mesh.cameraInfo._projection = _projection;
-		mesh.cameraInfo._view = _view;
-		mesh.cameraInfo._lightSource = _lightSource;
-		mesh.Render(&shader, &mesh.cameraInfo);*/
-
-		//RenderTriangle(&geometry, &shader);
-		//moveCamera()
-		
-		//for each (GEO obj in gameObjects)
-		//{
-
-		RenderMesh(&gameObjects[3].getMesh(), &gameObjects[3].getShader(),gameObjects[3].GetPosition());
-		RenderMesh(&gameObjects[2].getMesh(), &gameObjects[2].getShader(), vec3(-3,0,-10));
+		//render all game objects to screen
+		for (int i = 0; i < gameObjects.size(); i++) {
+			RenderGEO(&gameObjects[i]);
+		}
 
 
 		//RenderMesh(&gameObjects[2].getMesh(), &gameObjects[2].getShader());
@@ -312,7 +314,8 @@ void PrintDirections() {
 	cout << "ESC: Exit program" << endl;
 }
 
-//Loads meshes
+//Loads all meshes from directory
+//NOTE: We don't really need this, it's overkill for what we need.
 int LoadAllObjFiles(const char *pathname) {
 
 	//Get the files in the directory desired.
