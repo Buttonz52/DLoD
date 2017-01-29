@@ -17,9 +17,13 @@ public:
 
 	void PauseMusic();
 
+	void Audio::PlaySfx(Mix_Chunk *sfx);
+
 	void ResumeMusic();
 
 	void PausePlay();
+
+	Mix_Chunk *horn = NULL;
 
 private:
 	bool on;

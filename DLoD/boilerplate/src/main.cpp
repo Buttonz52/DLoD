@@ -80,6 +80,10 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	case GLFW_KEY_P:
 		audio.PausePlay();
 		break;
+
+	case GLFW_KEY_S:
+		audio.PlaySfx(audio.horn);
+		break;
       
     case GLFW_KEY_I:
       camera.translate3D(vec3(0,0.2,0));
