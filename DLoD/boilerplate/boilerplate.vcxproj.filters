@@ -73,6 +73,9 @@
     <Filter Include="Source Files\GEO\vehicle">
       <UniqueIdentifier>{5797f7aa-d265-4a84-bcda-b95e15891de9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Config Files">
+      <UniqueIdentifier>{cc3725f7-b460-4fb2-9db9-0af7dfd7a4eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\middleware\glad\src\glad.c">
@@ -250,5 +253,10 @@
     <None Include="shaders\teapot.frag">
       <Filter>Shaders\Fragment</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config\config.txt">
+      <Filter>Config Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -1,5 +1,56 @@
 #include "Game/main.h"
 
+using namespace std;
+// --------------------------------------------------------------------------
+// Rendering function that draws our scene to the frame buffer
+void RenderGEO(GEO *geo)
+{
+
+
+	// bind our shader program and the vertex array object containing our
+	// scene geometry, then tell OpenGL to draw our geometry
+	glUseProgram(geo->getShader().program);
+	glBindVertexArray(geo->getMesh().vertexArray);
+
+	vec3 fp = vec3(0, 0, 0);		//focal point
+
+	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
+	_view = camera.calculateViewMatrix();
+	
+	//uniform variables
+	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "projection"), 1, GL_FALSE, value_ptr(_projection));
+	glUniform3fv(glGetUniformLocation(geo->getShader().program, "lightPosition"), 1, value_ptr(_lightSource));
+	glUniform3fv(glGetUniformLocation(geo->getShader().program, "position"), 1, value_ptr(geo->GetPosition()));
+
+	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
+
+	glDrawElements(GL_TRIANGLES, geo->getMesh().elementCount, GL_UNSIGNED_SHORT, 0);
+	// reset state to default (no shader or geometry bound)
+	glBindVertexArray(0);
+	glUseProgram(0);
+	//mesh->texture.UnbindTexture(GL_TEXTURE_2D);
+	// check for an report any OpenGL errors
+	CheckGLErrors();
+}
+//changes between cameras
+//This is just messing around with stuff, feel free to change implementation/whatnot.
+//-Kiersten
+
+void changeCamera() {
+	camIndex >= testCams.size()-1 ? camIndex = 0 : camIndex++;	//if statement: increment/reset camIndex 
+	camera = testCams[camIndex];		//new camera
+
+	//testing purposes only
+	vec3 *c = camera.getCenter();		//just printing out camera center for testing purposes, delete later
+	cout << c->x << " " << c->y << " " << c->z << endl;
+}
+
+void clearScreen() {
+	// clear screen to a dark grey colour;
+	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
 // --------------------------------------------------------------------------
 // GLFW callback functions
 
@@ -20,15 +71,11 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     case GLFW_KEY_ESCAPE:
       glfwSetWindowShouldClose(window, GL_TRUE);
       break;
-      
+
 	case GLFW_KEY_P:
 		audio.PausePlay();
 		break;
-
-	case GLFW_KEY_S:
-		audio.PlaySfx(audio.horn);
-		break;
-
+      
     case GLFW_KEY_I:
       camera.translate3D(vec3(0,0.2,0));
       break;
@@ -62,10 +109,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
       break;
 
     case GLFW_KEY_A:
-	  _rotate_y += 1.0f;
-      break;
-    case GLFW_KEY_D:
-	  _rotate_y -= 1.0f;
+		changeCamera();
       break;
 
     default:
@@ -159,18 +203,64 @@ int main(int argc, char *argv[])
 
 
 	//Intialize GLAD
-	#ifndef LAB_LINUX
+#ifndef LAB_LINUX
 	if (!gladLoadGL())
 	{
 		cout << "GLAD init failed" << endl;
 		return -1;
 	}
-	#endif
+#endif
 
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
 
-	if (!audio.InitMusic("music/music.wav")) {
+
+	//// call function to load and compile shader programs
+
+	////meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
+
+	//meshes[3].shader.InitializeShaders("shaders/teapot.vert", "shaders/teapot.frag");
+	////glEnable(GL_TEXTURE_2D);
+	//if (!meshes[3].Initialize()) {
+	//	cout << "ERROR: Could not initialize mesh." << endl;
+	//}
+
+
+	//adds a new object for each .obj file in model. populates gameObjects[], only inits the filename
+	//int numObjFiles = LoadAllObjFiles("models");
+	//cout << "Num obj files: " << numObjFiles << endl;
+
+
+	//initalize all gameObject Meshes, Shaders, textures; not working exactly
+	GEO g;
+	gameObjects.push_back(g);
+	gameObjects.push_back(g);
+	gameObjects.push_back(g);
+	gameObjects.push_back(g);
+	gameObjects.push_back(g);
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		gameObjects[i].setFilename("teapot.obj");
+		if (!gameObjects[i].initMesh()) {
+			cout << "Failed to initialize mesh." << endl;
+		}
+		gameObjects[i].addShaders("shaders/teapot.vert", "shaders/teapot.frag");
+	}
+
+	gameObjects[0].setColour(vec3(0,1,0));	//green
+	gameObjects[1].setColour(vec3(1,0,0));	//red
+	gameObjects[2].setColour(vec3(0, 0, 1));	//blue
+	gameObjects[3].setColour(vec3(1, 1, 0));	//yellow
+	gameObjects[4].setColour(vec3(1, 0, 1));	//magenta
+
+	gameObjects[1].SetPosition(vec3(-3,0,-10));	//this doesn't set the position
+	gameObjects[2].SetPosition(vec3(0, 2, 0));	//this doesn't set the position
+	gameObjects[3].SetPosition(vec3(-3, 0, 0));	//this doesn't set the position
+	gameObjects[4].SetPosition(vec3(0, -4, 2));	//this doesn't set the position
+
+
+	string musicFile= "music/BTS.wav";
+	if (!audio.InitMusic(musicFile.c_str())) {
 		cout << "Failed to load music." << endl;
 	}
 
@@ -178,37 +268,27 @@ int main(int argc, char *argv[])
 		cout << "Failed to play music" << endl;
 	}
 
-	// call function to load and compile shader programs
-	int numObjFiles = LoadAllObjFiles("models");
-	cout << "Num obj files: " << numObjFiles << endl;
-
-	//Random testing purposes
-	vec3 grcol(0.0, 1.0, 0.0);
-	meshes[2].AddColour(&grcol);
-
-	meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
-	Player p;
-	p.vehicle.mesh = meshes[2];
-	p.vehicle.mesh.shader.InitializeShaders(p.vehicle.mesh.vertex, p.vehicle.mesh.fragment);
-	//glEnable(GL_TEXTURE_2D);
-	if (!p.vehicle.mesh.Initialize()) {
-		cout << "ERROR: Could not initialize mesh." << endl;
+	for (int i = 0; i < gameObjects.size(); i++) {
+		if (!gameObjects[i].initBuffers()) {
+			cout << "Could not initialize buffers for game object " << i << endl;
+		}
 	}
+	glEnable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(window))
 	{
-		// call function to draw our scene
-		/*
-		if(g_play){
-		t += dt;
-		animateQuad(t);
-		}
-		*/
-		//Just renders first mesh for now.
-		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
+		clearScreen();
 
-		p.playerCam = camera;	//This is pretty hacky...
-		p.RenderMesh(winRatio, _lightSource, width, height);
+		//render all game objects to screen
+		for (int i = 0; i < gameObjects.size(); i++) {
+			RenderGEO(&gameObjects[i]);
+		}
+
+
+		//RenderMesh(&gameObjects[2].getMesh(), &gameObjects[2].getShader());
+
+		//}
+	
 
 		glfwSwapBuffers(window);
 
@@ -216,8 +296,8 @@ int main(int argc, char *argv[])
 	}
 
 	// clean up allocated resources before exits
-	for (int i = 0; i < meshes.size(); i++) {
-		meshes[i].DestroyMesh();
+	for (int i = 0; i < gameObjects.size(); i++) {
+		gameObjects[i].shutdown();
 	}
 
 	glfwDestroyWindow(window);
@@ -234,7 +314,8 @@ void PrintDirections() {
 	cout << "ESC: Exit program" << endl;
 }
 
-//Loads meshes
+//Loads all meshes from directory
+//NOTE: We don't really need this, it's overkill for what we need.
 int LoadAllObjFiles(const char *pathname) {
 
 	//Get the files in the directory desired.
@@ -257,11 +338,20 @@ int LoadAllObjFiles(const char *pathname) {
 			if (found!=string::npos) 
 			{
 				//Get path name for parsing file
-				string s(pathname);
-				s += "/" + string(entity->d_name);
+				//Set to 30 arbitrarily
 
-				//Add mesh to mesh vector
-				AddMesh(&string(s), &string (entity->d_name));
+				//Resource: http://www.cplusplus.com/reference/cstring/strcat/
+				char s[30];
+				strcpy(s, pathname);
+				strcat(s, "/");
+				strcat(s, entity->d_name);
+
+				//GEO geo;
+				//geo.setFilename(entity->d_name);
+				
+				gameObjects.emplace_back();
+				gameObjects.at(gameObjects.size()-1).setFilename(entity->d_name);
+
 				numObjFiles++;
 			}
 		}
@@ -271,34 +361,6 @@ int LoadAllObjFiles(const char *pathname) {
 		cout << "ERROR LoadAllObjFiles: Directory not found." << endl;
 	}
 	closedir(dir);
-	return numObjFiles;
+	return gameObjects.size();
 }
 
-//Adds mesh file to mesh vector based on directory
-void AddMesh(const string *pathname, const string * filename) {
-	Mesh mesh;
-	//Get all information for mesh
-
-	mesh.ReadMesh(*pathname);
-
-	//Add colour for the moment; this can be taken out
-	//or colour changed/colour added to obj files and 
-	//not here
-	vec3 red(1.f, 0.f, 0.f);
-	mesh.AddColour(&red);
-	string vertex;
-	string frag;
-
-	size_t endpos = string(*filename).find(".obj");
-	string shadername = string(*filename).substr(0, endpos);
-
-	string shaderpath = "shaders/";
-	mesh.vertex = shaderpath + shadername + ".vert";
-	mesh.fragment = shaderpath + shadername + ".frag";
-
-	//This gives an invalid valie.
-	//mesh.program = mesh.shader.InitializeShaders(vertex, frag);
-
-	meshes.push_back(mesh);
-	cout << "Loaded " << *pathname << endl;
-}

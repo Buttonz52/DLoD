@@ -6,12 +6,14 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
-	DestroyMesh();
+	//DestroyMesh();
 }
 
 //Reads object file using Assimp and converts to vectors of respective types.
 //Resources: https://learnopengl.com/#!Model-Loading/Model
 //https://nickthecoder.wordpress.com/2013/01/20/mesh-loading-with-assimp/
+
+//this-> to access mesh im calling this function from
 
 bool Mesh::ReadMesh(const string &filename) {
 	Assimp::Importer importer;
@@ -42,7 +44,7 @@ bool Mesh::ReadMesh(const string &filename) {
 		vec3 _normal(pNormal.x, pNormal.y, pNormal.z);
 		normals.push_back(_normal);	//normals are negative???? but multiplying my -1 scalar fixes it -bp
 
-		vec3 _uv(pUV.x, pUV.y, pUV.z);
+		vec2 _uv(pUV.x, pUV.y);
 		uvs.push_back(_uv);
 	}
 
@@ -54,20 +56,43 @@ bool Mesh::ReadMesh(const string &filename) {
 		faces.push_back(face.mIndices[1]);
 		faces.push_back(face.mIndices[2]);
 	}
+	elementCount = faces.size();
+
 	//delete mesh;
 	//delete scene;
 	//cout << "Loaded " << filename << endl;
 	return true;
 }
 
-void Mesh::AddColour(vec3 *colour) {
+aiVector3D Mesh::AddUV(const aiVector3D &vertex) {
+
+	float theta;
+	float phi;
+	float r = sqrt(vertex.x*vertex.x + vertex.y*vertex.y + vertex.z*vertex.z);
+	if (r == 0.f) {
+		theta = 0.f;
+		phi = 0.f;
+	}
+	else {
+		//This creates a seam
+		//	theta = 0.5f*((atan2(vertex.x,vertex.z)/PI)+1.0f);
+		//	phi = 0.5f + asin(-vertex.y)/PI;
+
+		//No seam, but texture is doubled and looks kind of funny at edges.
+		theta = asin(vertex.x / r) / (PI)+0.5f;
+		phi = (acos(vertex.y / r)) / (PI);
+	}
+	return aiVector3D(theta, phi, r);
+}
+
+void Mesh::AddColour(const vec3 &colour) {
 	colours.clear();
 	if (faces.size() == 0) {
 		cout << "ERROR MESH: Mesh not loaded to add colour." << endl;
 	}
 	else {
 		for (int i = 0; i < faces.size(); i++) {
-			colours.push_back(*colour);
+			colours.push_back(colour);
 		}
 	}
 }
@@ -79,7 +104,7 @@ void Mesh::AddTexture(const char *filename) {
 bool Mesh::Initialize() {
 
 	/* Initialization of buffers for mesh goes here */
-	elementCount = faces.size();
+	
 	// these vertex attribute indices correspond to those specified for the
 	// input variables in the vertex shader
 	const GLuint VERTEX_INDEX = 0;
@@ -132,62 +157,6 @@ bool Mesh::Initialize() {
 	return !CheckGLErrors();
 }
 
-//Render isn't working with camera at the moment: Issues with updating
-//matrices or something.
-/*void Mesh::Render(MyShader *shader, CameraInfo *c) {
-	// Rendering code for mesh goes here 
-	// clear screen to a dark grey colour
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-
-	// bind our shader program and the vertex array object containing our
-	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(shader->program);
-	glBindVertexArray(vertexArray);
-
-	vec3 fp = vec3(0, 0, 0);
-
-
-
-	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "modelview"), 1, GL_FALSE, glm::value_ptr(c->_view));
-	glUniformMatrix4fv(glGetUniformLocation(shader->program, "projection"), 1, GL_FALSE, glm::value_ptr(c->_projection));
-	glUniform3fv(glGetUniformLocation(shader->program, "lightPosition"), 1, glm::value_ptr(c->_lightSource));
-
-	//Drawing obj files doesn't work yet.
-	//glDrawArrays(GL_TRIANGLES, 0, geometry->elementCount);
-
-	//JAN 16: This works now. //This is in Allan's code, but nothing appears.  TODO: Fix it.
-	glDrawElements(GL_TRIANGLES, elementCount, GL_UNSIGNED_SHORT, 0);
-	// reset state to default (no shader or geometry bound)
-	glBindVertexArray(0);
-	glUseProgram(0);
-
-	// check for an report any OpenGL errors
-	CheckGLErrors();
-}*/
-
-aiVector3D Mesh::AddUV(aiVector3D vertex) {
-	float theta;
-	float phi;
-	float r = sqrt(vertex.x*vertex.x + vertex.y*vertex.y + vertex.z*vertex.z);
-	if (r == 0.f) {
-		theta = 0.f;
-		phi = 0.f;
-	}
-	else {
-		//This creates a seam
-		//	theta = 0.5f*((atan2(vertex.x,vertex.z)/PI)+1.0f);
-		//	phi = 0.5f + asin(-vertex.y)/PI;
-
-		//No seam, but texture is doubled and looks kind of funny at edges.
-		theta = asin(vertex.x / r) / (PI)+0.5f;
-		phi = (acos(vertex.y / r)) / (PI);
-	}
-	return aiVector3D(theta, phi, r);
-}
-
 //Clears all vectors
 void Mesh::ClearMesh() {
 	colours.clear();
@@ -206,6 +175,4 @@ void Mesh::DestroyMesh() {
 
 	glDeleteVertexArrays(1, &vertexArray);
 	glDeleteProgram(program);
-	//Destroy the shader
-	shader.DestroyShaders();
 }

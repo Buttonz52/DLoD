@@ -2,7 +2,6 @@
 #define MESH_H
 
 #include "../Game/Utility.h"
-#include "Shader.h"
 #include "Texture.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -31,22 +30,20 @@ public:
 	//Render not working with camera right now.
 	//void Mesh::Render(MyShader *shader, CameraInfo *c);
 	void AddTexture(const char *filename);
-	void AddColour(vec3 *colour);
-
+	void AddColour(const vec3 &colour);
 	void ClearMesh();
 	void DestroyMesh();
+
 	// Variables
 	vector<vec3> colours;
 	vector<vec3> vertices;
-	vector<vec3> uvs;
+	vector<vec2> uvs;
 	vector<GLushort> faces;
 	vector<vec3> normals;
-	string vertex, fragment;
 	GLuint vertexArray;
 	GLuint program;
 	GLsizei elementCount;
-	Shader shader;
-	Texture texture;
+	
 private:
 
 	GLuint vertexBuffer;
@@ -54,7 +51,7 @@ private:
 	GLuint indicesBuffer;
 	GLuint textureBuffer;
 	GLuint colourBuffer; //might not need
-	aiVector3D AddUV(aiVector3D vertex);
+	aiVector3D AddUV(const aiVector3D &vertex);
 	//GLuint vertexArray;
 
 
