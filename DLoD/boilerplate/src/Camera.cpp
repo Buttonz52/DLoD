@@ -38,7 +38,7 @@ void Camera::setCenter(vec3 &c) {
 void Camera::setAlt(float newAlt)
 {
 	alt = newAlt;
-	alt = min(max(alt, 0.00001f), M_PI - 0.000001f);
+	alt = min(max(alt, 0.000001f), M_PI - 0.000001f);
 }
 
 void Camera::setAzu(float newAzu)
@@ -49,7 +49,7 @@ void Camera::setAzu(float newAzu)
 void Camera::incrementAlt(float newAlt)
 {
 	alt += newAlt;
-	alt = min(max(alt, 0.00001f), M_PI - 0.000001f);
+	alt = min(max(alt, 0.000001f), M_PI - 0.000001f);
 }
 
 void Camera::incrementAzu(float newAzu)

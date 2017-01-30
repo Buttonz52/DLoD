@@ -76,6 +76,33 @@ void ErrorCallback(int error, const char* description)
 	cout << description << endl;
 }
 
+
+// handles keyboard input events when we want multiple keys pressed at once
+void AlternKeyCallback(GLFWwindow* window)
+{
+  int state;
+  state = glfwGetKey(window, GLFW_KEY_I);
+  if (state == GLFW_PRESS) {
+    camera->translate3D(vec3(0, 0, 0.2));
+  }
+
+  state = glfwGetKey(window, GLFW_KEY_K);
+  if (state == GLFW_PRESS) {
+    camera->translate3D(vec3(0, 0, -0.2));
+  }
+
+  state = glfwGetKey(window, GLFW_KEY_J);
+  if (state == GLFW_PRESS) {
+    camera->translate3D(vec3(-0.2, 0, 0));
+  }
+
+  state = glfwGetKey(window, GLFW_KEY_L);
+  if (state == GLFW_PRESS) {
+    camera->translate3D(vec3(0.2, 0, 0));
+  }
+}
+
+
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -96,22 +123,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		audio.PlaySfx(audio.horn);
 		break;
       
-    case GLFW_KEY_I:
-      camera->translate3D(vec3(0,0.2,0));
-      break;
-      
-    case GLFW_KEY_K:
-      camera->translate3D(vec3(0,-0.2,0));
-      break;
-      
-    case GLFW_KEY_J:
-      camera->translate3D(vec3(-0.2,0,0));
-      break;
-      
-    case GLFW_KEY_L:
-      camera->translate3D(vec3(0.2,0,0));
-      break;
-
     case GLFW_KEY_RIGHT:
       camera->incrementAzu(-M_PI/180);
       break;
@@ -371,6 +382,7 @@ int main(int argc, char *argv[])
 		RenderGEO(&skybox);
 		glfwSwapBuffers(window);
 
+    AlternKeyCallback(window);
 		glfwPollEvents();
 	}
 
