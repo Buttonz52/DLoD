@@ -27,13 +27,18 @@ public:
 	void addShaders(const string &vertex, const string &fragment);
 	void setMesh(const Mesh &m);
 	void setColour(const vec3 &col);
+	void setTexture(const Texture &texture);
+	Texture &getTexture();
 	
 	Mesh& getMesh();
-	Shader getShader();
+	Shader &getShader();
 	void setShader(const Shader &s);
 	bool initMesh();
 	bool initBuffers();
+	bool initTexture(const string &filename, GLuint target);
+	bool initSkybox(const vector <string> &filenames);
 	void shutdown();		//destroy shader, texture, mesh
+	bool hasTexture;
 
 private:
 	vec3 scale;

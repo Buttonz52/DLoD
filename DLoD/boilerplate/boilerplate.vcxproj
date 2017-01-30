@@ -192,12 +192,14 @@
     <ClInclude Include="headers\PhysXMain.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\cube.frag" />
-    <None Include="shaders\cube.vert" />
+    <None Include="shaders\skybox.frag" />
+    <None Include="shaders\skybox.vert" />
     <None Include="shaders\sphere.frag" />
     <None Include="shaders\sphere.vert" />
     <None Include="shaders\teapot.frag" />
     <None Include="shaders\teapot.vert" />
+    <None Include="shaders\tex2D.frag" />
+    <None Include="shaders\tex2D.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="config\config.txt" />

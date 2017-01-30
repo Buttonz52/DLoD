@@ -1,5 +1,5 @@
 // ==========================================================================
-// Vertex program for barebones GLFW boilerplate
+// Vertex program cube maps
 //
 // Author:  Sonny Chan, University of Calgary
 // Date:    December 2015
@@ -18,16 +18,16 @@ uniform mat4 modelview;
 uniform mat4 projection;
 uniform mat4 model;
 uniform vec3 lightPosition;
+
 out vec3 Colour;
 out vec3 N;
 out vec3 L;
 out vec3 P;
 out vec3 V;
-
+out vec3 uv;
 void main()
 {
 	//very arbitrary scale for the moment; testing purposes.
-	float scale = 0.05f;
     // assign vertex position without modification
 	vec4 vertexCameraSpace = modelview * model * vec4(VertexPosition,1.0);
 	P = vertexCameraSpace.xyz/vertexCameraSpace.w;
@@ -41,5 +41,7 @@ void main()
 	L = normalize(L4.xyz - P);
 	V = normalize(-P);
     //Pass uv coordinates and position.	
+	//uv = UV;
+	uv = VertexPosition;		//vertex coords instead of UV coords for skybox
     gl_Position = projection * vertexCameraSpace;    
 }
