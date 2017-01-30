@@ -56,6 +56,7 @@ bool Mesh::ReadMesh(const string &filename) {
 		faces.push_back(face.mIndices[1]);
 		faces.push_back(face.mIndices[2]);
 	}
+	CalculateTangent();
 	elementCount = faces.size();
 
 	//delete mesh;
@@ -96,6 +97,43 @@ void Mesh::AddColour(const vec3 &colour) {
 		}
 	}
 }
+
+void Mesh::CalculateTangent() {
+	tangents.clear();	//Clear previous tangent coordinates.
+
+	for (int i = 0; i < vertices.size()-3; i += 3) {
+		//Get vertices of triangle.
+		glm::vec3 v0(vertices[i]);
+		glm::vec3 v1(vertices[i + 1]);
+		glm::vec3 v2(vertices[i + 2]);
+
+
+		glm::vec3 e1 = v1 - v0;
+		glm::vec3 e2 = v2 - v0;
+
+		glm::vec2 Duv1 = uvs[i + 1] - uvs[i];
+		glm::vec2 Duv2 = uvs[i + 2] - uvs[i];
+
+		GLfloat fractal;
+		float denom = (Duv1.x * Duv2.y - Duv1.y*Duv2.x);
+		if (denom != 0.f) {	//Check that not dividing by 0.
+			fractal = 1.f / denom;
+		}
+
+		else {
+			fractal = 0.f;
+		}
+		vec3 tan1;
+		tan1.x = fractal * (e1.x * Duv2.y + e2.x * (-Duv1.y));
+		tan1.y = fractal * (e1.y * Duv2.y + e2.y * (-Duv1.y));
+		tan1.z = fractal * (e1.z * Duv2.y + e2.z * (-Duv1.y));
+
+		//Push back tangent for each vertex of triangle.
+		tangents.push_back(tan1);
+		tangents.push_back(tan1);
+		tangents.push_back(tan1);
+	}
+}
 void Mesh::AddTexture(const char *filename) {
 	//if (!texture.InitializeTexture(filename, GL_TEXTURE_2D)) {
 	//	cout << "Error with mesh: Failed to initialize texture!" << endl;
@@ -111,6 +149,7 @@ bool Mesh::Initialize() {
 	const GLuint COLOUR_INDEX = 1;
 	const GLuint NORMAL_INDEX = 2;
 	const GLuint UV_INDEX = 3;
+	const GLuint TANGENT_INDEX = 4;
 
 	// create a vertex array object encapsulating all our vertex attributes
 	glGenVertexArrays(1, &vertexArray);
@@ -144,6 +183,13 @@ bool Mesh::Initialize() {
 	glVertexAttribPointer(UV_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(UV_INDEX);
 
+	// create another one for storing our tangents
+	glGenBuffers(1, &tangentBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, tangentBuffer);
+	glBufferData(GL_ARRAY_BUFFER, tangents.size() * sizeof(vec3), tangents.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(TANGENT_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(TANGENT_INDEX);
+
 	//Indices buffer.
 	glGenBuffers(1, &indicesBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer);
@@ -171,6 +217,7 @@ void Mesh::DestroyMesh() {
 	glDeleteBuffers(1, &normalBuffer);
 	glDeleteBuffers(1, &indicesBuffer);
 	glDeleteBuffers(1, &textureBuffer);
+	glDeleteBuffers(1, &tangentBuffer);
 	glDeleteBuffers(1, &colourBuffer);
 
 	glDeleteVertexArrays(1, &vertexArray);

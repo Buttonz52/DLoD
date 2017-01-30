@@ -13,7 +13,9 @@ void RenderGEO(GEO *geo)
 	if (geo->hasTexture) {
 		geo->getTexture().BindTexture(geo->getShader().program, "sampler");
 	}
-
+	if (geo->hasNormal) {
+		geo->getNormal().BindTexture(geo->getShader().program, "normalmap");
+	}
 	vec3 fp = vec3(0, 0, 0);		//focal point
 	mat4 scale = glm::scale(geo->getScale());
 	mat4 rotation = glm::rotate(mat4(), 0.f, vec3(1));	//no rotation for now; TODO: Implement properly later
@@ -315,6 +317,10 @@ int main(int argc, char *argv[])
 
 	//texture game object 2
 	if (!gameObjects[2].initTexture("textures/brick_wall_png.png", GL_TEXTURE_2D)) {
+		cout << "Failed to initialize texture." << endl;
+	}
+		//texture game object 2
+	if (!gameObjects[2].initNormal("textures/brick_wall_png_normal.png", GL_TEXTURE_2D)) {
 		cout << "Failed to initialize texture." << endl;
 	}
 	gameObjects[2].addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");

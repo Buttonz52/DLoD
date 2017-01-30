@@ -1,62 +1,22 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\Brendan-branch\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  glad.c
-  Vehicle.cpp
-  Utility.cpp
-  TrapPack.cpp
-  Trap.cpp
-  Texture.cpp
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\texture.cpp(69): warning C4018: '<': signed/unsigned mismatch
-  Shader.cpp
-  Player.cpp
-  PhysXMain.cpp
-  Mesh.cpp
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\mesh.cpp(36): warning C4018: '<': signed/unsigned mismatch
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\mesh.cpp(51): warning C4018: '<': signed/unsigned mismatch
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\mesh.cpp(82): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\mesh.cpp(83): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\mesh.cpp(94): warning C4018: '<': signed/unsigned mismatch
-  MediumVehicle.cpp
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   main.cpp
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(45): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(56): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(82): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(116): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(120): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(124): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(128): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(159): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(162): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(192): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(193): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(203): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(293): warning C4018: '<': signed/unsigned mismatch
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(353): warning C4018: '<': signed/unsigned mismatch
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(367): warning C4018: '<': signed/unsigned mismatch
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\main.cpp(378): warning C4018: '<': signed/unsigned mismatch
-  LightVehicle.cpp
-  Light.cpp
-  Item.cpp
-  Human.cpp
-  HeavyVehicle.cpp
-  HealthPack.cpp
-  GEO.cpp
-  GameTimer.cpp
-  GameState.cpp
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(47): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(58): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(84): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(118): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(122): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(126): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(130): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(161): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(164): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(194): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(195): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(205): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(295): warning C4018: '<': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(359): warning C4018: '<': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(373): warning C4018: '<': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(384): warning C4018: '<': signed/unsigned mismatch
+  Utility.cpp
   Generating Code...
-  Compiling...
-  Camera.cpp
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\camera.cpp(24): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\camera.cpp(25): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\camera.cpp(28): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\camera.cpp(29): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\camera.cpp(41): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\camera.cpp(52): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\brendan-branch\dlod\boilerplate\src\camera.cpp(73): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  Audio.cpp
-  ArmourPack.cpp
-  Arena.cpp
-  AI.cpp
-  Generating Code...
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  boilerplate.vcxproj -> C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\Brendan-branch\DLoD\dontSubmit\bin\Debug\boilerplate.exe
-  boilerplate.vcxproj -> C:\Users\Kiersten\Documents\U of C\Fifth Year\Winter 2017\CPSC 585\Brendan-branch\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

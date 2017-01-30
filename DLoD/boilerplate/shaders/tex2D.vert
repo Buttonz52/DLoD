@@ -12,6 +12,7 @@ layout(location = 0) in vec3 VertexPosition;
 layout(location = 1) in vec3 VertexColour;
 layout(location = 2) in vec3 Normal;
 layout(location = 3) in vec3 UV;
+layout(location = 4) in vec3 tangent;
 
 // output to be interpolated between vertices and passed to the fragment stage
 uniform mat4 modelview;
@@ -25,6 +26,7 @@ out vec3 L;
 out vec3 P;
 out vec3 V;
 out vec3 uv;
+out vec3 lVec;
 void main()
 {
 	//very arbitrary scale for the moment; testing purposes.
@@ -34,6 +36,13 @@ void main()
 
 	mat3 normalMatrix = mat3(transpose(inverse(modelview)));
     N = normalize(normalMatrix*Normal);
+
+	    vec3 T = normalize(mat3(transpose(inverse(modelview)))*tangent);
+	T = normalize(T-dot(T,N)*N);
+	
+	vec3 B = normalize(cross(T,N));
+	mat3 TBN = mat3(T,B,N);
+
     // assign output colour to be interpolated
     Colour = VertexColour;
 
@@ -42,6 +51,8 @@ void main()
 	V = normalize(-P);
     //Pass uv coordinates and position.	
 	//uv = UV;
+
+	    lVec = normalize(vec3(dot (L,T),dot (L,B),dot (L,N)));
 	uv = UV;
     gl_Position = projection * vertexCameraSpace;    
 }

@@ -29,6 +29,7 @@ public:
 	void setColour(const vec3 &col);
 	void setTexture(const Texture &texture);
 	Texture &getTexture();
+	Texture &getNormal();
 	
 	Mesh& getMesh();
 	Shader &getShader();
@@ -36,9 +37,11 @@ public:
 	bool initMesh();
 	bool initBuffers();
 	bool initTexture(const string &filename, GLuint target);
+	bool initNormal(const string &filename, GLuint target);
 	bool initSkybox(const vector <string> &filenames);
 	void shutdown();		//destroy shader, texture, mesh
 	bool hasTexture;
+	bool hasNormal;
 
 private:
 	vec3 scale;
@@ -49,6 +52,7 @@ private:
 	Mesh mesh;
 	Shader shader;
 	Texture texture;
+	Texture normal;
 	string audioFile;
 };
 #endif

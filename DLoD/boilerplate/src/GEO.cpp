@@ -8,6 +8,7 @@ GEO::GEO()
 	scale = vec3(1.f);
 	rotation = vec3(0);
 	hasTexture = 0;
+	hasNormal = 0;
 }
 
 
@@ -106,6 +107,9 @@ void GEO::setTexture(const Texture &tex) {
 Texture & GEO::getTexture() {
 	return texture;
 }
+Texture & GEO::getNormal() {
+	return normal;
+}
 bool GEO::initMesh() {
 	//Get all information for mesh
 
@@ -131,6 +135,12 @@ bool GEO::initTexture(const string &filename, GLuint target) {
 	hasTexture = 1;
 	return texture.InitializeTexture(filename, target);
 }
+
+bool GEO::initNormal(const string &filename, GLuint target) {
+	hasNormal = 1;
+	return normal.InitializeTexture(filename, target);
+}
+
 bool GEO::initSkybox(const vector <string> &filenames) {
 	hasTexture = 1;
 	return texture.InitializeSkybox(filenames);
