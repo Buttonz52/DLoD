@@ -10,6 +10,10 @@ void RenderGEO(GEO *geo)
 	glUseProgram(geo->getShader().program);
 	glBindVertexArray(geo->getMesh().vertexArray);
 
+	if (geo->hasTexture) {
+		geo->getTexture().BindTexture(geo->getShader().program, "sampler");
+	}
+
 	vec3 fp = vec3(0, 0, 0);		//focal point
 	mat4 scale = glm::scale(geo->getScale());
 	mat4 rotation = glm::rotate(mat4(), 0.f, vec3(1));	//no rotation for now; TODO: Implement properly later
@@ -36,15 +40,17 @@ void RenderGEO(GEO *geo)
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 }
-//changes between cameras
-//This is just messing around with stuff, feel free to change implementation/whatnot.
-//-Kiersten
+//changes between game objects
 void changeGEO() {
 	geoIndex >= gameObjects.size() - 1 ? geoIndex = 0 : geoIndex++;	//if statement: increment/reset camIndex 
 	currentGEO = &gameObjects[geoIndex];
 
 	cout << "Switching control to GEO: " << geoIndex << endl;
+
 }
+//changes between cameras
+//This is just messing around with stuff, feel free to change implementation/whatnot.
+//-Kiersten
 
 void changeCamera() {
 	camIndex >= testCams.size()-1 ? camIndex = 0 : camIndex++;	//if statement: increment/reset camIndex 
@@ -85,6 +91,10 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	case GLFW_KEY_P:
 		audio.PausePlay();
 		break;
+
+	case GLFW_KEY_SPACE:
+		audio.PlaySfx(audio.horn);
+		break;
       
     case GLFW_KEY_I:
       camera->translate3D(vec3(0,0.2,0));
@@ -118,15 +128,14 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
       camera->incrementAlt(M_PI/180);
       break;
 
-    case GLFW_KEY_C:
-		changeCamera();
-      break;
 	case GLFW_KEY_G:
 		changeGEO();
 		break;
-
+    case GLFW_KEY_TAB:
+		changeCamera();
+      break;
 	case GLFW_KEY_W:
-		currentGEO->updatePosition(vec3(0,factor,0));
+		currentGEO->updatePosition(vec3(0, factor, 0));
 		break;
 
 	case GLFW_KEY_A:
@@ -134,11 +143,11 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		break;
 
 	case GLFW_KEY_S:
-		currentGEO->updatePosition( vec3(0, -factor, 0));
+		currentGEO->updatePosition(vec3(0, -factor, 0));
 		break;
 
 	case GLFW_KEY_D:
-		currentGEO->updatePosition(vec3(factor,0, 0));
+		currentGEO->updatePosition(vec3(factor, 0, 0));
 		break;
 	case GLFW_KEY_E:
 		currentGEO->updatePosition(vec3(0, 0, -factor));
@@ -304,6 +313,33 @@ int main(int argc, char *argv[])
 	gameObjects[3].setPosition(vec3(-3, 0, 0));	//this doesn't set the position
 	gameObjects[4].setPosition(vec3(0, -4, 2));	//this doesn't set the position
 
+	//texture game object 2
+	if (!gameObjects[2].initTexture("textures/brick_wall_png.png", GL_TEXTURE_2D)) {
+		cout << "Failed to initialize texture." << endl;
+	}
+	gameObjects[2].addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+
+	//make skybox TODO: put all in a method?
+	vector<string> skyboxFiles = {
+		"textures/ame_ash/ashcanyon_rt.tga",
+		"textures/ame_ash/ashcanyon_lf.tga",
+		"textures/ame_ash/ashcanyon_up.tga",
+		"textures/ame_ash/ashcanyon_dn.tga",
+		"textures/ame_ash/ashcanyon_bk.tga",		
+		"textures/ame_ash/ashcanyon_ft.tga",
+	};
+
+	GEO skybox;
+	skybox.setFilename("cube.obj");
+	if (!skybox.initMesh()) {
+		cout << "Failed to initialize mesh." << endl;
+	}
+	//scale cube large
+	skybox.setScale(vec3(40.f));
+	if (!skybox.initSkybox(skyboxFiles)) {
+		cout << "Failed to initialize skybox." << endl;
+	}
+	skybox.addShaders("shaders/skybox.vert", "shaders/skybox.frag");
 
 	string musicFile= "music/BTS.wav";
 	if (!audio.InitMusic(musicFile.c_str())) {
@@ -331,7 +367,8 @@ int main(int argc, char *argv[])
 		for (int i = 0; i < gameObjects.size(); i++) {
 			RenderGEO(&gameObjects[i]);
 		}
-
+		//render skybox
+		RenderGEO(&skybox);
 		glfwSwapBuffers(window);
 
 		glfwPollEvents();
@@ -355,7 +392,7 @@ void PrintDirections() {
 	cout << "UP/DOWN/LEFT/RIGHT: Rotate camera" << endl;
 	cout << "ESC: Exit program" << endl;
 }
-
+/*
 //Loads all meshes from directory
 //NOTE: We don't really need this, it's overkill for what we need.
 int LoadAllObjFiles(const char *pathname) {
@@ -404,5 +441,5 @@ int LoadAllObjFiles(const char *pathname) {
 	}
 	closedir(dir);
 	return gameObjects.size();
-}
+}*/
 

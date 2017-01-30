@@ -8,7 +8,8 @@ RIGHT: rotate camera ccw
 LEFT: rotate camera cw
 UP: rotate camera up
 DOWN: rotate camera down
-C: change cameras
+TAB: change cameras
+SPACE: play sfx
 G: change GEOs
 W: move current GEO up
 A: move current GEO left

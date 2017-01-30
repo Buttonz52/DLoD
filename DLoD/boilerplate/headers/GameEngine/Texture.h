@@ -15,10 +15,10 @@ public:
 	int height;
 	Texture();
 	~Texture();
-	bool InitializeTexture(const char* filename, GLuint target);
-	bool InitializeSkybox(vector<const char*>* filename, GLuint target);
+	bool InitializeTexture(const string &filename, GLuint target);
+	bool Texture::InitializeSkybox(const vector<string> &filename);
 	void DestroyTexture();
-	bool BindTexture(GLuint program, GLuint target, string varName);
+	bool BindTexture(GLuint program, string varName);
 	void UnbindTexture(GLuint format);
 	// --------------------------------------------------------------------------
 	// Functions to set up OpenGL buffers for storing textures

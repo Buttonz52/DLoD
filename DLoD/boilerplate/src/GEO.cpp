@@ -7,6 +7,7 @@ GEO::GEO()
 	filename = "";
 	scale = vec3(1.f);
 	rotation = vec3(0);
+	hasTexture = 0;
 }
 
 
@@ -28,9 +29,10 @@ void GEO::updateScale(const vec3 &s) {
 	//can update later to include potential stretching and stuff
 	scale += s;
 	if (scale.x <= 0) {
-		scale -=s;
+		scale -= s;
 	}
- }
+}
+
 void GEO::setRotation(const vec3 & r)
 {
 	rotation = r;
@@ -44,6 +46,7 @@ vec3 &GEO::getRotation()
 void GEO::updateRotation(const vec3 &r) {
 	rotation += r;
 }
+
 vec3 &GEO::getPosition()
 {
 	return position;
@@ -57,6 +60,7 @@ void GEO::setPosition(const vec3 &pos)
 void GEO::updatePosition(const vec3 &p) {
 	position += p;
 }
+
 double GEO::GetRadius()
 {
 	return 0.0;
@@ -86,7 +90,7 @@ Mesh& GEO::getMesh()
 	return mesh;
 }
 
-Shader GEO::getShader()
+Shader& GEO::getShader()
 {
 	return shader;
 }
@@ -96,6 +100,12 @@ void GEO::setShader(const Shader &s)
 	shader = s;
 }
 
+void GEO::setTexture(const Texture &tex) {
+	texture = tex;
+}
+Texture & GEO::getTexture() {
+	return texture;
+}
 bool GEO::initMesh() {
 	//Get all information for mesh
 
@@ -113,10 +123,17 @@ bool GEO::initMesh() {
 }
 
 bool GEO::initBuffers() {
-	if (!mesh.Initialize()) {
-		return 0;
-	}
-	return 1;
+	return mesh.Initialize();
+
+}
+
+bool GEO::initTexture(const string &filename, GLuint target) {
+	hasTexture = 1;
+	return texture.InitializeTexture(filename, target);
+}
+bool GEO::initSkybox(const vector <string> &filenames) {
+	hasTexture = 1;
+	return texture.InitializeSkybox(filenames);
 }
 //Adds mesh file to mesh vector based on directory
 //NOTE: This is kind of overkill for what we actually need.

@@ -8,7 +8,6 @@
 #include "../GameEngine/Texture.h"
 #include "../GEO/Camera.h"
 #include "Audio.h"
-#include <dirent.h>
 
 using namespace std;
 
@@ -28,7 +27,7 @@ vector<Camera> testCams = {	//just objects for now, make pointers or smth later
 	Camera(vec3(0, 10, -10)),	//random
 	Camera(vec3(-4, -4, -5), vec3(-3, 0, -10))	//random
 };
-int camIndex = 0, geoIndex = 0;	//index of test cameras and geo objects
+int camIndex = 0, geoIndex = 0;	//index of test cameras
 
 int width = 512, height = 512;
 
@@ -53,6 +52,6 @@ void PrintDirections();
 
 // Mesh functions
 int LoadAllObjFiles(const char *pathname);	
-void AddMesh(const string *pathname, const string * filename);
+
 // --------------------------------------------------------------------------
 #endif

@@ -18,7 +18,7 @@ uniform mat4 modelview;
 uniform mat4 projection;
 uniform mat4 model;
 uniform vec3 lightPosition;
-//uniform vec3 position;
+
 out vec3 Colour;
 out vec3 N;
 out vec3 L;
