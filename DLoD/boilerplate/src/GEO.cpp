@@ -23,6 +23,14 @@ vec3 &GEO::getScale()
 {
 	return scale;
 }
+void GEO::updateScale(const vec3 &s) {
+	//ASSUMPTION: scale is equal and no shearing/stretching
+	//can update later to include potential stretching and stuff
+	scale += s;
+	if (scale.x <= 0) {
+		scale -= s;
+	}
+}
 
 void GEO::setRotation(const vec3 & r)
 {
@@ -34,14 +42,22 @@ vec3 &GEO::getRotation()
 	return rotation;
 }
 
+void GEO::updateRotation(const vec3 &r) {
+	rotation += r;
+}
+
 vec3 &GEO::getPosition()
 {
 	return position;
 }
 
-void GEO::SetPosition(const vec3 &pos)
+void GEO::setPosition(const vec3 &pos)
 {
 	position = pos;
+}
+
+void GEO::updatePosition(const vec3 &p) {
+	position += p;
 }
 
 double GEO::GetRadius()
