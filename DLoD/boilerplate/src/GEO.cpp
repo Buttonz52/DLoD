@@ -155,6 +155,7 @@ bool GEO::initBuffers() {
 
 bool GEO::initTexture(const string &filename, GLuint target) {
 	hasTexture = 1;
+	isPlane = 1;
 	return texture.InitializeTexture(filename, target);
 }
 bool GEO::initSkybox(const vector <string> &filenames) {

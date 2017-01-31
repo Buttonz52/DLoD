@@ -42,6 +42,7 @@ public:
 	void shutdown();		//destroy shader, texture, mesh
 	bool hasTexture;
 	bool isSkybox;
+	bool isPlane;
 
 private:
 	vec3 scale;

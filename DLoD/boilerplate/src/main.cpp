@@ -40,7 +40,7 @@ void RenderGEO(GEO *geo)
 	
 	//uniform variables
 	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "model"), 1, GL_FALSE, value_ptr(M));
-	if (!geo->isSkybox) {
+	if (!geo->isSkybox || !geo->isPlane) {
 		glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
 	}
 	else {
