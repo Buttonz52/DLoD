@@ -105,22 +105,22 @@ void AlternKeyCallback(GLFWwindow* window)
   int state;
   state = glfwGetKey(window, GLFW_KEY_I);
   if (state == GLFW_PRESS) {
-    camera->translate3D(vec3(0, 0, 0.2));
-  }
-
-  state = glfwGetKey(window, GLFW_KEY_K);
-  if (state == GLFW_PRESS) {
-    camera->translate3D(vec3(0, 0, -0.2));
-  }
-
-  state = glfwGetKey(window, GLFW_KEY_J);
-  if (state == GLFW_PRESS) {
-    camera->translate3D(vec3(-0.2, 0, 0));
+    camera->translate3D(vec3(0, 0, 0.5));
   }
 
   state = glfwGetKey(window, GLFW_KEY_L);
   if (state == GLFW_PRESS) {
-    camera->translate3D(vec3(0.2, 0, 0));
+    camera->translate3D(vec3(0, 0, -0.5));
+  }
+
+  state = glfwGetKey(window, GLFW_KEY_J);
+  if (state == GLFW_PRESS) {
+    camera->translate3D(vec3(-0.5, 0, 0));
+  }
+
+  state = glfwGetKey(window, GLFW_KEY_K);
+  if (state == GLFW_PRESS) {
+    camera->translate3D(vec3(0.5, 0, 0));
   }
 }
 
