@@ -51,7 +51,7 @@ private:
 	GLuint indicesBuffer;
 	GLuint textureBuffer;
 	GLuint colourBuffer; //might not need
-	aiVector3D AddUV(const aiVector3D &vertex);
+	aiVector3D AddUV(const aiVector3D &vertex, string filename);
 	//GLuint vertexArray;
 
 

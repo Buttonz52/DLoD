@@ -29,7 +29,7 @@ vector<Camera> testCams = {	//just objects for now, make pointers or smth later
 };
 int camIndex = 0, geoIndex = 0;	//index of test cameras
 
-int width = 512, height = 512;
+int width = 1920, height = 1080;
 
 double mouse_old_x, mouse_old_y;
 float _translate_z = 1.0;

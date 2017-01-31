@@ -11,7 +11,7 @@ Texture::~Texture() {}
 bool Texture::InitializeTexture(const string &filename, GLuint target)
 {
 	int numComponents;
-	stbi_set_flip_vertically_on_load(true);
+	stbi_set_flip_vertically_on_load(false);
 	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &numComponents, 0);
 	if (data != nullptr)
 	{

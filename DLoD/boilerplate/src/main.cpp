@@ -57,7 +57,8 @@ void RenderGEO(GEO *geo)
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);
 	glUseProgram(0);
-	//mesh->texture.UnbindTexture(GL_TEXTURE_2D);
+	if (geo->hasTexture)
+		geo->getTexture().UnbindTexture(GL_TEXTURE_2D);
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 }
@@ -353,7 +354,7 @@ int main(int argc, char *argv[])
 			cout << "Failed to initialize mesh." << endl;
 		}
 		gameObjects[i].addShaders("shaders/teapot.vert", "shaders/teapot.frag");
-		gameObjects[i].setScale(vec3(0.01f));
+		gameObjects[i].setScale(vec3(0.05f));
 	}
 
 	//set colours
@@ -364,10 +365,10 @@ int main(int argc, char *argv[])
 	gameObjects[4].setColour(vec3(1, 0, 1));	//magenta
 
 	//set positions
-	gameObjects[1].setPosition(vec3(-3,0,-10));	//this doesn't set the position
-	gameObjects[2].setPosition(vec3(0, 2, 0));	//this doesn't set the position
-	gameObjects[3].setPosition(vec3(-3, 0, 0));	//this doesn't set the position
-	gameObjects[4].setPosition(vec3(0, -4, 2));	//this doesn't set the position
+	gameObjects[1].setPosition(vec3(-15,0,-50));	//this doesn't set the position
+	gameObjects[2].setPosition(vec3(0, 20, 0));	//this doesn't set the position
+	gameObjects[3].setPosition(vec3(-15, 0, 0));	//this doesn't set the position
+	gameObjects[4].setPosition(vec3(0, -20, 10));	//this doesn't set the position
 
 	//texture game object 2
 	if (!gameObjects[2].initTexture("textures/brick_wall_png.png", GL_TEXTURE_2D)) {
@@ -385,13 +386,25 @@ int main(int argc, char *argv[])
 		"textures/ame_ash/ashcanyon_ft.tga",
 	};
 
+	GEO plane;
+	plane.setFilename("plane.obj");
+	if (!plane.initMesh()) {
+		cout << "Failed to initialize mesh." << endl;
+	}
+	plane.setScale(vec3(100.f));
+	if (!plane.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
+		cout << "Failed to initialize skybox." << endl;
+	}
+	plane.addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+	plane.setPosition(vec3(0, -3, 0));
+
 	GEO skybox;
 	skybox.setFilename("cube.obj");
 	if (!skybox.initMesh()) {
 		cout << "Failed to initialize mesh." << endl;
 	}
 	//scale cube large
-	skybox.setScale(vec3(40.f));
+	skybox.setScale(vec3(200.f));
 	if (!skybox.initSkybox(skyboxFiles)) {
 		cout << "Failed to initialize skybox." << endl;
 	}
@@ -425,6 +438,7 @@ int main(int argc, char *argv[])
 		}
 		//render skybox
 		RenderGEO(&skybox);
+		RenderGEO(&plane);
 		glfwSwapBuffers(window);
 
     AlternKeyCallback(window);

@@ -36,7 +36,7 @@ bool Mesh::ReadMesh(const string &filename) {
 	for (int i = 0; i < mesh->mNumVertices; i++) {
 		const aiVector3D pVertex = mesh->mVertices[i];
 		const aiVector3D pNormal = mesh->mNormals[i];
-		const aiVector3D pUV = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : AddUV(pVertex);
+		const aiVector3D pUV = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : AddUV(pVertex, filename);
 		
 		vec3 _vertex(pVertex.x, pVertex.y, pVertex.z);
 		vertices.push_back(_vertex);
@@ -64,7 +64,7 @@ bool Mesh::ReadMesh(const string &filename) {
 	return true;
 }
 
-aiVector3D Mesh::AddUV(const aiVector3D &vertex) {
+aiVector3D Mesh::AddUV(const aiVector3D &vertex, string type) {
 
 	float theta;
 	float phi;
@@ -79,8 +79,16 @@ aiVector3D Mesh::AddUV(const aiVector3D &vertex) {
 		//	phi = 0.5f + asin(-vertex.y)/PI;
 
 		//No seam, but texture is doubled and looks kind of funny at edges.
-		theta = asin(vertex.x / r) / (PI)+0.5f;
-		phi = (acos(vertex.y / r)) / (PI);
+		if (type == "models/plane.obj")
+		{
+			theta = asin(vertex.x / r) / (PI)+0.5f;
+			phi = (acos(vertex.z / r)) / (PI);
+		}
+		else //spherical coords
+		{
+			theta = asin(vertex.x / r) / (PI)+0.5f;
+			phi = (acos(vertex.y / r)) / (PI);
+		}
 	}
 	return aiVector3D(theta, phi, r);
 }

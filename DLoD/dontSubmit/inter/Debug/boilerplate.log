@@ -1,4 +1,55 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Desktop\master\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\master\DLoD\dontSubmit\bin\Debug\boilerplate.exe
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\master\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+﻿Build started 1/30/2017 9:55:30 PM.
+     1>Project "C:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\boilerplate.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /IC:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\Include /I"C:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2-2.0.5\include" /I"C:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2_mixer-2.0.1\include" /IC:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\boilerplate\headers /IC:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\dirent /IC:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\Assimp\include /IC:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\glfw\include /IC:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\glad\include /IC:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\stb /I"C:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\glm-0.9.8.2" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\\" /Fd"C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt src\main.cpp
+         main.cpp
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(67): warning C4018: '>=': signed/unsigned mismatch
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(78): warning C4018: '>=': signed/unsigned mismatch
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(131): warning C4305: 'initializing': truncation from 'double' to 'float'
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(149): warning C4305: 'argument': truncation from 'double' to 'float'
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(153): warning C4305: 'argument': truncation from 'double' to 'float'
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(157): warning C4305: 'argument': truncation from 'double' to 'float'
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(161): warning C4305: 'argument': truncation from 'double' to 'float'
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(196): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(199): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(249): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(250): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(260): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(350): warning C4018: '<': signed/unsigned mismatch
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(422): warning C4018: '<': signed/unsigned mismatch
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(436): warning C4018: '<': signed/unsigned mismatch
+     1>c:\users\radiance\desktop\dlod\dlod\boilerplate\src\main.cpp(449): warning C4018: '<': signed/unsigned mismatch
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\Lib\vc14win32 /LIBPATH:"C:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2-2.0.5\lib\x86" /LIBPATH:"C:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2_mixer-2.0.1\lib\x86" /LIBPATH:C:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\Assimp\lib\x86 /LIBPATH:C:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\..\middleware\glfw\lib PhysX3CommonDEBUG_x86.lib PhysX3DEBUG_x86.lib assimp.lib opengl32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib glfw3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.lib" /MACHINE:X86 C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\glad.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\AI.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Arena.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\ArmourPack.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Audio.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Camera.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\GameState.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\GameTimer.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\GEO.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\HealthPack.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\HeavyVehicle.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Human.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Item.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Light.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\LightVehicle.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\main.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\MediumVehicle.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Mesh.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\PhysXMain.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Player.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Shader.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Texture.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Trap.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\TrapPack.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Utility.obj
+         C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Vehicle.obj
+         boilerplate.vcxproj -> C:\Users\Radiance\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+     1>Done Building Project "C:\Users\Radiance\Desktop\DLoD\DLoD\boilerplate\boilerplate.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:02.13
