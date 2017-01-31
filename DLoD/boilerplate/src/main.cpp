@@ -14,20 +14,7 @@ void RenderGEO(GEO *geo)
 		geo->getTexture().BindTexture(geo->getShader().program, "sampler");
 	}
 
-	//rotation stuff.  Totally incorrect, help!
-	mat4 rotation, rx, ry, rz;
-	vec3 rotFlags = geo->getRotationFlags();
-	vec3 anglesRotated = geo->getRotation();
-	if (rotFlags.x) {
-		rx = rotate(mat4(), anglesRotated.x, vec3(1,0,0));
-	}
-	else if (rotFlags.y) {
-		ry = rotate(mat4(), anglesRotated.y, vec3(0,1,0));
-	}
-	else if (rotFlags.z) {
-		rz = rotate(mat4(), anglesRotated.z, vec3(0,0,1));
-	}
-	rotation = rz * ry * rx;	//help!
+	mat4 rotation = geo->getRotation();	
 
 	vec3 fp = vec3(0, 0, 0);		//focal point
 	mat4 scale = glm::scale(geo->getScale());
@@ -102,26 +89,58 @@ void ErrorCallback(int error, const char* description)
 // handles keyboard input events when we want multiple keys pressed at once
 void AlternKeyCallback(GLFWwindow* window)
 {
+
   int state;
+
+  // Camera movement
+  double factor = 0.5;
   state = glfwGetKey(window, GLFW_KEY_I);
-  if (state == GLFW_PRESS) {
-    camera->translate3D(vec3(0, 0, 0.5));
-  }
+  if (state == GLFW_PRESS)
+    camera->translate3D(vec3(0, 0, factor));
 
   state = glfwGetKey(window, GLFW_KEY_K);
-  if (state == GLFW_PRESS) {
-    camera->translate3D(vec3(0, 0, -0.5));
-  }
-
-  state = glfwGetKey(window, GLFW_KEY_L);
-  if (state == GLFW_PRESS) {
-    camera->translate3D(vec3(-0.5, 0, 0));
-  }
+  if (state == GLFW_PRESS) 
+    camera->translate3D(vec3(0, 0, -factor));
 
   state = glfwGetKey(window, GLFW_KEY_J);
-  if (state == GLFW_PRESS) {
-    camera->translate3D(vec3(0.5, 0, 0));
-  }
+  if (state == GLFW_PRESS) 
+    camera->translate3D(vec3(factor, 0, 0));
+
+  state = glfwGetKey(window, GLFW_KEY_L);
+  if (state == GLFW_PRESS) 
+    camera->translate3D(vec3(-factor, 0, 0));
+
+  factor = 0.05;
+
+  //rotations of GEOs
+  state = glfwGetKey(window, GLFW_KEY_3);
+  if (state == GLFW_PRESS)
+    currentGEO->updateRotation(vec3(factor, 0, 0));
+
+  state = glfwGetKey(window, GLFW_KEY_4);
+  if (state == GLFW_PRESS)
+    currentGEO->updateRotation(vec3(-factor, 0, 0));
+
+  state = glfwGetKey(window, GLFW_KEY_5);
+  if (state == GLFW_PRESS)
+    currentGEO->updateRotation(vec3(0, factor, 0));
+
+  state = glfwGetKey(window, GLFW_KEY_6);
+  if (state == GLFW_PRESS)
+    currentGEO->updateRotation(vec3(0, -factor, 0));
+
+  state = glfwGetKey(window, GLFW_KEY_7);
+  if (state == GLFW_PRESS)
+    currentGEO->updateRotation(vec3(0, 0, factor));
+
+  state = glfwGetKey(window, GLFW_KEY_8);
+  if (state == GLFW_PRESS)
+    currentGEO->updateRotation(vec3(0, 0, -factor));
+
+
+  //Movement of the geos -- maybe
+
+>>>>>>> fixed the rotation of the geos
 }
 
 
@@ -197,26 +216,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		break;
 	case GLFW_KEY_2:
 		currentGEO->updateScale(vec3(-factor*0.01));
-		break;
-
-	//rotations of GEOs.  Please fix
-	case GLFW_KEY_3:
-		currentGEO->updateRotation(vec3(factor,0,0));
-		break;
-	case GLFW_KEY_4:
-		currentGEO->updateRotation(vec3(-factor,0,0));
-		break;
-	case GLFW_KEY_5:
-		currentGEO->updateRotation(vec3(0,factor,0));
-		break;
-	case GLFW_KEY_6:
-		currentGEO->updateRotation(vec3(0,-factor,0));
-		break;
-	case GLFW_KEY_7:
-		currentGEO->updateRotation(vec3(0,0,factor));
-		break;
-	case GLFW_KEY_8:
-		currentGEO->updateRotation(vec3(0,0,-factor));
 		break;
 
     default:

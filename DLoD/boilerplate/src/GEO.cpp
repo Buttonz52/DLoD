@@ -6,8 +6,7 @@ GEO::GEO()
 	radius = 1.f;
 	filename = "";
 	scale = vec3(1.f);
-	isRotated  = vec3(0);
-	rotateX = 0; rotateY = 0; rotateZ = 0;
+	xRotation = 0; yRotation = 0; zRotation = 0;
 	hasTexture = 0;
 	isSkybox = 0;	//make skybox a separate GEO?
 }
@@ -38,41 +37,55 @@ void GEO::updateScale(const vec3 &s) {
 //set rotation of GEO
 void GEO::setRotation(const vec3 & r)
 {
-	rotateX = r.x;
-	rotateY = r.y;
-	rotateZ = r.z;
+	xRotation = r.x;
+	yRotation = r.y;
+	zRotation = r.z;
 }
 
-//get rotation as vec3 with x rotation, y rotation, z rotation
-vec3 &GEO::getRotation()
+// Get the objects total rotation matrix
+mat4 GEO::getRotation()
 {
-	return vec3(rotateX, rotateY, rotateZ);
+  mat4 x = mat4(1);
+  mat4 y = mat4(1);
+  mat4 z = mat4(1);
+
+  // fix the rotation around the z axis
+  z[0][0] = cos(zRotation);
+  z[0][1] = -sin(zRotation);
+  z[1][0] = sin(zRotation);
+  z[1][1] = cos(zRotation);
+
+  // fix the rotation around the y axis
+  y[0][0] = cos(yRotation);
+  y[0][2] = -sin(yRotation);
+  y[2][0] = sin(yRotation);
+  y[2][2] = cos(yRotation);
+
+  // fix the rotation around the x axis
+  x[1][1] = cos(xRotation);
+  x[1][2] = -sin(xRotation);
+  x[2][1] = sin(xRotation);
+  x[2][2] = cos(xRotation);
+
+  // Return the rotation matrix
+  return x * y * z;
 }
 
 //updates rotation
 void GEO::updateRotation(const vec3 &r) {
 	if (r.x != 0) {
-		rotateX += r.x;
-		isRotated.x = 1;
+		xRotation += r.x;
 	}
 	if (r.y != 0) {
-		rotateY += r.y;
-		isRotated.y = 1;
+		yRotation += r.y;
 	}
 	if (r.z != 0) {
-		rotateZ += r.z;
-		isRotated.z = 1;
+		zRotation += r.z;
 	}
 
 }
-//get rotation flags
-vec3& GEO::getRotationFlags() {
-	return isRotated;
-}
-//resets flags for whether to rotate
-void GEO::resetRotationFlags() {
-	isRotated = vec3(0);
-}
+
+
 vec3 &GEO::getPosition()
 {
 	return position;

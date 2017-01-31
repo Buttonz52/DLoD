@@ -15,7 +15,6 @@ public:
 	vec3 &getScale();
 	void updateScale(const vec3 &scale);
 	void setRotation(const vec3 &rotation);
-	vec3 &getRotation();
 	void updateRotation(const vec3 &rotation);
 	vec3 &getPosition();
 	void setPosition(const vec3 &pos);
@@ -28,8 +27,6 @@ public:
 	void setMesh(const Mesh &m);
 	void setColour(const vec3 &col);
 	void setTexture(const Texture &texture);
-	void resetRotationFlags();
-	vec3& getRotationFlags();
 	Texture &getTexture();
 	
 	Mesh& getMesh();
@@ -44,12 +41,13 @@ public:
 	bool isSkybox;
 	bool isPlane;
 
+  mat4 getRotation();
+
 private:
 	vec3 scale;
-
-	//rotation stuff; by all means please change
-	float rotateX, rotateY, rotateZ;	//angles
-	vec3 isRotated;		//flags
+  
+  // 
+  double xRotation, yRotation, zRotation;
 
 	vec3 position;
 	double radius;
