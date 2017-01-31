@@ -9,6 +9,7 @@ GEO::GEO()
 	rotation = vec3(0);
 	hasTexture = 0;
 	hasNormal = 0;
+	isSkybox = false;
 }
 
 
@@ -141,9 +142,14 @@ bool GEO::initNormal(const string &filename, GLuint target) {
 	return normal.InitializeTexture(filename, target);
 }
 
+//bool GEO::initSkybox(const vector <string> &filenames, const vector <string> &normals) {
 bool GEO::initSkybox(const vector <string> &filenames) {
+
 	hasTexture = 1;
-	return texture.InitializeSkybox(filenames);
+	//hasNormal = 1;
+	texture.InitializeSkybox(filenames);
+	//normal.InitializeSkybox(normals);
+	return 1;
 }
 //Adds mesh file to mesh vector based on directory
 //NOTE: This is kind of overkill for what we actually need.

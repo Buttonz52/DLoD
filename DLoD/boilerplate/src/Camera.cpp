@@ -27,7 +27,7 @@ void Camera::setInitValues() {
 
 	fov = M_PI / 3;
 	_near = 0.001;
-	_far = 100;
+	_far = 10000;
 
 
 }

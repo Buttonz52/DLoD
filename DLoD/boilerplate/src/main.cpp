@@ -16,6 +16,7 @@ void RenderGEO(GEO *geo)
 	if (geo->hasNormal) {
 		geo->getNormal().BindTexture(geo->getShader().program, "normalmap");
 	}
+
 	vec3 fp = vec3(0, 0, 0);		//focal point
 	mat4 scale = glm::scale(geo->getScale());
 	mat4 rotation = glm::rotate(mat4(), 0.f, vec3(1));	//no rotation for now; TODO: Implement properly later
@@ -27,7 +28,12 @@ void RenderGEO(GEO *geo)
 	
 	//uniform variables
 	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "model"), 1, GL_FALSE, value_ptr(M));
-	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	if (!geo->isSkybox) {
+		glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	}
+	else {
+		glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(mat4(mat3(_view))));
+	}
 	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "projection"), 1, GL_FALSE, value_ptr(_projection));
 	glUniform3fv(glGetUniformLocation(geo->getShader().program, "lightPosition"), 1, value_ptr(_lightSource));
 //	glUniform3fv(glGetUniformLocation(geo->getShader().program, "position"), 1, value_ptr(geo->getPosition()));
@@ -335,13 +341,25 @@ int main(int argc, char *argv[])
 		"textures/ame_ash/ashcanyon_ft.tga",
 	};
 
+	//make skybox TODO: put all in a method?
+/*	vector<string> skyboxNormals = {
+		"textures/ame_ash/ashcanyon_rt_n.tga",
+		"textures/ame_ash/ashcanyon_lf_n.tga",
+		"textures/ame_ash/ashcanyon_up_n.tga",
+		"textures/ame_ash/ashcanyon_dn_n.tga",
+		"textures/ame_ash/ashcanyon_bk_n.tga",
+		"textures/ame_ash/ashcanyon_ft_n.tga",
+	};*/
+
 	GEO skybox;
+	skybox.isSkybox = true;
 	skybox.setFilename("cube.obj");
 	if (!skybox.initMesh()) {
 		cout << "Failed to initialize mesh." << endl;
 	}
 	//scale cube large
-	skybox.setScale(vec3(40.f));
+	skybox.setScale(vec3(100.f));
+	//if (!skybox.initSkybox(skyboxFiles, skyboxNormals)) {
 	if (!skybox.initSkybox(skyboxFiles)) {
 		cout << "Failed to initialize skybox." << endl;
 	}
@@ -368,13 +386,15 @@ int main(int argc, char *argv[])
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
-
+		//render skybox
+		glDisable(GL_DEPTH_TEST);
+		RenderGEO(&skybox);
+		glEnable(GL_DEPTH_TEST);
 		//render all game objects to screen
 		for (int i = 0; i < gameObjects.size(); i++) {
 			RenderGEO(&gameObjects[i]);
 		}
-		//render skybox
-		RenderGEO(&skybox);
+
 		glfwSwapBuffers(window);
 
 		glfwPollEvents();
@@ -384,7 +404,7 @@ int main(int argc, char *argv[])
 	for (int i = 0; i < gameObjects.size(); i++) {
 		gameObjects[i].shutdown();
 	}
-
+	skybox.shutdown();
 	glfwDestroyWindow(window);
 	glfwTerminate();
 

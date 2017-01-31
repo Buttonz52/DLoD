@@ -38,10 +38,11 @@ public:
 	bool initBuffers();
 	bool initTexture(const string &filename, GLuint target);
 	bool initNormal(const string &filename, GLuint target);
+	//bool initSkybox(const vector <string> &filenames, const vector <string> &normals);
 	bool initSkybox(const vector <string> &filenames);
 	void shutdown();		//destroy shader, texture, mesh
 	bool hasTexture;
-	bool hasNormal;
+	bool hasNormal, isSkybox;
 
 private:
 	vec3 scale;
