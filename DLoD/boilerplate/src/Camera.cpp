@@ -28,8 +28,6 @@ void Camera::setInitValues() {
 	fov = M_PI / 3;
 	_near = 0.001;
 	_far = 300;
-
-
 }
 
 void Camera::setCenter(vec3 &c) {
@@ -49,7 +47,7 @@ void Camera::setAzu(float newAzu)
 void Camera::incrementAlt(float newAlt)
 {
 	alt += newAlt;
-	alt = min(max(alt, 0.000001f), M_PI - 0.000001f);
+	alt = min(max(alt, 0.001f), M_PI - 0.001f);
 }
 
 void Camera::incrementAzu(float newAzu)
@@ -106,6 +104,6 @@ mat4 Camera::calculateViewMatrix() {
 	return view;
 }
 
-vec3 * Camera::getCenter() {
+vec3* Camera::getCenter() {
 	return &center;
 }

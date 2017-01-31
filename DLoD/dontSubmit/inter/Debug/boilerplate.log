@@ -1,65 +1,11 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  glad.c
-  Vehicle.cpp
-  Utility.cpp
-  TrapPack.cpp
-  Trap.cpp
-  Texture.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\texture.cpp(69): warning C4018: '<': signed/unsigned mismatch
-  Shader.cpp
-  Player.cpp
-  PhysXMain.cpp
-  Mesh.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\mesh.cpp(36): warning C4018: '<': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\mesh.cpp(51): warning C4018: '<': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\mesh.cpp(84): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\mesh.cpp(85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\mesh.cpp(89): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\mesh.cpp(90): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\mesh.cpp(102): warning C4018: '<': signed/unsigned mismatch
-  MediumVehicle.cpp
-  main.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(67): warning C4018: '>=': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(78): warning C4018: '>=': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(131): warning C4305: 'initializing': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(149): warning C4305: 'argument': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(153): warning C4305: 'argument': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(157): warning C4305: 'argument': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(161): warning C4305: 'argument': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(196): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(199): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(249): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(250): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(260): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(350): warning C4018: '<': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(422): warning C4018: '<': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(436): warning C4018: '<': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(449): warning C4018: '<': signed/unsigned mismatch
-  LightVehicle.cpp
-  Light.cpp
-  Item.cpp
-  Human.cpp
-  HeavyVehicle.cpp
-  HealthPack.cpp
-  GEO.cpp
-  GameTimer.cpp
-  GameState.cpp
-  Generating Code...
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(49): warning C4172: returning address of local variable or temporary
-  Compiling...
   Camera.cpp
 \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(24): warning C4305: '=': truncation from 'double' to 'float'
 \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(25): warning C4305: '=': truncation from 'double' to 'float'
 \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(28): warning C4305: '=': truncation from 'double' to 'float'
 \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(29): warning C4305: '=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(41): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(52): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(73): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  Audio.cpp
-  ArmourPack.cpp
-  Arena.cpp
-  AI.cpp
-  Generating Code...
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(71): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

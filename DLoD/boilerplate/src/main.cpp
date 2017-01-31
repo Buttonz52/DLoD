@@ -108,17 +108,17 @@ void AlternKeyCallback(GLFWwindow* window)
     camera->translate3D(vec3(0, 0, 0.5));
   }
 
-  state = glfwGetKey(window, GLFW_KEY_L);
+  state = glfwGetKey(window, GLFW_KEY_K);
   if (state == GLFW_PRESS) {
     camera->translate3D(vec3(0, 0, -0.5));
   }
 
-  state = glfwGetKey(window, GLFW_KEY_J);
+  state = glfwGetKey(window, GLFW_KEY_L);
   if (state == GLFW_PRESS) {
     camera->translate3D(vec3(-0.5, 0, 0));
   }
 
-  state = glfwGetKey(window, GLFW_KEY_K);
+  state = glfwGetKey(window, GLFW_KEY_J);
   if (state == GLFW_PRESS) {
     camera->translate3D(vec3(0.5, 0, 0));
   }
@@ -257,7 +257,7 @@ void motion(GLFWwindow* w, double x, double y)
 //handles mouse scroll
 void scroll_callback(GLFWwindow* window, double x, double y)
 {
-	camera->incrementRadius(y / 2);
+	camera->incrementRadius(y * 2);
 }
 
 //Jeremy Hart, CPSC 587 code, handles resizing glfw window
