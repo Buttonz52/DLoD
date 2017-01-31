@@ -14,9 +14,24 @@ void RenderGEO(GEO *geo)
 		geo->getTexture().BindTexture(geo->getShader().program, "sampler");
 	}
 
+	//rotation stuff.  Totally incorrect, help!
+	mat4 rotation, rx, ry, rz;
+	vec3 rotFlags = geo->getRotationFlags();
+	vec3 anglesRotated = geo->getRotation();
+	if (rotFlags.x) {
+		rx = rotate(mat4(), anglesRotated.x, vec3(1,0,0));
+	}
+	else if (rotFlags.y) {
+		ry = rotate(mat4(), anglesRotated.y, vec3(0,1,0));
+	}
+	else if (rotFlags.z) {
+		rz = rotate(mat4(), anglesRotated.z, vec3(0,0,1));
+	}
+	rotation = rz * ry * rx;	//help!
+
 	vec3 fp = vec3(0, 0, 0);		//focal point
 	mat4 scale = glm::scale(geo->getScale());
-	mat4 rotation = glm::rotate(mat4(), 0.f, vec3(1));	//no rotation for now; TODO: Implement properly later
+	//mat4 rotation = glm::rotate(mat4(), 0.f, vec3(1));	//no rotation for now; TODO: Implement properly later
 	mat4 translation = translate(geo->getPosition());
 
 	mat4 M = translation * rotation * scale;
@@ -25,7 +40,13 @@ void RenderGEO(GEO *geo)
 	
 	//uniform variables
 	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "model"), 1, GL_FALSE, value_ptr(M));
-	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	if (!geo->isSkybox) {
+		glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	}
+	else {
+		glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(mat4(mat3(_view))));
+	}
+	
 	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "projection"), 1, GL_FALSE, value_ptr(_projection));
 	glUniform3fv(glGetUniformLocation(geo->getShader().program, "lightPosition"), 1, value_ptr(_lightSource));
 //	glUniform3fv(glGetUniformLocation(geo->getShader().program, "position"), 1, value_ptr(geo->getPosition()));
@@ -145,6 +166,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     case GLFW_KEY_TAB:
 		changeCamera();
       break;
+
+	//move GEOs
 	case GLFW_KEY_W:
 		currentGEO->updatePosition(vec3(0, factor, 0));
 		break;
@@ -166,11 +189,33 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	case GLFW_KEY_Q:
 		currentGEO->updatePosition(vec3(0, 0, factor));
 		break;
+
+	//scale
 	case GLFW_KEY_1:
 		currentGEO->updateScale(vec3(factor*0.01));
 		break;
 	case GLFW_KEY_2:
 		currentGEO->updateScale(vec3(-factor*0.01));
+		break;
+
+	//rotations of GEOs.  Please fix
+	case GLFW_KEY_3:
+		currentGEO->updateRotation(vec3(factor,0,0));
+		break;
+	case GLFW_KEY_4:
+		currentGEO->updateRotation(vec3(-factor,0,0));
+		break;
+	case GLFW_KEY_5:
+		currentGEO->updateRotation(vec3(0,factor,0));
+		break;
+	case GLFW_KEY_6:
+		currentGEO->updateRotation(vec3(0,-factor,0));
+		break;
+	case GLFW_KEY_7:
+		currentGEO->updateRotation(vec3(0,0,factor));
+		break;
+	case GLFW_KEY_8:
+		currentGEO->updateRotation(vec3(0,0,-factor));
 		break;
 
     default:

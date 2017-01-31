@@ -1,27 +1,4 @@
-﻿  glad.c
-  Utility.cpp
-  objloader.cpp
-  Shader.cpp
-  MyTexture.cpp
-  Mesh.cpp
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\mesh.cpp(32): warning C4018: '<': signed/unsigned mismatch
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\mesh.cpp(47): warning C4018: '<': signed/unsigned mismatch
-  Camera.cpp
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\camera.cpp(5): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\camera.cpp(6): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\camera.cpp(9): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\camera.cpp(10): warning C4305: '=': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\camera.cpp(19): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\camera.cpp(30): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\camera.cpp(51): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  main.cpp
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\main.cpp(50): warning C4018: '<': signed/unsigned mismatch
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\main.cpp(212): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\main.cpp(216): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\main.cpp(220): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\main.cpp(224): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\main.cpp(259): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\main.cpp(260): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\documents\u of c\fifth year\winter 2017\cpsc 585\git\dlod\dlod\boilerplate\main.cpp(269): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
-LINK : fatal error LNK1104: cannot open file 'assimp.lib'
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Desktop\master\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\master\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\master\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

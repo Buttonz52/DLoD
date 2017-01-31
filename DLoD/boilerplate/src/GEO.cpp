@@ -6,8 +6,10 @@ GEO::GEO()
 	radius = 1.f;
 	filename = "";
 	scale = vec3(1.f);
-	rotation = vec3(0);
+	isRotated  = vec3(0);
+	rotateX = 0; rotateY = 0; rotateZ = 0;
 	hasTexture = 0;
+	isSkybox = 0;	//make skybox a separate GEO?
 }
 
 
@@ -33,20 +35,44 @@ void GEO::updateScale(const vec3 &s) {
 	}
 }
 
+//set rotation of GEO
 void GEO::setRotation(const vec3 & r)
 {
-	rotation = r;
+	rotateX = r.x;
+	rotateY = r.y;
+	rotateZ = r.z;
 }
 
+//get rotation as vec3 with x rotation, y rotation, z rotation
 vec3 &GEO::getRotation()
 {
-	return rotation;
+	return vec3(rotateX, rotateY, rotateZ);
 }
 
+//updates rotation
 void GEO::updateRotation(const vec3 &r) {
-	rotation += r;
-}
+	if (r.x != 0) {
+		rotateX += r.x;
+		isRotated.x = 1;
+	}
+	if (r.y != 0) {
+		rotateY += r.y;
+		isRotated.y = 1;
+	}
+	if (r.z != 0) {
+		rotateZ += r.z;
+		isRotated.z = 1;
+	}
 
+}
+//get rotation flags
+vec3& GEO::getRotationFlags() {
+	return isRotated;
+}
+//resets flags for whether to rotate
+void GEO::resetRotationFlags() {
+	isRotated = vec3(0);
+}
 vec3 &GEO::getPosition()
 {
 	return position;
@@ -133,6 +159,7 @@ bool GEO::initTexture(const string &filename, GLuint target) {
 }
 bool GEO::initSkybox(const vector <string> &filenames) {
 	hasTexture = 1;
+	isSkybox = 1;
 	return texture.InitializeSkybox(filenames);
 }
 //Adds mesh file to mesh vector based on directory

@@ -28,6 +28,8 @@ public:
 	void setMesh(const Mesh &m);
 	void setColour(const vec3 &col);
 	void setTexture(const Texture &texture);
+	void resetRotationFlags();
+	vec3& getRotationFlags();
 	Texture &getTexture();
 	
 	Mesh& getMesh();
@@ -39,10 +41,15 @@ public:
 	bool initSkybox(const vector <string> &filenames);
 	void shutdown();		//destroy shader, texture, mesh
 	bool hasTexture;
+	bool isSkybox;
 
 private:
 	vec3 scale;
-	vec3 rotation;
+
+	//rotation stuff; by all means please change
+	float rotateX, rotateY, rotateZ;	//angles
+	vec3 isRotated;		//flags
+
 	vec3 position;
 	double radius;
 	string filename;
