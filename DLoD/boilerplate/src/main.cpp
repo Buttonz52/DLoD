@@ -139,8 +139,6 @@ void AlternKeyCallback(GLFWwindow* window)
 
 
   //Movement of the geos -- maybe
-
->>>>>>> fixed the rotation of the geos
 }
 
 
