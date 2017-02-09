@@ -407,8 +407,7 @@ int main(int argc, char *argv[])
 	}
 	skybox.addShaders("shaders/skybox.vert", "shaders/skybox.frag");
 
-	string musicFile= "music/BTS.wav";
-	if (!audio.InitMusic(musicFile.c_str())) {
+	if (!audio.InitMusic(mainMusic.c_str())) {
 		cout << "Failed to load music." << endl;
 	}
 
