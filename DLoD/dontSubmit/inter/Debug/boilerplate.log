@@ -1,11 +1,4 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  Camera.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(24): warning C4305: '=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(25): warning C4305: '=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(28): warning C4305: '=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(29): warning C4305: '=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(71): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
-  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoDnew\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoDnew\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoDnew\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
