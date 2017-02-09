@@ -1,4 +1,20 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoDnew\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoDnew\DLoD\dontSubmit\bin\Debug\boilerplate.exe
-  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoDnew\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Desktop\git feb 8\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  main.cpp
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(54): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(65): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(148): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(166): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(170): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(174): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(178): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(213): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(216): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(246): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(247): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(257): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(347): warning C4018: '<': signed/unsigned mismatch
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(418): warning C4018: '<': signed/unsigned mismatch
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(432): warning C4018: '<': signed/unsigned mismatch
+c:\users\kiersten\desktop\git feb 8\dlod\boilerplate\src\main.cpp(445): warning C4018: '<': signed/unsigned mismatch
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git feb 8\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git feb 8\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

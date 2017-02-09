@@ -45,6 +45,7 @@ Audio audio;
 GEO *currentGEO;
 vec3 _lightSource = vec3(0.f, 1.f, 2.f);
 
+string mainMusic= "music/TimeLapse.wav";
 //Audio music;
 
 // OpenGL utility and support function prototypes
