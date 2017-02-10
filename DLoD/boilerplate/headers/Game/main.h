@@ -54,5 +54,10 @@ void PrintDirections();
 // Mesh functions
 int LoadAllObjFiles(const char *pathname);	
 
+//init GEO functions
+GEO initCube();
+GEO initGroundPlane();
+GEO initSkyBox();
+
 // --------------------------------------------------------------------------
 #endif

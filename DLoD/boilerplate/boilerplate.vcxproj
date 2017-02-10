@@ -194,12 +194,12 @@
   <ItemGroup>
     <None Include="shaders\skybox.frag" />
     <None Include="shaders\skybox.vert" />
-    <None Include="shaders\sphere.frag" />
-    <None Include="shaders\sphere.vert" />
-    <None Include="shaders\teapot.frag" />
-    <None Include="shaders\teapot.vert" />
+    <None Include="shaders\phong.frag" />
+    <None Include="shaders\phong.vert" />
     <None Include="shaders\tex2D.frag" />
     <None Include="shaders\tex2D.vert" />
+    <None Include="shaders\toon.frag" />
+    <None Include="shaders\toon.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="config\config.txt" />
