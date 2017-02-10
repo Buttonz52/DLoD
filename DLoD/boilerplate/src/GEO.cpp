@@ -176,30 +176,17 @@ bool GEO::initSkybox(const vector <string> &filenames) {
 	isSkybox = 1;
 	return texture.InitializeSkybox(filenames);
 }
-//Adds mesh file to mesh vector based on directory
-//NOTE: This is kind of overkill for what we actually need.
-/*
-void GEO::addMeshShader()
+
+mat4 getModelMatrix(GEO g)
 {
+	mat4 s = scale(g.getScale());
+	mat4 r = g.getRotation();
+	mat4 t = translate(g.getPosition());
 
-	string vertex;
-	string frag;
+	mat4 M = t * r * s;
 
-	size_t endpos = string(getFilename()).find(".obj");
-	string shadername = string(getFilename()).substr(0, endpos);
-
-	string shaderpath = "shaders/";
-	//vertex = shaderpath + shadername + ".vert";			<- if each object has a shaderfile
-	//frag = shaderpath + shadername + ".frag";
-	vertex = shaderpath + "teapot.vert";
-	frag = shaderpath + "teapot.frag";
-
-	shader.program = getShader().InitializeShaders(vertex, frag);
-
-	cout << "number of verts: " << mesh.vertices.size() << endl;
-	cout << "Loaded " << getFilename() << endl;
+	return M;
 }
-*/
 
 //Adds shaders 
 void GEO::addShaders(const string &vert, const string &frag)

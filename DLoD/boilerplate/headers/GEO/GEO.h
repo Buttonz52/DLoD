@@ -4,6 +4,7 @@
 #include "..\GameEngine\Mesh.h"
 #include "..\GameEngine\Shader.h"
 #include "..\GameEngine\Texture.h"
+
 //Game Entity Object
 class GEO
 {
@@ -22,7 +23,6 @@ public:
 	double GetRadius();
 	void setFilename(const string &fname);
 	string getFilename();
-	//void addMeshShader();
 	void addShaders(const string &vertex, const string &fragment);
 	void setMesh(const Mesh &m);
 	void setColour(const vec3 &col);
@@ -41,13 +41,14 @@ public:
 	bool isSkybox;
 	bool isPlane;
 
-  mat4 getRotation();
+    mat4 getRotation();
+	mat4 getModelMatrix(Geo g);
+
 
 private:
 	vec3 scale;
   
-  // 
-  double xRotation, yRotation, zRotation;
+    double xRotation, yRotation, zRotation;
 
 	vec3 position;
 	double radius;

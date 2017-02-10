@@ -14,14 +14,10 @@ void RenderGEO(GEO *geo)
 		geo->getTexture().BindTexture(geo->getShader().program, "sampler");
 	}
 
-	mat4 rotation = geo->getRotation();	
-
 	vec3 fp = vec3(0, 0, 0);		//focal point
-	mat4 scale = glm::scale(geo->getScale());
-	//mat4 rotation = glm::rotate(mat4(), 0.f, vec3(1));	//no rotation for now; TODO: Implement properly later
-	mat4 translation = translate(geo->getPosition());
 
-	mat4 M = translation * rotation * scale;
+	mat4 M = geo->getModelMatrix(*geo);
+
 	_projection = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
 	_view = camera->calculateViewMatrix();
 	
