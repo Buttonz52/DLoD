@@ -1,4 +1,5 @@
 #include "Game/main.h"
+#include "Physics\PhysXMain.h"
 
 using namespace std;
 // --------------------------------------------------------------------------
@@ -16,7 +17,7 @@ void RenderGEO(GEO *geo)
 
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
-	mat4 M = geo->getModelMatrix(*geo);
+	mat4 M = geo->getModelMatrix();
 
 	_projection = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
 	_view = camera->calculateViewMatrix();
@@ -323,6 +324,9 @@ int main(int argc, char *argv[])
 		cout << "Failed to play music" << endl;
 	}
 
+	//initialize PhysX
+	PhysXMain::initPhysics();
+
 	//initialize 1 game cube, plane, and skybox
 	GEO cube = initCube();
 	GEO plane = initGroundPlane();
@@ -335,23 +339,24 @@ int main(int argc, char *argv[])
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
+		//input
+		PhysXMain::stepPhysics(true);
 
-		//render
+		//update
+
+
+		//draw
 		RenderGEO(&cube);
 		RenderGEO(&skybox);
 		RenderGEO(&plane);
 		glfwSwapBuffers(window);
 
-    AlternKeyCallback(window);
+        AlternKeyCallback(window);
 		glfwPollEvents();
 	}
 
-	//																do this for cube							//
-
-	// clean up allocated resources before exits
-	for (int i = 0; i < gameObjects.size(); i++) {
-		gameObjects[i].shutdown();
-	}
+	cube.shutdown();
+	PhysXMain::cleanupPhysics(true);
 
 	glfwDestroyWindow(window);
 	glfwTerminate();

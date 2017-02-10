@@ -11,9 +11,13 @@
 class PhysXMain
 {
 public:
-	PhysXMain();
-	~PhysXMain();
-	void doVehicleStuff();
+
+	static void initPhysics();
+	static void initObject();
+	static void stepPhysics(bool interactive);
+	static void cleanupPhysics(bool interactive);
+
+
 };
 
 #endif

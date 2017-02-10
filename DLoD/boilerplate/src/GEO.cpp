@@ -177,11 +177,11 @@ bool GEO::initSkybox(const vector <string> &filenames) {
 	return texture.InitializeSkybox(filenames);
 }
 
-mat4 getModelMatrix(GEO g)
+mat4 GEO::getModelMatrix()
 {
-	mat4 s = scale(g.getScale());
-	mat4 r = g.getRotation();
-	mat4 t = translate(g.getPosition());
+	mat4 s = glm::scale(this->getScale());
+	mat4 r = this->getRotation();
+	mat4 t = translate(this->getPosition());
 
 	mat4 M = t * r * s;
 

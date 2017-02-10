@@ -42,14 +42,12 @@ public:
 	bool isPlane;
 
     mat4 getRotation();
-	mat4 getModelMatrix(Geo g);
+	mat4 getModelMatrix();
 
 
 private:
-	vec3 scale;
-  
+	vec3 scale;  
     double xRotation, yRotation, zRotation;
-
 	vec3 position;
 	double radius;
 	string filename;

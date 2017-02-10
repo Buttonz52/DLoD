@@ -28,7 +28,7 @@ PxVehicleDrive4W*		gVehicle4W = NULL;
 
 bool					gIsVehicleInAir = true;
 
-void initPhysics()
+void PhysXMain::initPhysics()
 {
 	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 	PxProfileZoneManager* profileZoneManager = &PxProfileZoneManager::createProfileZoneManager(gFoundation);
@@ -55,6 +55,12 @@ void initPhysics()
 	gScene->addActor(*groundPlane);
 
 	//make box.
+	initObject();
+
+}
+
+void PhysXMain::initObject()
+{
 	PxShape* shape = gPhysics->createShape(PxBoxGeometry(1, 1, 1), *gMaterial);
 	PxRigidDynamic* body = gPhysics->createRigidDynamic(PxTransform(PxVec3(0, 0, 0)));
 	body->attachShape(*shape);
@@ -62,18 +68,18 @@ void initPhysics()
 	gScene->addActor(*body); //when simulate is called anything added to scene is go for sim.
 	body->getGlobalPose().q; //quaternion
 	body->getGlobalPose().p; //translationmatrix
-	
-	PxRigidBodyExt::addForceAtLocalPos(*body, PxVec3(0, 0, 1), PxVec3(0, 0, 0)); // this is how we apply force to our body.
+
+	PxRigidBodyExt::addForceAtLocalPos(*body, PxVec3(0, 0, 1), PxVec3(0, 0, 0)); // this is how we apply force to our body.	
 }
 
-void stepPhysics(bool interactive)
+void PhysXMain::stepPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
 	gScene->simulate(1.0f / 60.0f);
 	gScene->fetchResults(true);
 }
 
-void cleanupPhysics(bool interactive)
+void PhysXMain::cleanupPhysics(bool interactive)
 {
 	PX_UNUSED(interactive);
 	gScene->release();
@@ -86,12 +92,4 @@ void cleanupPhysics(bool interactive)
 	gFoundation->release();
 
 	printf("PhysX done.\n");
-}
-
-
-
-
-
-void PhysXMain::doVehicleStuff() {
-
 }
