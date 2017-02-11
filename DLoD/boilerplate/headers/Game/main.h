@@ -21,8 +21,6 @@ vector<vec2> _uv;
 vector<GLushort> _faces;
 vector<vec3> _normals;
 vector<GEO> gameObjects;
-<<<<<<< HEAD
-=======
 
 //test cameras
 vector<Camera> testCams = {	//just objects for now, make pointers or smth later
@@ -32,7 +30,6 @@ vector<Camera> testCams = {	//just objects for now, make pointers or smth later
 	Camera(vec3(-4, -4, -5), vec3(-3, 0, -10))	//random
 };
 int camIndex = 0, geoIndex = 0;	//index of test cameras
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 
 int width = 1920, height = 1080;
 
@@ -58,8 +55,6 @@ void PrintDirections();
 
 // Mesh functions
 int LoadAllObjFiles(const char *pathname);	
-<<<<<<< HEAD
-=======
 
 //init GEO functions
 GEO* initCube();
@@ -69,6 +64,5 @@ GEO initSkyBox();
 //PhysX object
 PhysXMain PhysX;
 
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 // --------------------------------------------------------------------------
 #endif

@@ -38,26 +38,39 @@ void PhysXMain::init()
 	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0, 1, 0, 0), *gMaterial);
 	gScene->addActor(*groundPlane);
 
-	initObject();
+	//initObject();
 }
 
-void PhysXMain::initObject()
+void PhysXMain::initObject(GEO* g)
 {
 	PxShape* shape = gPhysics->createShape(PxBoxGeometry(1, 1, 2), *gMaterial);
-	body = gPhysics->createRigidDynamic(PxTransform(PxVec3(0, 2, 0)));
+	g->setShape(*shape);
+	PxRigidDynamic *body = gPhysics->createRigidDynamic(PxTransform(PxVec3(0, 2, 0)));
 	body->attachShape(*shape);
 	PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
+	g->setBody(*body);
 	gScene->addActor(*body); //when simulate is called anything added to scene is go for sim.	
 }
-
-
 
 void PhysXMain::accelerate(GEO* g)
 {
 	
-	PxRigidBodyExt::addForceAtLocalPos(*body, PxVec3(0,0,10000), PxVec3(0, 0, 0));
+	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), g->getBody().getGlobalPose().q.getBasisVector2()*10000, PxVec3(0, 0, 0));
 	
-	mat4 M = convertMat(PxVec3(1, 0, 0), PxVec3(0, 1, 0), PxVec3(0, 0, 1), body->getGlobalPose().p);
+	mat4 M = convertMat(g->getBody().getGlobalPose().q.getBasisVector0(), g->getBody().getGlobalPose().q.getBasisVector1(), g->getBody().getGlobalPose().q.getBasisVector2(), g->getBody().getGlobalPose().p);
+	g->setModelMatrix(M);
+
+	print4x4Matrix(g->getModelMatrix());
+
+
+}
+
+void PhysXMain::decelerate(GEO* g)
+{
+
+	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), PxVec3(0, 0, 10000), PxVec3(0, 0, 0));
+
+	mat4 M = convertMat(PxVec3(1, 0, 0), PxVec3(0, 1, 0), PxVec3(0, 0, 1), g->getBody().getGlobalPose().p);
 	g->setModelMatrix(M);
 
 	print4x4Matrix(g->getModelMatrix());

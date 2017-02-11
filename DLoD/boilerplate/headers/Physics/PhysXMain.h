@@ -42,13 +42,12 @@ public:
 	PhysXMain();
 	~PhysXMain();
 	void init();
-	void initObject();
+	void initObject(GEO* g);
 	void stepPhysics(bool interactive);
 	void cleanupPhysics(bool interactive);
 	void accelerate(GEO* g);
+	void decelerate(GEO* g);
 	mat4 convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w);
-
-	PxRigidDynamic* body;
 };
 
 #endif

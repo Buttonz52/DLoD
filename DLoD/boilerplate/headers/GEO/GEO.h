@@ -4,10 +4,11 @@
 #include "..\GameEngine\Mesh.h"
 #include "..\GameEngine\Shader.h"
 #include "..\GameEngine\Texture.h"
-<<<<<<< HEAD
-=======
+#include "PxPhysicsAPI.h"
+#include "PxPhysics.h"
+#include "PxScene.h"
+#include "../GEO/GEO.h"
 
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 //Game Entity Object
 class GEO
 {
@@ -23,7 +24,7 @@ public:
 	vec3 &getPosition();
 	void setPosition(const vec3 &pos);
 	void updatePosition(const vec3 &pos);
-	double GetRadius();
+	double getRadius();
 	void setFilename(const string &fname);
 	string getFilename();
 	void addShaders(const string &vertex, const string &fragment);
@@ -44,30 +45,20 @@ public:
 	bool isSkybox;
 	bool isPlane;
 
-<<<<<<< HEAD
-	vec3& getPosition();
-	void setPosition(vec3 &pos);
-	double getRadius();
-	void setFilename(const string &fname);
-	string& getFilename();
-	void addMeshShader();
-	Mesh& getMesh();
-	Shader getShader();
-
-	void shutdown();		//destroy shader, texture, mesh
-=======
     mat4 getRotation();
 
 	mat4 getModelMatrix();
 	void setModelMatrix(mat4 m);
 	void updateModelMatrix();
 
-	//getShape()
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
+	physx::PxShape& getShape();
+	physx::PxRigidDynamic& getBody();
+	void setShape(physx::PxShape &s);
+	void setBody(physx::PxRigidDynamic &b);
 
 private:
-	//PxShape* shape;
-	//PxRigidDynamic* body;
+	physx::PxShape* shape;
+	physx::PxRigidDynamic* body;
 	mat4 modelMatrix;
 	vec3 scale;  
     double xRotation, yRotation, zRotation;
@@ -77,9 +68,6 @@ private:
 	Mesh mesh;
 	Shader shader;
 	Texture texture;
-<<<<<<< HEAD
-=======
 	string audioFile;
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 };
 #endif

@@ -24,13 +24,8 @@ bool Audio::InitMusic(const char *filename) {
 		return false;
 	}
 	//Load the music file.  If there's nothing in the file, return false.
-<<<<<<< HEAD
-	music_file = Mix_LoadMUS("music/music.wav");
-	horn = Mix_LoadWAV("music/horn.wav");
-=======
 	music_file = Mix_LoadMUS(filename);
 	horn = Mix_LoadWAV("sfx/horn.wav");
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 	if (music_file == NULL || horn == NULL) {
 		return false;
 	}

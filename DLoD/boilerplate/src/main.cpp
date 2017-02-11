@@ -7,25 +7,16 @@ using namespace std;
 
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer
-<<<<<<< HEAD
-void RenderMesh(GEO *object)
-=======
 void RenderGEO(GEO *geo)
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 {
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
-<<<<<<< HEAD
-	glUseProgram(object->getShader().program);
-	glBindVertexArray(object->getMesh().vertexArray);
-=======
 	glUseProgram(geo->getShader().program);
 	glBindVertexArray(geo->getMesh().vertexArray);
 
 	if (geo->hasTexture) {
 		geo->getTexture().BindTexture(geo->getShader().program, "sampler");
 	}
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
@@ -38,16 +29,6 @@ void RenderGEO(GEO *geo)
 	_view = camera->calculateViewMatrix();
 	
 	//uniform variables
-<<<<<<< HEAD
-	glUniformMatrix4fv(glGetUniformLocation(object->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
-	glUniformMatrix4fv(glGetUniformLocation(object->getShader().program, "projection"), 1, GL_FALSE, value_ptr(_projection));
-	glUniform3fv(glGetUniformLocation(object->getShader().program, "lightPosition"), 1, value_ptr(_lightSource));
-	glUniform3fv(glGetUniformLocation(object->getShader().program, "position"), 1, value_ptr(object->getPosition()));
-
-	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
-
-	glDrawElements(GL_TRIANGLES, object->getMesh().elementCount, GL_UNSIGNED_SHORT, 0);
-=======
 	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "model"), 1, GL_FALSE, value_ptr(M));
 	if (!geo->isSkybox || !geo->isPlane) {
 		glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
@@ -63,7 +44,6 @@ void RenderGEO(GEO *geo)
 	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
 
 	glDrawElements(GL_TRIANGLES, geo->getMesh().elementCount, GL_UNSIGNED_SHORT, 0);
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);
 	glUseProgram(0);
@@ -186,29 +166,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 	case GLFW_KEY_P:
 		audio.PausePlay();
 		break;
-<<<<<<< HEAD
-
-	case GLFW_KEY_S:
-		audio.PlaySfx(audio.horn);
-		break;
-      
-    case GLFW_KEY_I:
-      camera.translate3D(vec3(0,0.2,0));
-      break;
-      
-    case GLFW_KEY_K:
-      camera.translate3D(vec3(0,-0.2,0));
-      break;
-      
-    case GLFW_KEY_J:
-      camera.translate3D(vec3(-0.2,0,0));
-      break;
-      
-    case GLFW_KEY_L:
-      camera.translate3D(vec3(0.2,0,0));
-      break;
-=======
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 
 	case GLFW_KEY_SPACE:
 		audio.PlaySfx(audio.horn);
@@ -378,62 +335,6 @@ int main(int argc, char *argv[])
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
 
-<<<<<<< HEAD
-
-	//// call function to load and compile shader programs
-
-	////meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
-
-	//meshes[3].shader.InitializeShaders("shaders/teapot.vert", "shaders/teapot.frag");
-	////glEnable(GL_TEXTURE_2D);
-	//if (!meshes[3].Initialize()) {
-	//	cout << "ERROR: Could not initialize mesh." << endl;
-	//}
-	
-
-	//adds a new object for each .obj file in model. populates gameObjects[], only inits the filename
-	int numObjFiles = LoadAllObjFiles("models");			
-	cout << "Num obj files: " << numObjFiles << endl;
-
-	//initalize all gameObject Meshes, Shaders, textures
-	for (int i = 0; i < 4; i++)
-	{
-		if (!gameObjects[i].getMesh().Initialize())
-			cout << "Failed to initialize mesh" << endl;
-
-		gameObjects[3].addMeshShader();
-	}
-	
-
-	//gameObjects[2] = gameObjects[3];	//another teapot for now
-
-	//if (!audio.InitMusic()) {
-	//	cout << "Failed to load music." << endl;
-	//}
-
-	//if (!audio.PlayMusic()) {
-	//	cout << "Failed to play music" << endl;
-	//}
-
-	while (!glfwWindowShouldClose(window))
-	{
-
-		//Just renders first mesh for now.
-		//meshes[2].texture.BindTexture(meshes[2].program, GL_TEXTURE_2D, "sampler");
-
-		/*RenderMesh(&meshes[3], &meshes[3].shader);*/
-
-		//This code isn't working properly right now.
-	/*	_projection = winRatio * camera.calculateProjectionMatrix((float)width / (float)height);
-		_view = camera.calculateViewMatrix();
-		mesh.cameraInfo._projection = _projection;
-		mesh.cameraInfo._view = _view;
-		mesh.cameraInfo._lightSource = _lightSource;
-		mesh.Render(&shader, &mesh.cameraInfo);*/
-
-		//RenderTriangle(&geometry, &shader);
-		//moveCamera()
-=======
 	//init music
 	if (!audio.InitMusic(mainMusic.c_str())) {
 		cout << "Failed to load music." << endl;
@@ -445,7 +346,6 @@ int main(int argc, char *argv[])
 
 	//initialize PhysX
 	PhysX.init();
-
 
 	//initialize 1 game cube, plane, and skybox
 	GEO* cube = initCube();
@@ -461,15 +361,7 @@ int main(int argc, char *argv[])
 		clearScreen();
 		//input
 		PhysX.stepPhysics(true);
-
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 		
-		//for each (GEO obj in gameObjects)
-		//{
-		RenderMesh(&gameObjects[3]);
-		//}
-	
-
 		//update
 
 		//draw
@@ -482,15 +374,8 @@ int main(int argc, char *argv[])
 		glfwPollEvents();
 	}
 
-<<<<<<< HEAD
-	// clean up allocated resources before exits
-	for (int i = 0; i < gameObjects.size(); i++) {
-		gameObjects[i].shutdown();
-	}
-=======
 	cube->shutdown();
 	PhysX.cleanupPhysics(true);
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -506,58 +391,6 @@ void PrintDirections() {
 	cout << "ESC: Exit program" << endl;
 }
 
-<<<<<<< HEAD
-//Loads meshes
-int LoadAllObjFiles(const char *pathname) {
-
-	//Get the files in the directory desired.
-	//Resource: http://www.cplusplus.com/forum/beginner/9173/
-	DIR *dir;
-	struct dirent *entity;
-	int numObjFiles =0;
-	//Check if directory exists
-	if ((dir = opendir(pathname)) != NULL) {
-		size_t found;
-		//Check if entities exist.
-		while ((entity = readdir(dir)) != NULL) {
-			//Only parse files with .obj
-			//ASSUMPTION: People are smart enough to only have
-			//.obj at end of file.
-
-			//TODO: add extensions for different types of 
-			//mesh files.
-			found = string(entity->d_name).find(".obj");
-			if (found!=string::npos) 
-			{
-				//Get path name for parsing file
-				//Set to 30 arbitrarily
-
-				//Resource: http://www.cplusplus.com/reference/cstring/strcat/
-				char s[30];
-				strcpy(s, pathname);
-				strcat(s, "/");
-				strcat(s, entity->d_name);
-
-				GEO g;
-				g.setFilename(entity->d_name);
-
-				gameObjects.push_back(g);
-				//gameObjects.emplace_back();
-				//gameObjects.at(gameObjects.size()-1).setFilename(entity->d_name);
-
-				numObjFiles++;
-			}
-		}
-	}
-	//Unable to find directory.
-	else {
-		cout << "ERROR LoadAllObjFiles: Directory not found." << endl;
-	}
-	closedir(dir);
-	return gameObjects.size();
-}
-
-=======
 GEO* initCube()
 {
 	GEO* cube = new GEO();
@@ -575,7 +408,7 @@ GEO* initCube()
 		cout << "Could not initialize buffers for game object " << cube->getFilename() << endl;
 	}
 
-	//PhysX.initObject(cube);
+	PhysX.initObject(cube);
 
 	return cube;
 }
@@ -622,4 +455,4 @@ GEO initSkyBox()
 
 	return skybox;
 }
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
+

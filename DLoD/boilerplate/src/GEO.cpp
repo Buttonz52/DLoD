@@ -5,13 +5,10 @@ GEO::GEO()
 	position = vec3(0);
 	radius = 1.f;
 	filename = "";
-<<<<<<< HEAD
-=======
 	scale = vec3(1.f);
 	xRotation = 0; yRotation = 0; zRotation = 0;
 	hasTexture = 0;
 	isSkybox = 0;	//make skybox a separate GEO?
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 }
 
 
@@ -19,16 +16,6 @@ GEO::~GEO()
 {
 }
 
-<<<<<<< HEAD
-vec3& GEO::getPosition()
-{
-	return position;
-}
-
-void GEO::setPosition(vec3 &pos)
-{
-	position = pos;
-=======
 void GEO::setScale(const vec3 & s)
 {
 	scale = s;
@@ -111,7 +98,6 @@ void GEO::setPosition(const vec3 &pos)
 
 void GEO::updatePosition(const vec3 &p) {
 	position += p;
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 }
 
 double GEO::getRadius()
@@ -124,17 +110,11 @@ void GEO::setFilename(const string &fname)
 	filename = fname;
 }
 
-<<<<<<< HEAD
-string& GEO::getFilename()
-=======
 string GEO::getFilename()
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 {
 	return filename;
 }
 
-<<<<<<< HEAD
-=======
 void GEO::setMesh(const Mesh &m)
 {
 	mesh = m;
@@ -144,58 +124,16 @@ void GEO::setColour(const vec3 &col) {
 	mesh.AddColour(col);
 }
 
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 Mesh& GEO::getMesh()
 {
 	return mesh;
 }
 
-<<<<<<< HEAD
-Shader GEO::getShader()
-=======
 Shader& GEO::getShader()
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 {
 	return shader;
 }
 
-<<<<<<< HEAD
-
-//Adds mesh file to mesh vector based on directory
-void GEO::addMeshShader()
-{
-	//Get all information for mesh
-
-	if (!mesh.ReadMesh("models/" + filename))
-		cout << "Error reading mesh" << endl;
-
-	//Add colour for the moment; this can be taken out
-	//or colour changed/colour added to obj files and 
-	//not here
-	vec3 red(1.f, 0.f, 0.f);
-	mesh.AddColour(&red);
-	string vertex;
-	string frag;
-
-	size_t endpos = string(getFilename()).find(".obj");
-	string shadername = string(getFilename()).substr(0, endpos);
-
-	string shaderpath = "shaders/";
-	//vertex = shaderpath + shadername + ".vert";			<- if each object has a shaderfile
-	//frag = shaderpath + shadername + ".frag";
-	vertex = shaderpath + "teapot.vert";
-	frag = shaderpath + "teapot.frag";
-
-	shader.program = getShader().InitializeShaders(vertex, frag);
-
-	cout << "number of verts: " << mesh.vertices.size() << endl;
-	cout << "Loaded " << getFilename() << endl;
-}
-void GEO::shutdown()
-{
-	mesh.DestroyMesh();
-	shader.DestroyShaders();
-=======
 void GEO::setShader(const Shader &s)
 {
 	shader = s;
@@ -258,6 +196,26 @@ void GEO::updateModelMatrix()
 	modelMatrix = t * r * s;
 }
 
+physx::PxShape& GEO::getShape()
+{
+	return *shape;
+}
+
+physx::PxRigidDynamic& GEO::getBody()
+{
+	return *body;
+}
+
+void GEO::setShape(physx::PxShape &s)
+{
+	shape = &s;
+}
+
+void GEO::setBody(physx::PxRigidDynamic &b)
+{
+	body = &b;
+}
+
 
 //Adds shaders 
 void GEO::addShaders(const string &vert, const string &frag)
@@ -269,5 +227,4 @@ void GEO::shutdown()
 	shader.DestroyShaders();
 	texture.DestroyTexture();
 	mesh.DestroyMesh();
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 }

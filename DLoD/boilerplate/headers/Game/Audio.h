@@ -19,8 +19,6 @@ public:
 
 	void PauseMusic();
 
-	void Audio::PlaySfx(Mix_Chunk *sfx);
-
 	void ResumeMusic();
 
 	void PausePlay();

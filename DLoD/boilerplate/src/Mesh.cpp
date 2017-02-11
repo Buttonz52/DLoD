@@ -165,29 +165,6 @@ bool Mesh::Initialize() {
 	return !CheckGLErrors();
 }
 
-<<<<<<< HEAD
-aiVector3D Mesh::AddUV(aiVector3D vertex) {
-	float theta;
-	float phi;
-	float r = sqrt(vertex.x*vertex.x + vertex.y*vertex.y + vertex.z*vertex.z);
-	if (r == 0.f) {
-		theta = 0.f;
-		phi = 0.f;
-	}
-	else {
-		//This creates a seam
-		//	theta = 0.5f*((atan2(vertex.x,vertex.z)/PI)+1.0f);
-		//	phi = 0.5f + asin(-vertex.y)/PI;
-
-		//No seam, but texture is doubled and looks kind of funny at edges.
-		theta = asin(vertex.x / r) / (PI)+0.5f;
-		phi = (acos(vertex.y / r)) / (PI);
-	}
-	return aiVector3D(theta, phi, r);
-}
-
-=======
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 //Clears all vectors
 void Mesh::ClearMesh() {
 	colours.clear();
@@ -205,8 +182,4 @@ void Mesh::DestroyMesh() {
 	glDeleteBuffers(1, &colourBuffer);
 
 	glDeleteVertexArrays(1, &vertexArray);
-<<<<<<< HEAD
-=======
-	glDeleteProgram(program);
->>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 }
