@@ -156,6 +156,9 @@
     <ClCompile Include="src\Trap.cpp">
       <Filter>Source Files\GEO</Filter>
     </ClCompile>
+    <ClCompile Include="src\XboxController.cpp">
+      <Filter>Source Files\Controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GameState.h">
@@ -232,6 +235,9 @@
     </ClInclude>
     <ClInclude Include="headers\Physics\PhysXMain.h">
       <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="\\samba.cs.ucalgary.ca\bzpetras\Downloads\DLoD-Abi\DLoD\boilerplate\XboxController.h">
+      <Filter>Header Files\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

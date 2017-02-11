@@ -43,10 +43,12 @@ public:
 	~PhysXMain();
 	void init();
 	void initObject(GEO* g);
-	void stepPhysics(bool interactive);
+	void stepPhysics(bool interactive, GEO* g);
 	void cleanupPhysics(bool interactive);
 	void accelerate(GEO* g);
 	void decelerate(GEO* g);
+	void leftTurn(GEO* g);
+	void rightTurn(GEO* g);
 	mat4 convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w);
 };
 

@@ -81,7 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\PhysX\Include;$(ProjectDir)..\middleware\SDL\SDL2-2.0.5\include;$(ProjectDir)..\middleware\SDL\SDL2_mixer-2.0.1\include;$(ProjectDir)..\boilerplate\headers;$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;$(ProjectDir)..\middleware\Xbox\include\um;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\PhysX\Include;$(ProjectDir)..\middleware\SDL\SDL2-2.0.5\include;$(ProjectDir)..\middleware\SDL\SDL2_mixer-2.0.1\include;$(ProjectDir)..\boilerplate\headers;$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;$(ProjectDir)..\middleware\Xbox\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
@@ -163,6 +163,7 @@
     <ClCompile Include="src\TrapPack.cpp" />
     <ClCompile Include="src\Utility.cpp" />
     <ClCompile Include="src\Vehicle.cpp" />
+    <ClCompile Include="src\XboxController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GameEngine\Mesh.h" />
@@ -190,6 +191,7 @@
     <ClInclude Include="headers\GEO\vehicle\MediumVehicle.h" />
     <ClInclude Include="headers\GEO\vehicle\Vehicle.h" />
     <ClInclude Include="headers\Physics\PhysXMain.h" />
+    <ClInclude Include="\\samba.cs.ucalgary.ca\bzpetras\Downloads\DLoD-Abi\DLoD\boilerplate\XboxController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\skybox.frag" />

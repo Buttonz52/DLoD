@@ -146,7 +146,21 @@ void AlternKeyCallback(GLFWwindow* window)
   {
 	  PhysX.accelerate(currentGEO);
   }
-	 
+  state = glfwGetKey(window, GLFW_KEY_DOWN);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.decelerate(currentGEO);
+  }
+  state = glfwGetKey(window, GLFW_KEY_LEFT);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.leftTurn(currentGEO);
+  }
+  state = glfwGetKey(window, GLFW_KEY_RIGHT);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.rightTurn(currentGEO);
+  }
 	 
 }
 
@@ -360,10 +374,11 @@ int main(int argc, char *argv[])
 	{
 		clearScreen();
 		//input
-		PhysX.stepPhysics(true);
+		PhysX.stepPhysics(true, cube);
 		
 		//update
 
+		print4x4Matrix(cube->getModelMatrix());
 		//draw
 		RenderGEO(cube);
 		RenderGEO(&skybox);
@@ -401,7 +416,7 @@ GEO* initCube()
 	}
 	cube->addShaders("shaders/phong.vert", "shaders/phong.frag");
 
-	cube->setScale(vec3(2.0f));
+	cube->setScale(vec3(10.0f));
 	cube->setColour(vec3(1, 0, 0));	//red
 
 	if (!cube->initBuffers()) {
@@ -409,6 +424,8 @@ GEO* initCube()
 	}
 
 	PhysX.initObject(cube);
+
+	gameObjects.push_back(*cube);
 
 	return cube;
 }

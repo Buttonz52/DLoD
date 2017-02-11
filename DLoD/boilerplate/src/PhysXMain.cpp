@@ -33,7 +33,7 @@ void PhysXMain::init()
 	sceneDesc.filterShader = PxDefaultSimulationFilterShader;  //use our own shader here?? -bp
 	gScene = gPhysics->createScene(sceneDesc);
 
-	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.6f);	//static friction, dynamic friction, restitution
+	gMaterial = gPhysics->createMaterial(0.6f, 0.5f, 0.2f);	//static friction, dynamic friction, restitution
 
 	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0, 1, 0, 0), *gMaterial);
 	gScene->addActor(*groundPlane);
@@ -47,42 +47,42 @@ void PhysXMain::initObject(GEO* g)
 	g->setShape(*shape);
 	PxRigidDynamic *body = gPhysics->createRigidDynamic(PxTransform(PxVec3(0, 2, 0)));
 	body->attachShape(*shape);
-	PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
+	PxRigidBodyExt::updateMassAndInertia(*body, 40.0f);
 	g->setBody(*body);
 	gScene->addActor(*body); //when simulate is called anything added to scene is go for sim.	
 }
 
 void PhysXMain::accelerate(GEO* g)
 {
-	
 	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), g->getBody().getGlobalPose().q.getBasisVector2()*10000, PxVec3(0, 0, 0));
-	
-	mat4 M = convertMat(g->getBody().getGlobalPose().q.getBasisVector0(), g->getBody().getGlobalPose().q.getBasisVector1(), g->getBody().getGlobalPose().q.getBasisVector2(), g->getBody().getGlobalPose().p);
-	g->setModelMatrix(M);
-
-	print4x4Matrix(g->getModelMatrix());
-
-
 }
 
 void PhysXMain::decelerate(GEO* g)
 {
-
-	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), PxVec3(0, 0, 10000), PxVec3(0, 0, 0));
-
-	mat4 M = convertMat(PxVec3(1, 0, 0), PxVec3(0, 1, 0), PxVec3(0, 0, 1), g->getBody().getGlobalPose().p);
-	g->setModelMatrix(M);
-
-	print4x4Matrix(g->getModelMatrix());
-
-
+	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), g->getBody().getGlobalPose().q.getBasisVector2()*-10000, PxVec3(0, 0, 0));
 }
 
-void PhysXMain::stepPhysics(bool interactive)
+void PhysXMain::leftTurn(GEO* g)
+{
+	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), g->getBody().getGlobalPose().q.getBasisVector0()*18, PxVec3(0, 0, 1000));
+}
+
+void PhysXMain::rightTurn(GEO* g)
+{
+	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), g->getBody().getGlobalPose().q.getBasisVector0()*-18, PxVec3(0, 0, 1000));
+}
+
+
+void PhysXMain::stepPhysics(bool interactive, GEO* g)
 {
 	PX_UNUSED(interactive);
 	gScene->simulate(1.0f / 60.0f);
 	gScene->fetchResults(true);
+
+	PxRigidDynamic* body = &g->getBody();
+	mat4 M = convertMat(g->getBody().getGlobalPose().q.getBasisVector0(), g->getBody().getGlobalPose().q.getBasisVector1(), g->getBody().getGlobalPose().q.getBasisVector2(), g->getBody().getGlobalPose().p);
+
+	g->setModelMatrix(M);
 }
 
 void PhysXMain::cleanupPhysics(bool interactive)
