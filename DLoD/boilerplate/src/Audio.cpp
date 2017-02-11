@@ -29,7 +29,6 @@ bool Audio::InitMusic(const char *filename) {
 	if (music_file == NULL || horn == NULL) {
 		return false;
 	}
-	on = true;
 	//Return true if everything is good.
 	return true;
 }

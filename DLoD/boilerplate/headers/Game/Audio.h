@@ -15,9 +15,9 @@ public:
 
 	bool PlayMusic();
 
-	void PauseMusic();
+	void PlaySfx(Mix_Chunk *sfx);
 
-	void Audio::PlaySfx(Mix_Chunk *sfx);
+	void PauseMusic();
 
 	void ResumeMusic();
 
@@ -27,6 +27,7 @@ public:
 
 private:
 	bool on;
+
 	Mix_Music *music_file = NULL;
 }
 ;

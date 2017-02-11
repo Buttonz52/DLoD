@@ -8,6 +8,8 @@
 #include "../GameEngine/Texture.h"
 #include "../GEO/Camera.h"
 #include "Audio.h"
+#include "../Physics/PhysXMain.h"
+//#include "../XboxController.h"
 
 using namespace std;
 
@@ -53,6 +55,14 @@ void PrintDirections();
 
 // Mesh functions
 int LoadAllObjFiles(const char *pathname);	
+
+//init GEO functions
+GEO* initCube();
+GEO initGroundPlane();
+GEO initSkyBox();
+
+//PhysX object
+PhysXMain PhysX;
 
 // --------------------------------------------------------------------------
 #endif

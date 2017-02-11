@@ -1,6 +1,10 @@
 #include "Game/main.h"
+#include "Physics\PhysXMain.h"
 
 using namespace std;
+
+//XboxController testController = XboxController(1);
+
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer
 void RenderGEO(GEO *geo)
@@ -14,14 +18,13 @@ void RenderGEO(GEO *geo)
 		geo->getTexture().BindTexture(geo->getShader().program, "sampler");
 	}
 
-	mat4 rotation = geo->getRotation();	
-
 	vec3 fp = vec3(0, 0, 0);		//focal point
-	mat4 scale = glm::scale(geo->getScale());
-	//mat4 rotation = glm::rotate(mat4(), 0.f, vec3(1));	//no rotation for now; TODO: Implement properly later
-	mat4 translation = translate(geo->getPosition());
 
-	mat4 M = translation * rotation * scale;
+	if (geo->isSkybox || geo->isPlane)
+		geo->updateModelMatrix();
+	mat4 M = geo->getModelMatrix();
+	
+
 	_projection = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
 	_view = camera->calculateViewMatrix();
 	
@@ -137,15 +140,35 @@ void AlternKeyCallback(GLFWwindow* window)
   if (state == GLFW_PRESS)
     currentGEO->updateRotation(vec3(0, 0, -factor));
 
-
-  //Movement of the geos -- maybe
+  //Movement of the GEOs
+  state = glfwGetKey(window, GLFW_KEY_UP);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.accelerate(currentGEO);
+  }
+  state = glfwGetKey(window, GLFW_KEY_DOWN);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.decelerate(currentGEO);
+  }
+  state = glfwGetKey(window, GLFW_KEY_LEFT);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.leftTurn(currentGEO);
+  }
+  state = glfwGetKey(window, GLFW_KEY_RIGHT);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.rightTurn(currentGEO);
+  }
+	 
 }
 
 
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	float factor = 0.05;
+	float factor = 1.00;
 	if (action == GLFW_RELEASE)
 		return;
 
@@ -162,22 +185,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		audio.PlaySfx(audio.horn);
 		break;
       
-    case GLFW_KEY_RIGHT:
-      camera->incrementAzu(-M_PI/180);
-      break;
-      
-    case GLFW_KEY_LEFT:
-      camera->incrementAzu(M_PI/180);
-      break;
-      
-    case GLFW_KEY_UP:
-      camera->incrementAlt(-M_PI/180);
-      break;
-      
-    case GLFW_KEY_DOWN:
-      camera->incrementAlt(M_PI/180);
-      break;
-
 	case GLFW_KEY_G:
 		changeGEO();
 		break;
@@ -220,6 +227,30 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
       break;
 	}
 }
+/*
+void GetControllerInput()
+{
+	testController.Update();
+
+	if (testController.GetButtonPressed(XBtns.A))
+	{
+		currentGEO->updatePosition(vec3(0, -0.5f, 0));
+	}
+	if (testController.GetButtonDown(XBtns.X))
+	{
+		currentGEO->updatePosition(vec3(-0.5f, 0, 0));
+	}
+	if (testController.GetButtonDown(XBtns.Y))
+	{
+		currentGEO->updatePosition(vec3(0, 0.5f, 0));
+	}
+	if (testController.GetButtonDown(XBtns.B))
+	{
+		currentGEO->updatePosition(vec3(0.5f, 0, 0));
+	}
+	// Update for next frame
+	testController.RefreshState();
+}*/
 
 // handles mouse click
 void mouse(GLFWwindow* window, int button, int action, int mods)
@@ -318,95 +349,7 @@ int main(int argc, char *argv[])
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
 
-
-	//// call function to load and compile shader programs
-
-	////meshes[2].texture.InitializeTexture("textures/images/zebra.png", GL_TEXTURE_2D);
-
-	//meshes[3].shader.InitializeShaders("shaders/teapot.vert", "shaders/teapot.frag");
-	////glEnable(GL_TEXTURE_2D);
-	//if (!meshes[3].Initialize()) {
-	//	cout << "ERROR: Could not initialize mesh." << endl;
-	//}
-
-
-	//adds a new object for each .obj file in model. populates gameObjects[], only inits the filename
-	//int numObjFiles = LoadAllObjFiles("models");
-	//cout << "Num obj files: " << numObjFiles << endl;
-
-
-	//initialize 5 game objects and push them onto vector for now
-	GEO g;
-	gameObjects.push_back(g);
-	gameObjects.push_back(g);
-	gameObjects.push_back(g);
-	gameObjects.push_back(g);
-	gameObjects.push_back(g);
-
-	//initialize game object meshes
-	for (int i = 0; i < gameObjects.size(); i++)
-	{
-		gameObjects[i].setFilename("teapot.obj");
-		if (!gameObjects[i].initMesh()) {
-			cout << "Failed to initialize mesh." << endl;
-		}
-		gameObjects[i].addShaders("shaders/teapot.vert", "shaders/teapot.frag");
-		gameObjects[i].setScale(vec3(0.05f));
-	}
-
-	//set colours
-	gameObjects[0].setColour(vec3(0,1,0));	//green
-	gameObjects[1].setColour(vec3(1,0,0));	//red
-	gameObjects[2].setColour(vec3(0, 0, 1));	//blue
-	gameObjects[3].setColour(vec3(1, 1, 0));	//yellow
-	gameObjects[4].setColour(vec3(1, 0, 1));	//magenta
-
-	//set positions
-	gameObjects[1].setPosition(vec3(-15,0,-50));	//this doesn't set the position
-	gameObjects[2].setPosition(vec3(0, 20, 0));	//this doesn't set the position
-	gameObjects[3].setPosition(vec3(-15, 0, 0));	//this doesn't set the position
-	gameObjects[4].setPosition(vec3(0, -20, 10));	//this doesn't set the position
-
-	//texture game object 2
-	if (!gameObjects[2].initTexture("textures/brick_wall_png.png", GL_TEXTURE_2D)) {
-		cout << "Failed to initialize texture." << endl;
-	}
-	gameObjects[2].addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
-
-	//make skybox TODO: put all in a method?
-	vector<string> skyboxFiles = {
-		"textures/ame_ash/ashcanyon_rt.tga",
-		"textures/ame_ash/ashcanyon_lf.tga",
-		"textures/ame_ash/ashcanyon_up.tga",
-		"textures/ame_ash/ashcanyon_dn.tga",
-		"textures/ame_ash/ashcanyon_bk.tga",		
-		"textures/ame_ash/ashcanyon_ft.tga",
-	};
-
-	GEO plane;
-	plane.setFilename("plane.obj");
-	if (!plane.initMesh()) {
-		cout << "Failed to initialize mesh." << endl;
-	}
-	plane.setScale(vec3(100.f));
-	if (!plane.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
-		cout << "Failed to initialize skybox." << endl;
-	}
-	plane.addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
-	plane.setPosition(vec3(0, -3, 0));
-
-	GEO skybox;
-	skybox.setFilename("cube.obj");
-	if (!skybox.initMesh()) {
-		cout << "Failed to initialize mesh." << endl;
-	}
-	//scale cube large
-	skybox.setScale(vec3(200.f));
-	if (!skybox.initSkybox(skyboxFiles)) {
-		cout << "Failed to initialize skybox." << endl;
-	}
-	skybox.addShaders("shaders/skybox.vert", "shaders/skybox.frag");
-
+	//init music
 	if (!audio.InitMusic(mainMusic.c_str())) {
 		cout << "Failed to load music." << endl;
 	}
@@ -415,36 +358,39 @@ int main(int argc, char *argv[])
 		cout << "Failed to play music" << endl;
 	}
 
-	for (int i = 0; i < gameObjects.size(); i++) {
-		if (!gameObjects[i].initBuffers()) {
-			cout << "Could not initialize buffers for game object " << i << endl;
-		}
-	}
+	//initialize PhysX
+	PhysX.init();
+
+	//initialize 1 game cube, plane, and skybox
+	GEO* cube = initCube();
+	GEO plane = initGroundPlane();
+	GEO skybox = initSkyBox();
+
 	camera = &testCams[camIndex];
-	currentGEO = &gameObjects[geoIndex];
+	currentGEO = cube;
 	glEnable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
+		//input
+		PhysX.stepPhysics(true, cube);
+		
+		//update
 
-		//render all game objects to screen
-		for (int i = 0; i < gameObjects.size(); i++) {
-			RenderGEO(&gameObjects[i]);
-		}
-		//render skybox
+		print4x4Matrix(cube->getModelMatrix());
+		//draw
+		RenderGEO(cube);
 		RenderGEO(&skybox);
 		RenderGEO(&plane);
 		glfwSwapBuffers(window);
 
-    AlternKeyCallback(window);
+        AlternKeyCallback(window);
 		glfwPollEvents();
 	}
 
-	// clean up allocated resources before exits
-	for (int i = 0; i < gameObjects.size(); i++) {
-		gameObjects[i].shutdown();
-	}
+	cube->shutdown();
+	PhysX.cleanupPhysics(true);
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -459,54 +405,71 @@ void PrintDirections() {
 	cout << "UP/DOWN/LEFT/RIGHT: Rotate camera" << endl;
 	cout << "ESC: Exit program" << endl;
 }
-/*
-//Loads all meshes from directory
-//NOTE: We don't really need this, it's overkill for what we need.
-int LoadAllObjFiles(const char *pathname) {
 
-	//Get the files in the directory desired.
-	//Resource: http://www.cplusplus.com/forum/beginner/9173/
-	DIR *dir;
-	struct dirent *entity;
-	int numObjFiles =0;
-	//Check if directory exists
-	if ((dir = opendir(pathname)) != NULL) {
-		size_t found;
-		//Check if entities exist.
-		while ((entity = readdir(dir)) != NULL) {
-			//Only parse files with .obj
-			//ASSUMPTION: People are smart enough to only have
-			//.obj at end of file.
+GEO* initCube()
+{
+	GEO* cube = new GEO();
 
-			//TODO: add extensions for different types of 
-			//mesh files.
-			found = string(entity->d_name).find(".obj");
-			if (found!=string::npos) 
-			{
-				//Get path name for parsing file
-				//Set to 30 arbitrarily
-
-				//Resource: http://www.cplusplus.com/reference/cstring/strcat/
-				char s[30];
-				strcpy(s, pathname);
-				strcat(s, "/");
-				strcat(s, entity->d_name);
-
-				//GEO geo;
-				//geo.setFilename(entity->d_name);
-				
-				gameObjects.emplace_back();
-				gameObjects.at(gameObjects.size()-1).setFilename(entity->d_name);
-
-				numObjFiles++;
-			}
-		}
+	cube->setFilename("cube.obj");
+	if (!cube->initMesh()) {
+		cout << "Failed to initialize mesh." << endl;
 	}
-	//Unable to find directory.
-	else {
-		cout << "ERROR LoadAllObjFiles: Directory not found." << endl;
+	cube->addShaders("shaders/phong.vert", "shaders/phong.frag");
+
+	cube->setScale(vec3(10.0f));
+	cube->setColour(vec3(1, 0, 0));	//red
+
+	if (!cube->initBuffers()) {
+		cout << "Could not initialize buffers for game object " << cube->getFilename() << endl;
 	}
-	closedir(dir);
-	return gameObjects.size();
-}*/
+
+	PhysX.initObject(cube);
+
+	gameObjects.push_back(*cube);
+
+	return cube;
+}
+
+GEO initGroundPlane()
+{
+	GEO plane;
+	plane.setFilename("plane.obj");
+	if (!plane.initMesh()) {
+		cout << "Failed to initialize mesh." << endl;
+	}
+	plane.setScale(vec3(100.f));
+	if (!plane.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
+		cout << "Failed to initialize skybox." << endl;
+	}
+	plane.addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+	plane.setPosition(vec3(0, -3, 0));
+
+	return plane;
+}
+
+GEO initSkyBox()
+{
+	vector<string> skyboxFiles = {
+		"textures/ame_ash/ashcanyon_rt.tga",
+		"textures/ame_ash/ashcanyon_lf.tga",
+		"textures/ame_ash/ashcanyon_up.tga",
+		"textures/ame_ash/ashcanyon_dn.tga",
+		"textures/ame_ash/ashcanyon_bk.tga",
+		"textures/ame_ash/ashcanyon_ft.tga",
+	};
+
+	GEO skybox;
+	skybox.setFilename("cube.obj");
+	if (!skybox.initMesh()) {
+		cout << "Failed to initialize mesh." << endl;
+	}
+	//scale cube large
+	skybox.setScale(vec3(200.f));
+	if (!skybox.initSkybox(skyboxFiles)) {
+		cout << "Failed to initialize skybox." << endl;
+	}
+	skybox.addShaders("shaders/skybox.vert", "shaders/skybox.frag");
+
+	return skybox;
+}
 

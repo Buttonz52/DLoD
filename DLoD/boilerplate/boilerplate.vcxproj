@@ -81,13 +81,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\PhysX\Include;$(ProjectDir)..\middleware\SDL\SDL2-2.0.5\include;$(ProjectDir)..\middleware\SDL\SDL2_mixer-2.0.1\include;$(ProjectDir)..\boilerplate\headers;$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\PhysX\Include;$(ProjectDir)..\middleware\SDL\SDL2-2.0.5\include;$(ProjectDir)..\middleware\SDL\SDL2_mixer-2.0.1\include;$(ProjectDir)..\boilerplate\headers;$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;$(ProjectDir)..\middleware\Xbox\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\middleware\PhysX\lib\debug\;$(ProjectDir)..\middleware\SDL\SDL2-2.0.5\lib\x86;$(ProjectDir)..\middleware\SDL\SDL2_mixer-2.0.1\lib\x86;$(ProjectDir)..\middleware\Assimp\lib\x86;$(ProjectDir)..\middleware\glfw\lib;$(ProjectDir)..\middleware\PhysX\lib\release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>LowLevelClothDEBUG.lib;LowLevelDEBUG.lib;PhysX3CharacterKinematicDEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PhysX3CookingDEBUG_x86.lib;PhysX3DEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3VehicleDEBUG.lib;PhysXProfileSDKDEBUG.lib;PhysXVisualDebuggerSDKDEBUG.lib;PvdRuntimeDEBUG.lib;PxTaskDEBUG.lib;SceneQueryDEBUG.lib;SimulationControllerDEBUG.lib;assimp.lib;opengl32.lib;SDL2_mixer.lib;SDL2.lib;SDL2main.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\middleware\PhysX\lib\debug\;$(ProjectDir)..\middleware\SDL\SDL2-2.0.5\lib\x86;$(ProjectDir)..\middleware\SDL\SDL2_mixer-2.0.1\lib\x86;$(ProjectDir)..\middleware\Assimp\lib\x86;$(ProjectDir)..\middleware\glfw\lib;$(ProjectDir)..\middleware\PhysX\lib\release\;$(ProjectDir)..\middleware\Xbox\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Xinput.lib;LowLevelClothDEBUG.lib;LowLevelDEBUG.lib;PhysX3CharacterKinematicDEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PhysX3CookingDEBUG_x86.lib;PhysX3DEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3VehicleDEBUG.lib;PhysXProfileSDKDEBUG.lib;PhysXVisualDebuggerSDKDEBUG.lib;PvdRuntimeDEBUG.lib;PxTaskDEBUG.lib;SceneQueryDEBUG.lib;SimulationControllerDEBUG.lib;assimp.lib;opengl32.lib;SDL2_mixer.lib;SDL2.lib;SDL2main.lib;glfw3.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
     </Link>
   </ItemDefinitionGroup>
@@ -163,6 +163,7 @@
     <ClCompile Include="src\TrapPack.cpp" />
     <ClCompile Include="src\Utility.cpp" />
     <ClCompile Include="src\Vehicle.cpp" />
+    <ClCompile Include="src\XboxController.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GameEngine\Mesh.h" />
@@ -190,16 +191,17 @@
     <ClInclude Include="headers\GEO\vehicle\MediumVehicle.h" />
     <ClInclude Include="headers\GEO\vehicle\Vehicle.h" />
     <ClInclude Include="headers\Physics\PhysXMain.h" />
+    <ClInclude Include="\\samba.cs.ucalgary.ca\bzpetras\Downloads\DLoD-Abi\DLoD\boilerplate\XboxController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\skybox.frag" />
     <None Include="shaders\skybox.vert" />
-    <None Include="shaders\sphere.frag" />
-    <None Include="shaders\sphere.vert" />
-    <None Include="shaders\teapot.frag" />
-    <None Include="shaders\teapot.vert" />
+    <None Include="shaders\phong.frag" />
+    <None Include="shaders\phong.vert" />
     <None Include="shaders\tex2D.frag" />
     <None Include="shaders\tex2D.vert" />
+    <None Include="shaders\toon.frag" />
+    <None Include="shaders\toon.vert" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="config\config.txt" />

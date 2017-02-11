@@ -182,5 +182,4 @@ void Mesh::DestroyMesh() {
 	glDeleteBuffers(1, &colourBuffer);
 
 	glDeleteVertexArrays(1, &vertexArray);
-	glDeleteProgram(program);
 }

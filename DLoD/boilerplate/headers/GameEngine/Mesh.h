@@ -41,7 +41,6 @@ public:
 	vector<GLushort> faces;
 	vector<vec3> normals;
 	GLuint vertexArray;
-	GLuint program;
 	GLsizei elementCount;
 	
 private:

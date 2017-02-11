@@ -88,7 +88,7 @@ void GEO::updateRotation(const vec3 &r) {
 
 vec3 &GEO::getPosition()
 {
-	return position;
+	return vec3(modelMatrix[3].x, modelMatrix[3].y, modelMatrix[3].z);
 }
 
 void GEO::setPosition(const vec3 &pos)
@@ -100,7 +100,7 @@ void GEO::updatePosition(const vec3 &p) {
 	position += p;
 }
 
-double GEO::GetRadius()
+double GEO::getRadius()
 {
 	return 0.0;
 }
@@ -176,30 +176,46 @@ bool GEO::initSkybox(const vector <string> &filenames) {
 	isSkybox = 1;
 	return texture.InitializeSkybox(filenames);
 }
-//Adds mesh file to mesh vector based on directory
-//NOTE: This is kind of overkill for what we actually need.
-/*
-void GEO::addMeshShader()
+
+mat4 GEO::getModelMatrix()
 {
-
-	string vertex;
-	string frag;
-
-	size_t endpos = string(getFilename()).find(".obj");
-	string shadername = string(getFilename()).substr(0, endpos);
-
-	string shaderpath = "shaders/";
-	//vertex = shaderpath + shadername + ".vert";			<- if each object has a shaderfile
-	//frag = shaderpath + shadername + ".frag";
-	vertex = shaderpath + "teapot.vert";
-	frag = shaderpath + "teapot.frag";
-
-	shader.program = getShader().InitializeShaders(vertex, frag);
-
-	cout << "number of verts: " << mesh.vertices.size() << endl;
-	cout << "Loaded " << getFilename() << endl;
+	return modelMatrix;
 }
-*/
+
+void GEO::setModelMatrix(mat4 m)
+{
+	modelMatrix = m;
+}
+
+void GEO::updateModelMatrix()
+{
+	mat4 s = glm::scale(this->getScale());
+	mat4 r = this->getRotation();
+	mat4 t = translate(this->getPosition());
+
+	modelMatrix = t * r * s;
+}
+
+physx::PxShape& GEO::getShape()
+{
+	return *shape;
+}
+
+physx::PxRigidDynamic& GEO::getBody()
+{
+	return *body;
+}
+
+void GEO::setShape(physx::PxShape &s)
+{
+	shape = &s;
+}
+
+void GEO::setBody(physx::PxRigidDynamic &b)
+{
+	body = &b;
+}
+
 
 //Adds shaders 
 void GEO::addShaders(const string &vert, const string &frag)
