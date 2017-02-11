@@ -9,7 +9,7 @@ public:
 	Audio();
 	~Audio();
 
-	bool InitMusic();
+	bool InitMusic(const char *filename);
 
 	void CleanUp();
 
@@ -18,6 +18,8 @@ public:
 	void PlaySfx(Mix_Chunk *sfx);
 
 	void PauseMusic();
+
+	void Audio::PlaySfx(Mix_Chunk *sfx);
 
 	void ResumeMusic();
 

@@ -26,13 +26,13 @@ bool CheckGLErrors()
 	//	cout << "OpenGL ERROR:  ";
 		switch (flag) {
 		case GL_INVALID_ENUM:
-		//	cout << "GL_INVALID_ENUM" << endl; 
+			cout << "GL_INVALID_ENUM" << endl; 
 			break;
 		case GL_INVALID_VALUE:
 			cout << "GL_INVALID_VALUE" << endl; 
 			break;
 		case GL_INVALID_OPERATION:
-		//	cout << "GL_INVALID_OPERATION" << endl; 
+	//		cout << "GL_INVALID_OPERATION" << endl; 
 			break;
 		case GL_INVALID_FRAMEBUFFER_OPERATION:
 			cout << "GL_INVALID_FRAMEBUFFER_OPERATION" << endl; break;
@@ -44,4 +44,17 @@ bool CheckGLErrors()
 		error = true;
 	}
 	return error;
+}
+
+void print4x4Matrix(mat4 mat)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			cout << mat[i][j] << " ";
+		}
+		cout << "" << endl;
+	}
+	printf("\n");
 }

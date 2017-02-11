@@ -21,7 +21,8 @@ public:
 	double maxVelocity;
 	Item items[3];	//arbitrarily at 3; make this a vector?
 	vec3 colour;
-
+	vector <GEO> wheels;
+	vector <GEO> armour;
 	
 	bool IsStunned();
 

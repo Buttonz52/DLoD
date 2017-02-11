@@ -8,9 +8,11 @@
 #include "../GameEngine/Texture.h"
 #include "../GEO/Camera.h"
 #include "Audio.h"
-#include <dirent.h>
+#include "../Physics/PhysXMain.h"
+//#include "../XboxController.h"
 
 using namespace std;
+
 // --------------------------------------------------------------------------
 // Variables
 vector<vec3> _colours;
@@ -19,8 +21,20 @@ vector<vec2> _uv;
 vector<GLushort> _faces;
 vector<vec3> _normals;
 vector<GEO> gameObjects;
+<<<<<<< HEAD
+=======
 
-int width = 512, height = 512;
+//test cameras
+vector<Camera> testCams = {	//just objects for now, make pointers or smth later
+	Camera(vec3(0, 0, 0)),	//first teapot
+	Camera(vec3(-3, 0, -10)),	//second teapot
+	Camera(vec3(0, 10, -10)),	//random
+	Camera(vec3(-4, -4, -5), vec3(-3, 0, -10))	//random
+};
+int camIndex = 0, geoIndex = 0;	//index of test cameras
+>>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
+
+int width = 1920, height = 1080;
 
 double mouse_old_x, mouse_old_y;
 float _translate_z = 1.0;
@@ -31,9 +45,12 @@ mat4 _view;
 mat4 _projection;
 mat4 winRatio = mat4(1.f);
 
-Camera camera;
+Camera *camera;
 Audio audio;
+GEO *currentGEO;
 vec3 _lightSource = vec3(0.f, 1.f, 2.f);
+
+string mainMusic= "music/TimeLapse.wav";
 //Audio music;
 
 // OpenGL utility and support function prototypes
@@ -41,5 +58,17 @@ void PrintDirections();
 
 // Mesh functions
 int LoadAllObjFiles(const char *pathname);	
+<<<<<<< HEAD
+=======
+
+//init GEO functions
+GEO* initCube();
+GEO initGroundPlane();
+GEO initSkyBox();
+
+//PhysX object
+PhysXMain PhysX;
+
+>>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 // --------------------------------------------------------------------------
 #endif

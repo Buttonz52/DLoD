@@ -8,14 +8,14 @@ Texture::Texture() {}
 
 Texture::~Texture() {}
 
-bool Texture::InitializeTexture(const char* filename, GLuint target)
+bool Texture::InitializeTexture(const string &filename, GLuint target)
 {
 	int numComponents;
-	stbi_set_flip_vertically_on_load(true);
-	unsigned char *data = stbi_load(filename, &width, &height, &numComponents, 0);
+	stbi_set_flip_vertically_on_load(false);
+	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &numComponents, 0);
 	if (data != nullptr)
 	{
-		target = target;
+		this ->target = target;
 		glGenTextures(1, &textureID);
 		glBindTexture(target, textureID);
 		GLuint format = GL_RGB;
@@ -52,9 +52,9 @@ bool Texture::InitializeTexture(const char* filename, GLuint target)
 	}
 	return !CheckGLErrors();
 }
-bool Texture::BindTexture(GLuint program, GLuint target, string varName) {
+bool Texture::BindTexture(GLuint program, string varName) {
 	glActiveTexture(GL_TEXTURE0 + textureID);
-	glBindTexture(target, textureID);
+	glBindTexture(this->target, textureID);
 	glUniform1i(glGetUniformLocation(program, varName.c_str()), textureID);
 
 	return !CheckGLErrors();
@@ -63,17 +63,16 @@ bool Texture::BindTexture(GLuint program, GLuint target, string varName) {
 void Texture::UnbindTexture(GLuint target) {
 	glBindTexture(target, 0);
 }
-bool Texture::InitializeSkybox(vector<const char*> * filename, GLuint target) {
+bool Texture::InitializeSkybox(const vector<string> &filename) {
 	glGenTextures(1, &textureID);
-	glBindTexture(target, textureID);
-	for (int i = 0; i < filename->size(); i++) {
+	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+	for (int i = 0; i < filename.size(); i++) {
 		int numComponents;
-		stbi_set_flip_vertically_on_load(true);
-		unsigned char *data = stbi_load(filename->at(i), &width, &height, &numComponents, 0);
+		stbi_set_flip_vertically_on_load(false);	//false on windows
+		unsigned char *data = stbi_load(filename.at(i).c_str(), &width, &height, &numComponents, 0);
 		if (data != nullptr)
 		{
-			target = target;
-
+			target = GL_TEXTURE_CUBE_MAP;
 			GLuint format = GL_RGB;
 			switch (numComponents)
 			{
@@ -96,18 +95,19 @@ bool Texture::InitializeSkybox(vector<const char*> * filename, GLuint target) {
 			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 			stbi_image_free(data);
 		}
+		// Note: Only wrapping modes supported for GL_TEXTURE_RECTANGLE when defining
+		// GL_TEXTURE_WRAP are GL_CLAMP_TO_EDGE or GL_CLAMP_TO_BORDER
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 	}
 
-	// Note: Only wrapping modes supported for GL_TEXTURE_RECTANGLE when defining
-	// GL_TEXTURE_WRAP are GL_CLAMP_TO_EDGE or GL_CLAMP_TO_BORDER
-	glTexParameteri(target, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(target, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(target, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-	glTexParameteri(target, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(target, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	// Clean up
-	glBindTexture(target, 0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
 	return !CheckGLErrors();
 }

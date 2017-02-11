@@ -12,9 +12,6 @@
     <Filter Include="Source Files\External">
       <UniqueIdentifier>{3dc13694-cbab-43ed-94a7-7a9a9176ec37}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Input">
-      <UniqueIdentifier>{3ea4d207-9af6-4ae4-9aab-16ca1249ce77}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{1efda997-437b-4d6d-b126-efd83d11fa25}</UniqueIdentifier>
     </Filter>
@@ -23,9 +20,6 @@
     </Filter>
     <Filter Include="Shaders\Vertex">
       <UniqueIdentifier>{b912c26f-7d9b-46f6-b77f-582c00ffaa93}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Input">
-      <UniqueIdentifier>{4a030151-bfbe-4ad7-96b9-d0a606c21b55}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Game">
       <UniqueIdentifier>{b3e478c8-a32a-4fbb-94d9-11a27d864c98}</UniqueIdentifier>
@@ -73,57 +67,30 @@
     <Filter Include="Source Files\GEO\vehicle">
       <UniqueIdentifier>{5797f7aa-d265-4a84-bcda-b95e15891de9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Config Files">
+      <UniqueIdentifier>{cc3725f7-b460-4fb2-9db9-0af7dfd7a4eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Controller">
+      <UniqueIdentifier>{3ea4d207-9af6-4ae4-9aab-16ca1249ce77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Controller">
+      <UniqueIdentifier>{4a030151-bfbe-4ad7-96b9-d0a606c21b55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\middleware\glad\src\glad.c">
       <Filter>Source Files\External</Filter>
     </ClCompile>
-    <ClCompile Include="src\ArmourPack.cpp">
-      <Filter>Source Files\GEO\itempickup</Filter>
-    </ClCompile>
-    <ClCompile Include="src\HealthPack.cpp">
-      <Filter>Source Files\GEO\itempickup</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TrapPack.cpp">
-      <Filter>Source Files\GEO\itempickup</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Item.cpp">
-      <Filter>Source Files\GEO\itempickup</Filter>
-    </ClCompile>
-    <ClCompile Include="src\HeavyVehicle.cpp">
-      <Filter>Source Files\GEO\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LightVehicle.cpp">
-      <Filter>Source Files\GEO\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MediumVehicle.cpp">
-      <Filter>Source Files\GEO\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Vehicle.cpp">
-      <Filter>Source Files\GEO\vehicle</Filter>
-    </ClCompile>
     <ClCompile Include="src\AI.cpp">
-      <Filter>Source Files\GEO\player</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Human.cpp">
       <Filter>Source Files\GEO\player</Filter>
     </ClCompile>
     <ClCompile Include="src\Player.cpp">
       <Filter>Source Files\GEO\player</Filter>
     </ClCompile>
-    <ClCompile Include="src\Arena.cpp">
-      <Filter>Source Files\GEO</Filter>
-    </ClCompile>
     <ClCompile Include="src\Camera.cpp">
       <Filter>Source Files\GEO</Filter>
     </ClCompile>
     <ClCompile Include="src\GEO.cpp">
-      <Filter>Source Files\GEO</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Light.cpp">
-      <Filter>Source Files\GEO</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trap.cpp">
       <Filter>Source Files\GEO</Filter>
     </ClCompile>
     <ClCompile Include="src\Mesh.cpp">
@@ -153,11 +120,44 @@
     <ClCompile Include="src\Texture.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
+    <ClCompile Include="src\Item.cpp">
+      <Filter>Source Files\GEO\itempickup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TrapPack.cpp">
+      <Filter>Source Files\GEO\itempickup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ArmourPack.cpp">
+      <Filter>Source Files\GEO\itempickup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HealthPack.cpp">
+      <Filter>Source Files\GEO\itempickup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Human.cpp">
+      <Filter>Source Files\GEO\player</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MediumVehicle.cpp">
+      <Filter>Source Files\GEO\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Vehicle.cpp">
+      <Filter>Source Files\GEO\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\HeavyVehicle.cpp">
+      <Filter>Source Files\GEO\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LightVehicle.cpp">
+      <Filter>Source Files\GEO\vehicle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Arena.cpp">
+      <Filter>Source Files\GEO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Light.cpp">
+      <Filter>Source Files\GEO</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Trap.cpp">
+      <Filter>Source Files\GEO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="headers\PhysXMain.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="headers\GameState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -230,25 +230,39 @@
     <ClInclude Include="headers\GameEngine\Texture.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Physics\PhysXMain.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\cube.vert">
-      <Filter>Shaders\Vertex</Filter>
-    </None>
-    <None Include="shaders\sphere.vert">
-      <Filter>Shaders\Vertex</Filter>
-    </None>
-    <None Include="shaders\teapot.vert">
-      <Filter>Shaders\Vertex</Filter>
-    </None>
-    <None Include="shaders\cube.frag">
+    <None Include="shaders\skybox.frag">
       <Filter>Shaders\Fragment</Filter>
     </None>
-    <None Include="shaders\sphere.frag">
+    <None Include="shaders\skybox.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\tex2D.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\tex2D.frag">
       <Filter>Shaders\Fragment</Filter>
     </None>
-    <None Include="shaders\teapot.frag">
+    <None Include="shaders\toon.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\toon.frag">
       <Filter>Shaders\Fragment</Filter>
     </None>
+    <None Include="shaders\phong.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\phong.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="config\config.txt">
+      <Filter>Config Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

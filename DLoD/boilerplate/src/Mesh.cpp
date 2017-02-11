@@ -6,7 +6,7 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
-	DestroyMesh();
+	//DestroyMesh();
 }
 
 //Reads object file using Assimp and converts to vectors of respective types.
@@ -36,7 +36,7 @@ bool Mesh::ReadMesh(const string &filename) {
 	for (int i = 0; i < mesh->mNumVertices; i++) {
 		const aiVector3D pVertex = mesh->mVertices[i];
 		const aiVector3D pNormal = mesh->mNormals[i];
-		const aiVector3D pUV = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : AddUV(pVertex);
+		const aiVector3D pUV = mesh->HasTextureCoords(0) ? mesh->mTextureCoords[0][i] : AddUV(pVertex, filename);
 		
 		vec3 _vertex(pVertex.x, pVertex.y, pVertex.z);
 		vertices.push_back(_vertex);
@@ -44,7 +44,7 @@ bool Mesh::ReadMesh(const string &filename) {
 		vec3 _normal(pNormal.x, pNormal.y, pNormal.z);
 		normals.push_back(_normal);	//normals are negative???? but multiplying my -1 scalar fixes it -bp
 
-		vec2 _uv(pUV.x, pUV.y);
+		vec3 _uv(pUV.x, pUV.y, pUV.z);
 		uvs.push_back(_uv);
 	}
 
@@ -64,13 +64,43 @@ bool Mesh::ReadMesh(const string &filename) {
 	return true;
 }
 
-void Mesh::AddColour(vec3 *colour) {
+aiVector3D Mesh::AddUV(const aiVector3D &vertex, string type) {
+
+	float theta;
+	float phi;
+	float r = sqrt(vertex.x*vertex.x + vertex.y*vertex.y + vertex.z*vertex.z);
+	if (r == 0.f) {
+		theta = 0.f;
+		phi = 0.f;
+	}
+	else {
+		//This creates a seam
+		//	theta = 0.5f*((atan2(vertex.x,vertex.z)/PI)+1.0f);
+		//	phi = 0.5f + asin(-vertex.y)/PI;
+
+		//No seam, but texture is doubled and looks kind of funny at edges.
+		if (type == "models/plane.obj")
+		{
+			theta = asin(vertex.x / r) / (PI)+0.5f;
+			phi = (acos(vertex.z / r)) / (PI);
+		}
+		else //spherical coords
+		{
+			theta = asin(vertex.x / r) / (PI)+0.5f;
+			phi = (acos(vertex.y / r)) / (PI);
+		}
+	}
+	return aiVector3D(theta, phi, r);
+}
+
+void Mesh::AddColour(const vec3 &colour) {
+	colours.clear();
 	if (faces.size() == 0) {
 		cout << "ERROR MESH: Mesh not loaded to add colour." << endl;
 	}
 	else {
 		for (int i = 0; i < faces.size(); i++) {
-			colours.push_back(*colour);
+			colours.push_back(colour);
 		}
 	}
 }
@@ -135,6 +165,7 @@ bool Mesh::Initialize() {
 	return !CheckGLErrors();
 }
 
+<<<<<<< HEAD
 aiVector3D Mesh::AddUV(aiVector3D vertex) {
 	float theta;
 	float phi;
@@ -155,6 +186,8 @@ aiVector3D Mesh::AddUV(aiVector3D vertex) {
 	return aiVector3D(theta, phi, r);
 }
 
+=======
+>>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 //Clears all vectors
 void Mesh::ClearMesh() {
 	colours.clear();
@@ -172,4 +205,8 @@ void Mesh::DestroyMesh() {
 	glDeleteBuffers(1, &colourBuffer);
 
 	glDeleteVertexArrays(1, &vertexArray);
+<<<<<<< HEAD
+=======
+	glDeleteProgram(program);
+>>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043
 }
