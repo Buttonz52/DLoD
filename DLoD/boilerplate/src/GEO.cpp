@@ -88,7 +88,7 @@ void GEO::updateRotation(const vec3 &r) {
 
 vec3 &GEO::getPosition()
 {
-	return position;
+	return vec3(modelMatrix[3].x, modelMatrix[3].y, modelMatrix[3].z);
 }
 
 void GEO::setPosition(const vec3 &pos)
@@ -179,14 +179,23 @@ bool GEO::initSkybox(const vector <string> &filenames) {
 
 mat4 GEO::getModelMatrix()
 {
+	return modelMatrix;
+}
+
+void GEO::setModelMatrix(mat4 m)
+{
+	modelMatrix = m;
+}
+
+void GEO::updateModelMatrix()
+{
 	mat4 s = glm::scale(this->getScale());
 	mat4 r = this->getRotation();
 	mat4 t = translate(this->getPosition());
 
-	mat4 M = t * r * s;
-
-	return M;
+	modelMatrix = t * r * s;
 }
+
 
 //Adds shaders 
 void GEO::addShaders(const string &vert, const string &frag)

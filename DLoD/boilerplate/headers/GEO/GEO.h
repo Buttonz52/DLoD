@@ -42,10 +42,17 @@ public:
 	bool isPlane;
 
     mat4 getRotation();
-	mat4 getModelMatrix();
 
+	mat4 getModelMatrix();
+	void setModelMatrix(mat4 m);
+	void updateModelMatrix();
+
+	//getShape()
 
 private:
+	//PxShape* shape;
+	//PxRigidDynamic* body;
+	mat4 modelMatrix;
 	vec3 scale;  
     double xRotation, yRotation, zRotation;
 	vec3 position;

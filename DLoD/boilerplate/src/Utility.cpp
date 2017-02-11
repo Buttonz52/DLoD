@@ -45,3 +45,16 @@ bool CheckGLErrors()
 	}
 	return error;
 }
+
+void print4x4Matrix(mat4 mat)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			cout << mat[i][j] << " ";
+		}
+		cout << "" << endl;
+	}
+	printf("\n");
+}

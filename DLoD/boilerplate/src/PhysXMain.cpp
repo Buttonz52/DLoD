@@ -3,32 +3,16 @@
 
 using namespace physx;
 
-PxDefaultAllocator		gAllocator;
-PxDefaultErrorCallback	gErrorCallback;
+PhysXMain::PhysXMain()
+{
 
-PxFoundation*			gFoundation = NULL;
-PxPhysics*				gPhysics = NULL;
+}
 
-PxDefaultCpuDispatcher*	gDispatcher = NULL;
-PxScene*				gScene = NULL;
+PhysXMain::~PhysXMain()
+{
+}
 
-PxCooking*				gCooking = NULL;
-
-PxMaterial*				gMaterial = NULL;
-
-PxVisualDebuggerConnection* gConnection = NULL;
-
-//VehicleSceneQueryData*	gVehicleSceneQueryData = NULL;	//dunno what this is, doesnt find it -bp
-PxBatchQuery*			gBatchQuery = NULL;
-
-PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
-
-PxRigidStatic*			gGroundPlane = NULL;
-PxVehicleDrive4W*		gVehicle4W = NULL;
-
-bool					gIsVehicleInAir = true;
-
-void PhysXMain::initPhysics()
+void PhysXMain::init()
 {
 	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 	PxProfileZoneManager* profileZoneManager = &PxProfileZoneManager::createProfileZoneManager(gFoundation);
@@ -54,22 +38,31 @@ void PhysXMain::initPhysics()
 	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0, 1, 0, 0), *gMaterial);
 	gScene->addActor(*groundPlane);
 
-	//make box.
 	initObject();
-
 }
 
 void PhysXMain::initObject()
 {
-	PxShape* shape = gPhysics->createShape(PxBoxGeometry(1, 1, 1), *gMaterial);
-	PxRigidDynamic* body = gPhysics->createRigidDynamic(PxTransform(PxVec3(0, 0, 0)));
+	PxShape* shape = gPhysics->createShape(PxBoxGeometry(1, 1, 2), *gMaterial);
+	body = gPhysics->createRigidDynamic(PxTransform(PxVec3(0, 2, 0)));
 	body->attachShape(*shape);
 	PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
-	gScene->addActor(*body); //when simulate is called anything added to scene is go for sim.
-	body->getGlobalPose().q; //quaternion
-	body->getGlobalPose().p; //translationmatrix
+	gScene->addActor(*body); //when simulate is called anything added to scene is go for sim.	
+}
 
-	PxRigidBodyExt::addForceAtLocalPos(*body, PxVec3(0, 0, 1), PxVec3(0, 0, 0)); // this is how we apply force to our body.	
+
+
+void PhysXMain::accelerate(GEO* g)
+{
+	
+	PxRigidBodyExt::addForceAtLocalPos(*body, PxVec3(0,0,10000), PxVec3(0, 0, 0));
+	
+	mat4 M = convertMat(PxVec3(1, 0, 0), PxVec3(0, 1, 0), PxVec3(0, 0, 1), body->getGlobalPose().p);
+	g->setModelMatrix(M);
+
+	print4x4Matrix(g->getModelMatrix());
+
+
 }
 
 void PhysXMain::stepPhysics(bool interactive)
@@ -92,4 +85,16 @@ void PhysXMain::cleanupPhysics(bool interactive)
 	gFoundation->release();
 
 	printf("PhysX done.\n");
+}
+
+mat4 PhysXMain::convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w)
+{
+	mat4 M = mat4(x.x, y.x, z.x, w.x,
+				x.y, y.y, z.y, w.y,
+				x.z, y.z, z.z, w.z,
+				0.0, 0.0, 0.0, 1.0f);
+
+	M = glm::transpose(M);
+
+	return M;
 }
