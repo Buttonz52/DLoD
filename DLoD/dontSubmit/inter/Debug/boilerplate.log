@@ -1,20 +1,16 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Desktop\git brendan feb 10\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   main.cpp
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(53): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(64): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(90): warning C4305: 'initializing': truncation from 'double' to 'float'
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(124): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(128): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(132): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(136): warning C4305: 'argument': truncation from 'double' to 'float'
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(167): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(170): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(200): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(201): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(211): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(301): warning C4018: '<': signed/unsigned mismatch
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(377): warning C4018: '<': signed/unsigned mismatch
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(394): warning C4018: '<': signed/unsigned mismatch
-c:\users\kiersten\desktop\git master\dlod\boilerplate\src\main.cpp(404): warning C4018: '<': signed/unsigned mismatch
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\bin\Debug\boilerplate.exe
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git master\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(51): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(62): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(145): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(163): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(167): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(171): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(175): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(210): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(213): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(243): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(244): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git brendan feb 10\dlod\boilerplate\src\main.cpp(254): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git brendan feb 10\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git brendan feb 10\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

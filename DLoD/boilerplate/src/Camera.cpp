@@ -23,13 +23,11 @@ Camera::~Camera() {}
 void Camera::setInitValues() {
 	azu = M_PI_4;
 	alt = M_PI_4;
-	radius = 15;
+	radius = 100;
 
 	fov = M_PI / 3;
 	_near = 0.001;
-	_far = 10000;
-
-
+	_far = 600;
 }
 
 void Camera::setCenter(vec3 &c) {
@@ -38,7 +36,7 @@ void Camera::setCenter(vec3 &c) {
 void Camera::setAlt(float newAlt)
 {
 	alt = newAlt;
-	alt = min(max(alt, 0.00001f), M_PI - 0.000001f);
+	alt = min(max(alt, 0.000001f), M_PI - 0.000001f);
 }
 
 void Camera::setAzu(float newAzu)
@@ -49,7 +47,7 @@ void Camera::setAzu(float newAzu)
 void Camera::incrementAlt(float newAlt)
 {
 	alt += newAlt;
-	alt = min(max(alt, 0.00001f), M_PI - 0.000001f);
+	alt = min(max(alt, 0.001f), M_PI - 0.001f);
 }
 
 void Camera::incrementAzu(float newAzu)
@@ -65,7 +63,7 @@ void Camera::setRadius(float newRad)
 void Camera::incrementRadius(float newRad)
 {
 	radius -= newRad;
-	radius = min(max(radius, 6.0f), 80.0f);
+	radius = min(max(radius, 6.0f), 200.0f);
 }
 
 mat4 Camera::calculateProjectionMatrix(float asp) {
@@ -106,6 +104,6 @@ mat4 Camera::calculateViewMatrix() {
 	return view;
 }
 
-vec3 * Camera::getCenter() {
+vec3* Camera::getCenter() {
 	return &center;
 }

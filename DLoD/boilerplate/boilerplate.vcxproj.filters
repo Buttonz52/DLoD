@@ -235,18 +235,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\sphere.vert">
-      <Filter>Shaders\Vertex</Filter>
-    </None>
-    <None Include="shaders\teapot.vert">
-      <Filter>Shaders\Vertex</Filter>
-    </None>
-    <None Include="shaders\sphere.frag">
-      <Filter>Shaders\Fragment</Filter>
-    </None>
-    <None Include="shaders\teapot.frag">
-      <Filter>Shaders\Fragment</Filter>
-    </None>
     <None Include="shaders\skybox.frag">
       <Filter>Shaders\Fragment</Filter>
     </None>
@@ -258,6 +246,18 @@
     </None>
     <None Include="shaders\tex2D.frag">
       <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\toon.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\toon.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\phong.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\phong.vert">
+      <Filter>Shaders\Vertex</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

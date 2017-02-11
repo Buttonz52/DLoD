@@ -40,7 +40,6 @@ public:
 	vector<vec3> uvs;
 	vector<GLushort> faces;
 	vector<vec3> normals;
-	vector<vec3> tangents;
 	GLuint vertexArray;
 	GLuint program;
 	GLsizei elementCount;
@@ -51,11 +50,10 @@ private:
 	GLuint normalBuffer;
 	GLuint indicesBuffer;
 	GLuint textureBuffer;
-	GLuint tangentBuffer;
 	GLuint colourBuffer; //might not need
-	aiVector3D AddUV(const aiVector3D &vertex);
+	aiVector3D AddUV(const aiVector3D &vertex, string filename);
 	//GLuint vertexArray;
-	void CalculateTangent();
+
 
 	mat4 _view;
 	mat4 _projection;
