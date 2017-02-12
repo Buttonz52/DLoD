@@ -379,7 +379,13 @@ int main(int argc, char *argv[])
 		
 		//update
 
+<<<<<<< HEAD
 		camera->followObject(cube);
+=======
+		//print4x4Matrix(transpose(cube->getModelMatrix()));
+
+    camera->followObject(cube);
+>>>>>>> 01e44bfc73ca10c2b458487bae8316658a76e156
 
 		//draw
 		RenderGEO(cube);

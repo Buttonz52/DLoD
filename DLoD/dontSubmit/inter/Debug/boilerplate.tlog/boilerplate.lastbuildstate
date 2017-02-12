@@ -1,2 +1,7 @@
+<<<<<<< HEAD
+#TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
+Debug|Win32|\\cs-fs01\Profiles\ug\easpoone\Desktop\Game Dev\DLoD\|
+=======
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit
 Debug|Win32|\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\|
+>>>>>>> 92a1643491d5d92f051245b2a1316fd57f28093d
