@@ -378,7 +378,10 @@ int main(int argc, char *argv[])
 		
 		//update
 
-		print4x4Matrix(cube->getModelMatrix());
+		//print4x4Matrix(transpose(cube->getModelMatrix()));
+
+    camera->followObject(cube);
+
 		//draw
 		RenderGEO(cube);
 		RenderGEO(&skybox);
