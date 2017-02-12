@@ -2,6 +2,9 @@
 #include "Physics\PhysXMain.h"
 
 using namespace std;
+
+//XboxController testController = XboxController(1);
+
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer
 void RenderGEO(GEO *geo)
@@ -17,7 +20,10 @@ void RenderGEO(GEO *geo)
 
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
+	if (geo->isSkybox || geo->isPlane)
+		geo->updateModelMatrix();
 	mat4 M = geo->getModelMatrix();
+	
 
 	_projection = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
 	_view = camera->calculateViewMatrix();
@@ -134,15 +140,35 @@ void AlternKeyCallback(GLFWwindow* window)
   if (state == GLFW_PRESS)
     currentGEO->updateRotation(vec3(0, 0, -factor));
 
-
-  //Movement of the geos -- maybe
+  //Movement of the GEOs
+  state = glfwGetKey(window, GLFW_KEY_UP);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.accelerate(currentGEO);
+  }
+  state = glfwGetKey(window, GLFW_KEY_DOWN);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.decelerate(currentGEO);
+  }
+  state = glfwGetKey(window, GLFW_KEY_LEFT);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.leftTurn(currentGEO);
+  }
+  state = glfwGetKey(window, GLFW_KEY_RIGHT);
+  if (state == GLFW_PRESS)
+  {
+	  PhysX.rightTurn(currentGEO);
+  }
+	 
 }
 
 
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	float factor = 0.05;
+	float factor = 1.00;
 	if (action == GLFW_RELEASE)
 		return;
 
@@ -159,22 +185,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		audio.PlaySfx(audio.horn);
 		break;
       
-    case GLFW_KEY_RIGHT:
-      camera->incrementAzu(-M_PI/180);
-      break;
-      
-    case GLFW_KEY_LEFT:
-      camera->incrementAzu(M_PI/180);
-      break;
-      
-    case GLFW_KEY_UP:
-      camera->incrementAlt(-M_PI/180);
-      break;
-      
-    case GLFW_KEY_DOWN:
-      camera->incrementAlt(M_PI/180);
-      break;
-
 	case GLFW_KEY_G:
 		changeGEO();
 		break;
@@ -217,6 +227,30 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
       break;
 	}
 }
+/*
+void GetControllerInput()
+{
+	testController.Update();
+
+	if (testController.GetButtonPressed(XBtns.A))
+	{
+		currentGEO->updatePosition(vec3(0, -0.5f, 0));
+	}
+	if (testController.GetButtonDown(XBtns.X))
+	{
+		currentGEO->updatePosition(vec3(-0.5f, 0, 0));
+	}
+	if (testController.GetButtonDown(XBtns.Y))
+	{
+		currentGEO->updatePosition(vec3(0, 0.5f, 0));
+	}
+	if (testController.GetButtonDown(XBtns.B))
+	{
+		currentGEO->updatePosition(vec3(0.5f, 0, 0));
+	}
+	// Update for next frame
+	testController.RefreshState();
+}*/
 
 // handles mouse click
 void mouse(GLFWwindow* window, int button, int action, int mods)
@@ -325,28 +359,36 @@ int main(int argc, char *argv[])
 	}
 
 	//initialize PhysX
-	PhysXMain::initPhysics();
+	PhysX.init();
 
-	//initialize 1 game cube, plane, and skybox
-	GEO cube = initCube();
+	//Initialize 2 players, plane, and skybox
+	Player p1;
+	Player p2;
+	players.push_back(p1);		//push back to vector of players
+	players.push_back(p2);
+	p1.vehicle = *initVehicle(vec3(1,0,0));	//red cube
+	p2.vehicle = *initVehicle(vec3(0, 1, 1));	//cyan cube
+	//GEO* cube = initCube();
 	GEO plane = initGroundPlane();
 	GEO skybox = initSkyBox();
 
 	camera = &testCams[camIndex];
-	currentGEO = &cube;
+	//current game object is player 1; in future, we want to have both player 1 and 2 toggle so that can move simultaneously
+	currentGEO = &p1.vehicle;	
 	glEnable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
 		//input
-		PhysXMain::stepPhysics(true);
-
+		PhysX.stepPhysics(true, currentGEO);
+		
 		//update
 
-
+		print4x4Matrix(currentGEO->getModelMatrix());
 		//draw
-		RenderGEO(&cube);
+		RenderGEO(&p1.vehicle);		//This guy is falling over, but it moves
+		RenderGEO(&p2.vehicle);		//doesn't do anything atm.
 		RenderGEO(&skybox);
 		RenderGEO(&plane);
 		glfwSwapBuffers(window);
@@ -355,8 +397,13 @@ int main(int argc, char *argv[])
 		glfwPollEvents();
 	}
 
-	cube.shutdown();
-	PhysXMain::cleanupPhysics(true);
+	//currentGEO->shutdown();
+	//destroy all player objects
+	for (Player p : players) {
+		p.vehicle.shutdown();
+	}
+	currentGEO->shutdown();
+	PhysX.cleanupPhysics(true);
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -372,22 +419,27 @@ void PrintDirections() {
 	cout << "ESC: Exit program" << endl;
 }
 
-GEO initCube()
+Vehicle* initVehicle(vec3 &colour)
 {
-	GEO cube;
+	Vehicle* cube = new Vehicle();
 
-	cube.setFilename("cube.obj");
-	if (!cube.initMesh()) {
+	cube->setFilename("cube.obj");
+	if (!cube->initMesh()) {
 		cout << "Failed to initialize mesh." << endl;
 	}
-	cube.addShaders("shaders/phong.vert", "shaders/phong.frag");
+	cube->addShaders("shaders/phong.vert", "shaders/phong.frag");
 
-	cube.setScale(vec3(2.0f));
-	cube.setColour(vec3(1, 0, 0));	//red
+	cube->setScale(vec3(10.0f));
+	//cube->setColour(vec3(1, 0, 0));	//red
+	cube->setColour(colour);
 
-	if (!cube.initBuffers()) {
-		cout << "Could not initialize buffers for game object " << cube.getFilename() << endl;
+	if (!cube->initBuffers()) {
+		cout << "Could not initialize buffers for game object " << cube->getFilename() << endl;
 	}
+
+	PhysX.initObject(cube);
+
+	gameObjects.push_back(*cube);
 
 	return cube;
 }
@@ -434,3 +486,4 @@ GEO initSkyBox()
 
 	return skybox;
 }
+

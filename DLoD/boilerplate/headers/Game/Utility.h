@@ -30,5 +30,7 @@ using namespace glm;
 
 void QueryGLVersion();
 bool CheckGLErrors();
+void print4x4Matrix(mat4 mat);
+
 
 #endif

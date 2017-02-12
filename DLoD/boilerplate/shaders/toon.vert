@@ -18,7 +18,11 @@ uniform mat4 modelview;
 uniform mat4 projection;
 uniform mat4 model;
 uniform vec3 lightPosition;
+<<<<<<< HEAD:DLoD/boilerplate/shaders/teapot.vert
+uniform vec3 position;
+=======
 
+>>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043:DLoD/boilerplate/shaders/toon.vert
 out vec3 Colour;
 out vec3 N;
 out vec3 L;
@@ -30,7 +34,11 @@ void main()
 	//very arbitrary scale for the moment; testing purposes.
 	float scale = 0.05f;
     // assign vertex position without modification
+<<<<<<< HEAD:DLoD/boilerplate/shaders/teapot.vert
+	vec4 vertexCameraSpace = modelview * vec4(VertexPosition*scale + position,1.0);
+=======
 	vec4 vertexCameraSpace = modelview * model * vec4(VertexPosition,1.0);
+>>>>>>> 7b9af403ce13b74095ac0b5e6d81f3d635f15043:DLoD/boilerplate/shaders/toon.vert
 	P = vertexCameraSpace.xyz/vertexCameraSpace.w;
 
 	mat3 normalMatrix = mat3(transpose(inverse(modelview)));

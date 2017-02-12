@@ -6,27 +6,50 @@
 #include "PxPhysicsAPI.h"
 #include "PxPhysics.h"
 #include "PxScene.h"
-#include "vehicle\PxVehicleDrive4W.h"
-#include "../GEO/vehicle/Vehicle.h"
+#include "../GEO/GEO.h"
+
+using namespace physx;
+
 class PhysXMain
 {
 public:
 
-	static void initPhysics();
-	static void initObject();
-	static void stepPhysics(bool interactive);
-	static void cleanupPhysics(bool interactive);
-	static void linkCooking();
-	static void initVehicle(Vehicle &Vehicle);
-	static void setTolerancesScale(float _length, float _speed, float _mass);
-	PxConvexMesh* createConvexMesh(const PxVec3* verts, const PxU32 numVerts, PxPhysics& physics, PxCooking& cooking);
-	PxConvexMesh* createWheelMesh(const PxF32 width, const PxF32 radius, PxPhysics& physics, PxCooking& cooking);
-	PxConvexMesh* createChassisMesh(const PxVec3 dims, PxPhysics& physics, PxCooking& cooking);
-	PxRigidDynamic* createVehicleActor
-	(const PxVehicleChassisData& chassisData,
-		PxMaterial** wheelMaterials, PxConvexMesh** wheelConvexMeshes, const PxU32 numWheels,
-		PxMaterial** chassisMaterials, PxConvexMesh** chassisConvexMeshes, const PxU32 numChassisMeshes,
-		PxPhysics& physics)
+	PxDefaultAllocator		gAllocator;
+	PxDefaultErrorCallback	gErrorCallback;
+
+	PxFoundation*			gFoundation = NULL;
+	PxPhysics*				gPhysics = NULL;
+
+	PxDefaultCpuDispatcher*	gDispatcher = NULL;
+	PxScene*				gScene = NULL;
+
+	PxCooking*				gCooking = NULL;
+
+	PxMaterial*				gMaterial = NULL;
+
+	PxVisualDebuggerConnection* gConnection = NULL;
+
+	//VehicleSceneQueryData*	gVehicleSceneQueryData = NULL;	//dunno what this is, doesnt find it -bp
+	PxBatchQuery*			gBatchQuery = NULL;
+
+	PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
+
+	PxRigidStatic*			gGroundPlane = NULL;
+	PxVehicleDrive4W*		gVehicle4W = NULL;
+
+	bool					gIsVehicleInAir = true;
+
+	PhysXMain();
+	~PhysXMain();
+	void init();
+	void initObject(GEO* g);
+	void stepPhysics(bool interactive, GEO* g);
+	void cleanupPhysics(bool interactive);
+	void accelerate(GEO* g);
+	void decelerate(GEO* g);
+	void leftTurn(GEO* g);
+	void rightTurn(GEO* g);
+	mat4 convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w);
 };
 
 #endif
