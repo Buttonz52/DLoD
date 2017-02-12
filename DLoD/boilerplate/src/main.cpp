@@ -379,6 +379,8 @@ int main(int argc, char *argv[])
 		
 		//update
 
+		camera->followObject(cube);
+
 		//draw
 		RenderGEO(cube);
 		RenderGEO(&skybox);

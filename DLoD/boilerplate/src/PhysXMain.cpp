@@ -44,8 +44,9 @@ void PhysXMain::initObject(GEO* g)
 	PxShape* shape = gPhysics->createShape(PxBoxGeometry(1, 1, 2), *gMaterial);
 	g->setShape(*shape);
 	PxRigidDynamic *body = gPhysics->createRigidDynamic(PxTransform(PxVec3(0, 2, 0)));
+	body->setAngularDamping(7);
 	body->attachShape(*shape);
-	PxRigidBodyExt::updateMassAndInertia(*body, 40.0f);
+	PxRigidBodyExt::updateMassAndInertia(*body, 20.0f);
 	g->setBody(*body);
 	gScene->addActor(*body); //when simulate is called anything added to scene is go for sim.	
 }
@@ -63,7 +64,7 @@ void PhysXMain::decelerate(GEO* g)
 void PhysXMain::turn(GEO* g, float dir)
 {
 	//if dir < 0.2 and dir > -0.2 then make sure the only velocity is in the forward direction
-	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), g->getBody().getGlobalPose().q.getBasisVector0()*100*dir, PxVec3(0, 0, 180));
+	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), g->getBody().getGlobalPose().q.getBasisVector0()*120*dir, PxVec3(0, 0, 180));
 }
 
 
