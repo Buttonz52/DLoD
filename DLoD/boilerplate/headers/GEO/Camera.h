@@ -37,10 +37,5 @@ public:
 	vec3 *getCenter();
 	void setInitValues();
 
-<<<<<<< HEAD
 	void followObject(GEO*);
-=======
-  void followObject(GEO*);
-
->>>>>>> 01e44bfc73ca10c2b458487bae8316658a76e156
 };

@@ -65,14 +65,8 @@ void Camera::incrementRadius(float newRad)
 	radius = min(max(radius, 6.0f), 200.0f);
 }
 
-<<<<<<< HEAD
-mat4 Camera::calculateProjectionMatrix(float asp)
-{
-
-=======
 mat4 Camera::calculateProjectionMatrix(float asp) 
 {
->>>>>>> 01e44bfc73ca10c2b458487bae8316658a76e156
 	float dy = _near * tan(fov * 0.5);
 	float dx = dy * asp;
   
@@ -91,11 +85,7 @@ void Camera::translate3D(vec3 delta)
 
 mat4 Camera::calculateViewMatrix()
 {
-<<<<<<< HEAD
-=======
-
-  // Calculate x,y,z from spherical coordinates
->>>>>>> 01e44bfc73ca10c2b458487bae8316658a76e156
+	// Calculate x,y,z from spherical coordinates
 	float x = radius * sin(alt) * cos(azu - M_PI / 2);
 	float y = radius * cos(alt);
 	float z = radius * sin(alt) * sin(azu - M_PI / 2);
@@ -119,7 +109,6 @@ vec3* Camera::getCenter()
 
 void Camera::followObject(GEO* obj)
 {
-<<<<<<< HEAD
 	mat4 M = obj->getModelMatrix();
 	
 	// Get the position of the object
@@ -162,47 +151,4 @@ void Camera::followObject(GEO* obj)
 	if (azu > M_PI * 2)
 		azu -= M_PI * 2;
 } 		  
-=======
-  mat4 M = obj->getModelMatrix();
 
-  // Get the position of the object
-  vec3 pos = vec3(M[3]);
-
-  // Make a delta value to increment the focal point by  (This should evtually be a function of the length of delta)
-  vec3 delta = -pos - focalPoint;
-  delta = (delta.length() > 0.01) ? vec3(delta.x / 10, delta.y / 10, delta.z / 10) : delta;
-
-  focalPoint += delta;
-  
-  // Get the rotation of the object
-  physx::PxVec3 axis = physx::PxVec3(0, 1, 0);
-  physx::PxReal angle = 0;
-  obj->getBody().getGlobalPose().q.toRadiansAndUnitAxis(angle, axis);
-
-
-  int fix = (axis.y < 0) ? 1 : -1;
-  angle *= fix;
-  if (angle < 0)
-    angle += M_PI * 2;
-
-  if (angle - azu > M_PI * 2)
-    azu -= M_PI * 2;
-  
-  // Make a delta value to increment the azu by  (This should evtually be a function of the length of the delta)
-  double theta = angle - azu;
-  if (theta > M_PI)
-    theta -= M_PI * 2;
-
-  if (theta < -M_PI)
-    theta += M_PI * 2;
-
-  theta = (abs(theta) > 0.001) ? theta/20 : theta;
-
-  azu += theta;
-  if (azu < 0)
-    azu += M_PI * 2;
-
-  if (azu > M_PI * 2)
-    azu -= M_PI * 2;
-}
->>>>>>> 01e44bfc73ca10c2b458487bae8316658a76e156
