@@ -6,17 +6,18 @@
 #include "../GameEngine/Shader.h"
 #include "Utility.h"
 #include "../GameEngine/Texture.h"
-//#include "../GEO/Camera.h"
+#include "../GEO/Camera.h"
 #include "Audio.h"
 #include "../Physics/PhysXMain.h"
-#include "GEO/player/Player.h"
-//#include "../XboxController.h"
+#include "GEO/player/Human.h"
+#include "GEO/player/AI.h"
+#include "Controller/XboxController.h"
 
 using namespace std;
 
 // --------------------------------------------------------------------------
 // Variables
-vector<Player> players;	//players in game
+vector<Player> players;
 vector<GEO> gameObjects;
 
 //test cameras
@@ -54,12 +55,16 @@ void PrintDirections();
 int LoadAllObjFiles(const char *pathname);	
 
 //init GEO functions
+GEO* initCube(vec3 &colour);
 Vehicle* initVehicle(vec3 &colour);
 GEO initGroundPlane();
 GEO initSkyBox();
 
 //PhysX object
 PhysXMain PhysX;
+
+//controller
+XboxController testController(1);
 
 // --------------------------------------------------------------------------
 #endif

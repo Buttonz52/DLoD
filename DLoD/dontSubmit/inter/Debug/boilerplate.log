@@ -1,11 +1,10 @@
-﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (C:\Users\Kiersten\Desktop\git feb 11\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  main.cpp
-c:\users\kiersten\desktop\git feb 11\dlod\boilerplate\src\main.cpp(57): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\git feb 11\dlod\boilerplate\src\main.cpp(68): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\git feb 11\dlod\boilerplate\src\main.cpp(220): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git feb 11\dlod\boilerplate\src\main.cpp(223): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git feb 11\dlod\boilerplate\src\main.cpp(277): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git feb 11\dlod\boilerplate\src\main.cpp(278): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git feb 11\dlod\boilerplate\src\main.cpp(288): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git feb 11\DLoD\dontSubmit\bin\Debug\boilerplate.exe
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git feb 11\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+﻿  main.cpp
+c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(56): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(67): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(222): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(225): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(274): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(275): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(285): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

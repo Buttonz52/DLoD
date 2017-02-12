@@ -9,25 +9,20 @@ public:
 	Audio();
 	~Audio();
 
+	Mix_Chunk *horn = NULL;
+
 	bool InitMusic(const char *filename);
-
 	void CleanUp();
-
 	bool PlayMusic();
-
-	void PlaySfx(Mix_Chunk *sfx);
-
 	void PauseMusic();
-
+	void PlaySfx(Mix_Chunk *sfx);
 	void ResumeMusic();
-
 	void PausePlay();
 
-	Mix_Chunk *horn = NULL;
+
 
 private:
 	bool on;
-
 	Mix_Music *music_file = NULL;
 }
 ;

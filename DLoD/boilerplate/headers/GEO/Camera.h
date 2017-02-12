@@ -1,7 +1,7 @@
 #include "../Game/Utility.h"
-#include "GEO.h"
+#include "GEO/GEO.h"
 
-class Camera : GEO
+class Camera
 {
 private:
 	float azu;
@@ -36,4 +36,6 @@ public:
 	void translate3D(vec3);
 	vec3 *getCenter();
 	void setInitValues();
+
+	void followObject(GEO*);
 };

@@ -16,39 +16,32 @@ public:
 
 	PxDefaultAllocator		gAllocator;
 	PxDefaultErrorCallback	gErrorCallback;
-
 	PxFoundation*			gFoundation = NULL;
 	PxPhysics*				gPhysics = NULL;
-
 	PxDefaultCpuDispatcher*	gDispatcher = NULL;
 	PxScene*				gScene = NULL;
-
 	PxCooking*				gCooking = NULL;
-
 	PxMaterial*				gMaterial = NULL;
-
 	PxVisualDebuggerConnection* gConnection = NULL;
-
-	//VehicleSceneQueryData*	gVehicleSceneQueryData = NULL;	//dunno what this is, doesnt find it -bp
+	//VehicleSceneQueryData*	gVehicleSceneQueryData = NULL;	//for when we actually do car stuff -bp
 	PxBatchQuery*			gBatchQuery = NULL;
-
 	PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
-
 	PxRigidStatic*			gGroundPlane = NULL;
 	PxVehicleDrive4W*		gVehicle4W = NULL;
-
-	bool					gIsVehicleInAir = true;
+	bool					gIsVehicleInAir = true; // unused
 
 	PhysXMain();
 	~PhysXMain();
 	void init();
 	void initObject(GEO* g);
-	void stepPhysics(bool interactive, GEO* g);
-	void cleanupPhysics(bool interactive);
+
 	void accelerate(GEO* g);
 	void decelerate(GEO* g);
-	void leftTurn(GEO* g);
-	void rightTurn(GEO* g);
+	void turn(GEO* g, float dir);
+
+	void stepPhysics(bool interactive, GEO* g);
+	void cleanupPhysics(bool interactive);
+
 	mat4 convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w);
 };
 

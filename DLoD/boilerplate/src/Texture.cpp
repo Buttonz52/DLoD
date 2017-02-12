@@ -4,6 +4,7 @@
 //the header.
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+
 Texture::Texture() {}
 
 Texture::~Texture() {}
@@ -52,17 +53,7 @@ bool Texture::InitializeTexture(const string &filename, GLuint target)
 	}
 	return !CheckGLErrors();
 }
-bool Texture::BindTexture(GLuint program, string varName) {
-	glActiveTexture(GL_TEXTURE0 + textureID);
-	glBindTexture(this->target, textureID);
-	glUniform1i(glGetUniformLocation(program, varName.c_str()), textureID);
 
-	return !CheckGLErrors();
-}
-
-void Texture::UnbindTexture(GLuint target) {
-	glBindTexture(target, 0);
-}
 bool Texture::InitializeSkybox(const vector<string> &filename) {
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
@@ -105,11 +96,22 @@ bool Texture::InitializeSkybox(const vector<string> &filename) {
 
 	}
 
-
 	// Clean up
 	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
 	return !CheckGLErrors();
+}
+
+bool Texture::BindTexture(GLuint program, string varName) {
+	glActiveTexture(GL_TEXTURE0 + textureID);
+	glBindTexture(this->target, textureID);
+	glUniform1i(glGetUniformLocation(program, varName.c_str()), textureID);
+
+	return !CheckGLErrors();
+}
+
+void Texture::UnbindTexture(GLuint target) {
+	glBindTexture(target, 0);
 }
 
 // deallocate texture-related objects

@@ -1,9 +1,8 @@
 #include "Game/main.h"
 #include "Physics\PhysXMain.h"
 
-using namespace std;
 
-//XboxController testController = XboxController(1);
+using namespace std;
 
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer
@@ -154,13 +153,16 @@ void AlternKeyCallback(GLFWwindow* window)
   state = glfwGetKey(window, GLFW_KEY_LEFT);
   if (state == GLFW_PRESS)
   {
-	  PhysX.leftTurn(currentGEO);
+	  PhysX.turn(currentGEO, 1);
   }
   state = glfwGetKey(window, GLFW_KEY_RIGHT);
   if (state == GLFW_PRESS)
   {
-	  PhysX.rightTurn(currentGEO);
+	  PhysX.turn(currentGEO,-1);
   }
+
+  //controller version
+
 	 
 }
 
@@ -227,30 +229,25 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
       break;
 	}
 }
-/*
+
 void GetControllerInput()
 {
 	testController.Update();
 
-	if (testController.GetButtonPressed(XBtns.A))
+	if (testController.RightTrigger() != 0)
 	{
-		currentGEO->updatePosition(vec3(0, -0.5f, 0));
-	}
-	if (testController.GetButtonDown(XBtns.X))
-	{
-		currentGEO->updatePosition(vec3(-0.5f, 0, 0));
-	}
-	if (testController.GetButtonDown(XBtns.Y))
-	{
-		currentGEO->updatePosition(vec3(0, 0.5f, 0));
+		PhysX.accelerate(currentGEO);
 	}
 	if (testController.GetButtonDown(XBtns.B))
 	{
-		currentGEO->updatePosition(vec3(0.5f, 0, 0));
+		PhysX.decelerate(currentGEO);
 	}
+
+	PhysX.turn(currentGEO, -testController.LeftStick_X());
+
 	// Update for next frame
-	testController.RefreshState();
-}*/
+	//testController.RefreshState();
+}
 
 // handles mouse click
 void mouse(GLFWwindow* window, int button, int action, int mods)
@@ -361,49 +358,57 @@ int main(int argc, char *argv[])
 	//initialize PhysX
 	PhysX.init();
 
+	//initialize 1 game cube, plane, and skybox
+	//GEO* cube = initCube();
+
 	//Initialize 2 players, plane, and skybox
-	Player p1;
-	Player p2;
+	Player p1(vec3(1,0,0));
+	Player p2(vec3(-1,0,0));
 	players.push_back(p1);		//push back to vector of players
 	players.push_back(p2);
-	p1.vehicle = *initVehicle(vec3(1,0,0));	//red cube
+	p1.vehicle = *initVehicle(vec3(1, 0, 0));	//red cube
 	p2.vehicle = *initVehicle(vec3(0, 1, 1));	//cyan cube
-	//GEO* cube = initCube();
 	GEO plane = initGroundPlane();
 	GEO skybox = initSkyBox();
 
 	camera = &testCams[camIndex];
-	//current game object is player 1; in future, we want to have both player 1 and 2 toggle so that can move simultaneously
-	currentGEO = &p1.vehicle;	
+//	currentGEO = cube;
+	currentGEO = &p1.vehicle;
 	glEnable(GL_DEPTH_TEST);
+
+	PrintDirections();
 
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
 		//input
+	
+		//PhysX.stepPhysics(true, cube);
 		PhysX.stepPhysics(true, currentGEO);
 		
 		//update
+		//camera->followObject(cube);
+		camera->followObject(currentGEO);
 
-		print4x4Matrix(currentGEO->getModelMatrix());
 		//draw
-		RenderGEO(&p1.vehicle);		//This guy is falling over, but it moves
-		RenderGEO(&p2.vehicle);		//doesn't do anything atm.
+	//	RenderGEO(cube);
+		RenderGEO(&p1.vehicle);
+		RenderGEO(&p2.vehicle);
 		RenderGEO(&skybox);
 		RenderGEO(&plane);
 		glfwSwapBuffers(window);
 
+		GetControllerInput();
         AlternKeyCallback(window);
 		glfwPollEvents();
 	}
 
-	//currentGEO->shutdown();
-	//destroy all player objects
+	//cube->shutdown();
 	for (Player p : players) {
 		p.vehicle.shutdown();
 	}
-	currentGEO->shutdown();
 	PhysX.cleanupPhysics(true);
+	audio.CleanUp();
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -414,14 +419,42 @@ int main(int argc, char *argv[])
 
 void PrintDirections() {
 	cout << "Directions: " << endl;
-	cout << "A: Rotate object ccw \nD: Rotate object cw" << endl;
-	cout << "UP/DOWN/LEFT/RIGHT: Rotate camera" << endl;
+	cout << "UP/DOWN/LEFT/RIGHT: Move Block" << endl;
+	cout << "Xbox R-trigger: acclerate" << endl;
+	cout << "Xbox B-Button: decelerate" << endl;
+	cout << "Xbox L-Stick: turning" << endl;
 	cout << "ESC: Exit program" << endl;
 }
+
 
 Vehicle* initVehicle(vec3 &colour)
 {
 	Vehicle* cube = new Vehicle();
+
+	cube->setFilename("cube.obj");
+	if (!cube->initMesh()) {
+		cout << "Failed to initialize mesh." << endl;
+	}
+	cube->addShaders("shaders/phong.vert", "shaders/phong.frag");
+
+	cube->setScale(vec3(10.0f));
+	//cube->setColour(vec3(1, 0, 0));	//red
+	cube->setColour(colour);
+
+	if (!cube->initBuffers()) {
+		cout << "Could not initialize buffers for game object " << cube->getFilename() << endl;
+	}
+
+	PhysX.initObject(cube);
+
+	gameObjects.push_back(*cube);
+
+	return cube;
+}
+
+GEO* initCube(vec3 &colour)
+{
+	GEO* cube = new GEO();
 
 	cube->setFilename("cube.obj");
 	if (!cube->initMesh()) {
@@ -486,4 +519,3 @@ GEO initSkyBox()
 
 	return skybox;
 }
-

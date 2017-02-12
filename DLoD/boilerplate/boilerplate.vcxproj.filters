@@ -108,9 +108,6 @@
     <ClCompile Include="src\Audio.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameTimer.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
@@ -123,37 +120,13 @@
     <ClCompile Include="src\Item.cpp">
       <Filter>Source Files\GEO\itempickup</Filter>
     </ClCompile>
-    <ClCompile Include="src\TrapPack.cpp">
-      <Filter>Source Files\GEO\itempickup</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ArmourPack.cpp">
-      <Filter>Source Files\GEO\itempickup</Filter>
-    </ClCompile>
-    <ClCompile Include="src\HealthPack.cpp">
-      <Filter>Source Files\GEO\itempickup</Filter>
-    </ClCompile>
     <ClCompile Include="src\Human.cpp">
       <Filter>Source Files\GEO\player</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MediumVehicle.cpp">
-      <Filter>Source Files\GEO\vehicle</Filter>
     </ClCompile>
     <ClCompile Include="src\Vehicle.cpp">
       <Filter>Source Files\GEO\vehicle</Filter>
     </ClCompile>
-    <ClCompile Include="src\HeavyVehicle.cpp">
-      <Filter>Source Files\GEO\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\LightVehicle.cpp">
-      <Filter>Source Files\GEO\vehicle</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Arena.cpp">
-      <Filter>Source Files\GEO</Filter>
-    </ClCompile>
     <ClCompile Include="src\Light.cpp">
-      <Filter>Source Files\GEO</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Trap.cpp">
       <Filter>Source Files\GEO</Filter>
     </ClCompile>
     <ClCompile Include="src\XboxController.cpp">
@@ -163,12 +136,6 @@
   <ItemGroup>
     <ClInclude Include="headers\GameState.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\GEO\Trap.h">
-      <Filter>Header Files\GEO</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\GEO\Arena.h">
-      <Filter>Header Files\GEO</Filter>
     </ClInclude>
     <ClInclude Include="headers\GEO\GEO.h">
       <Filter>Header Files\GEO</Filter>
@@ -185,34 +152,13 @@
     <ClInclude Include="headers\GEO\player\Human.h">
       <Filter>Header Files\GEO\player</Filter>
     </ClInclude>
-    <ClInclude Include="headers\GEO\item\HealthPack.h">
-      <Filter>Header Files\GEO\itempickup</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\GEO\item\ArmourPack.h">
-      <Filter>Header Files\GEO\itempickup</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\GEO\item\TrapPack.h">
-      <Filter>Header Files\GEO\itempickup</Filter>
-    </ClInclude>
     <ClInclude Include="headers\GEO\item\Item.h">
       <Filter>Header Files\GEO\itempickup</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\GEO\vehicle\MediumVehicle.h">
-      <Filter>Header Files\GEO\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\GEO\vehicle\LightVehicle.h">
-      <Filter>Header Files\GEO\vehicle</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\GEO\vehicle\HeavyVehicle.h">
-      <Filter>Header Files\GEO\vehicle</Filter>
     </ClInclude>
     <ClInclude Include="headers\GEO\vehicle\Vehicle.h">
       <Filter>Header Files\GEO\vehicle</Filter>
     </ClInclude>
     <ClInclude Include="headers\Game\Audio.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Game\GameTimer.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="headers\Game\Utility.h">
