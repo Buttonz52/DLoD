@@ -1,53 +1,80 @@
-﻿Build started 2/11/2017 2:21:02 PM.
+﻿Build started 2/11/2017 5:40:44 PM.
      1>Project "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\boilerplate.vcxproj" on node 2 (Build target(s)).
      1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\Include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2-2.0.5\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2_mixer-2.0.1\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\boilerplate\headers" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\dirent" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Assimp\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glfw\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glad\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\stb" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glm-0.9.8.2" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Xbox\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\\" /Fd"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt src\GEO.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\Include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2-2.0.5\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2_mixer-2.0.1\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\boilerplate\headers" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\dirent" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Assimp\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glfw\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glad\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\stb" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glm-0.9.8.2" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Xbox\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\\" /Fd"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt src\AI.cpp src\Camera.cpp src\GEO.cpp src\Human.cpp src\Item.cpp src\Light.cpp src\PhysXMain.cpp src\Player.cpp src\Vehicle.cpp src\main.cpp
          GEO.cpp
-     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(53): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(54): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(56): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(59): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(60): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
      1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(61): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
      1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(62): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(66): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
      1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
      1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(91): warning C4172: returning address of local variable or temporary
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(70): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(74): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(75): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(76): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+         Generating Code...
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(107): warning C4172: returning address of local variable or temporary
+         Compiling...
+         main.cpp
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(56): warning C4018: '>=': signed/unsigned mismatch
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(67): warning C4018: '>=': signed/unsigned mismatch
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(222): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(225): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(274): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(275): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(285): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+         Vehicle.cpp
+         Player.cpp
+         PhysXMain.cpp
+         Light.cpp
+         Item.cpp
+         Human.cpp
+         Camera.cpp
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(24): warning C4305: '=': truncation from 'double' to 'float'
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(25): warning C4305: '=': truncation from 'double' to 'float'
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(28): warning C4305: '=': truncation from 'double' to 'float'
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(29): warning C4305: '=': truncation from 'double' to 'float'
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(71): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+         AI.cpp
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe" /INCREMENTAL /NOLOGO /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\lib\debug\\" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2-2.0.5\lib\x86" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2_mixer-2.0.1\lib\x86" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Assimp\lib\x86" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glfw\lib" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\lib\release\\" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Xbox\lib\\" Xinput.lib LowLevelClothDEBUG.lib LowLevelDEBUG.lib PhysX3CharacterKinematicDEBUG_x86.lib PhysX3CommonDEBUG_x86.lib PhysX3CookingDEBUG_x86.lib PhysX3DEBUG_x86.lib PhysX3ExtensionsDEBUG.lib PhysX3VehicleDEBUG.lib PhysXProfileSDKDEBUG.lib PhysXVisualDebuggerSDKDEBUG.lib PvdRuntimeDEBUG.lib PxTaskDEBUG.lib SceneQueryDEBUG.lib SimulationControllerDEBUG.lib assimp.lib opengl32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib glfw3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.lib" /MACHINE:X86 "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\glad.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\AI.obj"
-         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Arena.obj"
-         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\ArmourPack.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Audio.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Camera.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\GameState.obj"
-         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\GameTimer.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\GEO.obj"
-         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\HealthPack.obj"
-         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\HeavyVehicle.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Human.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Item.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Light.obj"
-         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\LightVehicle.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\main.obj"
-         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\MediumVehicle.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Mesh.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\PhysXMain.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Player.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Shader.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Texture.obj"
-         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Trap.obj"
-         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\TrapPack.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Utility.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Vehicle.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\XboxController.obj"
+     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+     1>PhysX3ExtensionsDEBUG.lib(ExtCpuWorkerThread.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtCpuWorkerThread.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+     1>PhysX3ExtensionsDEBUG.lib(ExtDefaultCpuDispatcher.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtDefaultCpuDispatcher.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+     1>PhysX3ExtensionsDEBUG.lib(ExtDefaultErrorCallback.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtDefaultErrorCallback.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+     1>PhysX3ExtensionsDEBUG.lib(ExtDefaultSimulationFilterShader.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtDefaultSimulationFilterShader.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+     1>PhysX3ExtensionsDEBUG.lib(ExtPvdClientImpl.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtPvdClientImpl.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+     1>PhysX3ExtensionsDEBUG.lib(ExtRigidBodyExt.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtRigidBodyExt.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+     1>PhysX3ExtensionsDEBUG.lib(ExtSimpleFactory.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtSimpleFactory.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+     1>PhysXProfileSDKDEBUG.lib(PxProfileEventImpl.obj) : warning LNK4099: PDB 'PhysXProfileSDKDEBUG.pdb' was not found with 'PhysXProfileSDKDEBUG.lib(PxProfileEventImpl.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysXProfileSDKDEBUG.pdb'; linking object as if no debug info
+     1>PhysXVisualDebuggerSDKDEBUG.lib(PvdNetworkStreams.obj) : warning LNK4099: PDB 'PhysXVisualDebuggerSDKDEBUG.pdb' was not found with 'PhysXVisualDebuggerSDKDEBUG.lib(PvdNetworkStreams.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysXVisualDebuggerSDKDEBUG.pdb'; linking object as if no debug info
          boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
      1>Done Building Project "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\boilerplate.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:09.17
+Time Elapsed 00:00:45.35

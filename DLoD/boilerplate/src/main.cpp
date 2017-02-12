@@ -1,9 +1,8 @@
 #include "Game/main.h"
 #include "Physics\PhysXMain.h"
 
-using namespace std;
 
-//XboxController testController = XboxController(1);
+using namespace std;
 
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer
@@ -154,13 +153,16 @@ void AlternKeyCallback(GLFWwindow* window)
   state = glfwGetKey(window, GLFW_KEY_LEFT);
   if (state == GLFW_PRESS)
   {
-	  PhysX.leftTurn(currentGEO);
+	  PhysX.turn(currentGEO, 1);
   }
   state = glfwGetKey(window, GLFW_KEY_RIGHT);
   if (state == GLFW_PRESS)
   {
-	  PhysX.rightTurn(currentGEO);
+	  PhysX.turn(currentGEO,-1);
   }
+
+  //controller version
+
 	 
 }
 
@@ -227,30 +229,25 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
       break;
 	}
 }
-/*
+
 void GetControllerInput()
 {
 	testController.Update();
 
-	if (testController.GetButtonPressed(XBtns.A))
+	if (testController.RightTrigger() != 0)
 	{
-		currentGEO->updatePosition(vec3(0, -0.5f, 0));
-	}
-	if (testController.GetButtonDown(XBtns.X))
-	{
-		currentGEO->updatePosition(vec3(-0.5f, 0, 0));
-	}
-	if (testController.GetButtonDown(XBtns.Y))
-	{
-		currentGEO->updatePosition(vec3(0, 0.5f, 0));
+		PhysX.accelerate(currentGEO);
 	}
 	if (testController.GetButtonDown(XBtns.B))
 	{
-		currentGEO->updatePosition(vec3(0.5f, 0, 0));
+		PhysX.decelerate(currentGEO);
 	}
+
+	PhysX.turn(currentGEO, -testController.LeftStick_X());
+
 	// Update for next frame
-	testController.RefreshState();
-}*/
+	//testController.RefreshState();
+}
 
 // handles mouse click
 void mouse(GLFWwindow* window, int button, int action, int mods)
@@ -370,27 +367,32 @@ int main(int argc, char *argv[])
 	currentGEO = cube;
 	glEnable(GL_DEPTH_TEST);
 
+	PrintDirections();
+
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
 		//input
+
+		
 		PhysX.stepPhysics(true, cube);
 		
 		//update
 
-		print4x4Matrix(cube->getModelMatrix());
 		//draw
 		RenderGEO(cube);
 		RenderGEO(&skybox);
 		RenderGEO(&plane);
 		glfwSwapBuffers(window);
 
+		GetControllerInput();
         AlternKeyCallback(window);
 		glfwPollEvents();
 	}
 
 	cube->shutdown();
 	PhysX.cleanupPhysics(true);
+	audio.CleanUp();
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -401,8 +403,10 @@ int main(int argc, char *argv[])
 
 void PrintDirections() {
 	cout << "Directions: " << endl;
-	cout << "A: Rotate object ccw \nD: Rotate object cw" << endl;
-	cout << "UP/DOWN/LEFT/RIGHT: Rotate camera" << endl;
+	cout << "UP/DOWN/LEFT/RIGHT: Move Block" << endl;
+	cout << "Xbox R-trigger: acclerate" << endl;
+	cout << "Xbox B-Button: decelerate" << endl;
+	cout << "Xbox L-Stick: turning" << endl;
 	cout << "ESC: Exit program" << endl;
 }
 
@@ -472,4 +476,3 @@ GEO initSkyBox()
 
 	return skybox;
 }
-

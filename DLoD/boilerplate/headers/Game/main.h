@@ -9,7 +9,7 @@
 #include "../GEO/Camera.h"
 #include "Audio.h"
 #include "../Physics/PhysXMain.h"
-//#include "../XboxController.h"
+#include "Controller/XboxController.h"
 
 using namespace std;
 
@@ -63,6 +63,9 @@ GEO initSkyBox();
 
 //PhysX object
 PhysXMain PhysX;
+
+//controller
+XboxController testController(1);
 
 // --------------------------------------------------------------------------
 #endif

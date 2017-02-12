@@ -15,21 +15,9 @@ public:
 	Mesh();
 	~Mesh();
 
-	/*struct CameraInfo {
-		mat4 _view;
-		mat4 _projection;
-		mat4 winRatio;
-		vec3 _lightSource;
-
-		CameraInfo() : _view(mat4(1.f)), _projection(mat4(1.f)), winRatio(mat4(1.f)), _lightSource(vec3(0))
-		{}
-	};*/
-	//CameraInfo cameraInfo;
-	bool ReadMesh(const string &filename);
 	bool Initialize();
-	//Render not working with camera right now.
-	//void Mesh::Render(MyShader *shader, CameraInfo *c);
-	void AddTexture(const char *filename);
+	bool ReadMesh(const string &filename);
+
 	void AddColour(const vec3 &colour);
 	void ClearMesh();
 	void DestroyMesh();
@@ -50,11 +38,7 @@ private:
 	GLuint indicesBuffer;
 	GLuint textureBuffer;
 	GLuint colourBuffer; //might not need
+
 	aiVector3D AddUV(const aiVector3D &vertex, string filename);
-	//GLuint vertexArray;
-
-
-	mat4 _view;
-	mat4 _projection;
 };
 #endif

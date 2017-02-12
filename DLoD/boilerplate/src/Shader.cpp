@@ -35,7 +35,6 @@ void Shader::DestroyShaders()
 	glDeleteShader(fragment);
 }
 
-
 // --------------------------------------------------------------------------
 // OpenGL shader support functions
 
@@ -116,4 +115,3 @@ GLuint Shader::LinkProgram(GLuint vertexShader, GLuint fragmentShader)
 
 	return programObject;
 }
-

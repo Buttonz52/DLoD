@@ -9,18 +9,18 @@
 
 class Texture {
 public:
+	Texture();
+	~Texture();
+
 	GLuint textureID;
 	GLuint target;
 	int width;
 	int height;
-	Texture();
-	~Texture();
+
 	bool InitializeTexture(const string &filename, GLuint target);
-	bool Texture::InitializeSkybox(const vector<string> &filename);
-	void DestroyTexture();
+	bool InitializeSkybox(const vector<string> &filename);
 	bool BindTexture(GLuint program, string varName);
 	void UnbindTexture(GLuint format);
-	// --------------------------------------------------------------------------
-	// Functions to set up OpenGL buffers for storing textures
+	void DestroyTexture();
 };
 #endif

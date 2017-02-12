@@ -1,13 +1,8 @@
 #include "Game/Audio.h"
 
-
-
 Audio::Audio()
 {
-	Mix_AllocateChannels(16);
-	on;
 }
-
 
 Audio::~Audio()
 {
