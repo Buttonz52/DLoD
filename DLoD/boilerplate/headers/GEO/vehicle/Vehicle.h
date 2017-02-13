@@ -15,7 +15,7 @@ public:
 	PxVehicleNoDrive* physXVehicle;
 
 
-	int health;
+	float health = 1000;
 	double armourLeft;	
 	double armourRight;
 	double armourFront;
@@ -33,7 +33,9 @@ public:
 
 
 	bool IsStunned();
-
+	float getHealth();
+	float calculateDamage();
+	void updateHealth(float damage);
 };
 
 #endif

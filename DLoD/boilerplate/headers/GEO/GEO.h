@@ -70,7 +70,7 @@ public:
 
 	void shutdown();		//destroy shader, texture, mesh
 
-private:
+protected:
 	string filename;
 	double radius;
 

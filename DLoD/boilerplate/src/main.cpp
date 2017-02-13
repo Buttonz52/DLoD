@@ -22,7 +22,14 @@ void RenderGEO(GEO *geo)
 	if (geo->isSkybox || geo->isPlane)
 		geo->updateModelMatrix();
 	mat4 M = geo->getModelMatrix();
-	
+	vec4 translation = vec4(M[3]);
+	vec3 scale = geo->getScale();
+	mat4 scaleM = mat4(1);
+	scaleM[0][0] = scale.x;
+	scaleM[1][1] = scale.y;
+	scaleM[2][2] = scale.z;
+	M *= scaleM;
+	M[3] = translation;
 
 	_projection = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
 	_view = camera->calculateViewMatrix();
@@ -313,8 +320,12 @@ int main(int argc, char *argv[])
 	PhysX.init();
 
 	//initialize 1 game cube, plane, and skybox
-	Vehicle* vehicle = initVehicle();
-	//GEO* cube = initCube();
+	Vehicle* vehicle = new Vehicle();
+	Vehicle* dummy = new Vehicle();
+	dummy->setPosition(vec3(30, 0, 30));
+	initVehicle(vehicle);
+	initVehicle(dummy);
+	
 	GEO plane = initGroundPlane();
 	GEO skybox = initSkyBox();
 
@@ -322,6 +333,7 @@ int main(int argc, char *argv[])
 	currentVehicle = vehicle;
 	glEnable(GL_DEPTH_TEST);
 
+	int frameCtr = 0;
 	PrintDirections();
 
 	while (!glfwWindowShouldClose(window))
@@ -334,9 +346,19 @@ int main(int argc, char *argv[])
 		//update
 
 		camera->followVehicle(vehicle);
+		
+		if(frameCtr % 60 == 0)
+		{
+			cout << "Vehicle speed: " << vehicle->physXVehicle->computeForwardSpeed() << "\tVehicle mass: " << vehicle->physXVehicle->getRigidDynamicActor()->getMass() << endl;
+			cout << "Player 1 HP: " << vehicle->getHealth() << "\tDummyCar HP: " << dummy->getHealth() << endl << endl;
+		}
+		frameCtr++;
+		
+		
 
 		//draw
 		RenderGEO(vehicle);
+		RenderGEO(dummy);
 		RenderGEO(&skybox);
 		RenderGEO(&plane);
 		
@@ -367,17 +389,15 @@ void PrintDirections() {
 	cout << "ESC: Exit program" << endl;
 }
 
-Vehicle* initVehicle()
+void initVehicle(Vehicle* v)
 {
-	Vehicle* v = new Vehicle();
-
 	v->setFilename("cube.obj");
 	if (!v->initMesh()) {
 		cout << "Failed to initialize mesh." << endl;
 	}
 	v->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
-	v->setScale(vec3(10.0f));
+	v->setScale(vec3(sqrt(6.3f)));
 	v->setColour(vec3(1, 0, 0));	//red
 
 	if (!v->initBuffers()) {
@@ -387,8 +407,6 @@ Vehicle* initVehicle()
 	PhysX.initVehicle(v);
 
 	gameObjects.push_back(v);
-
-	return v;
 }
 
 GEO initGroundPlane()
@@ -398,12 +416,12 @@ GEO initGroundPlane()
 	if (!plane.initMesh()) {
 		cout << "Failed to initialize mesh." << endl;
 	}
-	plane.setScale(vec3(100.f));
+	plane.setScale(vec3(10.f));
 	if (!plane.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 		cout << "Failed to initialize skybox." << endl;
 	}
 	plane.addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
-	plane.setPosition(vec3(0, -3, 0));
+	plane.setPosition(vec3(0, -0.7, 0));
 
 	return plane;
 }
@@ -425,7 +443,7 @@ GEO initSkyBox()
 		cout << "Failed to initialize mesh." << endl;
 	}
 	//scale cube large
-	skybox.setScale(vec3(200.f));
+	skybox.setScale(vec3(15.f));
 	if (!skybox.initSkybox(skyboxFiles)) {
 		cout << "Failed to initialize skybox." << endl;
 	}

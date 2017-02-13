@@ -58,7 +58,7 @@ int LoadAllObjFiles(const char *pathname);
 
 //init GEO functions
 GEO* initCube();
-Vehicle* initVehicle();
+void initVehicle(Vehicle* v);
 GEO initGroundPlane();
 GEO initSkyBox();
 

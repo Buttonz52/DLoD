@@ -2,6 +2,112 @@
 
 
 using namespace physx;
+map<PxRigidBody*, Vehicle*> vMap;
+//std::vector<PxVec3> gContactPositions;
+//std::vector<PxVec3> gContactImpulses;
+//
+//class ContactReportCallback : public PxSimulationEventCallback
+//{
+//	void onConstraintBreak(PxConstraintInfo* constraints, PxU32 count) { PX_UNUSED(constraints); PX_UNUSED(count); }
+//	void onWake(PxActor** actors, PxU32 count) { PX_UNUSED(actors); PX_UNUSED(count); }
+//	void onSleep(PxActor** actors, PxU32 count) { PX_UNUSED(actors); PX_UNUSED(count); }
+//	void onTrigger(PxTriggerPair* pairs, PxU32 count) { PX_UNUSED(pairs); PX_UNUSED(count); }
+//	void onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs)
+//	{
+//		PX_UNUSED((pairHeader));
+//		std::vector<PxContactPairPoint> contactPoints;
+//
+//		PxU32 flags = static_cast<PxU32>(reinterpret_cast<size_t>(pairHeader.actors[0]->userData) | reinterpret_cast<size_t>(pairHeader.actors[1]->userData));
+//
+//		PxRigidDynamic* dyn0 = pairHeader.actors[0]->is<PxRigidDynamic>();
+//		PxRigidDynamic* dyn1 = pairHeader.actors[1]->is<PxRigidDynamic>();
+//
+//		if (dyn0 && dyn1)
+//		{
+//			for (PxU32 i = 0; i<nbPairs; i++)
+//			{
+//				PxU32 contactCount = pairs[i].contactCount;
+//
+//				if (flags & ContactModFlags::eADJUST_MASS_RATIOS)
+//				{
+//					if (contactCount)
+//					{
+//						contactPoints.resize(contactCount);
+//						PxReal invMassScale[2];
+//						extractContactsWithMassScale(pairs[i], &contactPoints[0], contactCount, invMassScale[0], invMassScale[1]);
+//
+//						for (PxU32 j = 0; j<contactCount; j++)
+//						{
+//							gContactPositions.push_back(contactPoints[j].position);
+//							//Push back reported contact impulses
+//							gContactImpulses.push_back(contactPoints[j].impulse);
+//
+//							//Compute the effective linear/angular impulses for each body.
+//							//Note that the local mass scaling permits separate scales for invMass and invInertia.
+//							for (PxU32 k = 0; k < 2; ++k)
+//							{
+//								const PxRigidDynamic* dynamic = pairHeader.actors[k]->is<PxRigidDynamic>();
+//								PxVec3 linImpulse(0.f), angImpulse(0.f);
+//								if (dynamic != NULL)
+//								{
+//									PxRigidBodyExt::computeLinearAngularImpulse(*dynamic, dynamic->getGlobalPose(), contactPoints[j].position,
+//										k == 0 ? contactPoints[j].impulse : -contactPoints[j].impulse, invMassScale[k], invMassScale[k], linImpulse, angImpulse);
+//								}
+//								gContactLinearImpulses[k].push_back(linImpulse);
+//								gContactAngularImpulses[k].push_back(angImpulse);
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//	}
+//};
+
+class ContactModifyCallback : public PxContactModifyCallback
+{
+	void onContactModify(PxContactModifyPair* const pairs, PxU32 count)
+	{
+		//We define a maximum mass ratio that we will accept in this test, which is a ratio of 2
+		const PxReal maxMassRatio = 2.f;
+		//The quaternion used to rotate normals. We rotate around z axis by -60 degrees.
+		const PxQuat rotation(-60.f / 180.f * PI, PxVec3(0.f, 0.f, 1.f));
+		//The amount of allowed penetration. When adjusting penetration, we add this to the penetration value such that the pair penetrate by 0.15 units.
+		const PxReal allowedPenetration = 0.15f;
+		//The maximum impulse allows to be applied.
+		const PxReal maxImpulse = 2.f;
+		//The target velocity
+		const PxVec3 targetVelocity(0.f, 0.f, 2.f);
+
+		for (PxU32 i = 0; i < count; i++)
+		{
+
+			const PxRigidDynamic* dynamic0 = pairs[i].actor[0]->is<PxRigidDynamic>();
+			const PxRigidDynamic* dynamic1 = pairs[i].actor[1]->is<PxRigidDynamic>();
+			if (dynamic0 != NULL && dynamic1 != NULL)
+			{		
+				Vehicle* v1 = vMap[(PxRigidBody*)dynamic0];
+				if (v1 != nullptr)
+				{
+					v1->calculateDamage();
+					cout << v1->calculateDamage() << endl;
+				}
+				else
+					cout << "Could not calculate damage!" << endl;
+
+				Vehicle* v2 = vMap[(PxRigidBody*)dynamic0];
+				if (v2 != nullptr)
+				{
+					v2->calculateDamage();
+					cout << v2->calculateDamage() << endl;
+				}
+				else
+					cout << "Could not calculate damage!" << endl;
+				
+			}
+		}
+	}
+};
 
 PxDefaultAllocator		gAllocator;
 PxDefaultErrorCallback	gErrorCallback;
@@ -12,15 +118,12 @@ PxScene*				gScene = NULL;
 PxCooking*				gCooking = NULL;
 PxMaterial*				gMaterial = NULL;
 PxVisualDebuggerConnection* gConnection = NULL;
-VehicleSceneQueryData*	gVehicleSceneQueryData = NULL;	//for when we actually do car stuff -bp
+VehicleSceneQueryData*	gVehicleSceneQueryData = NULL;
 PxBatchQuery*			gBatchQuery = NULL;
 PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
 PxRigidStatic*			gGroundPlane = NULL;
-
+ContactModifyCallback   gContactModifyCallback;
 bool					gIsVehicleInAir = true; // unused
-
-
-
 
 PhysXMain::PhysXMain()
 {
@@ -34,7 +137,7 @@ PhysXMain::~PhysXMain()
 VehicleDesc PhysXMain::initVehicleDesc()
 {
 	const PxF32 chassisMass = 1500.0;
-	const PxVec3 chassisDims(2.5f, 2.0f, 5.0f);
+	const PxVec3 chassisDims(5.0f, 2.0f, 5.0f);
 	const PxVec3 chassisMOI
 		((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
 			(chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
@@ -83,6 +186,8 @@ void PhysXMain::init()
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;	//this will give us heck later
+	//sceneDesc.simulationEventCallback = &gContactReportCallback;
+	sceneDesc.contactModifyCallback = &gContactModifyCallback;
 	gScene = gPhysics->createScene(sceneDesc);
 
 	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.2f);	//static friction, dynamic friction, restitution
@@ -103,9 +208,6 @@ void PhysXMain::init()
 	//plane to drive on
 	gGroundPlane = createDrivablePlane(gMaterial, gPhysics);
 	gScene->addActor(*gGroundPlane);
-
-	
-
 }
 
 void PhysXMain::initVehicle(Vehicle* v)
@@ -113,15 +215,16 @@ void PhysXMain::initVehicle(Vehicle* v)
 	//Create a vehicle that will drive on the plane.
 	VehicleDesc vehicleDesc = initVehicleDesc();
 	v->physXVehicle = createVehicleNoDrive(vehicleDesc, gPhysics, gCooking);
-	PxTransform startTransform(PxVec3(0, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), 0), PxQuat(PxIdentity));
+	PxTransform startTransform(PxVec3(v->getPosition().x, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), v->getPosition().z), PxQuat(PxIdentity));
 	v->physXVehicle->getRigidDynamicActor()->setGlobalPose(startTransform);
 	gScene->addActor(*v->physXVehicle->getRigidDynamicActor());
+	vMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great
 }
 
 
 void PhysXMain::initObject(GEO* g)
 {
-	PxShape* shape = gPhysics->createShape(PxBoxGeometry(1, 1, 2), *gMaterial);
+	PxShape* shape = gPhysics->createShape(PxBoxGeometry(2, 1, 2), *gMaterial);
 	g->setShape(*shape);
 	PxRigidDynamic *body = gPhysics->createRigidDynamic(PxTransform(PxVec3(0, 2, 0)));
 	body->setAngularDamping(13);
@@ -261,3 +364,4 @@ mat4 PhysXMain::convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w)
 
 	return M;
 }
+
