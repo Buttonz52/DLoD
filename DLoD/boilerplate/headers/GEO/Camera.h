@@ -1,5 +1,5 @@
 #include "../Game/Utility.h"
-#include "GEO/GEO.h"
+#include "GEO/vehicle/Vehicle.h"
 
 class Camera
 {
@@ -37,5 +37,5 @@ public:
 	vec3 *getCenter();
 	void setInitValues();
 
-	void followObject(GEO*);
+	void followVehicle(Vehicle*);
 };

@@ -20,7 +20,7 @@ vector<vec3> _vertices;
 vector<vec2> _uv;
 vector<GLushort> _faces;
 vector<vec3> _normals;
-vector<GEO> gameObjects;
+vector<GEO *> gameObjects;
 
 //test cameras
 vector<Camera> testCams = {	//just objects for now, make pointers or smth later
@@ -44,8 +44,8 @@ mat4 winRatio = mat4(1.f);
 
 Camera *camera;
 Audio audio;
-GEO *currentGEO;
-vec3 _lightSource = vec3(0.f, 1.f, 2.f);
+Vehicle *currentVehicle;
+vec3 _lightSource = vec3(0.f, 100.f, 20.f);
 
 string mainMusic= "music/TimeLapse.wav";
 //Audio music;
@@ -58,6 +58,7 @@ int LoadAllObjFiles(const char *pathname);
 
 //init GEO functions
 GEO* initCube();
+Vehicle* initVehicle();
 GEO initGroundPlane();
 GEO initSkyBox();
 

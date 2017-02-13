@@ -51,10 +51,11 @@ void RenderGEO(GEO *geo)
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 }
+
 //changes between game objects
 void changeGEO() {
-	geoIndex >= gameObjects.size() - 1 ? geoIndex = 0 : geoIndex++;	//if statement: increment/reset camIndex 
-	currentGEO = &gameObjects[geoIndex];
+	geoIndex >= gameObjects.size() - 1 ? geoIndex = 0 : geoIndex++;	//if statement: increment/reset camIndex				is this broken now?
+	//currentGEO = gameObjects[geoIndex];
 
 	cout << "Switching control to GEO: " << geoIndex << endl;
 
@@ -114,52 +115,27 @@ void AlternKeyCallback(GLFWwindow* window)
 
   factor = 0.05;
 
-  //rotations of GEOs
-  state = glfwGetKey(window, GLFW_KEY_3);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(factor, 0, 0));
-
-  state = glfwGetKey(window, GLFW_KEY_4);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(-factor, 0, 0));
-
-  state = glfwGetKey(window, GLFW_KEY_5);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(0, factor, 0));
-
-  state = glfwGetKey(window, GLFW_KEY_6);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(0, -factor, 0));
-
-  state = glfwGetKey(window, GLFW_KEY_7);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(0, 0, factor));
-
-  state = glfwGetKey(window, GLFW_KEY_8);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(0, 0, -factor));
-
   //Movement of the GEOs
-  state = glfwGetKey(window, GLFW_KEY_UP);
-  if (state == GLFW_PRESS)
-  {
-	  PhysX.accelerate(currentGEO);
-  }
-  state = glfwGetKey(window, GLFW_KEY_DOWN);
-  if (state == GLFW_PRESS)
-  {
-	  PhysX.decelerate(currentGEO);
-  }
-  state = glfwGetKey(window, GLFW_KEY_LEFT);
-  if (state == GLFW_PRESS)
-  {
-	  PhysX.turn(currentGEO, 1);
-  }
-  state = glfwGetKey(window, GLFW_KEY_RIGHT);
-  if (state == GLFW_PRESS)
-  {
-	  PhysX.turn(currentGEO,-1);
-  }
+  //state = glfwGetKey(window, GLFW_KEY_UP);
+  //if (state == GLFW_PRESS)
+  //{
+	 // PhysX.accelerate(currentVehicle);
+  //}
+  //state = glfwGetKey(window, GLFW_KEY_DOWN);
+  //if (state == GLFW_PRESS)
+  //{
+	 // PhysX.decelerate(currentVehicle);
+  //}
+  //state = glfwGetKey(window, GLFW_KEY_LEFT);
+  //if (state == GLFW_PRESS)
+  //{
+	 // PhysX.turn(currentVehicle, 1);
+  //}
+  //state = glfwGetKey(window, GLFW_KEY_RIGHT);
+  //if (state == GLFW_PRESS)
+  //{
+	 // PhysX.turn(currentVehicle,-1);
+  //}
 
   //controller version
 
@@ -194,37 +170,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		changeCamera();
       break;
 
-	//move GEOs
-	case GLFW_KEY_W:
-		currentGEO->updatePosition(vec3(0, factor, 0));
-		break;
-
-	case GLFW_KEY_A:
-		currentGEO->updatePosition(vec3(-factor, 0, 0));
-		break;
-
-	case GLFW_KEY_S:
-		currentGEO->updatePosition(vec3(0, -factor, 0));
-		break;
-
-	case GLFW_KEY_D:
-		currentGEO->updatePosition(vec3(factor, 0, 0));
-		break;
-	case GLFW_KEY_E:
-		currentGEO->updatePosition(vec3(0, 0, -factor));
-		break;
-	case GLFW_KEY_Q:
-		currentGEO->updatePosition(vec3(0, 0, factor));
-		break;
-
-	//scale
-	case GLFW_KEY_1:
-		currentGEO->updateScale(vec3(factor*0.01));
-		break;
-	case GLFW_KEY_2:
-		currentGEO->updateScale(vec3(-factor*0.01));
-		break;
-
     default:
       break;
 	}
@@ -236,14 +181,21 @@ void GetControllerInput()
 
 	if (testController.RightTrigger() != 0)
 	{
-		PhysX.accelerate(currentGEO);
-	}
-	if (testController.GetButtonDown(XBtns.B))
-	{
-		PhysX.decelerate(currentGEO);
+		PhysX.accelerate(currentVehicle, testController.RightTrigger());
 	}
 
-	PhysX.turn(currentGEO, -testController.LeftStick_X());
+	else if (testController.LeftTrigger() != 0)
+	{
+		PhysX.decelerate(currentVehicle, testController.LeftTrigger());
+	}
+	else
+	{
+		PhysX.brake(currentVehicle, 1000.0f);
+	}
+
+	PhysX.turn(currentVehicle, testController.LeftStick_X());
+
+	
 
 	// Update for next frame
 	//testController.RefreshState();
@@ -326,6 +278,8 @@ int main(int argc, char *argv[])
 
 	glfwMakeContextCurrent(window);
 
+	glfwSwapInterval(1);
+
 	// set keyboard callback function and make our context current (active)
 	glfwSetKeyCallback(window, KeyCallback);
 	glfwSetMouseButtonCallback(window, mouse);
@@ -359,12 +313,13 @@ int main(int argc, char *argv[])
 	PhysX.init();
 
 	//initialize 1 game cube, plane, and skybox
-	GEO* cube = initCube();
+	Vehicle* vehicle = initVehicle();
+	//GEO* cube = initCube();
 	GEO plane = initGroundPlane();
 	GEO skybox = initSkyBox();
 
 	camera = &testCams[camIndex];
-	currentGEO = cube;
+	currentVehicle = vehicle;
 	glEnable(GL_DEPTH_TEST);
 
 	PrintDirections();
@@ -374,17 +329,17 @@ int main(int argc, char *argv[])
 		clearScreen();
 		//input
 
-		
-		PhysX.stepPhysics(true, cube);
+		PhysX.stepPhysics(true, gameObjects);
 		
 		//update
 
-		camera->followObject(cube);
+		camera->followVehicle(vehicle);
 
 		//draw
-		RenderGEO(cube);
+		RenderGEO(vehicle);
 		RenderGEO(&skybox);
 		RenderGEO(&plane);
+		
 		glfwSwapBuffers(window);
 
 		GetControllerInput();
@@ -392,7 +347,7 @@ int main(int argc, char *argv[])
 		glfwPollEvents();
 	}
 
-	cube->shutdown();
+	vehicle->shutdown();
 	PhysX.cleanupPhysics(true);
 	audio.CleanUp();
 
@@ -412,28 +367,28 @@ void PrintDirections() {
 	cout << "ESC: Exit program" << endl;
 }
 
-GEO* initCube()
+Vehicle* initVehicle()
 {
-	GEO* cube = new GEO();
+	Vehicle* v = new Vehicle();
 
-	cube->setFilename("cube.obj");
-	if (!cube->initMesh()) {
+	v->setFilename("cube.obj");
+	if (!v->initMesh()) {
 		cout << "Failed to initialize mesh." << endl;
 	}
-	cube->addShaders("shaders/phong.vert", "shaders/phong.frag");
+	v->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
-	cube->setScale(vec3(10.0f));
-	cube->setColour(vec3(1, 0, 0));	//red
+	v->setScale(vec3(10.0f));
+	v->setColour(vec3(1, 0, 0));	//red
 
-	if (!cube->initBuffers()) {
-		cout << "Could not initialize buffers for game object " << cube->getFilename() << endl;
+	if (!v->initBuffers()) {
+		cout << "Could not initialize buffers for game object " << v->getFilename() << endl;
 	}
 
-	PhysX.initObject(cube);
+	PhysX.initVehicle(v);
 
-	gameObjects.push_back(*cube);
+	gameObjects.push_back(v);
 
-	return cube;
+	return v;
 }
 
 GEO initGroundPlane()

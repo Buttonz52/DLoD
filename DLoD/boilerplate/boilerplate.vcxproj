@@ -151,6 +151,11 @@
     <ClCompile Include="src\PhysXMain.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+    <ClCompile Include="src\SnippetVehicleCreate.cpp" />
+    <ClCompile Include="src\SnippetVehicleFilterShader.cpp" />
+    <ClCompile Include="src\SnippetVehicleNoDriveCreate.cpp" />
+    <ClCompile Include="src\SnippetVehicleRaycast.cpp" />
+    <ClCompile Include="src\SnippetVehicleTireFriction.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Utility.cpp" />
     <ClCompile Include="src\Vehicle.cpp" />
@@ -173,9 +178,15 @@
     <ClInclude Include="headers\GEO\player\Player.h" />
     <ClInclude Include="headers\GEO\vehicle\Vehicle.h" />
     <ClInclude Include="headers\Physics\PhysXMain.h" />
+    <ClInclude Include="headers\Physics\SnippetVehicleCreate.h" />
+    <ClInclude Include="headers\Physics\SnippetVehicleFilterShader.h" />
+    <ClInclude Include="headers\Physics\SnippetVehicleRaycast.h" />
+    <ClInclude Include="headers\Physics\SnippetVehicleTireFriction.h" />
     <ClInclude Include="\\samba.cs.ucalgary.ca\bzpetras\Downloads\DLoD-Abi\DLoD\boilerplate\XboxController.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="shaders\hud.frag" />
+    <None Include="shaders\hud.vert" />
     <None Include="shaders\skybox.frag" />
     <None Include="shaders\skybox.vert" />
     <None Include="shaders\phong.frag" />
