@@ -7,39 +7,32 @@
 #include "PxPhysics.h"
 #include "PxScene.h"
 #include "../GEO/GEO.h"
+#include "../GEO/vehicle/Vehicle.h"
+#include "Physics\SnippetVehicleRaycast.h"
+#include "Physics\SnippetVehicleCreate.h"
+#include "Physics\SnippetVehicleTireFriction.h"
+#include "Physics\SnippetVehicleFilterShader.h"
 
 using namespace physx;
+
 
 class PhysXMain
 {
 public:
-
-	PxDefaultAllocator		gAllocator;
-	PxDefaultErrorCallback	gErrorCallback;
-	PxFoundation*			gFoundation = NULL;
-	PxPhysics*				gPhysics = NULL;
-	PxDefaultCpuDispatcher*	gDispatcher = NULL;
-	PxScene*				gScene = NULL;
-	PxCooking*				gCooking = NULL;
-	PxMaterial*				gMaterial = NULL;
-	PxVisualDebuggerConnection* gConnection = NULL;
-	//VehicleSceneQueryData*	gVehicleSceneQueryData = NULL;	//for when we actually do car stuff -bp
-	PxBatchQuery*			gBatchQuery = NULL;
-	PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
-	PxRigidStatic*			gGroundPlane = NULL;
-	PxVehicleDrive4W*		gVehicle4W = NULL;
-	bool					gIsVehicleInAir = true; // unused
-
 	PhysXMain();
 	~PhysXMain();
 	void init();
+	VehicleDesc initVehicleDesc();
+	void initVehicle(Vehicle* v);
 	void initObject(GEO* g);
 
-	void accelerate(GEO* g);
-	void decelerate(GEO* g);
-	void turn(GEO* g, float dir);
+	void accelerate(Vehicle* g, float m);
+	void decelerate(Vehicle* g, float m);
+	void turn(Vehicle* v, float dir);
+	void brake(Vehicle* v, float brake);
+	void releaseAllControls(Vehicle* v);
 
-	void stepPhysics(bool interactive, GEO* g);
+	void stepPhysics(bool interactive, vector<GEO *> g);
 	void cleanupPhysics(bool interactive);
 
 	mat4 convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w);

@@ -3,12 +3,17 @@
 #include "..\GEO.h"
 #include "..\item\Item.h"
 
+using namespace physx;
+
 class Vehicle :
 	public GEO
 {
 public:
 	Vehicle();
 	~Vehicle();
+
+	PxVehicleNoDrive* physXVehicle;
+
 
 	int health;
 	double armourLeft;	
@@ -24,6 +29,9 @@ public:
 	vector <GEO> wheels;
 	vector <GEO> armour;
 	
+
+
+
 	bool IsStunned();
 
 };

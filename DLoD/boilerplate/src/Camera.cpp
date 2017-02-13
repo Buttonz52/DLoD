@@ -107,9 +107,9 @@ vec3* Camera::getCenter()
 	return &center;
 }
 
-void Camera::followObject(GEO* obj)
+void Camera::followVehicle(Vehicle* v)
 {
-	mat4 M = obj->getModelMatrix();
+	mat4 M = v->getModelMatrix();
 	
 	// Get the position of the object
 	vec3 pos = vec3(M[3]);
@@ -123,7 +123,7 @@ void Camera::followObject(GEO* obj)
 	// Get the rotation of the object
 	physx::PxVec3 axis = physx::PxVec3(0, 1, 0);
 	physx::PxReal angle = 0;
-	obj->getBody().getGlobalPose().q.toRadiansAndUnitAxis(angle, axis);
+	v->physXVehicle->getRigidDynamicActor()->getGlobalPose().q.toRadiansAndUnitAxis(angle, axis);
 	
 		
 	int fix = (axis.y < 0) ? 1 : -1;

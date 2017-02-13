@@ -9,6 +9,8 @@
 #include "PxPhysics.h"
 #include "PxScene.h"
 
+
+
 //Game Entity Object
 class GEO
 {
@@ -62,7 +64,7 @@ public:
 
 	//PhysX
 	physx::PxShape& getShape();
-	physx::PxRigidDynamic& getBody();
+	physx::PxRigidDynamic* getBody();
 	void setShape(physx::PxShape &s);
 	void setBody(physx::PxRigidDynamic &b);
 

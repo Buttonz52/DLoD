@@ -4,12 +4,14 @@
 
 Vehicle::Vehicle()
 {
+
 }
 
 
 Vehicle::~Vehicle()
 {
 }
+
 
 bool Vehicle::IsStunned()
 {

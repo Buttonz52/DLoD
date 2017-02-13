@@ -3,6 +3,25 @@
 
 using namespace physx;
 
+PxDefaultAllocator		gAllocator;
+PxDefaultErrorCallback	gErrorCallback;
+PxFoundation*			gFoundation = NULL;
+PxPhysics*				gPhysics = NULL;
+PxDefaultCpuDispatcher*	gDispatcher = NULL;
+PxScene*				gScene = NULL;
+PxCooking*				gCooking = NULL;
+PxMaterial*				gMaterial = NULL;
+PxVisualDebuggerConnection* gConnection = NULL;
+VehicleSceneQueryData*	gVehicleSceneQueryData = NULL;	//for when we actually do car stuff -bp
+PxBatchQuery*			gBatchQuery = NULL;
+PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
+PxRigidStatic*			gGroundPlane = NULL;
+
+bool					gIsVehicleInAir = true; // unused
+
+
+
+
 PhysXMain::PhysXMain()
 {
 
@@ -10,6 +29,39 @@ PhysXMain::PhysXMain()
 
 PhysXMain::~PhysXMain()
 {
+}
+
+VehicleDesc PhysXMain::initVehicleDesc()
+{
+	const PxF32 chassisMass = 1500.0;
+	const PxVec3 chassisDims(2.5f, 2.0f, 5.0f);
+	const PxVec3 chassisMOI
+		((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
+			(chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
+			(chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / 12.0f);
+	const PxVec3 chassisCMOffset(0.0f, -chassisDims.y*0.5f + 0.65f, 0.25f);
+
+	//Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
+	//Moment of inertia is just the moment of inertia of a cylinder.
+	const PxF32 wheelMass = 20.0f;
+	const PxF32 wheelRadius = 0.5f;
+	const PxF32 wheelWidth = 0.4f;
+	const PxF32 wheelMOI = 0.5f*wheelMass*wheelRadius*wheelRadius;
+	const PxU32 nbWheels = 6;
+
+	VehicleDesc vehicleDesc;
+	vehicleDesc.chassisMass = chassisMass;
+	vehicleDesc.chassisDims = chassisDims;
+	vehicleDesc.chassisMOI = chassisMOI;
+	vehicleDesc.chassisCMOffset = chassisCMOffset;
+	vehicleDesc.chassisMaterial = gMaterial;
+	vehicleDesc.wheelMass = wheelMass;
+	vehicleDesc.wheelRadius = wheelRadius;
+	vehicleDesc.wheelWidth = wheelWidth;
+	vehicleDesc.wheelMOI = wheelMOI;
+	vehicleDesc.numWheels = nbWheels;
+	vehicleDesc.wheelMaterial = gMaterial;
+	return vehicleDesc;
 }
 
 void PhysXMain::init()
@@ -30,55 +82,157 @@ void PhysXMain::init()
 	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
-	sceneDesc.filterShader = PxDefaultSimulationFilterShader;  
+	sceneDesc.filterShader = VehicleFilterShader;	//this will give us heck later
 	gScene = gPhysics->createScene(sceneDesc);
 
-	gMaterial = gPhysics->createMaterial(0.6f, 0.5f, 0.2f);	//static friction, dynamic friction, restitution
+	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.2f);	//static friction, dynamic friction, restitution
 
-	PxRigidStatic* groundPlane = PxCreatePlane(*gPhysics, PxPlane(0, 1, 0, 0), *gMaterial);
-	gScene->addActor(*groundPlane);
+	gCooking = PxCreateCooking(PX_PHYSICS_VERSION, *gFoundation, PxCookingParams(PxTolerancesScale()));
+
+	PxInitVehicleSDK(*gPhysics);
+	PxVehicleSetBasisVectors(PxVec3(0, 1, 0), PxVec3(0, 0, 1));
+	PxVehicleSetUpdateMode(PxVehicleUpdateMode::eVELOCITY_CHANGE);
+
+	//Create the batched scene queries for the suspension raycasts.
+	gVehicleSceneQueryData = VehicleSceneQueryData::allocate(1, PX_MAX_NB_WHEELS, 1, gAllocator);		//if we want more cars change this
+	gBatchQuery = VehicleSceneQueryData::setUpBatchedSceneQuery(0, *gVehicleSceneQueryData, gScene);
+
+	//Create the friction table for each combination of tire and surface type.
+	gFrictionPairs = createFrictionPairs(gMaterial);
+
+	//plane to drive on
+	gGroundPlane = createDrivablePlane(gMaterial, gPhysics);
+	gScene->addActor(*gGroundPlane);
+
+	
+
 }
+
+void PhysXMain::initVehicle(Vehicle* v)
+{
+	//Create a vehicle that will drive on the plane.
+	VehicleDesc vehicleDesc = initVehicleDesc();
+	v->physXVehicle = createVehicleNoDrive(vehicleDesc, gPhysics, gCooking);
+	PxTransform startTransform(PxVec3(0, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), 0), PxQuat(PxIdentity));
+	v->physXVehicle->getRigidDynamicActor()->setGlobalPose(startTransform);
+	gScene->addActor(*v->physXVehicle->getRigidDynamicActor());
+}
+
 
 void PhysXMain::initObject(GEO* g)
 {
 	PxShape* shape = gPhysics->createShape(PxBoxGeometry(1, 1, 2), *gMaterial);
 	g->setShape(*shape);
 	PxRigidDynamic *body = gPhysics->createRigidDynamic(PxTransform(PxVec3(0, 2, 0)));
-	body->setAngularDamping(7);
+	body->setAngularDamping(13);
 	body->attachShape(*shape);
 	PxRigidBodyExt::updateMassAndInertia(*body, 20.0f);
 	g->setBody(*body);
 	gScene->addActor(*body); //when simulate is called anything added to scene is go for sim.	
 }
 
-void PhysXMain::accelerate(GEO* g)
+void PhysXMain::accelerate(Vehicle* v, float m)
 {
-	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), g->getBody().getGlobalPose().q.getBasisVector2()*10000, PxVec3(0, 0, 0));
-}
-
-void PhysXMain::decelerate(GEO* g)
-{
-	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), g->getBody().getGlobalPose().q.getBasisVector2()*-10000, PxVec3(0, 0, 0));
-}
-
-void PhysXMain::turn(GEO* g, float dir)
-{
-	//if dir < 0.2 and dir > -0.2 then make sure the only velocity is in the forward direction
-	PxRigidBodyExt::addForceAtLocalPos(g->getBody(), g->getBody().getGlobalPose().q.getBasisVector0()*120*dir, PxVec3(0, 0, 180));
+	v->physXVehicle->setDriveTorque(0, m*1000.0f);
+	v->physXVehicle->setDriveTorque(1, m*1000.0f);
+	v->physXVehicle->setDriveTorque(2, m*1000.0f);
+	v->physXVehicle->setDriveTorque(3, m*1000.0f);
 }
 
 
-void PhysXMain::stepPhysics(bool interactive, GEO* g)
+void PhysXMain::decelerate(Vehicle* v, float m)
 {
-	PX_UNUSED(interactive);
-	gScene->simulate(1.0f / 60.0f);
+	v->physXVehicle->setDriveTorque(0, m*-1000.0f);
+	v->physXVehicle->setDriveTorque(1, m*-1000.0f);
+	v->physXVehicle->setDriveTorque(2, m*-1000.0f);
+	v->physXVehicle->setDriveTorque(3, m*-1000.0f);
+}
+
+void PhysXMain::turn(Vehicle* v, float dir)
+{
+	v->physXVehicle->setSteerAngle(0, dir/4);
+	v->physXVehicle->setSteerAngle(1, dir/4);
+}
+
+void PhysXMain::brake(Vehicle* v, float brake)
+{
+	v->physXVehicle->setBrakeTorque(0, brake);
+	v->physXVehicle->setBrakeTorque(1, brake);
+	v->physXVehicle->setBrakeTorque(2, brake);
+	v->physXVehicle->setBrakeTorque(3, brake);
+}
+
+void PhysXMain::releaseAllControls(Vehicle* v)
+{
+	v->physXVehicle->setDriveTorque(0, 0.0f);
+	v->physXVehicle->setDriveTorque(1, 0.0f);
+	v->physXVehicle->setDriveTorque(2, 0.0f);
+	v->physXVehicle->setDriveTorque(3, 0.0f);
+
+	v->physXVehicle->setBrakeTorque(0, 0.0f);
+	v->physXVehicle->setBrakeTorque(1, 0.0f);
+	v->physXVehicle->setBrakeTorque(2, 0.0f);
+	v->physXVehicle->setBrakeTorque(3, 0.0f);
+
+	v->physXVehicle->setSteerAngle(0, 0.0f);
+	v->physXVehicle->setSteerAngle(1, 0.0f);
+	v->physXVehicle->setSteerAngle(2, 0.0f);
+	v->physXVehicle->setSteerAngle(3, 0.0f);
+}
+
+void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
+{
+	vector<Vehicle*> vehiclesVec;
+	vector<GEO*> geosVec;
+
+	for (int i = 0; i < g.size(); i++)
+	{
+		if (Vehicle* v = static_cast<Vehicle*>(g[i])) {
+			vehiclesVec.push_back(v);
+		}
+		else {
+			geosVec.push_back(g[i]);
+		}
+	}
+
+	vector<PxVehicleWheels*> vehicles;
+	PxWheelQueryResult wheelQueryResults[PX_MAX_NB_WHEELS];
+	vector<PxVehicleWheelQueryResult> vehicleQueryResults;
+	for (int i = 0; i < vehiclesVec.size(); ++i) {
+		vehicles.push_back(vehiclesVec[i]->physXVehicle);
+		vehicleQueryResults.push_back({ wheelQueryResults, vehiclesVec[i]->physXVehicle->mWheelsSimData.getNbWheels() });
+	}
+
+	const PxF32 timestep = 1.0f / 60.0f;
+	//Raycasts.
+	PxRaycastQueryResult* raycastResults = gVehicleSceneQueryData->getRaycastQueryResultBuffer(0);
+	const PxU32 raycastResultsSize = gVehicleSceneQueryData->getRaycastQueryResultBufferSize();
+	PxVehicleSuspensionRaycasts(gBatchQuery, vehicles.size(), &vehicles[0], raycastResultsSize, raycastResults);
+
+	//Vehicle update.
+	const PxVec3 grav = gScene->getGravity();
+	PxVehicleUpdates(timestep, grav, *gFrictionPairs, vehicles.size(), &vehicles[0], &vehicleQueryResults[0]);
+
+	//Scene update.
+	gScene->simulate(timestep);
 	gScene->fetchResults(true);
 
 	//will want to bring in a vector<GEO* > GEOs to go through their models and update them here
-	PxRigidDynamic* body = &g->getBody();
-	mat4 M = convertMat(g->getBody().getGlobalPose().q.getBasisVector0(), g->getBody().getGlobalPose().q.getBasisVector1(), g->getBody().getGlobalPose().q.getBasisVector2(), g->getBody().getGlobalPose().p);
+	for (Vehicle* v : vehiclesVec)
+	{
+		PxRigidDynamic* body = v->physXVehicle->getRigidDynamicActor();
+		mat4 M = convertMat(body->getGlobalPose().q.getBasisVector0(), body->getGlobalPose().q.getBasisVector1(), body->getGlobalPose().q.getBasisVector2(), body->getGlobalPose().p);
+		v->setModelMatrix(M);
+		releaseAllControls(v);
+	}
 
-	g->setModelMatrix(M);
+	for (GEO* g : geosVec)
+	{
+		PxRigidDynamic* body = g->getBody();
+		mat4 M = convertMat(body->getGlobalPose().q.getBasisVector0(), body->getGlobalPose().q.getBasisVector1(), body->getGlobalPose().q.getBasisVector2(), body->getGlobalPose().p);
+		g->setModelMatrix(M);
+	}
+
 }
 
 void PhysXMain::cleanupPhysics(bool interactive)
