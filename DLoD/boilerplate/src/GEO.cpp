@@ -104,7 +104,8 @@ void GEO::updateRotation(const vec3 &r) {
 
 vec3 &GEO::getPosition()
 {
-	return vec3(modelMatrix[3].x, modelMatrix[3].y, modelMatrix[3].z);
+	//return vec3(modelMatrix[3].x, modelMatrix[3].y, modelMatrix[3].z);
+	return position;
 }
 
 void GEO::setPosition(const vec3 &pos)
