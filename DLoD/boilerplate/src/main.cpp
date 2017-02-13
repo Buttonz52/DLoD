@@ -123,30 +123,29 @@ void AlternKeyCallback(GLFWwindow* window)
   factor = 0.05;
 
   //Movement of the GEOs
-  //state = glfwGetKey(window, GLFW_KEY_UP);
-  //if (state == GLFW_PRESS)
-  //{
-	 // PhysX.accelerate(currentVehicle);
-  //}
-  //state = glfwGetKey(window, GLFW_KEY_DOWN);
-  //if (state == GLFW_PRESS)
-  //{
-	 // PhysX.decelerate(currentVehicle);
-  //}
-  //state = glfwGetKey(window, GLFW_KEY_LEFT);
-  //if (state == GLFW_PRESS)
-  //{
-	 // PhysX.turn(currentVehicle, 1);
-  //}
-  //state = glfwGetKey(window, GLFW_KEY_RIGHT);
-  //if (state == GLFW_PRESS)
-  //{
-	 // PhysX.turn(currentVehicle,-1);
-  //}
-
-  //controller version
-
-	 
+  if (!testController.Connected())
+  {
+	  state = glfwGetKey(window, GLFW_KEY_UP);
+	  if (state == GLFW_PRESS)
+	  {
+		  PhysX.accelerate(currentVehicle, 1);
+	  }
+	  state = glfwGetKey(window, GLFW_KEY_DOWN);
+	  if (state == GLFW_PRESS)
+	  {
+		  PhysX.decelerate(currentVehicle, 1);
+	  }
+	  state = glfwGetKey(window, GLFW_KEY_LEFT);
+	  if (state == GLFW_PRESS)
+	  {
+		  PhysX.turn(currentVehicle, -1);
+	  }
+	  state = glfwGetKey(window, GLFW_KEY_RIGHT);
+	  if (state == GLFW_PRESS)
+	  {
+		  PhysX.turn(currentVehicle, 1);
+	  }
+  }
 }
 
 
@@ -185,7 +184,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 void GetControllerInput()
 {
 	testController.Update();
-
+	float turn;
 	if (testController.RightTrigger() != 0)
 	{
 		PhysX.accelerate(currentVehicle, testController.RightTrigger());
@@ -199,10 +198,12 @@ void GetControllerInput()
 	{
 		PhysX.brake(currentVehicle, 1000.0f);
 	}
+	if (testController.LeftStick_X() > -0.25 && testController.LeftStick_X() < 0.25)
+		turn = 0.0;
+	else 
+		turn = testController.LeftStick_X();
 
-	PhysX.turn(currentVehicle, testController.LeftStick_X());
-
-	
+	PhysX.turn(currentVehicle, turn);
 
 	// Update for next frame
 	//testController.RefreshState();
@@ -364,7 +365,8 @@ int main(int argc, char *argv[])
 		
 		glfwSwapBuffers(window);
 
-		GetControllerInput();
+		if(testController.Connected())
+			GetControllerInput();
         AlternKeyCallback(window);
 		glfwPollEvents();
 	}

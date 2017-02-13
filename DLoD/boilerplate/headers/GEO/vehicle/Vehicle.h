@@ -2,6 +2,7 @@
 #define VEHICLE_H
 #include "..\GEO.h"
 #include "..\item\Item.h"
+#include "..\..\Game\Audio.h"
 
 using namespace physx;
 
@@ -13,7 +14,7 @@ public:
 	~Vehicle();
 
 	PxVehicleNoDrive* physXVehicle;
-
+	Audio audio;
 
 	float health = 1000;
 	double armourLeft;	
@@ -28,14 +29,15 @@ public:
 	vec3 colour;
 	vector <GEO> wheels;
 	vector <GEO> armour;
-	
 
-
+	Mix_Chunk* crash = Mix_LoadWAV("sfx/carCrash.wav");
 
 	bool IsStunned();
 	float getHealth();
 	float calculateDamage();
 	void updateHealth(float damage);
+	void playSFX();
+
 };
 
 #endif

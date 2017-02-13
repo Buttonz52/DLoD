@@ -21,7 +21,7 @@ void main(void)
 	//Simple Phong/toon shading
 	vec3 R = reflect(-L,N);
 	float ka = 0.5;
-	float kd = 0.5
+	float kd = 0.5;
 	float ke = 5.0f;
 	float ks = 1.0f;
 	
