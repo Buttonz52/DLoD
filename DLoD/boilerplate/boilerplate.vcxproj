@@ -162,6 +162,7 @@
     <ClCompile Include="src\XboxController.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="headers\Controller\XboxController.h" />
     <ClInclude Include="headers\GameEngine\Mesh.h" />
     <ClInclude Include="headers\GameEngine\Texture.h" />
     <ClInclude Include="headers\GameEngine\Shader.h" />
@@ -182,7 +183,6 @@
     <ClInclude Include="headers\Physics\SnippetVehicleFilterShader.h" />
     <ClInclude Include="headers\Physics\SnippetVehicleRaycast.h" />
     <ClInclude Include="headers\Physics\SnippetVehicleTireFriction.h" />
-    <ClInclude Include="\\samba.cs.ucalgary.ca\bzpetras\Downloads\DLoD-Abi\DLoD\boilerplate\XboxController.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\hud.frag" />

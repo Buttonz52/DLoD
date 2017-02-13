@@ -197,9 +197,6 @@
     <ClInclude Include="headers\Physics\PhysXMain.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="\\samba.cs.ucalgary.ca\bzpetras\Downloads\DLoD-Abi\DLoD\boilerplate\XboxController.h">
-      <Filter>Header Files\Controller</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Physics\SnippetVehicleRaycast.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
@@ -211,6 +208,9 @@
     </ClInclude>
     <ClInclude Include="headers\Physics\SnippetVehicleFilterShader.h">
       <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Controller\XboxController.h">
+      <Filter>Header Files\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
