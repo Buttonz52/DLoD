@@ -100,6 +100,8 @@ class ContactModifyCallback : public PxContactModifyCallback
 				{
 					v2->calculateDamage();
 					cout << v2->calculateDamage() << endl;
+					if (i == 0)
+						v2->playSFX();
 				}
 				else
 					cout << "Could not calculate damage!" << endl;

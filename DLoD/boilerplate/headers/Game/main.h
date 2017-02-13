@@ -45,7 +45,7 @@ mat4 winRatio = mat4(1.f);
 Camera *camera;
 Audio audio;
 Vehicle *currentVehicle;
-vec3 _lightSource = vec3(0.f, 100.f, 20.f);
+vec3 _lightSource = vec3(0.f, 100.f, 0.f);
 
 string mainMusic= "music/TimeLapse.wav";
 //Audio music;

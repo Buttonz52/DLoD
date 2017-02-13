@@ -10,6 +10,7 @@ Vehicle::Vehicle()
 
 Vehicle::~Vehicle()
 {
+	audio.CleanUp();
 }
 
 
@@ -42,3 +43,8 @@ void Vehicle::updateHealth(float damage)
 		health = 0;
 }
 
+
+void Vehicle::playSFX()
+{
+	audio.PlaySfx(crash);
+}

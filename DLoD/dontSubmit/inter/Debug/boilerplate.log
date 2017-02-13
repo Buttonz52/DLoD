@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿Build started 2/13/2017 12:04:11 AM.
+=======
+﻿Build started 2/13/2017 10:57:24 AM.
+>>>>>>> brendan
      1>Project "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\boilerplate.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\Include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2-2.0.5\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2_mixer-2.0.1\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\boilerplate\headers" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\dirent" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Assimp\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glfw\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glad\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\stb" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glm-0.9.8.2" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Xbox\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\\" /Fd"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\vc140.pdb" /Gd /TC /analyze- /errorReport:prompt ..\middleware\glad\src\glad.c
@@ -31,8 +35,8 @@
          main.cpp
      1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(64): warning C4018: '>=': signed/unsigned mismatch
      1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(75): warning C4018: '>=': signed/unsigned mismatch
-     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(233): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
      1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(234): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+<<<<<<< HEAD
      1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(244): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
          Light.cpp
          Item.cpp
@@ -71,6 +75,10 @@
          Audio.cpp
          AI.cpp
          Generating Code...
+=======
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(235): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(245): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+>>>>>>> brendan
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe" /INCREMENTAL /NOLOGO /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\lib\debug\\" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2-2.0.5\lib\x86" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2_mixer-2.0.1\lib\x86" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Assimp\lib\x86" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glfw\lib" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\lib\release\\" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Xbox\lib\\" Xinput.lib LowLevelClothDEBUG.lib LowLevelDEBUG.lib PhysX3CharacterKinematicDEBUG_x86.lib PhysX3CommonDEBUG_x86.lib PhysX3CookingDEBUG_x86.lib PhysX3DEBUG_x86.lib PhysX3ExtensionsDEBUG.lib PhysX3VehicleDEBUG.lib PhysXProfileSDKDEBUG.lib PhysXVisualDebuggerSDKDEBUG.lib PvdRuntimeDEBUG.lib PxTaskDEBUG.lib SceneQueryDEBUG.lib SimulationControllerDEBUG.lib assimp.lib opengl32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib glfw3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.lib" /MACHINE:X86 "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\glad.obj"
          "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\AI.obj"
@@ -127,4 +135,8 @@
 
 Build succeeded.
 
+<<<<<<< HEAD
 Time Elapsed 00:00:58.13
+=======
+Time Elapsed 00:00:12.97
+>>>>>>> brendan
