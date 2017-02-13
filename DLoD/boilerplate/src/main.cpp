@@ -328,20 +328,12 @@ int main(int argc, char *argv[])
 	{
 		clearScreen();
 		//input
-<<<<<<< HEAD
-	
-		PhysX.stepPhysics(true, cube);
-		
-		//update
-		camera->followObject(cube);
-=======
 
 		PhysX.stepPhysics(true, gameObjects);
 		
 		//update
 
 		camera->followVehicle(vehicle);
->>>>>>> brendan
 
 		//draw
 		RenderGEO(vehicle);
