@@ -12,9 +12,11 @@
 #include "Physics\SnippetVehicleCreate.h"
 #include "Physics\SnippetVehicleTireFriction.h"
 #include "Physics\SnippetVehicleFilterShader.h"
+#include "Physics\ContactModifyCallback.h"
 #include <map>
 
 using namespace physx;
+
 
 struct ContactModFlags
 {
@@ -31,6 +33,9 @@ struct ContactModFlags
 
 class PhysXMain
 {
+private:
+  map<PxRigidBody*, Vehicle*> vMap;
+
 public:
 	PhysXMain();
 	~PhysXMain();
@@ -39,6 +44,8 @@ public:
 	VehicleDesc initVehicleDesc();
 	void initVehicle(Vehicle* v);
 	void initObject(GEO* g);
+
+  void collisionFunction(PxContactModifyPair* const, PxU32);
 
 	void stepPhysics(bool interactive, vector<GEO *> g);
 	void cleanupPhysics(bool interactive);

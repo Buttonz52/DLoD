@@ -141,6 +141,7 @@
     <ClCompile Include="src\AI.cpp" />
     <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\ContactModifyCallback.cpp" />
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\GEO.cpp" />
     <ClCompile Include="src\Human.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="headers\GEO\player\Human.h" />
     <ClInclude Include="headers\GEO\player\Player.h" />
     <ClInclude Include="headers\GEO\vehicle\Vehicle.h" />
+    <ClInclude Include="headers\Physics\ContactModifyCallback.h" />
     <ClInclude Include="headers\Physics\PhysXMain.h" />
     <ClInclude Include="headers\Physics\SnippetVehicleCreate.h" />
     <ClInclude Include="headers\Physics\SnippetVehicleFilterShader.h" />

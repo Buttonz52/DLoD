@@ -147,6 +147,9 @@
     <ClCompile Include="src\SnippetVehicleNoDriveCreate.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="src\ContactModifyCallback.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GameState.h">
@@ -211,6 +214,9 @@
     </ClInclude>
     <ClInclude Include="headers\Controller\XboxController.h">
       <Filter>Header Files\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Physics\ContactModifyCallback.h">
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

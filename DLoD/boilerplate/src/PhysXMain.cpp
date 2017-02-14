@@ -2,70 +2,23 @@
 
 
 using namespace physx;
-map<PxRigidBody*, Vehicle*> vMap;
 
-class ContactModifyCallback : public PxContactModifyCallback
-{
-	void onContactModify(PxContactModifyPair* const pairs, PxU32 count)
-	{
-		//We define a maximum mass ratio that we will accept in this test, which is a ratio of 2
-		const PxReal maxMassRatio = 2.f;
-		//The quaternion used to rotate normals. We rotate around z axis by -60 degrees.
-		const PxQuat rotation(-60.f / 180.f * PI, PxVec3(0.f, 0.f, 1.f));
-		//The amount of allowed penetration. When adjusting penetration, we add this to the penetration value such that the pair penetrate by 0.15 units.
-		const PxReal allowedPenetration = 0.15f;
-		//The maximum impulse allows to be applied.
-		const PxReal maxImpulse = 2.f;
-		//The target velocity
-		const PxVec3 targetVelocity(0.f, 0.f, 2.f);
 
-		for (PxU32 i = 0; i < count; i++)
-		{
-
-			const PxRigidDynamic* dynamic0 = pairs[i].actor[0]->is<PxRigidDynamic>();
-			const PxRigidDynamic* dynamic1 = pairs[i].actor[1]->is<PxRigidDynamic>();
-			if (dynamic0 != NULL && dynamic1 != NULL)
-			{		
-				Vehicle* v1 = vMap[(PxRigidBody*)dynamic0];
-				if (v1 != nullptr)
-				{
-					v1->calculateDamage();
-					cout << v1->calculateDamage() << endl;
-				}
-				else
-					cout << "Could not calculate damage!" << endl;
-
-				Vehicle* v2 = vMap[(PxRigidBody*)dynamic0];
-				if (v2 != nullptr)
-				{
-					v2->calculateDamage();
-					cout << v2->calculateDamage() << endl;
-					if (i == 0)
-						v2->playSFX();
-				}
-				else
-					cout << "Could not calculate damage!" << endl;
-				
-			}
-		}
-	}
-};
-
-PxDefaultAllocator		gAllocator;
-PxDefaultErrorCallback	gErrorCallback;
-PxFoundation*			gFoundation = NULL;
-PxPhysics*				gPhysics = NULL;
-PxDefaultCpuDispatcher*	gDispatcher = NULL;
-PxScene*				gScene = NULL;
-PxCooking*				gCooking = NULL;
-PxMaterial*				gMaterial = NULL;
+PxDefaultAllocator		      gAllocator;
+PxDefaultErrorCallback    	gErrorCallback;
+PxFoundation*			          gFoundation = NULL;
+PxPhysics*				          gPhysics = NULL;
+PxDefaultCpuDispatcher*   	gDispatcher = NULL;
+PxScene*				            gScene = NULL;
+PxCooking*				          gCooking = NULL;
+PxMaterial*				          gMaterial = NULL;
 PxVisualDebuggerConnection* gConnection = NULL;
-VehicleSceneQueryData*	gVehicleSceneQueryData = NULL;
-PxBatchQuery*			gBatchQuery = NULL;
+VehicleSceneQueryData*	    gVehicleSceneQueryData = NULL;
+PxBatchQuery*			          gBatchQuery = NULL;
+PxRigidStatic*			        gGroundPlane = NULL;
 PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
-PxRigidStatic*			gGroundPlane = NULL;
-ContactModifyCallback   gContactModifyCallback;
 bool					gIsVehicleInAir = true; // unused
+
 
 PhysXMain::PhysXMain()
 {
@@ -129,7 +82,8 @@ void PhysXMain::init()
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;	//this will give us heck later
 	//sceneDesc.simulationEventCallback = &gContactReportCallback;
-	sceneDesc.contactModifyCallback = &gContactModifyCallback;
+
+	sceneDesc.contactModifyCallback = new ContactModifyCallback(this);
 	gScene = gPhysics->createScene(sceneDesc);
 
 	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.2f);	//static friction, dynamic friction, restitution

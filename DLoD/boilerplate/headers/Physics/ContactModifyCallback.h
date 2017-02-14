@@ -8,6 +8,7 @@
 #include "PxPhysicsAPI.h"
 #include "PxPhysics.h"
 #include "PxScene.h"
+#include "Physics/PhysXMain.h"
 
 
 class PhysXMain;
@@ -15,7 +16,8 @@ class PhysXMain;
 class ContactModifyCallback : public PxContactModifyCallback
 {
 private:
-  PhysXMain* physx;
+  PhysXMain* physX = nullptr;
+
 
 public:
   
