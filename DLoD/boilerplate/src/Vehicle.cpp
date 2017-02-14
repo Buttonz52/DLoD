@@ -4,7 +4,7 @@
 
 Vehicle::Vehicle()
 {
-	//health = 100;
+
 }
 
 
@@ -14,9 +14,53 @@ Vehicle::~Vehicle()
 }
 
 
-bool Vehicle::IsStunned()
+void Vehicle::accelerate(float m)
 {
-	return false;
+  physXVehicle->setDriveTorque(0, m*1000.0f);
+  physXVehicle->setDriveTorque(1, m*1000.0f);
+  physXVehicle->setDriveTorque(2, m*1000.0f);
+  physXVehicle->setDriveTorque(3, m*1000.0f);
+}
+
+
+void Vehicle::decelerate(float m)
+{
+  physXVehicle->setDriveTorque(0, m*-1000.0f);
+  physXVehicle->setDriveTorque(1, m*-1000.0f);
+  physXVehicle->setDriveTorque(2, m*-1000.0f);
+  physXVehicle->setDriveTorque(3, m*-1000.0f);
+}
+
+void Vehicle::turn(float dir)
+{
+  physXVehicle->setSteerAngle(0, dir / 4);
+  physXVehicle->setSteerAngle(1, dir / 4);
+}
+
+void Vehicle::brake(float brake)
+{
+  physXVehicle->setBrakeTorque(0, brake);
+  physXVehicle->setBrakeTorque(1, brake);
+  physXVehicle->setBrakeTorque(2, brake);
+  physXVehicle->setBrakeTorque(3, brake);
+}
+
+void Vehicle::releaseAllControls()
+{
+  physXVehicle->setDriveTorque(0, 0.0f);
+  physXVehicle->setDriveTorque(1, 0.0f);
+  physXVehicle->setDriveTorque(2, 0.0f);
+  physXVehicle->setDriveTorque(3, 0.0f);
+
+  physXVehicle->setBrakeTorque(0, 0.0f);
+  physXVehicle->setBrakeTorque(1, 0.0f);
+  physXVehicle->setBrakeTorque(2, 0.0f);
+  physXVehicle->setBrakeTorque(3, 0.0f);
+
+  physXVehicle->setSteerAngle(0, 0.0f);
+  physXVehicle->setSteerAngle(1, 0.0f);
+  physXVehicle->setSteerAngle(2, 0.0f);
+  physXVehicle->setSteerAngle(3, 0.0f);
 }
 
 float Vehicle::calculateDamage()
@@ -42,7 +86,6 @@ void Vehicle::updateHealth(float damage)
 	if (health < 0)
 		health = 0;
 }
-
 
 void Vehicle::playSFX()
 {

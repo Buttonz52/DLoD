@@ -128,22 +128,22 @@ void AlternKeyCallback(GLFWwindow* window)
 	  state = glfwGetKey(window, GLFW_KEY_UP);
 	  if (state == GLFW_PRESS)
 	  {
-		  PhysX.accelerate(currentVehicle, 1);
+      currentVehicle->accelerate(1);
 	  }
 	  state = glfwGetKey(window, GLFW_KEY_DOWN);
 	  if (state == GLFW_PRESS)
 	  {
-		  PhysX.decelerate(currentVehicle, 1);
+      currentVehicle->decelerate(1);
 	  }
 	  state = glfwGetKey(window, GLFW_KEY_LEFT);
 	  if (state == GLFW_PRESS)
 	  {
-		  PhysX.turn(currentVehicle, -1);
+      currentVehicle->turn(-1);
 	  }
 	  state = glfwGetKey(window, GLFW_KEY_RIGHT);
 	  if (state == GLFW_PRESS)
 	  {
-		  PhysX.turn(currentVehicle, 1);
+      currentVehicle->turn(1);
 	  }
   }
 }
@@ -187,23 +187,23 @@ void GetControllerInput()
 	float turn;
 	if (testController.RightTrigger() != 0)
 	{
-		PhysX.accelerate(currentVehicle, testController.RightTrigger());
+    currentVehicle->accelerate(testController.RightTrigger());
 	}
 
 	else if (testController.LeftTrigger() != 0)
 	{
-		PhysX.decelerate(currentVehicle, testController.LeftTrigger());
-	}
+    currentVehicle->decelerate(testController.RightTrigger());
+  }
 	else
 	{
-		PhysX.brake(currentVehicle, 1000.0f);
-	}
+    currentVehicle->brake(1000.f);
+  }
 	if (testController.LeftStick_X() > -0.25 && testController.LeftStick_X() < 0.25)
 		turn = 0.0;
 	else 
 		turn = testController.LeftStick_X();
 
-	PhysX.turn(currentVehicle, turn);
+  currentVehicle->decelerate(turn);
 
 	// Update for next frame
 	//testController.RefreshState();

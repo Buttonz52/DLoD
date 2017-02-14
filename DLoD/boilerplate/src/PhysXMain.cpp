@@ -3,66 +3,6 @@
 
 using namespace physx;
 map<PxRigidBody*, Vehicle*> vMap;
-//std::vector<PxVec3> gContactPositions;
-//std::vector<PxVec3> gContactImpulses;
-//
-//class ContactReportCallback : public PxSimulationEventCallback
-//{
-//	void onConstraintBreak(PxConstraintInfo* constraints, PxU32 count) { PX_UNUSED(constraints); PX_UNUSED(count); }
-//	void onWake(PxActor** actors, PxU32 count) { PX_UNUSED(actors); PX_UNUSED(count); }
-//	void onSleep(PxActor** actors, PxU32 count) { PX_UNUSED(actors); PX_UNUSED(count); }
-//	void onTrigger(PxTriggerPair* pairs, PxU32 count) { PX_UNUSED(pairs); PX_UNUSED(count); }
-//	void onContact(const PxContactPairHeader& pairHeader, const PxContactPair* pairs, PxU32 nbPairs)
-//	{
-//		PX_UNUSED((pairHeader));
-//		std::vector<PxContactPairPoint> contactPoints;
-//
-//		PxU32 flags = static_cast<PxU32>(reinterpret_cast<size_t>(pairHeader.actors[0]->userData) | reinterpret_cast<size_t>(pairHeader.actors[1]->userData));
-//
-//		PxRigidDynamic* dyn0 = pairHeader.actors[0]->is<PxRigidDynamic>();
-//		PxRigidDynamic* dyn1 = pairHeader.actors[1]->is<PxRigidDynamic>();
-//
-//		if (dyn0 && dyn1)
-//		{
-//			for (PxU32 i = 0; i<nbPairs; i++)
-//			{
-//				PxU32 contactCount = pairs[i].contactCount;
-//
-//				if (flags & ContactModFlags::eADJUST_MASS_RATIOS)
-//				{
-//					if (contactCount)
-//					{
-//						contactPoints.resize(contactCount);
-//						PxReal invMassScale[2];
-//						extractContactsWithMassScale(pairs[i], &contactPoints[0], contactCount, invMassScale[0], invMassScale[1]);
-//
-//						for (PxU32 j = 0; j<contactCount; j++)
-//						{
-//							gContactPositions.push_back(contactPoints[j].position);
-//							//Push back reported contact impulses
-//							gContactImpulses.push_back(contactPoints[j].impulse);
-//
-//							//Compute the effective linear/angular impulses for each body.
-//							//Note that the local mass scaling permits separate scales for invMass and invInertia.
-//							for (PxU32 k = 0; k < 2; ++k)
-//							{
-//								const PxRigidDynamic* dynamic = pairHeader.actors[k]->is<PxRigidDynamic>();
-//								PxVec3 linImpulse(0.f), angImpulse(0.f);
-//								if (dynamic != NULL)
-//								{
-//									PxRigidBodyExt::computeLinearAngularImpulse(*dynamic, dynamic->getGlobalPose(), contactPoints[j].position,
-//										k == 0 ? contactPoints[j].impulse : -contactPoints[j].impulse, invMassScale[k], invMassScale[k], linImpulse, angImpulse);
-//								}
-//								gContactLinearImpulses[k].push_back(linImpulse);
-//								gContactAngularImpulses[k].push_back(angImpulse);
-//							}
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-//};
 
 class ContactModifyCallback : public PxContactModifyCallback
 {
@@ -236,54 +176,6 @@ void PhysXMain::initObject(GEO* g)
 	gScene->addActor(*body); //when simulate is called anything added to scene is go for sim.	
 }
 
-void PhysXMain::accelerate(Vehicle* v, float m)
-{
-	v->physXVehicle->setDriveTorque(0, m*1000.0f);
-	v->physXVehicle->setDriveTorque(1, m*1000.0f);
-	v->physXVehicle->setDriveTorque(2, m*1000.0f);
-	v->physXVehicle->setDriveTorque(3, m*1000.0f);
-}
-
-
-void PhysXMain::decelerate(Vehicle* v, float m)
-{
-	v->physXVehicle->setDriveTorque(0, m*-1000.0f);
-	v->physXVehicle->setDriveTorque(1, m*-1000.0f);
-	v->physXVehicle->setDriveTorque(2, m*-1000.0f);
-	v->physXVehicle->setDriveTorque(3, m*-1000.0f);
-}
-
-void PhysXMain::turn(Vehicle* v, float dir)
-{
-	v->physXVehicle->setSteerAngle(0, dir/4);
-	v->physXVehicle->setSteerAngle(1, dir/4);
-}
-
-void PhysXMain::brake(Vehicle* v, float brake)
-{
-	v->physXVehicle->setBrakeTorque(0, brake);
-	v->physXVehicle->setBrakeTorque(1, brake);
-	v->physXVehicle->setBrakeTorque(2, brake);
-	v->physXVehicle->setBrakeTorque(3, brake);
-}
-
-void PhysXMain::releaseAllControls(Vehicle* v)
-{
-	v->physXVehicle->setDriveTorque(0, 0.0f);
-	v->physXVehicle->setDriveTorque(1, 0.0f);
-	v->physXVehicle->setDriveTorque(2, 0.0f);
-	v->physXVehicle->setDriveTorque(3, 0.0f);
-
-	v->physXVehicle->setBrakeTorque(0, 0.0f);
-	v->physXVehicle->setBrakeTorque(1, 0.0f);
-	v->physXVehicle->setBrakeTorque(2, 0.0f);
-	v->physXVehicle->setBrakeTorque(3, 0.0f);
-
-	v->physXVehicle->setSteerAngle(0, 0.0f);
-	v->physXVehicle->setSteerAngle(1, 0.0f);
-	v->physXVehicle->setSteerAngle(2, 0.0f);
-	v->physXVehicle->setSteerAngle(3, 0.0f);
-}
 
 void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 {
@@ -328,7 +220,7 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 		PxRigidDynamic* body = v->physXVehicle->getRigidDynamicActor();
 		mat4 M = convertMat(body->getGlobalPose().q.getBasisVector0(), body->getGlobalPose().q.getBasisVector1(), body->getGlobalPose().q.getBasisVector2(), body->getGlobalPose().p);
 		v->setModelMatrix(M);
-		releaseAllControls(v);
+		v->releaseAllControls();
 	}
 
 	for (GEO* g : geosVec)
