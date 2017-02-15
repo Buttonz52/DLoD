@@ -214,9 +214,9 @@ physx::PxShape& GEO::getShape()
 	return *shape;
 }
 
-physx::PxRigidDynamic& GEO::getBody()
+physx::PxRigidDynamic* GEO::getBody()
 {
-	return *body;
+	return body;
 }
 
 void GEO::setShape(physx::PxShape &s)

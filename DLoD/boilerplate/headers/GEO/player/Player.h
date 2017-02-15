@@ -1,15 +1,14 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 #include "..\vehicle\Vehicle.h"
-//#include "..\Camera.h"
-class Player :public GEO
+#include "..\Camera.h"
+class Player
 {
 public:
 	Player();
-	Player(vec3 &pos);
 	~Player();
 	Vehicle vehicle;
-	//Camera playerCam;
+	Camera playerCam;
 
 	void GetInput();
 };

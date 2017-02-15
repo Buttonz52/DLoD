@@ -1,10 +1,8 @@
 ﻿  main.cpp
-c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(56): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(67): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(222): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(225): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(274): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(275): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\dlod\boilerplate\src\main.cpp(285): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\DLoD\dontSubmit\bin\Debug\boilerplate.exe
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(66): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(77): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(238): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(239): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(249): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

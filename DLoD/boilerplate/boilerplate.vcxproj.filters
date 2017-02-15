@@ -18,9 +18,6 @@
     <Filter Include="Shaders\Fragment">
       <UniqueIdentifier>{72c52d1c-0f83-4d11-8f95-e184437b05a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Shaders\Vertex">
-      <UniqueIdentifier>{b912c26f-7d9b-46f6-b77f-582c00ffaa93}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Game">
       <UniqueIdentifier>{b3e478c8-a32a-4fbb-94d9-11a27d864c98}</UniqueIdentifier>
     </Filter>
@@ -61,9 +58,6 @@
     <Filter Include="Header Files\GEO\itempickup">
       <UniqueIdentifier>{eb48898c-8176-436b-b125-8581d7103924}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\GEO\vehicle">
-      <UniqueIdentifier>{1c4600b4-28b2-4b7e-bd0b-b747344b1355}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\GEO\vehicle">
       <UniqueIdentifier>{5797f7aa-d265-4a84-bcda-b95e15891de9}</UniqueIdentifier>
     </Filter>
@@ -75,6 +69,12 @@
     </Filter>
     <Filter Include="Header Files\Controller">
       <UniqueIdentifier>{4a030151-bfbe-4ad7-96b9-d0a606c21b55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Vertex">
+      <UniqueIdentifier>{b912c26f-7d9b-46f6-b77f-582c00ffaa93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GEO\vehicle">
+      <UniqueIdentifier>{1c4600b4-28b2-4b7e-bd0b-b747344b1355}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -98,9 +98,6 @@
     </ClCompile>
     <ClCompile Include="src\Shader.cpp">
       <Filter>Source Files\GameEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PhysXMain.cpp">
-      <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\GameState.cpp">
       <Filter>Source Files</Filter>
@@ -131,6 +128,27 @@
     </ClCompile>
     <ClCompile Include="src\XboxController.cpp">
       <Filter>Source Files\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PhysXMain.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SnippetVehicleRaycast.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SnippetVehicleTireFriction.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SnippetVehicleCreate.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SnippetVehicleFilterShader.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SnippetVehicleNoDriveCreate.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ScreenOverlay.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,6 +203,21 @@
     <ClInclude Include="\\samba.cs.ucalgary.ca\bzpetras\Downloads\DLoD-Abi\DLoD\boilerplate\XboxController.h">
       <Filter>Header Files\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="headers\Physics\SnippetVehicleRaycast.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Physics\SnippetVehicleCreate.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Physics\SnippetVehicleTireFriction.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Physics\SnippetVehicleFilterShader.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\ScreenOverlay.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\skybox.frag">
@@ -209,6 +242,18 @@
       <Filter>Shaders\Fragment</Filter>
     </None>
     <None Include="shaders\phong.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\hud.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\hud.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\sceneOverlay.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\sceneOverlay.vert">
       <Filter>Shaders\Vertex</Filter>
     </None>
   </ItemGroup>

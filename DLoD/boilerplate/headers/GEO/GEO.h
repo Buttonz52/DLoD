@@ -9,6 +9,8 @@
 #include "PxPhysics.h"
 #include "PxScene.h"
 
+
+
 //Game Entity Object
 class GEO
 {
@@ -62,34 +64,19 @@ public:
 
 	//PhysX
 	physx::PxShape& getShape();
-	physx::PxRigidDynamic& getBody();
+	physx::PxRigidDynamic* getBody();
 	void setShape(physx::PxShape &s);
 	void setBody(physx::PxRigidDynamic &b);
 
 	void shutdown();		//destroy shader, texture, mesh
 
-private:
-/*	string filename;
-	double radius;
-
-	vec3 position;
-	vec3 scale;  
-    double xRotation, yRotation, zRotation;
-
-	mat4 modelMatrix;
-	physx::PxShape* shape;
-	physx::PxRigidDynamic* body;
-
-	Mesh mesh;
-	Shader shader;
-	Texture texture;*/
 protected:
 	string filename;
 	double radius;
 
 	vec3 position;
-	vec3 scale;
-	double xRotation, yRotation, zRotation;
+	vec3 scale;  
+    double xRotation, yRotation, zRotation;
 
 	mat4 modelMatrix;
 	physx::PxShape* shape;

@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 // --------------------------------------------------------------------------
 // Rendering function that draws our scene to the frame buffer
 void RenderGEO(GEO *geo)
@@ -22,7 +23,14 @@ void RenderGEO(GEO *geo)
 	if (geo->isSkybox || geo->isPlane)
 		geo->updateModelMatrix();
 	mat4 M = geo->getModelMatrix();
-	
+	vec4 translation = vec4(M[3]);
+	vec3 scale = geo->getScale();
+	mat4 scaleM = mat4(1);
+	scaleM[0][0] = scale.x;
+	scaleM[1][1] = scale.y;
+	scaleM[2][2] = scale.z;
+	M *= scaleM;
+	M[3] = translation;
 
 	_projection = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
 	_view = camera->calculateViewMatrix();
@@ -51,10 +59,12 @@ void RenderGEO(GEO *geo)
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 }
+
+
 //changes between game objects
 void changeGEO() {
-	geoIndex >= gameObjects.size() - 1 ? geoIndex = 0 : geoIndex++;	//if statement: increment/reset camIndex 
-	currentGEO = &gameObjects[geoIndex];
+	geoIndex >= gameObjects.size() - 1 ? geoIndex = 0 : geoIndex++;	//if statement: increment/reset camIndex				is this broken now?
+	//currentGEO = gameObjects[geoIndex];
 
 	cout << "Switching control to GEO: " << geoIndex << endl;
 
@@ -114,56 +124,34 @@ void AlternKeyCallback(GLFWwindow* window)
 
   factor = 0.05;
 
-  //rotations of GEOs
-  state = glfwGetKey(window, GLFW_KEY_3);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(factor, 0, 0));
-
-  state = glfwGetKey(window, GLFW_KEY_4);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(-factor, 0, 0));
-
-  state = glfwGetKey(window, GLFW_KEY_5);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(0, factor, 0));
-
-  state = glfwGetKey(window, GLFW_KEY_6);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(0, -factor, 0));
-
-  state = glfwGetKey(window, GLFW_KEY_7);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(0, 0, factor));
-
-  state = glfwGetKey(window, GLFW_KEY_8);
-  if (state == GLFW_PRESS)
-    currentGEO->updateRotation(vec3(0, 0, -factor));
-
   //Movement of the GEOs
-  state = glfwGetKey(window, GLFW_KEY_UP);
-  if (state == GLFW_PRESS)
-  {
-	  PhysX.accelerate(currentGEO);
-  }
-  state = glfwGetKey(window, GLFW_KEY_DOWN);
-  if (state == GLFW_PRESS)
-  {
-	  PhysX.decelerate(currentGEO);
-  }
-  state = glfwGetKey(window, GLFW_KEY_LEFT);
-  if (state == GLFW_PRESS)
-  {
-	  PhysX.turn(currentGEO, 1);
-  }
-  state = glfwGetKey(window, GLFW_KEY_RIGHT);
-  if (state == GLFW_PRESS)
-  {
-	  PhysX.turn(currentGEO,-1);
-  }
+  if (!testController.Connected()) {
 
-  //controller version
+	  state = glfwGetKey(window, GLFW_KEY_UP);
+	  if (state == GLFW_PRESS)
+	  {
+		  PhysX.accelerate(currentVehicle, 1);
+	  }
+	  state = glfwGetKey(window, GLFW_KEY_DOWN);
+	  if (state == GLFW_PRESS)
+	  {
+		  PhysX.decelerate(currentVehicle, 1);
+	  }
+	  if (glfwGetKey(window, GLFW_KEY_UP) != GLFW_PRESS && glfwGetKey(window, GLFW_KEY_DOWN) != GLFW_PRESS) {
+		  PhysX.brake(currentVehicle, 1000.0f);
 
-	 
+	  }
+	  state = glfwGetKey(window, GLFW_KEY_LEFT);
+	  if (state == GLFW_PRESS)
+	  {
+		  PhysX.turn(currentVehicle, -0.5);
+	  }
+	  state = glfwGetKey(window, GLFW_KEY_RIGHT);
+	  if (state == GLFW_PRESS)
+	  {
+		  PhysX.turn(currentVehicle, 0.5);
+	  }
+  }
 }
 
 
@@ -194,37 +182,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		changeCamera();
       break;
 
-	//move GEOs
-	case GLFW_KEY_W:
-		currentGEO->updatePosition(vec3(0, factor, 0));
-		break;
-
-	case GLFW_KEY_A:
-		currentGEO->updatePosition(vec3(-factor, 0, 0));
-		break;
-
-	case GLFW_KEY_S:
-		currentGEO->updatePosition(vec3(0, -factor, 0));
-		break;
-
-	case GLFW_KEY_D:
-		currentGEO->updatePosition(vec3(factor, 0, 0));
-		break;
-	case GLFW_KEY_E:
-		currentGEO->updatePosition(vec3(0, 0, -factor));
-		break;
-	case GLFW_KEY_Q:
-		currentGEO->updatePosition(vec3(0, 0, factor));
-		break;
-
-	//scale
-	case GLFW_KEY_1:
-		currentGEO->updateScale(vec3(factor*0.01));
-		break;
-	case GLFW_KEY_2:
-		currentGEO->updateScale(vec3(-factor*0.01));
-		break;
-
     default:
       break;
 	}
@@ -236,14 +193,21 @@ void GetControllerInput()
 
 	if (testController.RightTrigger() != 0)
 	{
-		PhysX.accelerate(currentGEO);
-	}
-	if (testController.GetButtonDown(XBtns.B))
-	{
-		PhysX.decelerate(currentGEO);
+		PhysX.accelerate(currentVehicle, testController.RightTrigger());
 	}
 
-	PhysX.turn(currentGEO, -testController.LeftStick_X());
+	else if (testController.LeftTrigger() != 0)
+	{
+		PhysX.decelerate(currentVehicle, testController.LeftTrigger());
+	}
+	else
+	{
+		PhysX.brake(currentVehicle, 1000.0f);
+	}
+
+	PhysX.turn(currentVehicle, testController.LeftStick_X());
+
+	
 
 	// Update for next frame
 	//testController.RefreshState();
@@ -326,6 +290,8 @@ int main(int argc, char *argv[])
 
 	glfwMakeContextCurrent(window);
 
+	glfwSwapInterval(1);
+
 	// set keyboard callback function and make our context current (active)
 	glfwSetKeyCallback(window, KeyCallback);
 	glfwSetMouseButtonCallback(window, mouse);
@@ -346,6 +312,24 @@ int main(int argc, char *argv[])
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
 
+	camera = &testCams[camIndex];
+
+	//Initialize "Loading screen"
+	ScreenOverlay screenOverlay;
+	screenOverlay.InitializeShaders("shaders/sceneOverlay.vert", "shaders/sceneOverlay.frag");
+	//screenOverlay.colour = vec3(1, 0, 0);
+
+	if (!screenOverlay.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init texture." << endl;
+	}
+	if (!screenOverlay.GenerateSquareVertices(1, 1)) {
+		cout << "Failed to initialize screen overlay." << endl;
+	}
+	glClearColor(0,0,0, 1.0f);
+
+	screenOverlay.Render(GL_TRIANGLE_STRIP);	//render "loading screen"
+	glfwSwapBuffers(window);	//need this to output to screen
+	Sleep(2000); //take this out later, this is just to show that the loading screen works.
 	//init music
 	if (!audio.InitMusic(mainMusic.c_str())) {
 		cout << "Failed to load music." << endl;
@@ -359,54 +343,56 @@ int main(int argc, char *argv[])
 	PhysX.init();
 
 	//initialize 1 game cube, plane, and skybox
-	//GEO* cube = initCube();
-
-	//Initialize 2 players, plane, and skybox
-	Player p1(vec3(1,0,0));
-	Player p2(vec3(-1,0,0));
-	players.push_back(p1);		//push back to vector of players
-	players.push_back(p2);
-	p1.vehicle = *initVehicle(vec3(1, 0, 0));	//red cube
-	p2.vehicle = *initVehicle(vec3(0, 1, 1));	//cyan cube
+	Vehicle* vehicle = new Vehicle();
+	Vehicle* dummy = new Vehicle();
+	dummy->setPosition(vec3(30, 0, 30));
+	initVehicle(vehicle);
+	initVehicle(dummy);
+	
 	GEO plane = initGroundPlane();
 	GEO skybox = initSkyBox();
 
-	camera = &testCams[camIndex];
-//	currentGEO = cube;
-	currentGEO = &p1.vehicle;
+	
+	currentVehicle = vehicle;
 	glEnable(GL_DEPTH_TEST);
 
+	int frameCtr = 0;
 	PrintDirections();
 
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
 		//input
-	
-		//PhysX.stepPhysics(true, cube);
-		PhysX.stepPhysics(true, currentGEO);
+
+		PhysX.stepPhysics(true, gameObjects);
 		
 		//update
-		//camera->followObject(cube);
-		camera->followObject(currentGEO);
 
+		camera->followVehicle(vehicle);
+		
+		if(frameCtr % 60 == 0)
+		{
+			cout << "Vehicle speed: " << vehicle->physXVehicle->computeForwardSpeed() << "\tVehicle mass: " << vehicle->physXVehicle->getRigidDynamicActor()->getMass() << endl;
+			cout << "Player 1 HP: " << vehicle->getHealth() << "\tDummyCar HP: " << dummy->getHealth() << endl << endl;
+		}
+		frameCtr++;
+		
+		
 		//draw
-	//	RenderGEO(cube);
-		RenderGEO(&p1.vehicle);
-		RenderGEO(&p2.vehicle);
+
+		RenderGEO(vehicle);
+		RenderGEO(dummy);
 		RenderGEO(&skybox);
 		RenderGEO(&plane);
+		
 		glfwSwapBuffers(window);
-
-		GetControllerInput();
+		if (testController.Connected())
+			GetControllerInput();
         AlternKeyCallback(window);
 		glfwPollEvents();
 	}
 
-	//cube->shutdown();
-	for (Player p : players) {
-		p.vehicle.shutdown();
-	}
+	vehicle->shutdown();
 	PhysX.cleanupPhysics(true);
 	audio.CleanUp();
 
@@ -426,55 +412,24 @@ void PrintDirections() {
 	cout << "ESC: Exit program" << endl;
 }
 
-
-Vehicle* initVehicle(vec3 &colour)
+void initVehicle(Vehicle* v)
 {
-	Vehicle* cube = new Vehicle();
-
-	cube->setFilename("cube.obj");
-	if (!cube->initMesh()) {
+	v->setFilename("cube.obj");
+	if (!v->initMesh()) {
 		cout << "Failed to initialize mesh." << endl;
 	}
-	cube->addShaders("shaders/phong.vert", "shaders/phong.frag");
+	v->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
-	cube->setScale(vec3(10.0f));
-	//cube->setColour(vec3(1, 0, 0));	//red
-	cube->setColour(colour);
+	v->setScale(vec3(sqrt(6.3f)));
+	v->setColour(vec3(1, 0, 0));	//red
 
-	if (!cube->initBuffers()) {
-		cout << "Could not initialize buffers for game object " << cube->getFilename() << endl;
+	if (!v->initBuffers()) {
+		cout << "Could not initialize buffers for game object " << v->getFilename() << endl;
 	}
 
-	PhysX.initObject(cube);
+	PhysX.initVehicle(v);
 
-	gameObjects.push_back(*cube);
-
-	return cube;
-}
-
-GEO* initCube(vec3 &colour)
-{
-	GEO* cube = new GEO();
-
-	cube->setFilename("cube.obj");
-	if (!cube->initMesh()) {
-		cout << "Failed to initialize mesh." << endl;
-	}
-	cube->addShaders("shaders/phong.vert", "shaders/phong.frag");
-
-	cube->setScale(vec3(10.0f));
-	//cube->setColour(vec3(1, 0, 0));	//red
-	cube->setColour(colour);
-
-	if (!cube->initBuffers()) {
-		cout << "Could not initialize buffers for game object " << cube->getFilename() << endl;
-	}
-
-	PhysX.initObject(cube);
-
-	gameObjects.push_back(*cube);
-
-	return cube;
+	gameObjects.push_back(v);
 }
 
 GEO initGroundPlane()
@@ -484,12 +439,12 @@ GEO initGroundPlane()
 	if (!plane.initMesh()) {
 		cout << "Failed to initialize mesh." << endl;
 	}
-	plane.setScale(vec3(100.f));
+	plane.setScale(vec3(10.f));
 	if (!plane.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 		cout << "Failed to initialize skybox." << endl;
 	}
 	plane.addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
-	plane.setPosition(vec3(0, -3, 0));
+	plane.setPosition(vec3(0, -0.7, 0));
 
 	return plane;
 }
@@ -511,7 +466,7 @@ GEO initSkyBox()
 		cout << "Failed to initialize mesh." << endl;
 	}
 	//scale cube large
-	skybox.setScale(vec3(200.f));
+	skybox.setScale(vec3(15.f));
 	if (!skybox.initSkybox(skyboxFiles)) {
 		cout << "Failed to initialize skybox." << endl;
 	}

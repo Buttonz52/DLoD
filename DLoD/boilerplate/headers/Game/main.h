@@ -9,16 +9,19 @@
 #include "../GEO/Camera.h"
 #include "Audio.h"
 #include "../Physics/PhysXMain.h"
-#include "GEO/player/Human.h"
-#include "GEO/player/AI.h"
 #include "Controller/XboxController.h"
+#include "ScreenOverlay.h"
 
 using namespace std;
 
 // --------------------------------------------------------------------------
 // Variables
-vector<Player> players;
-vector<GEO> gameObjects;
+vector<vec3> _colours;
+vector<vec3> _vertices;
+vector<vec2> _uv;
+vector<GLushort> _faces;
+vector<vec3> _normals;
+vector<GEO *> gameObjects;
 
 //test cameras
 vector<Camera> testCams = {	//just objects for now, make pointers or smth later
@@ -42,8 +45,8 @@ mat4 winRatio = mat4(1.f);
 
 Camera *camera;
 Audio audio;
-GEO *currentGEO;
-vec3 _lightSource = vec3(0.f, 1.f, 2.f);
+Vehicle *currentVehicle;
+vec3 _lightSource = vec3(0.f, 100.f, 20.f);
 
 string mainMusic= "music/TimeLapse.wav";
 //Audio music;
@@ -55,8 +58,8 @@ void PrintDirections();
 int LoadAllObjFiles(const char *pathname);	
 
 //init GEO functions
-GEO* initCube(vec3 &colour);
-Vehicle* initVehicle(vec3 &colour);
+GEO* initCube();
+void initVehicle(Vehicle* v);
 GEO initGroundPlane();
 GEO initSkyBox();
 

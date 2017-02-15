@@ -20,12 +20,18 @@ void main(void)
 {
 	//Simple Phong/toon shading
 	vec3 R = reflect(-L,N);
-	float ke = 5.f;
-	float ks = 1.f;
+	float ka = 0.5;
+	float kd = 0.5;
+	float ke = 5.0f;
+	float ks = 1.0f;
+	
+	vec3 ambient = ka * Colour;
+
     // write colour output without modification
-	float diffuse = max( 0.0, dot( N, normalize(L - P)));
+	float diffuse = kd * max( 0.0, dot( N, normalize(L - P)));
+
     vec3 specular = ks * pow(max(dot(R, V), 0.0), ke) * vec3(1.f);
 
-    FragmentColour = vec4(Colour*vec3(diffuse) + specular, 1.0);
+    FragmentColour = vec4(ambient + vec3(diffuse) + specular, 1.0);
 
 }

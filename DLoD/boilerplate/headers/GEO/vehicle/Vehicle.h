@@ -3,6 +3,8 @@
 #include "..\GEO.h"
 #include "..\item\Item.h"
 
+using namespace physx;
+
 class Vehicle :
 	public GEO
 {
@@ -10,7 +12,10 @@ public:
 	Vehicle();
 	~Vehicle();
 
-	int health;
+	PxVehicleNoDrive* physXVehicle;
+
+
+	float health = 1000;
 	double armourLeft;	
 	double armourRight;
 	double armourFront;
@@ -24,8 +29,13 @@ public:
 	vector <GEO> wheels;
 	vector <GEO> armour;
 	
-	bool IsStunned();
 
+
+
+	bool IsStunned();
+	float getHealth();
+	float calculateDamage();
+	void updateHealth(float damage);
 };
 
 #endif
