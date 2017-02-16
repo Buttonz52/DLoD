@@ -3,61 +3,62 @@
 
 
 using namespace std;
-
-// --------------------------------------------------------------------------
-// Rendering function that draws our scene to the frame buffer
-void RenderGEO(GEO *geo)
-{
-	// bind our shader program and the vertex array object containing our
-	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(geo->getShader().program);
-	glBindVertexArray(geo->getMesh().vertexArray);
-
-	if (geo->hasTexture) {
-		geo->getTexture().BindTexture(geo->getShader().program, "sampler");
-	}
-
-	vec3 fp = vec3(0, 0, 0);		//focal point
-
-	if (geo->isSkybox || geo->isPlane)
-		geo->updateModelMatrix();
-	mat4 M = geo->getModelMatrix();
-	vec4 translation = vec4(M[3]);
-	vec3 scale = geo->getScale();
-	mat4 scaleM = mat4(1);
-	scaleM[0][0] = scale.x;
-	scaleM[1][1] = scale.y;
-	scaleM[2][2] = scale.z;
-	M *= scaleM;
-	M[3] = translation;
-
-	_projection = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
-	_view = camera->calculateViewMatrix();
-	
-	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "model"), 1, GL_FALSE, value_ptr(M));
-	if (!geo->isSkybox || !geo->isPlane) {
-		glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
-	}
-	else {
-		glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(mat4(mat3(_view))));
-	}
-	
-	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "projection"), 1, GL_FALSE, value_ptr(_projection));
-	glUniform3fv(glGetUniformLocation(geo->getShader().program, "lightPosition"), 1, value_ptr(_lightSource));
-//	glUniform3fv(glGetUniformLocation(geo->getShader().program, "position"), 1, value_ptr(geo->getPosition()));
-
-	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
-
-	glDrawElements(GL_TRIANGLES, geo->getMesh().elementCount, GL_UNSIGNED_SHORT, 0);
-	// reset state to default (no shader or geometry bound)
-	glBindVertexArray(0);
-	glUseProgram(0);
-	if (geo->hasTexture)
-		geo->getTexture().UnbindTexture(GL_TEXTURE_2D);
-	// check for an report any OpenGL errors
-	CheckGLErrors();
-}
+//
+//MOVED TO GEO CLASS
+//// --------------------------------------------------------------------------
+//// Rendering function that draws our scene to the frame buffer
+//void RenderGEO(GEO *geo)
+//{
+//	// bind our shader program and the vertex array object containing our
+//	// scene geometry, then tell OpenGL to draw our geometry
+//	glUseProgram(geo->getShader().program);
+//	glBindVertexArray(geo->getMesh().vertexArray);
+//
+//	if (geo->hasTexture) {
+//		geo->getTexture().BindTexture(geo->getShader().program, "sampler");
+//	}
+//
+//	vec3 fp = vec3(0, 0, 0);		//focal point
+//
+//	if (geo->isSkybox || geo->isPlane)
+//		geo->updateModelMatrix();
+//	mat4 M = geo->getModelMatrix();
+//	vec4 translation = vec4(M[3]);
+//	vec3 scale = geo->getScale();
+//	mat4 scaleM = mat4(1);
+//	scaleM[0][0] = scale.x;
+//	scaleM[1][1] = scale.y;
+//	scaleM[2][2] = scale.z;
+//	M *= scaleM;
+//	M[3] = translation;
+//
+//	_projection = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
+//	_view = camera->calculateViewMatrix();
+//	
+//	//uniform variables
+//	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "model"), 1, GL_FALSE, value_ptr(M));
+//	if (!geo->isSkybox || !geo->isPlane) {
+//		glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+//	}
+//	else {
+//		glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "modelview"), 1, GL_FALSE, value_ptr(mat4(mat3(_view))));
+//	}
+//	
+//	glUniformMatrix4fv(glGetUniformLocation(geo->getShader().program, "projection"), 1, GL_FALSE, value_ptr(_projection));
+//	glUniform3fv(glGetUniformLocation(geo->getShader().program, "lightPosition"), 1, value_ptr(_lightSource));
+////	glUniform3fv(glGetUniformLocation(geo->getShader().program, "position"), 1, value_ptr(geo->getPosition()));
+//
+//	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
+//
+//	glDrawElements(GL_TRIANGLES, geo->getMesh().elementCount, GL_UNSIGNED_SHORT, 0);
+//	// reset state to default (no shader or geometry bound)
+//	glBindVertexArray(0);
+//	glUseProgram(0);
+//	if (geo->hasTexture)
+//		geo->getTexture().UnbindTexture(GL_TEXTURE_2D);
+//	// check for an report any OpenGL errors
+//	CheckGLErrors();
+//}
 
 //changes between game objects
 void changeGEO() {
@@ -386,6 +387,8 @@ int main(int argc, char *argv[])
 	int frameCtr = 0;
 	PrintDirections();
 
+	mat4 _proj;
+	mat4 _view;
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
@@ -405,12 +408,14 @@ int main(int argc, char *argv[])
 		frameCtr++;
 		
 		
+		_proj = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
+		_view = camera->calculateViewMatrix();
 
 		//draw
-		RenderGEO(vehicle);
-		RenderGEO(dummy);
-		RenderGEO(&skybox);
-		RenderGEO(&plane);
+		vehicle->Render(_view, _proj, _lightSource);
+		dummy->Render(_view, _proj, _lightSource);
+		skybox.Render(_view, _proj, _lightSource);
+		plane.Render(_view, _proj, _lightSource);
 		logo.Render(GL_TRIANGLE_STRIP);	//render logo
 		
 		glfwSwapBuffers(window);

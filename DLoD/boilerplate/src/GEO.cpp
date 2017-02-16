@@ -229,6 +229,57 @@ void GEO::setBody(physx::PxRigidDynamic &b)
 	body = &b;
 }
 
+// Rendering function that draws our scene to the frame buffer
+//TODO: Make specific to different types of GEOs, use inheritance
+void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
+{
+	// bind our shader program and the vertex array object containing our
+	// scene geometry, then tell OpenGL to draw our geometry
+	glUseProgram(shader.program);
+	glBindVertexArray(mesh.vertexArray);
+
+	if (hasTexture) {
+		texture.BindTexture(shader.program, "sampler");
+	}
+
+	vec3 fp = vec3(0, 0, 0);		//focal point
+
+	if (isSkybox || isPlane)
+		updateModelMatrix();
+	mat4 M = getModelMatrix();
+	vec4 translation = vec4(M[3]);
+	vec3 scale = getScale();
+	mat4 scaleM = mat4(1);
+	scaleM[0][0] = scale.x;
+	scaleM[1][1] = scale.y;
+	scaleM[2][2] = scale.z;
+	M *= scaleM;
+	M[3] = translation;
+
+	//uniform variables
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE, value_ptr(M));
+	if (!isSkybox || !isPlane) {
+		glUniformMatrix4fv(glGetUniformLocation(shader.program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	}
+	else {
+		glUniformMatrix4fv(glGetUniformLocation(shader.program, "modelview"), 1, GL_FALSE, value_ptr(mat4(mat3(_view))));
+	}
+
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "projection"), 1, GL_FALSE, value_ptr(_projection));
+	glUniform3fv(glGetUniformLocation(shader.program, "lightPosition"), 1, value_ptr(_lightSource));
+	//	glUniform3fv(glGetUniformLocation(geo->getShader().program, "position"), 1, value_ptr(geo->getPosition()));
+
+	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
+
+	glDrawElements(GL_TRIANGLES, mesh.elementCount, GL_UNSIGNED_SHORT, 0);
+	// reset state to default (no shader or geometry bound)
+	glBindVertexArray(0);
+	glUseProgram(0);
+	if (hasTexture)
+		texture.UnbindTexture(GL_TEXTURE_2D);
+	// check for an report any OpenGL errors
+	CheckGLErrors();
+}
 
 void GEO::shutdown()
 {

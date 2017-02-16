@@ -45,7 +45,7 @@ public:
 	mat4 getModelMatrix();
 	void setModelMatrix(mat4 m);
 	void updateModelMatrix();
-
+	virtual void Render(const mat4 &, const mat4 &, const vec3 &);
 	//shader, texture, mesh
 	void addShaders(const string &vertex, const string &fragment);
 	bool initBuffers();

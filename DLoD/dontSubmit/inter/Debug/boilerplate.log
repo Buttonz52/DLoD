@@ -1,12 +1,24 @@
 ﻿  main.cpp
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(64): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(75): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(236): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(65): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(76): warning C4018: '>=': signed/unsigned mismatch
 c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(237): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(247): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(335): warning C4305: 'argument': truncation from 'double' to 'const float'
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(349): warning C4305: 'argument': truncation from 'double' to 'const float'
-  ScreenOverlay.cpp
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(238): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(248): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(336): warning C4305: 'argument': truncation from 'double' to 'const float'
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(350): warning C4305: 'argument': truncation from 'double' to 'const float'
+  GEO.cpp
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(61): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(62): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(70): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(74): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(75): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(76): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   Generating Code...
   boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\boilerplate.exe
   boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
