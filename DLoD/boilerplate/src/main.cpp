@@ -313,19 +313,47 @@ int main(int argc, char *argv[])
 	camera = &testCams[camIndex];
 
 	//Initialize "Loading screen"
-	ScreenOverlay screenOverlay;
-	screenOverlay.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	ScreenOverlay loadBkgrd;
+	loadBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 	//screenOverlay.colour = vec3(1, 0, 0);
 
-	if (!screenOverlay.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+	if (!loadBkgrd.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init texture." << endl;
 	}
-	if (!screenOverlay.GenerateSquareVertices(1, 1)) {
+	if (!loadBkgrd.GenerateSquareVertices(1, 1)) {
 		cout << "Failed to initialize screen overlay." << endl;
 	}
+
+	//Initialize load widget; this is just a test to see that multiple things render
+	ScreenOverlay loadWidget;
+	loadWidget.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	//screenOverlay.colour = vec3(1, 0, 0);
+
+	if (!loadWidget.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init texture." << endl;
+	}
+	if (!loadWidget.GenerateSquareVertices(1, 0.1)) {
+		cout << "Failed to initialize screen overlay." << endl;
+	}
+	loadWidget.setPosition(vec3(0, -0.75, 0));
 	clearScreen();
 
-	screenOverlay.Render(GL_TRIANGLE_STRIP);	//render "loading screen"
+	//Initialize logo in top right corner 
+	ScreenOverlay logo;
+	logo.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	//screenOverlay.colour = vec3(1, 0, 0);
+
+	if (!logo.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init texture." << endl;
+	}
+	if (!logo.GenerateSquareVertices(0.1, 0.1)) {
+		cout << "Failed to initialize screen overlay." << endl;
+	}
+	logo.setPosition(vec3(0.9f, 0.9f, 0));
+	clearScreen();
+
+	loadBkgrd.Render(GL_TRIANGLE_STRIP);	//render "loading screen"
+	loadWidget.Render(GL_TRIANGLE_STRIP);	//render widget; this is just for testing at the moment
 	glfwSwapBuffers(window);	//need this to output to screen
 	Sleep(2000); //take this out later, this is just to show that the loading screen works.
 
@@ -383,6 +411,7 @@ int main(int argc, char *argv[])
 		RenderGEO(dummy);
 		RenderGEO(&skybox);
 		RenderGEO(&plane);
+		logo.Render(GL_TRIANGLE_STRIP);	//render logo
 		
 		glfwSwapBuffers(window);
 

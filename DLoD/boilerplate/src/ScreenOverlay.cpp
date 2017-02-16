@@ -17,6 +17,8 @@ ScreenOverlay::ScreenOverlay()
 	colourBuffer = -1; //might not need
 	colour = vec3(0);
 	hasTexture = 0;
+	rotateZ = 0;
+	position = vec3(0);
 }
 
 
@@ -139,8 +141,12 @@ void ScreenOverlay::Render(GLuint type)
 //	if (hasTexture ==1) {
 		texture.BindTexture(shader.program, "sampler");
 	//}
+		mat4 translate = glm::translate(mat4(), position);//Normalize(position));
+	mat4 rotate = glm::rotate(mat4(), rotateZ, vec3(0,0,1));
 
+	mat4 model = translate*rotate*mat4();	//translations/rotations
 	vec3 fp = vec3(0, 0, 0);		//focal point
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE,value_ptr(model));
 	glUniform1i(glGetUniformLocation(shader.program, "hasTexture"), hasTexture);
 	glDrawArrays(type, 0, elementCount);
 	// reset state to default (no shader or geometry bound)
@@ -151,6 +157,25 @@ void ScreenOverlay::Render(GLuint type)
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 }
+
+void ScreenOverlay::setPosition(const vec3 &pos) {
+	position = pos;
+	if (position.x > 1.f) {
+		position.x = 1.f;
+	}
+	if (position.x < -1.f) {
+		position.x = -1.f;
+	}
+	if (position.y > 1.f) {
+		position.y = 1.f;
+	}
+	if (position.y < -1.f) {
+		position.y = -1.f;
+	}
+}
+void ScreenOverlay::setRotate(const float &r) {
+	rotateZ = r;
+}
 void ScreenOverlay::Destroy() {
 	shader.DestroyShaders();
 	texture.DestroyTexture();
@@ -160,3 +185,13 @@ void ScreenOverlay::Destroy() {
 
 	glDeleteVertexArrays(1, &vertexArray);
 }
+
+vec3 ScreenOverlay::Normalize(const vec3 &v) {
+	float magn = v.x*v.x + v.y*v.y + v.z*v.z;
+	if (magn <= 0) {
+		return vec3(0);
+	}
+
+	return (v / sqrt(magn));
+}
+
