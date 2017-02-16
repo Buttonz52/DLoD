@@ -414,7 +414,7 @@ int main(int argc, char *argv[])
 		//draw
 		vehicle->Render(_view, _proj, _lightSource);
 		dummy->Render(_view, _proj, _lightSource);
-		skybox.Render(_view, _proj, _lightSource);
+		skybox.Render(mat4(), _proj, _lightSource);
 		plane.Render(_view, _proj, _lightSource);
 		logo.Render(GL_TRIANGLE_STRIP);	//render logo
 		
