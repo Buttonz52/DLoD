@@ -31,7 +31,7 @@ public:
 	void Render(GLuint type);
 	void Destroy();
 	void setPosition(const vec3 &pos);
-	void setRotate(const float &r);
+	void setRotateZ(const float &r);
 	vec3 Normalize(const vec3 &v);
 	ScreenOverlay();
 	~ScreenOverlay();

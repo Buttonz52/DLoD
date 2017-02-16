@@ -141,6 +141,7 @@ void ScreenOverlay::Render(GLuint type)
 //	if (hasTexture ==1) {
 		texture.BindTexture(shader.program, "sampler");
 	//}
+		//Create the model matrix
 		mat4 translate = glm::translate(mat4(), position);//Normalize(position));
 	mat4 rotate = glm::rotate(mat4(), rotateZ, vec3(0,0,1));
 
@@ -158,8 +159,11 @@ void ScreenOverlay::Render(GLuint type)
 	CheckGLErrors();
 }
 
+//Sets position of overlay
 void ScreenOverlay::setPosition(const vec3 &pos) {
 	position = pos;
+
+	//Check that in bounds, clamp if not.
 	if (position.x > 1.f) {
 		position.x = 1.f;
 	}
@@ -173,7 +177,8 @@ void ScreenOverlay::setPosition(const vec3 &pos) {
 		position.y = -1.f;
 	}
 }
-void ScreenOverlay::setRotate(const float &r) {
+//rotate overlay in Z direction
+void ScreenOverlay::setRotateZ(const float &r) {
 	rotateZ = r;
 }
 void ScreenOverlay::Destroy() {
@@ -186,6 +191,7 @@ void ScreenOverlay::Destroy() {
 	glDeleteVertexArrays(1, &vertexArray);
 }
 
+//Normalizes a vec3
 vec3 ScreenOverlay::Normalize(const vec3 &v) {
 	float magn = v.x*v.x + v.y*v.y + v.z*v.z;
 	if (magn <= 0) {
