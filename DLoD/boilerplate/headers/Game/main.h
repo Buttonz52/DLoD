@@ -10,6 +10,7 @@
 #include "Audio.h"
 #include "../Physics/PhysXMain.h"
 #include "Controller/XboxController.h"
+#include "ScreenOverlay.h"
 
 using namespace std;
 

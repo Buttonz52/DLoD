@@ -122,18 +122,20 @@ void AlternKeyCallback(GLFWwindow* window)
 
   factor = 0.05;
 
-  //Movement of the GEOs
+  //Movement of the GEOs with keyboard if controller not connected
   if (!testController.Connected())
   {
-	  state = glfwGetKey(window, GLFW_KEY_UP);
-	  if (state == GLFW_PRESS)
+
+	  if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 	  {
       currentVehicle->accelerate(1);
 	  }
-	  state = glfwGetKey(window, GLFW_KEY_DOWN);
-	  if (state == GLFW_PRESS)
+	  else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 	  {
       currentVehicle->decelerate(1);
+	  }
+	  else {
+		  currentVehicle->brake(1000.f);
 	  }
 	  state = glfwGetKey(window, GLFW_KEY_LEFT);
 	  if (state == GLFW_PRESS)
@@ -308,6 +310,26 @@ int main(int argc, char *argv[])
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
 
+	camera = &testCams[camIndex];
+
+	//Initialize "Loading screen"
+	ScreenOverlay screenOverlay;
+	screenOverlay.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	//screenOverlay.colour = vec3(1, 0, 0);
+
+	if (!screenOverlay.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init texture." << endl;
+	}
+	if (!screenOverlay.GenerateSquareVertices(1, 1)) {
+		cout << "Failed to initialize screen overlay." << endl;
+	}
+	clearScreen();
+
+	screenOverlay.Render(GL_TRIANGLE_STRIP);	//render "loading screen"
+	glfwSwapBuffers(window);	//need this to output to screen
+	Sleep(2000); //take this out later, this is just to show that the loading screen works.
+
+
 	//init music
 	if (!audio.InitMusic(mainMusic.c_str())) {
 		cout << "Failed to load music." << endl;
@@ -330,7 +352,6 @@ int main(int argc, char *argv[])
 	GEO plane = initGroundPlane();
 	GEO skybox = initSkyBox();
 
-	camera = &testCams[camIndex];
 	currentVehicle = vehicle;
 	glEnable(GL_DEPTH_TEST);
 

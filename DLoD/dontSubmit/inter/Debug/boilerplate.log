@@ -1,3 +1,98 @@
-﻿  ContactModifyCallback.cpp
-  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\easpoone\Desktop\Game Dev\DLoD\dontSubmit\bin\Debug\boilerplate.exe
-  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\easpoone\Desktop\Game Dev\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+﻿  glad.c
+  XboxController.cpp
+  Vehicle.cpp
+  Utility.cpp
+  Texture.cpp
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\texture.cpp(60): warning C4018: '<': signed/unsigned mismatch
+  SnippetVehicleTireFriction.cpp
+  SnippetVehicleRaycast.cpp
+  SnippetVehicleNoDriveCreate.cpp
+  SnippetVehicleFilterShader.cpp
+  SnippetVehicleCreate.cpp
+  Shader.cpp
+  ScreenOverlay.cpp
+  Player.cpp
+  PhysXMain.cpp
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\physxmain.cpp(139): warning C4018: '<': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\physxmain.cpp(152): warning C4018: '<': signed/unsigned mismatch
+  Mesh.cpp
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\mesh.cpp(89): warning C4018: '<': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\mesh.cpp(104): warning C4018: '<': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\mesh.cpp(134): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\mesh.cpp(135): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\mesh.cpp(139): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\mesh.cpp(140): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\mesh.cpp(152): warning C4018: '<': signed/unsigned mismatch
+  main.cpp
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(64): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(75): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(236): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(237): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(247): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  Light.cpp
+  Item.cpp
+  Human.cpp
+  GEO.cpp
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(61): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(62): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(63): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(64): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(70): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(74): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(75): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\geo.cpp(76): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  GameState.cpp
+  Generating Code...
+  Compiling...
+  ContactModifyCallback.cpp
+  Camera.cpp
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(23): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(24): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(27): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(28): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(38): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(49): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(70): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(89): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(91): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(132): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(135): warning C4305: '-=': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(147): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(149): warning C4305: '+=': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\camera.cpp(152): warning C4305: '-=': truncation from 'double' to 'float'
+  Audio.cpp
+  AI.cpp
+  Generating Code...
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+PhysX3ExtensionsDEBUG.lib(ExtCpuWorkerThread.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtCpuWorkerThread.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+PhysX3ExtensionsDEBUG.lib(ExtDefaultCpuDispatcher.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtDefaultCpuDispatcher.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+PhysX3ExtensionsDEBUG.lib(ExtDefaultErrorCallback.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtDefaultErrorCallback.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+PhysX3ExtensionsDEBUG.lib(ExtDefaultStreams.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtDefaultStreams.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+PhysX3ExtensionsDEBUG.lib(ExtPvdClientImpl.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtPvdClientImpl.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+PhysX3ExtensionsDEBUG.lib(ExtRigidBodyExt.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtRigidBodyExt.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+PhysX3ExtensionsDEBUG.lib(ExtSimpleFactory.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtSimpleFactory.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleComponents.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleComponents.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleDrive.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleDrive.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleDrive4W.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleDrive4W.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleDriveNW.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleDriveNW.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleDriveTank.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleDriveTank.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleMetaData.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleMetaData.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleNoDrive.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleNoDrive.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleSDK.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleSDK.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleSerialization.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleSerialization.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleSuspWheelTire4.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleSuspWheelTire4.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleTireFriction.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleTireFriction.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleUpdate.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleUpdate.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleWheels.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleWheels.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(VehicleUtilSetup.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(VehicleUtilSetup.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(VehicleUtilTelemetry.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(VehicleUtilTelemetry.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleAutoGeneratedMetaDataObjects.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleAutoGeneratedMetaDataObjects.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysX3VehicleDEBUG.lib(PxVehicleMetaDataObjects.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleMetaDataObjects.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
+PhysXProfileSDKDEBUG.lib(PxProfileEventImpl.obj) : warning LNK4099: PDB 'PhysXProfileSDKDEBUG.pdb' was not found with 'PhysXProfileSDKDEBUG.lib(PxProfileEventImpl.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysXProfileSDKDEBUG.pdb'; linking object as if no debug info
+PhysXVisualDebuggerSDKDEBUG.lib(PvdNetworkStreams.obj) : warning LNK4099: PDB 'PhysXVisualDebuggerSDKDEBUG.pdb' was not found with 'PhysXVisualDebuggerSDKDEBUG.lib(PvdNetworkStreams.obj)' or at 'C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\PhysXVisualDebuggerSDKDEBUG.pdb'; linking object as if no debug info
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

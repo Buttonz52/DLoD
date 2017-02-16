@@ -151,6 +151,7 @@
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\PhysXMain.cpp" />
     <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\ScreenOverlay.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\SnippetVehicleCreate.cpp" />
     <ClCompile Include="src\SnippetVehicleFilterShader.cpp" />
@@ -170,6 +171,7 @@
     <ClInclude Include="headers\GameState.h" />
     <ClInclude Include="headers\Game\Audio.h" />
     <ClInclude Include="headers\Game\main.h" />
+    <ClInclude Include="headers\Game\ScreenOverlay.h" />
     <ClInclude Include="headers\Game\Utility.h" />
     <ClInclude Include="headers\GEO\Camera.h" />
     <ClInclude Include="headers\GEO\GEO.h" />
@@ -189,6 +191,8 @@
   <ItemGroup>
     <None Include="shaders\hud.frag" />
     <None Include="shaders\hud.vert" />
+    <None Include="shaders\screenOverlay.frag" />
+    <None Include="shaders\screenOverlay.vert" />
     <None Include="shaders\skybox.frag" />
     <None Include="shaders\skybox.vert" />
     <None Include="shaders\phong.frag" />
