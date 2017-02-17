@@ -3,6 +3,7 @@
 
 
 using namespace std;
+
 //
 //MOVED TO GEO CLASS
 //// --------------------------------------------------------------------------
@@ -95,7 +96,6 @@ void ErrorCallback(int error, const char* description)
 	cout << "GLFW ERROR " << error << ":" << endl;
 	cout << description << endl;
 }
-
 
 // handles keyboard input events when we want multiple keys pressed at once
 void AlternKeyCallback(GLFWwindow* window)
@@ -310,53 +310,91 @@ int main(int argc, char *argv[])
 
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
-
 	camera = &testCams[camIndex];
 
+	//initialize title screen
+	TitleScreen ts;
+	ts.Initialize();
+
+	//loop until something happens
+	while (!ts.isStartPressed()) {
+		clearScreen();
+		ts.Render();		//render titlescreen
+		glfwSwapBuffers(window);	//need this to output to screen
+		ts.KeyCallback(window, &testController);	//check key callback
+
+		//if quit selected, or other input to close program selected, close program
+		if (ts.isQuitPressed() || glfwWindowShouldClose(window)) {
+			glfwSetWindowShouldClose(window, GL_TRUE);
+			ts.Destroy();
+			glfwDestroyWindow(window);
+			glfwTerminate();
+			return 0;
+		}
+		Sleep(100);		//slow down input so not crazy fast
+		glfwPollEvents();
+	}
+	ts.Destroy();	//destroy title page
+
 	//Initialize "Loading screen"
+
+
 	ScreenOverlay loadBkgrd;
+	if (!loadBkgrd.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init loadBkgrnd." << endl;
+	}
+	cout << "Init loadBkgrd shaders ";
 	loadBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 	//screenOverlay.colour = vec3(1, 0, 0);
+	cout << " -initialized";
 
-	if (!loadBkgrd.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init texture." << endl;
-	}
-	if (!loadBkgrd.GenerateSquareVertices(1, 1)) {
+	if (!loadBkgrd.GenerateSquareVertices(1, 1, vec3(0))) {
 		cout << "Failed to initialize screen overlay." << endl;
 	}
 
 	//Initialize load widget; this is just a test to see that multiple things render
 	ScreenOverlay loadWidget;
+	//if (!loadWidget.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
+	//	cout << "Failed to loadWidget." << endl;
+	//}
+	cout << "Init widget shaders ";
 	loadWidget.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	cout << " -initialized";
 	//screenOverlay.colour = vec3(1, 0, 0);
-
-	if (!loadWidget.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init texture." << endl;
-	}
-	if (!loadWidget.GenerateSquareVertices(1, 0.1)) {
+	if (!loadWidget.GenerateSquareVertices(0.1, 0.1, vec3(1,0,0))) {
 		cout << "Failed to initialize screen overlay." << endl;
 	}
-	loadWidget.setPosition(vec3(0, -0.75, 0));
-	clearScreen();
+	//faaaar left
+	loadWidget.setPosition(vec3(-4, -0.75, 0));
 
 	//Initialize logo in top right corner 
 	ScreenOverlay logo;
-	logo.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-	//screenOverlay.colour = vec3(1, 0, 0);
-
 	if (!logo.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init texture." << endl;
 	}
-	if (!logo.GenerateSquareVertices(0.1, 0.1)) {
+	cout << "Init widget shaders ";
+	logo.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	//screenOverlay.colour = vec3(1, 0, 0);
+	cout << " -initialized";
+
+	if (!logo.GenerateSquareVertices(0.1, 0.1, vec3(0))) {
 		cout << "Failed to initialize screen overlay." << endl;
 	}
 	logo.setPosition(vec3(0.9f, 0.9f, 0));
-	clearScreen();
 
-	loadBkgrd.Render(GL_TRIANGLE_STRIP);	//render "loading screen"
-	loadWidget.Render(GL_TRIANGLE_STRIP);	//render widget; this is just for testing at the moment
-	glfwSwapBuffers(window);	//need this to output to screen
-	Sleep(2000); //take this out later, this is just to show that the loading screen works.
+	//this simulates loading screen; we can use this later when we have things to load
+	while(loadWidget.getScale().x<20) {	//arbitrary number
+		clearScreen();
+		loadBkgrd.Render(GL_TRIANGLE_STRIP);	//render "loading screen"
+		
+		//Well, this is kind of a weird way to implement this, change later.
+		//loadWidget.setPosition(loadWidget.getPosition() + vec3(0.05, 0, 0));
+		loadWidget.setScale(loadWidget.getScale()  +vec3(1,0,0));	//makes larger
+
+		loadWidget.Render(GL_TRIANGLE_STRIP);	//render widget; this is just for testing at the moment
+		Sleep(200); //Just to slow down the animation a bit
+		glfwSwapBuffers(window);	//need this to output to screen
+	}
 
 
 	//init music

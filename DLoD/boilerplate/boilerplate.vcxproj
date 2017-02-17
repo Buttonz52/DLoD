@@ -159,6 +159,7 @@
     <ClCompile Include="src\SnippetVehicleRaycast.cpp" />
     <ClCompile Include="src\SnippetVehicleTireFriction.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\TitleScreen.cpp" />
     <ClCompile Include="src\Utility.cpp" />
     <ClCompile Include="src\Vehicle.cpp" />
     <ClCompile Include="src\XboxController.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="headers\Game\Audio.h" />
     <ClInclude Include="headers\Game\main.h" />
     <ClInclude Include="headers\Game\ScreenOverlay.h" />
+    <ClInclude Include="headers\Game\TitleScreen.h" />
     <ClInclude Include="headers\Game\Utility.h" />
     <ClInclude Include="headers\GEO\Camera.h" />
     <ClInclude Include="headers\GEO\GEO.h" />

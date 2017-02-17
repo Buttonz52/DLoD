@@ -6,8 +6,9 @@ J: translate camera left
 L: translate camera right
 RIGHT: rotate camera ccw
 LEFT: rotate camera cw
-UP: rotate camera up
-DOWN: rotate camera down
+UP: rotate camera up/menu select
+DOWN: rotate camera down/menu select
+ENTER: choose menu option
 TAB: change cameras
 SPACE: play sfx
 G: change GEOs

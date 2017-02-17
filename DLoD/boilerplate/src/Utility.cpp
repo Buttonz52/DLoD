@@ -32,7 +32,7 @@ bool CheckGLErrors()
 			cout << "GL_INVALID_VALUE" << endl; 
 			break;
 		case GL_INVALID_OPERATION:
-	//		cout << "GL_INVALID_OPERATION" << endl; 
+			cout << "GL_INVALID_OPERATION" << endl; 
 			break;
 		case GL_INVALID_FRAMEBUFFER_OPERATION:
 			cout << "GL_INVALID_FRAMEBUFFER_OPERATION" << endl; break;
