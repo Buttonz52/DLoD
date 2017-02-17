@@ -373,8 +373,11 @@ int main(int argc, char *argv[])
 
 	//initialize 1 game cube, plane, and skybox
 	Vehicle* vehicle = new Vehicle();
+	vehicle->setScale(vec3(0.05f));
 	Vehicle* dummy = new Vehicle();
 	dummy->setPosition(vec3(30, 0, 30));
+	dummy->setScale(vec3(0.05f));
+
 	initVehicle(vehicle);
 	initVehicle(dummy);
 	
@@ -448,13 +451,14 @@ void PrintDirections() {
 
 void initVehicle(Vehicle* v)
 {
-	v->setFilename("cube.obj");
+	v->setFilename("teapot.obj");
+	//v->setFilename("cube.obj");
 	if (!v->initMesh()) {
 		cout << "Failed to initialize mesh." << endl;
 	}
 	v->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
-	v->setScale(vec3(sqrt(6.3f)));
+	//v->setScale(vec3(sqrt(6.3f)));
 	v->setColour(vec3(1, 0, 0));	//red
 
 	if (!v->initBuffers()) {
