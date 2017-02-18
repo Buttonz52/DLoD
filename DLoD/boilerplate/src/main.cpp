@@ -195,7 +195,7 @@ void GetControllerInput()
 
 	else if (testController.LeftTrigger() != 0)
 	{
-    currentVehicle->decelerate(testController.RightTrigger());
+    currentVehicle->decelerate(testController.LeftTrigger());
   }
 	else
 	{
@@ -206,7 +206,7 @@ void GetControllerInput()
 	else 
 		turn = testController.LeftStick_X();
 
-  currentVehicle->decelerate(turn);
+  currentVehicle->turn(turn);
 
 	// Update for next frame
 	//testController.RefreshState();

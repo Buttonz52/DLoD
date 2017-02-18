@@ -150,10 +150,10 @@ void TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller)
 	//Please test to 
 	if (ctrller->Connected()) {
 		//down
-		if (ctrller->LeftStick_Y() > 0.25) {
+		if (ctrller->GetButtonPressed(XBtns.DPad_Up)) {
 			toggleMenuIndex(-1);
 		}
-		else if (ctrller->LeftStick_Y() > -0.25) {
+		else if (ctrller->GetButtonPressed(XBtns.DPad_Down)) {
 			toggleMenuIndex(1);
 		}
 		//Don't know if this is correct..

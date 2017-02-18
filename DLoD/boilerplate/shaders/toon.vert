@@ -37,7 +37,7 @@ void main()
 	P = vertexCameraSpace.xyz/vertexCameraSpace.w;
 
 	mat3 normalMatrix = mat3(transpose(inverse(modelview)));
-    N = -normalize(normalMatrix*-Normal);
+    N = -normalize(normalMatrix*Normal);
     // assign output colour to be interpolated
     Colour = VertexColour;
 

@@ -1,10 +1,46 @@
-﻿  main.cpp
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(66): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(77): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(237): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(238): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(248): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(364): warning C4305: 'argument': truncation from 'double' to 'const float'
-c:\users\kiersten\desktop\git master feb 13\dlod\boilerplate\src\main.cpp(380): warning C4305: 'argument': truncation from 'double' to 'const float'
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\boilerplate.exe
-  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\Git Master Feb 13\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+﻿Build started 2/17/2017 5:01:25 PM.
+     1>Project "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\boilerplate.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\Include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2-2.0.5\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2_mixer-2.0.1\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\boilerplate\headers" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\dirent" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Assimp\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glfw\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glad\include" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\stb" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glm-0.9.8.2" /I"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Xbox\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _CRT_SECURE_NO_WARNINGS /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\\" /Fd"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt src\TitleScreen.cpp
+         TitleScreen.cpp
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\titlescreen.cpp(10): warning C4305: '=': truncation from 'double' to 'float'
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\titlescreen.cpp(11): warning C4305: '=': truncation from 'double' to 'float'
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\titlescreen.cpp(12): warning C4305: '=': truncation from 'double' to 'float'
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\titlescreen.cpp(64): warning C4018: '>=': signed/unsigned mismatch
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\titlescreen.cpp(116): warning C4018: '<': signed/unsigned mismatch
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\titlescreen.cpp(130): warning C4018: '<': signed/unsigned mismatch
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\titlescreen.cpp(140): warning C4018: '<': signed/unsigned mismatch
+     1>\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\titlescreen.cpp(208): warning C4018: '<': signed/unsigned mismatch
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe" /INCREMENTAL /NOLOGO /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\lib\debug\\" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2-2.0.5\lib\x86" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\SDL\SDL2_mixer-2.0.1\lib\x86" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Assimp\lib\x86" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\glfw\lib" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\PhysX\lib\release\\" /LIBPATH:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\..\middleware\Xbox\lib\\" Xinput.lib LowLevelClothDEBUG.lib LowLevelDEBUG.lib PhysX3CharacterKinematicDEBUG_x86.lib PhysX3CommonDEBUG_x86.lib PhysX3CookingDEBUG_x86.lib PhysX3DEBUG_x86.lib PhysX3ExtensionsDEBUG.lib PhysX3VehicleDEBUG.lib PhysXProfileSDKDEBUG.lib PhysXVisualDebuggerSDKDEBUG.lib PvdRuntimeDEBUG.lib PxTaskDEBUG.lib SceneQueryDEBUG.lib SimulationControllerDEBUG.lib assimp.lib opengl32.lib SDL2_mixer.lib SDL2.lib SDL2main.lib glfw3.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.lib" /MACHINE:X86 "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\glad.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\AI.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Audio.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Camera.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\ContactModifyCallback.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\GameState.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\GEO.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Human.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Item.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Light.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\main.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Mesh.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\PhysXMain.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Player.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\ScreenOverlay.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Shader.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\SnippetVehicleCreate.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\SnippetVehicleFilterShader.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\SnippetVehicleNoDriveCreate.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\SnippetVehicleRaycast.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\SnippetVehicleTireFriction.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Texture.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\TitleScreen.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Utility.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\Vehicle.obj"
+         "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\inter\Debug\XboxController.obj"
+         boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+     1>Done Building Project "\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\boilerplate\boilerplate.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:06.33
