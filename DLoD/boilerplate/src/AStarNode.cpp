@@ -72,7 +72,7 @@ vector<AStarNode*> OctTree::getNodesForSphere(vec3 cp, double r)
   if (abs(cp.x - centerPoint.x) < distx + r && abs(cp.y - centerPoint.y) < disty + r && abs(cp.z - centerPoint.z) < distz + r)
   {
     for (AStarNode* node : nodes) {
-      if (!node->obstructed && (node->position - cp).length() <= r)
+      if (!node->obstructed && length(node->position - cp) <= r)
         nodesInArea.push_back(node);
     }
 

@@ -116,10 +116,9 @@ void Camera::followVehicle(Vehicle* v)
 	
 	// Make a delta value to increment the focal point by  (This should evtually be a function of the length of delta)
 	vec3 delta = -pos - focalPoint;
-	delta = (delta.length() > 0.01) ? vec3(delta.x / 10, delta.y / 10, delta.z / 10) : delta;
+	delta = (length(delta) > 0.01) ? vec3(delta.x / 10, delta.y / 10, delta.z / 10) : delta;
 	
-	focalPoint += delta;
-	
+	focalPoint += delta;	
 	// Get the rotation of the object
 	physx::PxVec3 axis = physx::PxVec3(0, 1, 0);
 	physx::PxReal angle = 0;

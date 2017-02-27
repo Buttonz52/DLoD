@@ -39,31 +39,44 @@ void AI::driveTo(vec3 destination)
   if (angle < 0)
     angle += M_PI * 2;
 
-  // Calculation of orientated Displacement
+  // Calculation the normalized orientated displacement
   mat3 rotation(1);
   rotation[0][0] = cos(-angle);
   rotation[0][2] = sin(-angle);
   rotation[2][0] = -sin(-angle);
   rotation[2][2] = cos(-angle);
   vec3 oD = rotation * displacement;
+  oD = normalize(oD);
 
-  cout << "My oD is " << oD.x << " " << oD.y << " " << oD.z << endl;
 
-  // if statements based on the OD
-  // Go forward
+
+  /* If you want to do some fine tuning of the AI change 
+   * the code below.
+   */
+
   if (oD.z > 0)
   {
-    vehicle->accelerate(1000);
-    if (abs(oD.x / oD.z) > 0.1)
-      vehicle->turn(oD.x / oD.z);
+    vehicle->accelerate(5);
+
+    double turn = min(max(-oD.x / oD.z, -0.6), 0.6);
+    turn = ((vehicle->physXVehicle->computeForwardSpeed() > 0)) ? turn : -turn;
+
+    vehicle->turn(turn);
   }
   else
   {
-    vehicle->decelerate(1000);
-    if (oD.x < 0)
-      vehicle->turn(1);
-    else
-      vehicle->turn(-1);
+    vehicle->decelerate(5);
+    
+    double turn = min(max(-oD.x / oD.z, -0.7), 0.7);
+    turn = ((vehicle->physXVehicle->computeForwardSpeed() < 0)) ? turn : -turn;
+
+    vehicle->turn(turn);
+  }
+
+  if (length(displacement) < 5)
+  {
+    vehicle->brake(10000.0);
+    cout << "breaking" << endl;
   }
 
 }
