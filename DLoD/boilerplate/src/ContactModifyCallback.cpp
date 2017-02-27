@@ -39,7 +39,7 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
       if (v2 != nullptr)
       {
         v2->calculateDamage();
-        v2->playSFX();
+		v2->playSFX("crash");
       }
       else
         cout << "Could not calculate damage!" << endl;

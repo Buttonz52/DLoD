@@ -154,7 +154,10 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\TitleScreen.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shadow.cpp">
+      <Filter>Source Files\GEO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -228,7 +231,10 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="headers\Game\TitleScreen.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\Shadow.h">
+      <Filter>Header Files\GEO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -267,6 +273,18 @@
     </None>
     <None Include="shaders\screenOverlay.vert">
       <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\shadow.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\shadow.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\simpleDepthShader.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\simpleDepthShader.frag">
+      <Filter>Shaders\Fragment</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

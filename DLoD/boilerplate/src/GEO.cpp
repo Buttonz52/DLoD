@@ -9,6 +9,7 @@ GEO::GEO()
 	xRotation = 0; yRotation = 0; zRotation = 0;
 	hasTexture = 0;
 	isSkybox = 0;
+	//sfxMap.insert(make_pair("sfx", sfx));
 }
 
 GEO::~GEO()
@@ -231,7 +232,7 @@ void GEO::setBody(physx::PxRigidDynamic &b)
 
 // Rendering function that draws our scene to the frame buffer
 //TODO: Make specific to different types of GEOs, use inheritance
-void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
+void GEO::Render(Shader &shader, const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
 {
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
@@ -255,6 +256,17 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 	scaleM[2][2] = scale.z;
 	M *= scaleM;
 	M[3] = translation;
+	glm::mat4 lightProjection, lightView;
+	glm::mat4 lightSpaceMatrix;
+	GLfloat near_plane = 0.001f, far_plane = 1000.f;
+	//lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
+	lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, near_plane, far_plane);
+
+	//lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
+	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+	lightSpaceMatrix = lightProjection * lightView;
+
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
 
 	//uniform variables
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE, value_ptr(M));
@@ -276,7 +288,7 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 	glBindVertexArray(0);
 	glUseProgram(0);
 	if (hasTexture)
-		texture.UnbindTexture(GL_TEXTURE_2D);
+	//	texture.UnbindTexture(GL_TEXTURE_2D);
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 }
@@ -286,4 +298,10 @@ void GEO::shutdown()
 	shader.DestroyShaders();
 	texture.DestroyTexture();
 	mesh.DestroyMesh();
+}
+
+void GEO::playSFX(const string &name)
+{
+	//audio.PlaySfx(sfx);
+	audio.PlaySfx(sfxMap[name]);
 }

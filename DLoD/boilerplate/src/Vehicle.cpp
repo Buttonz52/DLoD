@@ -5,6 +5,10 @@
 Vehicle::Vehicle()
 {
 
+	//initialize crash sound and place in map
+	crash = Mix_LoadWAV("sfx/carCrash.wav");
+	sfxMap.insert(make_pair("crash", crash));
+
 }
 
 
@@ -85,9 +89,4 @@ void Vehicle::updateHealth(float damage)
 	health -= damage;
 	if (health < 0)
 		health = 0;
-}
-
-void Vehicle::playSFX()
-{
-	audio.PlaySfx(crash);
 }

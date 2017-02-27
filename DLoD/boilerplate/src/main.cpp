@@ -87,6 +87,20 @@ void clearScreen() {
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
+
+void updateLoadBar(GLFWwindow *window, ScreenOverlay &loadBkgrd, ScreenOverlay &loadWidget, const float &incr) {
+	clearScreen();
+	loadBkgrd.Render(GL_TRIANGLE_STRIP);	//render "loading screen"
+
+											//Well, this is kind of a weird way to implement this, change later.
+											//loadWidget.setPosition(loadWidget.getPosition() + vec3(0.05, 0, 0));
+	loadWidget.setScale(loadWidget.getScale() + vec3(incr, 0, 0));	//makes larger
+
+	loadWidget.Render(GL_TRIANGLE_STRIP);	//render widget; this is just for testing at the moment
+											//Sleep(200); //Just to slow down the animation a bit
+	glfwSwapBuffers(window);	//need this to output to screen
+}
+
 // --------------------------------------------------------------------------
 // GLFW callback functions
 
@@ -382,32 +396,26 @@ int main(int argc, char *argv[])
 	}
 	logo.setPosition(vec3(0.9f, 0.9f, 0));
 
-	//this simulates loading screen; we can use this later when we have things to load
-	while(loadWidget.getScale().x<20) {	//arbitrary number
-		clearScreen();
-		loadBkgrd.Render(GL_TRIANGLE_STRIP);	//render "loading screen"
-		
-		//Well, this is kind of a weird way to implement this, change later.
-		//loadWidget.setPosition(loadWidget.getPosition() + vec3(0.05, 0, 0));
-		loadWidget.setScale(loadWidget.getScale()  +vec3(1,0,0));	//makes larger
-
-		loadWidget.Render(GL_TRIANGLE_STRIP);	//render widget; this is just for testing at the moment
-		Sleep(200); //Just to slow down the animation a bit
-		glfwSwapBuffers(window);	//need this to output to screen
-	}
-
+	updateLoadBar(window, loadBkgrd, loadWidget, 0);
 
 	//init music
 	if (!audio.InitMusic(mainMusic.c_str())) {
 		cout << "Failed to load music." << endl;
 	}
 
+	updateLoadBar(window, loadBkgrd, loadWidget, 3);
+
+
 	if (!audio.PlayMusic()) {
 		cout << "Failed to play music" << endl;
 	}
 
+	updateLoadBar(window, loadBkgrd, loadWidget, 3);
+
 	//initialize PhysX
 	PhysX.init();
+
+	updateLoadBar(window, loadBkgrd, loadWidget, 3);
 
 	//initialize 1 game cube, plane, and skybox
 	Vehicle* vehicle = new Vehicle();
@@ -430,6 +438,13 @@ int main(int argc, char *argv[])
 
 	mat4 _proj;
 	mat4 _view;
+
+	Shader sh;
+	sh.InitializeShaders("shaders/shadow.vert", "shaders/shadow.frag");
+	Shadow shadow;
+	shadow.initShadow();
+	shadow.addShaders("shaders/simpleDepthShader.vert", "shaders/simpleDepthShader.frag");
+	updateLoadBar(window, loadBkgrd, loadWidget, 3);
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
@@ -448,16 +463,47 @@ int main(int argc, char *argv[])
 		}
 		frameCtr++;
 		
-		
 		_proj = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
 		_view = camera->calculateViewMatrix();
 
+
+	/*	shadow.Render(shadow.getShader(), _view, _proj, _lightSource);
+		
+		plane.Render(shadow.getShader(), _view, _proj, _lightSource);
+		vehicle->Render(shadow.getShader(), _view, _proj, _lightSource);
+		dummy->Render(shadow.getShader(), _view, _proj, _lightSource);
+
+		shadow.endRender();
+
+		glViewport(0, 0, width, height);
+		clearScreen();
+
+		shadow.bindForReading(GL_TEXTURE0);
+		//vehicle->Render(sh, _view, _proj, _lightSource);
+		//dummy->Render(sh, _view, _proj, _lightSource);
+		plane.Render(sh, _view, _proj, _lightSource);
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, shadow.depthMap);
+		//plane.Render(sh, _view, _proj, _lightSource);
+		*/
+
+	//	glActiveTexture(GL_TEXTURE0);
+	//	glBindTexture(GL_TEXTURE_2D, woodTexture);
+
+	//	glActiveTexture(GL_TEXTURE1);
+		//glActiveTexture(GL_TEXTURE0 + shadow.depthMap);
+		//glBindTexture(GL_TEXTURE_2D, shadow.depthMap);
+		//glUniform1i(glGetUniformLocation(sh.program, string("shadowMap").c_str()), shadow.depthMap);
+
 		//draw
-		vehicle->Render(_view, _proj, _lightSource);
-		dummy->Render(_view, _proj, _lightSource);
-		skybox.Render(mat4(), _proj, _lightSource);
-		plane.Render(_view, _proj, _lightSource);
+		//clearScreen();
+
+		vehicle->Render(vehicle->getShader(),_view, _proj, _lightSource);
+		dummy->Render(dummy->getShader(),_view, _proj, _lightSource);
+		skybox.Render(skybox.getShader(), mat4(), _proj, _lightSource);
+		plane.Render(plane.getShader(),_view, _proj, _lightSource);
 		logo.Render(GL_TRIANGLE_STRIP);	//render logo
+		
 		
 		glfwSwapBuffers(window);
 

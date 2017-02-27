@@ -12,6 +12,7 @@
 #include "Controller/XboxController.h"
 #include "ScreenOverlay.h"
 #include "TitleScreen.h"
+#include "../GEO/Shadow.h"
 using namespace std;
 
 // --------------------------------------------------------------------------

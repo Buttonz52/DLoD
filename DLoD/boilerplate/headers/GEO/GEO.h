@@ -8,6 +8,9 @@
 #include "PxPhysicsAPI.h"
 #include "PxPhysics.h"
 #include "PxScene.h"
+#include "..\Game\Audio.h"
+#include <map>
+
 
 
 
@@ -45,7 +48,7 @@ public:
 	mat4 getModelMatrix();
 	void setModelMatrix(mat4 m);
 	void updateModelMatrix();
-	virtual void Render(const mat4 &, const mat4 &, const vec3 &);
+	virtual void Render(Shader &shader, const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
 	//shader, texture, mesh
 	void addShaders(const string &vertex, const string &fragment);
 	bool initBuffers();
@@ -69,6 +72,7 @@ public:
 	void setBody(physx::PxRigidDynamic &b);
 
 	void shutdown();		//destroy shader, texture, mesh
+	void playSFX(const string &name);
 
 protected:
 	string filename;
@@ -85,5 +89,10 @@ protected:
 	Mesh mesh;
 	Shader shader;
 	Texture texture;
+
+	Audio audio;
+	map<string, Mix_Chunk*> sfxMap;	//map of sounds
+	//Mix_Chunk* sfx = Mix_LoadWAV("sfx/carCrash.wav");
+
 };
 #endif
