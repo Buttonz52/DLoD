@@ -6,9 +6,12 @@
 class AStarNode
 {
 public:
+  ~AStarNode();
 
   vec3 position;
   vector<AStarNode *> neighbours;
+
+  double distanceTo;
 
   bool obstructed = false;
 };

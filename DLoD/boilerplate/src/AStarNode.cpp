@@ -86,3 +86,13 @@ vector<AStarNode*> OctTree::getNodesForSphere(vec3 cp, double r)
   return nodesInArea;
 
 }
+
+// This is a special delete method dont use it
+AStarNode::~AStarNode()
+{
+  // delete itself from the neighbours list of its neighbours 
+  for (AStarNode * n : neighbours)
+  {
+    n->neighbours.pop_back();
+  }
+}
