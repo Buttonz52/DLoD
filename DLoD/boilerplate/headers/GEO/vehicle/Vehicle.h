@@ -41,7 +41,7 @@ public:
 	Mix_Chunk* crash;
 
 	float getHealth();
-	float calculateDamage();
+	float calculateDamage(double, double, double, double);
 	void updateHealth(float damage);
 
 };

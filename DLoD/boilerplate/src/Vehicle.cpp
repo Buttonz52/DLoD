@@ -67,16 +67,69 @@ void Vehicle::releaseAllControls()
   physXVehicle->setSteerAngle(3, 0.0f);
 }
 
-float Vehicle::calculateDamage()
+float Vehicle::calculateDamage(double x, double y, double z, double force)
 {
-	float velocity = this->physXVehicle->computeForwardSpeed();
-	float mass = this->physXVehicle->getRigidDynamicActor()->getMass();
+  // get the position of the vehicle
+  mat4 M = getModelMatrix();
+  vec3 pos = vec3(M[3]);
 
-	float damage = velocity * mass / 15000;
+  vec3 displacement = vec3(x, y, z) - pos;
 
-	updateHealth(abs(damage));
+  // Get the rotation of the object
+  physx::PxVec3 axis = physx::PxVec3(0, 1, 0);
+  physx::PxReal angle = 0;
+  physXVehicle->getRigidDynamicActor()->getGlobalPose().q.toRadiansAndUnitAxis(angle, axis);
 
-	return damage;
+  int fix = (axis.y < 0) ? 1 : -1;
+  angle *= fix;
+  if (angle < 0)
+    angle += M_PI * 2;
+
+  // Calculation the normalized orientated displacement
+  mat3 rotation(1);
+  rotation[0][0] = cos(-angle);
+  rotation[0][2] = sin(-angle);
+  rotation[2][0] = -sin(-angle);
+  rotation[2][2] = cos(-angle);
+  vec3 oD = rotation * displacement;
+  oD = normalize(oD);
+
+  double damage;
+
+  // Curently some arbitrary multipliers are in here it should change at some point
+  // Some fine tuning is needed
+  // damage to the front or back
+  if (abs(oD.z) > abs(oD.x))
+  {
+    // damage to the front
+    if (oD.z > 0)
+    {
+      damage = force * 0.3;
+    }
+    // damage to the back
+    else
+    {
+      damage = force;
+    }
+  }
+  // damage to the sides
+  else
+  {
+    // damage to the right
+    if (oD.x > 0)
+    {
+      damage = force * 0.6;
+    }
+    // damage to the left
+    else
+    {
+      damage = force * 0.6;
+    }
+  }
+
+  health -= damage;
+  return damage;
+
 }
 
 float Vehicle::getHealth()
