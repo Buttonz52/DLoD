@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="..\middleware\glad\src\glad.c" />
     <ClCompile Include="src\AI.cpp" />
+    <ClCompile Include="src\AStarNode.cpp" />
     <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ContactModifyCallback.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="headers\Game\ScreenOverlay.h" />
     <ClInclude Include="headers\Game\TitleScreen.h" />
     <ClInclude Include="headers\Game\Utility.h" />
+    <ClInclude Include="headers\GEO\AStarNode.h" />
     <ClInclude Include="headers\GEO\Camera.h" />
     <ClInclude Include="headers\GEO\GEO.h" />
     <ClInclude Include="headers\GEO\item\Item.h" />

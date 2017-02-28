@@ -7,9 +7,9 @@ class Player
 public:
 	Player();
 	~Player();
-	Vehicle vehicle;
-	Camera playerCam;
+	Vehicle* vehicle;
+	Camera* playerCam;
 
-	void GetInput();
+	virtual void getInput() = 0;
 };
 #endif

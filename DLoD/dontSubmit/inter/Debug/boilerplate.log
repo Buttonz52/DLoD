@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿  glad.c
   XboxController.cpp
   Vehicle.cpp
@@ -108,3 +109,9 @@ PhysXProfileSDKDEBUG.lib(PxProfileEventImpl.obj) : warning LNK4099: PDB 'PhysXPr
 PhysXVisualDebuggerSDKDEBUG.lib(PvdNetworkStreams.obj) : warning LNK4099: PDB 'PhysXVisualDebuggerSDKDEBUG.pdb' was not found with 'PhysXVisualDebuggerSDKDEBUG.lib(PvdNetworkStreams.obj)' or at 'C:\Users\Kiersten\Desktop\git feb 20\DLoD\dontSubmit\bin\Debug\PhysXVisualDebuggerSDKDEBUG.pdb'; linking object as if no debug info
   boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git feb 20\DLoD\dontSubmit\bin\Debug\boilerplate.exe
   boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git feb 20\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+=======
+﻿  AI.cpp
+\\cs-fs01\profiles\ug\easpoone\desktop\game dev\dlod\boilerplate\src\ai.cpp(40): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
+  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\easpoone\Desktop\Game Dev\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\easpoone\Desktop\Game Dev\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+>>>>>>> Added a dummy AI. it can drive the car around just not where we want it to

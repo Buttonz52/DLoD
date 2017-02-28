@@ -424,6 +424,9 @@ int main(int argc, char *argv[])
 	dummy->setPosition(vec3(30, 0, 30));
 	dummy->setScale(vec3(0.05f));
 
+  AI dummyAI;
+  dummyAI.vehicle = dummy;
+
 	initVehicle(vehicle);
 	initVehicle(dummy);
 	
@@ -455,6 +458,7 @@ int main(int argc, char *argv[])
 		//update
 
 		camera->followVehicle(vehicle);
+    dummyAI.driveTo(vec3(0, 0, 0));
 		
 		if(frameCtr % 60 == 0)
 		{

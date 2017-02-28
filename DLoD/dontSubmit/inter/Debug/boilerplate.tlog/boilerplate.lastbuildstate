@@ -1,2 +1,6 @@
 #TargetFrameworkVersion=v4.0:PlatformToolSet=v140:EnableManagedIncrementalBuild=false:VCToolArchitecture=Native32Bit:WindowsTargetPlatformVersion=8.1
+<<<<<<< HEAD
 Debug|Win32|C:\Users\Kiersten\Desktop\git feb 20\DLoD\|
+=======
+Debug|Win32|\\cs-fs01\Profiles\ug\easpoone\Desktop\Game Dev\DLoD\|
+>>>>>>> Added a dummy AI. it can drive the car around just not where we want it to

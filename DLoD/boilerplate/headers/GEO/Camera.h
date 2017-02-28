@@ -1,3 +1,6 @@
+#ifndef CAMERA_H
+#define CAMERA_H
+
 #include "../Game/Utility.h"
 #include "GEO/vehicle/Vehicle.h"
 
@@ -39,3 +42,6 @@ public:
 
 	void followVehicle(Vehicle*);
 };
+
+
+#endif

@@ -7,6 +7,7 @@
 #include "Utility.h"
 #include "../GameEngine/Texture.h"
 #include "../GEO/Camera.h"
+#include "../GEO/Player/AI.h"
 #include "Audio.h"
 #include "../Physics/PhysXMain.h"
 #include "Controller/XboxController.h"

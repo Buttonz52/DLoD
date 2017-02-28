@@ -159,6 +159,9 @@
     <ClCompile Include="src\Shadow.cpp">
       <Filter>Source Files\GEO</Filter>
     </ClCompile>
+    <ClCompile Include="src\AStarNode.cpp">
+      <Filter>Source Files\GEO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GameState.h">
@@ -234,6 +237,9 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="headers\GEO\Shadow.h">
+      <Filter>Header Files\GEO</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\AStarNode.h">
       <Filter>Header Files\GEO</Filter>
     </ClInclude>
   </ItemGroup>
