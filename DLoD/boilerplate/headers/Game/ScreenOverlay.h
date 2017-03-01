@@ -18,9 +18,9 @@ public:
 	void setPosition(const vec3 &pos);
 	vec3 & getPosition();
 	void setRotateZ(const float &r);
-	void setHasTexture(bool);
+	void setHasTexture(const bool &);
 	int getHasTexture();
-	void setMixColour(bool);
+	void setMixColour(const bool &);
 	int getMixColour();
 	void setScale(const vec3 &s);
 	vec3 & getScale();

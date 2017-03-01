@@ -7,9 +7,11 @@ class Player
 public:
 	Player();
 	~Player();
+	
 	Vehicle* vehicle;
 	Camera* playerCam;
 
 	virtual void getInput() = 0;
+	bool isDead();
 };
 #endif

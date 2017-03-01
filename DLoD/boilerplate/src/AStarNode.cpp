@@ -1,6 +1,6 @@
 #include "GEO\AStarNode.h"
 
-OctTree::OctTree(vector<AStarNode *> aStarNodes, vec3 cp, double x, double y, double z)
+OctTree::OctTree(vector<AStarNode *> aStarNodes, const vec3 &cp, const double &x, const double &y, const double &z)
 {
 
   centerPoint = cp;
@@ -65,7 +65,7 @@ OctTree::~OctTree()
 {
 }
 
-vector<AStarNode*> OctTree::getNodesForSphere(vec3 cp, double r)
+vector<AStarNode*> OctTree::getNodesForSphere(const vec3 &cp, const double &r)
 {
 
   vector<AStarNode *> nodesInArea;

@@ -39,6 +39,6 @@ private:
 	GLuint textureBuffer;
 	GLuint colourBuffer; //might not need
 
-	aiVector3D AddUV(const aiVector3D &vertex, string filename);
+	aiVector3D AddUV(const aiVector3D &vertex, const string &filename);
 };
 #endif

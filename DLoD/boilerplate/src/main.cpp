@@ -84,27 +84,31 @@ void AlternKeyCallback(GLFWwindow* window)
   //Movement of the GEOs with keyboard if controller not connected
   if (!testController.Connected())
   {
-
-	  if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-	  {
-      currentVehicle->accelerate(10);
-	  }
-	  else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-	  {
-      currentVehicle->decelerate(10);
+	  if (!currentVehicle->isDead()) {
+		  if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		  {
+			  currentVehicle->accelerate(10);
+		  }
+		  else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		  {
+			  currentVehicle->decelerate(10);
+		  }
+		  else {
+			  currentVehicle->brake(100000.f);
+		  }
+		  state = glfwGetKey(window, GLFW_KEY_LEFT);
+		  if (state == GLFW_PRESS)
+		  {
+			  currentVehicle->turn(-1);
+		  }
+		  state = glfwGetKey(window, GLFW_KEY_RIGHT);
+		  if (state == GLFW_PRESS)
+		  {
+			  currentVehicle->turn(1);
+		  }
 	  }
 	  else {
-		  currentVehicle->brake(100000.f);
-	  }
-	  state = glfwGetKey(window, GLFW_KEY_LEFT);
-	  if (state == GLFW_PRESS)
-	  {
-      currentVehicle->turn(-1);
-	  }
-	  state = glfwGetKey(window, GLFW_KEY_RIGHT);
-	  if (state == GLFW_PRESS)
-	  {
-      currentVehicle->turn(1);
+		  currentVehicle->brake(1000.0);
 	  }
   }
 }
@@ -145,27 +149,33 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 void GetControllerInput()
 {
+
 	testController.Update();
 	float turn;
-	if (testController.RightTrigger() != 0)
-	{
-    currentVehicle->accelerate(testController.RightTrigger());
+	if (!currentVehicle->isDead()) {
+		if (testController.RightTrigger() != 0)
+		{
+			currentVehicle->accelerate(testController.RightTrigger());
+		}
+
+		else if (testController.LeftTrigger() != 0)
+		{
+			currentVehicle->decelerate(testController.LeftTrigger());
+		}
+		else
+		{
+			currentVehicle->brake(1000.f);
+		}
+		if (testController.LeftStick_X() > -0.25 && testController.LeftStick_X() < 0.25)
+			turn = 0.0;
+		else
+			turn = testController.LeftStick_X();
+
+		currentVehicle->turn(turn);
 	}
-
-	else if (testController.LeftTrigger() != 0)
-	{
-    currentVehicle->decelerate(testController.LeftTrigger());
-  }
-	else
-	{
-    currentVehicle->brake(1000.f);
-  }
-	if (testController.LeftStick_X() > -0.25 && testController.LeftStick_X() < 0.25)
-		turn = 0.0;
-	else 
-		turn = testController.LeftStick_X();
-
-  currentVehicle->turn(turn);
+	else {	//just stop
+		currentVehicle->brake(1000.0);
+	}
 
 	// Update for next frame
 	//testController.RefreshState();
@@ -271,6 +281,12 @@ int main(int argc, char *argv[])
 	QueryGLVersion();
 	camera = &testCams[camIndex];
 
+
+	//init music
+	if (!audio.InitMusic(mainMusic.c_str())) {
+		cout << "Failed to load music." << endl;
+	}
+
 	//initialize title screen
 	TitleScreen ts;
 	ts.Initialize();
@@ -302,11 +318,14 @@ int main(int argc, char *argv[])
 	if (!loadBkgrd.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init loadBkgrnd." << endl;
 	}
+#if DEBUG
 	cout << "Init loadBkgrd shaders ";
+#endif
 	loadBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 	//screenOverlay.colour = vec3(1, 0, 0);
+#if DEBUG
 	cout << " -initialized";
-
+#endif
 	if (!loadBkgrd.GenerateSquareVertices(1, 1, vec3(0))) {
 		cout << "Failed to initialize screen overlay." << endl;
 	}
@@ -316,9 +335,13 @@ int main(int argc, char *argv[])
 	//if (!loadWidget.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 	//	cout << "Failed to loadWidget." << endl;
 	//}
+#if DEBUG
 	cout << "Init widget shaders ";
+#endif
 	loadWidget.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+#if DEBUG
 	cout << " -initialized";
+#endif
 	//screenOverlay.colour = vec3(1, 0, 0);
 	if (!loadWidget.GenerateSquareVertices(0.1, 0.1, vec3(1,0,0))) {
 		cout << "Failed to initialize screen overlay." << endl;
@@ -331,22 +354,18 @@ int main(int argc, char *argv[])
 	if (!logo.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init texture." << endl;
 	}
+#if DEBUG
 	cout << "Init widget shaders ";
+#endif
 	logo.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 	//screenOverlay.colour = vec3(1, 0, 0);
+#if DEBUG
 	cout << " -initialized";
-
+#endif
 	if (!logo.GenerateSquareVertices(0.1, 0.1, vec3(0))) {
 		cout << "Failed to initialize screen overlay." << endl;
 	}
 	logo.setPosition(vec3(0.9f, 0.9f, 0));
-
-	updateLoadBar(window, loadBkgrd, loadWidget, 0);
-
-	//init music
-	if (!audio.InitMusic(mainMusic.c_str())) {
-		cout << "Failed to load music." << endl;
-	}
 
 	updateLoadBar(window, loadBkgrd, loadWidget, 3);
 
@@ -364,16 +383,16 @@ int main(int argc, char *argv[])
 
 	//initialize 1 game cube, plane, and skybox
 	Vehicle* vehicle = new Vehicle();
-	vehicle->setScale(vec3(0.05f));
+//	vehicle->setScale(vec3(0.05f));
 	Vehicle* dummy = new Vehicle();
 	dummy->setPosition(vec3(30, 0, 30));
-	dummy->setScale(vec3(0.05f));
+//	dummy->setScale(vec3(0.05f));
 
   AI dummyAI;
   dummyAI.vehicle = dummy;
 
 	initVehicle(vehicle);
-	initVehicle(dummy);
+	initVehicle(dummyAI.vehicle);
 	
 	GEO plane = initGroundPlane();
 	GEO skybox = initSkyBox();
@@ -403,7 +422,8 @@ int main(int argc, char *argv[])
 		//update
 
 		camera->followVehicle(vehicle);
-    dummyAI.driveTo(vehicle->getModelMatrix()[3]);
+		//Check if AI is dead.  If so, can't move. Else, moves.
+		dummyAI.isDead() ==false ? dummyAI.driveTo(vehicle->getModelMatrix()[3]) : dummyAI.vehicle->brake(10000.0);
 		
 		if(frameCtr % 60 == 0)
 		{
@@ -490,15 +510,15 @@ void PrintDirections() {
 
 void initVehicle(Vehicle* v)
 {
-	v->setFilename("teapot.obj");
+	v->setFilename("teapot.obj");	//alive mesh
 	//v->setFilename("cube.obj");
-	if (!v->initMesh()) {
+	if (!v->initMesh("cube.obj")) {	//dead mesh
 		cout << "Failed to initialize mesh." << endl;
 	}
 	v->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
 	//v->setScale(vec3(sqrt(6.3f)));
-	v->setColour(vec3(1, 0, 0));	//red
+	//v->setColour(vec3(1, 0, 0));	//red
 
 	if (!v->initBuffers()) {
 		cout << "Could not initialize buffers for game object " << v->getFilename() << endl;
@@ -513,7 +533,7 @@ GEO initGroundPlane()
 {
 	GEO plane;
 	plane.setFilename("plane.obj");
-	if (!plane.initMesh()) {
+	if (!plane.initMesh("plane.obj")) {
 		cout << "Failed to initialize mesh." << endl;
 	}
 	plane.setScale(vec3(10.f));
@@ -539,7 +559,7 @@ GEO initSkyBox()
 
 	GEO skybox;
 	skybox.setFilename("cube.obj");
-	if (!skybox.initMesh()) {
+	if (!skybox.initMesh("cube.obj")) {
 		cout << "Failed to initialize mesh." << endl;
 	}
 	//scale cube large

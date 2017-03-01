@@ -49,7 +49,7 @@ class XboxController
 {
 public:
 	XboxController(); 
-	XboxController(int index);
+	XboxController(const int &index);
 	~XboxController();
 
 	void Update(); 
@@ -69,8 +69,8 @@ public:
 	float RightTrigger(); 
 
 	// Button Functionally
-	bool GetButtonPressed(int button);
-	bool GetButtonDown(int button);
+	bool GetButtonPressed(const int &button);
+	bool GetButtonDown(const int &button);
 
 	// Utility 
 	XINPUT_STATE GetState();

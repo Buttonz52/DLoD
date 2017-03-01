@@ -11,8 +11,9 @@ class Vehicle :
 private:
 
 
+	bool dead;
   // Stores the Vehicle Health
-  float health = 1000;
+  float health;
   double armourLeft;
   double armourRight;
   double armourFront;
@@ -21,7 +22,8 @@ private:
   // Stores the rate of acceleration and maxVelocity
   double acceleration;
   double maxVelocity;
-
+  
+  Mesh aliveCar, deadCar;
 
 public:
 	Vehicle();
@@ -30,19 +32,23 @@ public:
   PxVehicleNoDrive* physXVehicle;
 
   // Methods to control driving the vehicle
-  void accelerate(float m);
-  void decelerate(float m);
-  void turn(float dir);
-  void brake(float brake);
+  void accelerate(const float &m);
+  void decelerate(const float &m);
+  void turn(const float &dir);
+  void brake(const float &brake);
   void releaseAllControls();
-
+  void checkDead();
+  bool initBuffers();
+  void changeMeshDead();
+  bool isDead();
+  bool initMesh(const string &);
 	vec3 colour;
 
 	Mix_Chunk* crash;
 
 	float getHealth();
-	float calculateDamage(double, double, double, double);
-	void updateHealth(float damage);
+	float calculateDamage(const double &, const double &, const double &, const double &);
+	void updateHealth(const float &damage);
 
 };
 

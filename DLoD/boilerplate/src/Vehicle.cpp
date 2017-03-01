@@ -4,7 +4,8 @@
 
 Vehicle::Vehicle()
 {
-
+	health = 10;	//set to 50 for debugging stuff
+	dead = false;
 	//initialize crash sound and place in map
 	crash = Mix_LoadWAV("sfx/carCrash.wav");
 	sfxMap.insert(make_pair("crash", crash));
@@ -18,7 +19,7 @@ Vehicle::~Vehicle()
 }
 
 
-void Vehicle::accelerate(float m)
+void Vehicle::accelerate(const float &m)
 {
   physXVehicle->setDriveTorque(0, m*1000.0f);
   physXVehicle->setDriveTorque(1, m*1000.0f);
@@ -27,7 +28,7 @@ void Vehicle::accelerate(float m)
 }
 
 
-void Vehicle::decelerate(float m)
+void Vehicle::decelerate(const float &m)
 {
   physXVehicle->setDriveTorque(0, m*-1000.0f);
   physXVehicle->setDriveTorque(1, m*-1000.0f);
@@ -35,13 +36,13 @@ void Vehicle::decelerate(float m)
   physXVehicle->setDriveTorque(3, m*-1000.0f);
 }
 
-void Vehicle::turn(float dir)
+void Vehicle::turn(const float &dir)
 {
   physXVehicle->setSteerAngle(0, dir / 4);
   physXVehicle->setSteerAngle(1, dir / 4);
 }
 
-void Vehicle::brake(float brake)
+void Vehicle::brake(const float &brake)
 {
   physXVehicle->setBrakeTorque(0, brake);
   physXVehicle->setBrakeTorque(1, brake);
@@ -67,7 +68,7 @@ void Vehicle::releaseAllControls()
   physXVehicle->setSteerAngle(3, 0.0f);
 }
 
-float Vehicle::calculateDamage(double x, double y, double z, double force)
+float Vehicle::calculateDamage(const double &x, const double &y, const double &z, const double &force)
 {
   // get the position of the vehicle
   mat4 M = getModelMatrix();
@@ -128,18 +129,82 @@ float Vehicle::calculateDamage(double x, double y, double z, double force)
   }
 
   health -= damage;
+  checkDead();
   return damage;
 
 }
 
+bool Vehicle::isDead() {
+	return dead;
+}
 float Vehicle::getHealth()
 {
 	return health;
 }
 
-void Vehicle::updateHealth(float damage)
+void Vehicle::checkDead() {
+	if (health < 0) {
+		health = 0;
+		if (!dead) {
+			changeMeshDead();
+
+		}
+		dead = true;
+	}
+}
+void Vehicle::updateHealth(const float &damage)
 {
 	health -= damage;
-	if (health < 0)
+	if (health < 0) {
 		health = 0;
+		if (!dead) {
+			changeMeshDead();
+
+		}
+		dead = true;
+	}
+}
+
+bool Vehicle::initMesh(const string &file) {
+
+	if (!aliveCar.ReadMesh("models/" + filename)) {
+		cout << "Error reading alive car" << endl;
+		return 0;
+	}
+	aliveCar.AddColour(vec3(1, 0, 0));
+	//if (!aliveCar.Initialize()) {
+	//	return 0;
+	//}
+
+	if (!deadCar.ReadMesh("models/" + file)) {
+		cout << "Error reading destroyed car" << endl;
+		return 0;
+	}
+	deadCar.AddColour(vec3(0, 1, 0));
+#if DEBUG
+	cout << "Number of verts: " << deadCar.vertices.size() << endl;
+#endif
+	//if (!destroyedCar.Initialize()) {
+	//	return 0;
+	//}
+	//cout << "number of verts: " << mesh.vertices.size() << endl;
+	//cout << "Loaded " << filename << endl;
+	//	cout << "number of verts destroyed car: " << destroyedCar.vertices.size() << endl;
+	//	cout << "Loaded destroyed car: " << file << endl;
+	return 1;
+}
+
+void Vehicle::changeMeshDead() {
+	mesh = deadCar;
+	//mesh.Initialize();
+	//if (!initBuffers()) {
+	//	cout << "Could not initialize buffers for destroyed car" << endl;
+	//}
+}
+bool Vehicle::initBuffers() {
+	if (!aliveCar.Initialize() || !deadCar.Initialize()) {
+		return false;
+	}
+	mesh = aliveCar;
+	return true;
 }

@@ -34,7 +34,7 @@ XboxController::XboxController()
 
 }
 
-XboxController::XboxController(int index)
+XboxController::XboxController(const int &index)
 {
 	// minus 1 so that the controllers are numbered
 	// 1,2,3,4 instead of 0,1,2,3
@@ -218,7 +218,7 @@ void XboxController::Rumble(float leftMotor, float rightMotor)
 	XInputSetState(controllerIndex, &vibrationState);
 }
 
-bool XboxController::GetButtonPressed(int button)
+bool XboxController::GetButtonPressed(const int &button)
 {
 	// Compare bits to find equality 
 	if (controllerState.Gamepad.wButtons & XINPUT_Btns[button])
@@ -229,7 +229,7 @@ bool XboxController::GetButtonPressed(int button)
 	return false; // Not pressed
 }
 
-bool XboxController::GetButtonDown(int button)
+bool XboxController::GetButtonDown(const int &button)
 {
 	return curr_BtnsDown[button];
 }

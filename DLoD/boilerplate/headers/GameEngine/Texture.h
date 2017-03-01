@@ -19,7 +19,7 @@ public:
 
 	bool InitializeTexture(const string &filename, GLuint target);
 	bool InitializeSkybox(const vector<string> &filename);
-	bool BindTexture(GLuint program, string varName);
+	bool BindTexture(GLuint program, const string &varName);
 	void UnbindTexture(GLuint format);
 	void DestroyTexture();
 };

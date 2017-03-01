@@ -149,7 +149,7 @@ bool GEO::initBuffers() {
 
 }
 
-bool GEO::initMesh() {
+bool GEO::initMesh(const string &filename) {
 	//Get all information for mesh
 
 	if (!mesh.ReadMesh("models/" + filename)) {

@@ -114,7 +114,7 @@ bool Mesh::ReadMesh(const string &filename) {
 	return true;
 }
 
-aiVector3D Mesh::AddUV(const aiVector3D &vertex, string type) {
+aiVector3D Mesh::AddUV(const aiVector3D &vertex, const string &type) {
 
 	float theta;
 	float phi;

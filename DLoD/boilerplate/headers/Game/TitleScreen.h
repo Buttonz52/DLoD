@@ -3,7 +3,7 @@
 #include "../GameEngine/Mesh.h"
 #include "ScreenOverlay.h"
 #include "../Controller/XboxController.h"
-
+#include "Audio.h"
 
 class TitleScreen
 {
@@ -36,8 +36,11 @@ private:
 	void pressStart();
 	void pressQuit();
 	void pressRules();
-	void toggleMenuIndex(const int s);
+	void toggleMenuIndex(const int &s);
 	XboxController controller;
+	Audio audio;
+	Mix_Chunk *click;
+	Mix_Chunk *press;
 	//string backgroundTexture; //might not need
 	//string startTexture;	//might not need
 	//string rulesTexture;	//might not need

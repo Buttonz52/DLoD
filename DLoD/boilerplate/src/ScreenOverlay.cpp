@@ -186,11 +186,11 @@ void ScreenOverlay::setScale(const vec3 &s) {
 vec3 & ScreenOverlay::getScale() {
 	return _scale;
 }
-void ScreenOverlay::setHasTexture(bool b) {
+void ScreenOverlay::setHasTexture(const bool &b) {
 	hasTexture = b;
 }
 
-void ScreenOverlay::setMixColour(bool b) {
+void ScreenOverlay::setMixColour(const bool &b) {
 	mixColour = b;
 }
 

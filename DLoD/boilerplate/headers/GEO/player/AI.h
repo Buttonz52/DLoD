@@ -17,7 +17,7 @@ public:
   void getInput();
 
   // Given a destination will return a point to drive to
-  vec3 pathTo(vec3);
-  void driveTo(vec3);
+  vec3 pathTo(const vec3 &);
+  void driveTo(const vec3 &);
 };
 #endif

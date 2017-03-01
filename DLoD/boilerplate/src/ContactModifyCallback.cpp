@@ -39,6 +39,7 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
       // If both actors are vehicles
       if (v1 != nullptr && v2 != nullptr)
       {
+		  v1->playSFX("crash");
         for (PxU32 j = 0; j < nbPoints; ++j)
         {
           PxVec3 point = pairs[i].contacts.getPoint(j);

@@ -15,6 +15,8 @@ TitleScreen::TitleScreen()
 	isRules = false;
 	numMenuButtons = 3;
 	prevCol = vec3(0);
+	click = Mix_LoadWAV("sfx/bubblePop.wav");
+	press = Mix_LoadWAV("sfx/carCrash.wav");
 }
 
 
@@ -25,6 +27,7 @@ TitleScreen::~TitleScreen()
 //toggle startt boolean
 void TitleScreen::pressStart() {
 	isStart = true;
+	audio.PlaySfx(press);
 }
 //quit game
 void TitleScreen::pressQuit() {
@@ -52,7 +55,7 @@ bool TitleScreen::isRulesPressed()
 }
 
 //change buttons
-void TitleScreen::toggleMenuIndex(const int s) {
+void TitleScreen::toggleMenuIndex(const int &s) {
 	menuButtons[menuIndex].setColour(prevCol);	//button back to normal colour
 	menuButtons[menuIndex].setMixColour(0);	//no longer mix colour
 	menuIndex+=s;
@@ -71,6 +74,8 @@ void TitleScreen::toggleMenuIndex(const int s) {
 	menuButtons[menuIndex].setColour(vec3(0, 1, 0));
 	//sex mixColour flag
 	menuButtons[menuIndex].setMixColour(1);
+	audio.PlaySfx(click);
+	
 }
 
 void TitleScreen::Initialize() {

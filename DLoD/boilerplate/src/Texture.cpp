@@ -102,7 +102,7 @@ bool Texture::InitializeSkybox(const vector<string> &filename) {
 	return !CheckGLErrors();
 }
 
-bool Texture::BindTexture(GLuint program, string varName) {
+bool Texture::BindTexture(GLuint program, const string &varName) {
 	glActiveTexture(GL_TEXTURE0 + textureID);
 	glBindTexture(this->target, textureID);
 	glUniform1i(glGetUniformLocation(program, varName.c_str()), textureID);

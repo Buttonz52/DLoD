@@ -51,8 +51,8 @@ public:
 	virtual void Render(Shader &shader, const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
 	//shader, texture, mesh
 	void addShaders(const string &vertex, const string &fragment);
-	bool initBuffers();
-	bool initMesh();
+	virtual bool initBuffers();
+	virtual bool initMesh(const string &);
 	bool initTexture(const string &filename, GLuint target); //generic texture
 	bool initSkybox(const vector <string> &filenames);
 

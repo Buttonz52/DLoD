@@ -48,7 +48,7 @@ void AI::getInput()
 This function does not work dont use it yet
 wont currently support multithreading
 */
-vec3 AI::pathTo(vec3 dest)
+vec3 AI::pathTo(const vec3 &dest)
 {
 
   // Get all the AStar Nodes and set there distance to value to be big
@@ -151,7 +151,7 @@ vec3 AI::pathTo(vec3 dest)
 Method to drive the AI to the destination point
 No actual pathfinding happens here
 */
-void AI::driveTo(vec3 destination)
+void AI::driveTo(const vec3 &destination)
 {
   // get the position of the vehicle
   mat4 M = vehicle->getModelMatrix();

@@ -28,11 +28,11 @@ class OctTree
 
 public:
 
-  OctTree(vector<AStarNode*> ps, vec3 cp, double x, double y, double z);
+  OctTree(vector<AStarNode*> ps, const vec3 &cp, const double &x, const double &y, const double &z);
   ~OctTree();
 
   // Takes a centerpoint and a radius. Will treat the cursor as a cube
-  vector<AStarNode *> getNodesForSphere(vec3, double);
+  vector<AStarNode *> getNodesForSphere(const vec3 &, const double &);
 
 };
 
