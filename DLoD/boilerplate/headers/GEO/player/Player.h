@@ -11,7 +11,7 @@ public:
 	Vehicle* vehicle;
 	Camera* playerCam;
 
-	virtual void getInput() = 0;
+	//virtual void getInput() = 0;
 	bool isDead();
 };
 #endif

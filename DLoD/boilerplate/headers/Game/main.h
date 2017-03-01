@@ -8,6 +8,7 @@
 #include "../GameEngine/Texture.h"
 #include "../GEO/Camera.h"
 #include "../GEO/Player/AI.h"
+#include "../GEO/player/Human.h"
 #include "Audio.h"
 #include "../Physics/PhysXMain.h"
 #include "Controller/XboxController.h"
@@ -25,6 +26,8 @@ vector<GLushort> _faces;
 vector<vec3> _normals;
 vector<GEO *> gameObjects;
 
+vector<Player*> players;
+Player * currentPlayer;
 //test cameras
 vector<Camera> testCams = {	//just objects for now, make pointers or smth later
 	Camera(vec3(0, 0, 0)),	//first teapot

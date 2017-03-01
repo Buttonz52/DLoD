@@ -18,12 +18,14 @@ void changeGEO() {
 //-Kiersten
 
 void changeCamera() {
-	camIndex >= testCams.size()-1 ? camIndex = 0 : camIndex++;	//if statement: increment/reset camIndex 
-	camera = &testCams[camIndex];		//new camera
+	//camIndex >= testCams.size()-1 ? camIndex = 0 : camIndex++;	//if statement: increment/reset camIndex 
+	camIndex >= players.size() - 1 ? camIndex = 0 : camIndex++;	//if statement: increment/reset camIndex 
 
+	//camera = &testCams[camIndex];		//new camera
+	currentPlayer = players[camIndex];
 	//testing purposes only
-	vec3 *c = camera->getCenter();		//just printing out camera center for testing purposes, delete later
-	cout << c->x << " " << c->y << " " << c->z << endl;
+	//vec3 *c = camera->getCenter();		//just printing out camera center for testing purposes, delete later
+//	cout << c->x << " " << c->y << " " << c->z << endl;
 }
 
 void clearScreen() {
@@ -382,22 +384,31 @@ int main(int argc, char *argv[])
 	updateLoadBar(window, loadBkgrd, loadWidget, 3);
 
 	//initialize 1 game cube, plane, and skybox
-	Vehicle* vehicle = new Vehicle();
+	//Vehicle* vehicle = new Vehicle();
 //	vehicle->setScale(vec3(0.05f));
-	Vehicle* dummy = new Vehicle();
-	dummy->setPosition(vec3(30, 0, 30));
+	//Vehicle* dummy = new Vehicle();
+//	dummy->setPosition(vec3(30, 0, 30));
 //	dummy->setScale(vec3(0.05f));
 
+  //human and AI instead of just using vehicle
   AI dummyAI;
-  dummyAI.vehicle = dummy;
-
-	initVehicle(vehicle);
+  Human p1;
+  dummyAI.vehicle = new Vehicle();
+  p1.vehicle = new Vehicle();
+  dummyAI.vehicle->setPosition(vec3(30, 0, 30));
+  //dummyAI.vehicle = dummy;
+  //p1.vehicle = 
+	initVehicle(p1.vehicle);
 	initVehicle(dummyAI.vehicle);
 	
+	players.push_back(&p1);
+	players.push_back(&dummyAI);
+
 	GEO plane = initGroundPlane();
 	GEO skybox = initSkyBox();
 
-	currentVehicle = vehicle;
+	currentVehicle = p1.vehicle;
+	currentPlayer = &p1;
 	glEnable(GL_DEPTH_TEST);
 
 	int frameCtr = 0;
@@ -421,14 +432,14 @@ int main(int argc, char *argv[])
 		
 		//update
 
-		camera->followVehicle(vehicle);
+		camera->followVehicle(currentPlayer->vehicle);
 		//Check if AI is dead.  If so, can't move. Else, moves.
-		dummyAI.isDead() ==false ? dummyAI.driveTo(vehicle->getModelMatrix()[3]) : dummyAI.vehicle->brake(10000.0);
+		dummyAI.isDead() ==false ? dummyAI.driveTo(p1.vehicle->getModelMatrix()[3]) : dummyAI.vehicle->brake(10000.0);
 		
 		if(frameCtr % 60 == 0)
 		{
-			cout << "Vehicle speed: " << vehicle->physXVehicle->computeForwardSpeed() << "\tVehicle mass: " << vehicle->physXVehicle->getRigidDynamicActor()->getMass() << endl;
-			cout << "Player 1 HP: " << vehicle->getHealth() << "\tDummyCar HP: " << dummy->getHealth() << endl << endl;
+			cout << "Vehicle speed: " << p1.vehicle->physXVehicle->computeForwardSpeed() << "\tVehicle mass: " << p1.vehicle->physXVehicle->getRigidDynamicActor()->getMass() << endl;
+			cout << "Player 1 HP: " << p1.vehicle->getHealth() << "\tDummyCar HP: " << dummyAI.vehicle->getHealth() << endl << endl;
 		}
 		frameCtr++;
 		
@@ -467,8 +478,8 @@ int main(int argc, char *argv[])
 		//draw
 		//clearScreen();
 
-		vehicle->Render(vehicle->getShader(),_view, _proj, _lightSource);
-		dummy->Render(dummy->getShader(),_view, _proj, _lightSource);
+		p1.vehicle->Render(p1.vehicle->getShader(),_view, _proj, _lightSource);
+		dummyAI.vehicle->Render(dummyAI.vehicle->getShader(),_view, _proj, _lightSource);
 		skybox.Render(skybox.getShader(), mat4(), _proj, _lightSource);
 		plane.Render(plane.getShader(),_view, _proj, _lightSource);
 		logo.Render(GL_TRIANGLE_STRIP);	//render logo
@@ -488,7 +499,11 @@ int main(int argc, char *argv[])
     }
 	}
 
-	vehicle->shutdown();
+	p1.vehicle->shutdown();
+	dummyAI.vehicle->shutdown();
+	skybox.shutdown();
+	plane.shutdown();
+	logo.Destroy();
 	PhysX.cleanupPhysics(true);
 	audio.CleanUp();
 
@@ -538,7 +553,7 @@ GEO initGroundPlane()
 	}
 	plane.setScale(vec3(10.f));
 	if (!plane.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
-		cout << "Failed to initialize skybox." << endl;
+		cout << "Failed to initialize plane." << endl;
 	}
 	plane.addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
 	plane.setPosition(vec3(0, -0.7, 0));

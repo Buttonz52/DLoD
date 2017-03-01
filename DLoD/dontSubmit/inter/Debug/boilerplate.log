@@ -1,10 +1,11 @@
-﻿  main.cpp
+﻿cl : Command line warning D9028: minimal rebuild failure, reverting to normal build
+  main.cpp
 c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(10): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(21): warning C4018: '>=': signed/unsigned mismatch
-c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(206): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(207): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(217): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(346): warning C4305: 'argument': truncation from 'double' to 'const float'
-c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(365): warning C4305: 'argument': truncation from 'double' to 'const float'
+c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(22): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(208): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(209): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(219): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(348): warning C4305: 'argument': truncation from 'double' to 'const float'
+c:\users\kiersten\desktop\git feb 28\dlod\boilerplate\src\main.cpp(367): warning C4305: 'argument': truncation from 'double' to 'const float'
   boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git feb 28\DLoD\dontSubmit\bin\Debug\boilerplate.exe
   boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git feb 28\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
