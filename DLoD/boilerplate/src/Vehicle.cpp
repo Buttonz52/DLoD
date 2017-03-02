@@ -21,25 +21,25 @@ Vehicle::~Vehicle()
 
 void Vehicle::accelerate(const float &m)
 {
-  physXVehicle->setDriveTorque(0, m*1000.0f);
-  physXVehicle->setDriveTorque(1, m*1000.0f);
-  physXVehicle->setDriveTorque(2, m*1000.0f);
-  physXVehicle->setDriveTorque(3, m*1000.0f);
+  physXVehicle->setDriveTorque(0, m*torqueSpeed);
+  physXVehicle->setDriveTorque(1, m*torqueSpeed);
+  physXVehicle->setDriveTorque(2, m*torqueSpeed);
+  physXVehicle->setDriveTorque(3, m*torqueSpeed);
 }
 
 
 void Vehicle::decelerate(const float &m)
 {
-  physXVehicle->setDriveTorque(0, m*-1000.0f);
-  physXVehicle->setDriveTorque(1, m*-1000.0f);
-  physXVehicle->setDriveTorque(2, m*-1000.0f);
-  physXVehicle->setDriveTorque(3, m*-1000.0f);
+  physXVehicle->setDriveTorque(0, m*-torqueSpeed);
+  physXVehicle->setDriveTorque(1, m*-torqueSpeed);
+  physXVehicle->setDriveTorque(2, m*-torqueSpeed);
+  physXVehicle->setDriveTorque(3, m*-torqueSpeed);
 }
 
 void Vehicle::turn(const float &dir)
 {
-  physXVehicle->setSteerAngle(0, dir / 4);
-  physXVehicle->setSteerAngle(1, dir / 4);
+  physXVehicle->setSteerAngle(0, dir / 5);
+  physXVehicle->setSteerAngle(1, dir / 5);
 }
 
 void Vehicle::brake(const float &brake)

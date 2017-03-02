@@ -34,16 +34,16 @@ VehicleDesc PhysXMain::initVehicleDesc()
 	const PxF32 chassisMass = 1500.0;
 	const PxVec3 chassisDims(5.0f, 2.0f, 5.0f);
 	const PxVec3 chassisMOI
-		((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
+		((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass /12.0f,
 			(chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
 			(chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / 12.0f);
 	const PxVec3 chassisCMOffset(0.0f, -chassisDims.y*0.5f + 0.65f, 0.25f);
 
 	//Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
 	//Moment of inertia is just the moment of inertia of a cylinder.
-	const PxF32 wheelMass = 20.0f;
+	const PxF32 wheelMass = 300.0f;
 	const PxF32 wheelRadius = 0.5f;
-	const PxF32 wheelWidth = 0.4f;
+	const PxF32 wheelWidth = 0.6f;
 	const PxF32 wheelMOI = 0.5f*wheelMass*wheelRadius*wheelRadius;
 	const PxU32 nbWheels = 6;
 
@@ -111,11 +111,18 @@ void PhysXMain::initVehicle(Vehicle* v)
 	//Create a vehicle that will drive on the plane.
 	VehicleDesc vehicleDesc = initVehicleDesc();
 	v->physXVehicle = createVehicleNoDrive(vehicleDesc, gPhysics, gCooking);
+
+	//change Center of Mass
+	PxTransform centerOfMass = v->physXVehicle->getRigidDynamicActor()->getCMassLocalPose();
+	centerOfMass.p = PxVec3(0.0, -1.0, 0.25);		//default = (0.0, -0.35, 0.25)
+	v->physXVehicle->getRigidDynamicActor()->setCMassLocalPose(centerOfMass);
+
 	PxTransform startTransform(PxVec3(v->getPosition().x, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), v->getPosition().z), PxQuat(PxIdentity));
 	v->physXVehicle->getRigidDynamicActor()->setGlobalPose(startTransform);
 	gScene->addActor(*v->physXVehicle->getRigidDynamicActor());
 	vMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great
 }
+
 
 
 void PhysXMain::initObject(GEO* g)
