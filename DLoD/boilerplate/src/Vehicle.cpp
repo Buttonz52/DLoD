@@ -9,7 +9,7 @@ Vehicle::Vehicle()
 	//initialize crash sound and place in map
 	crash = Mix_LoadWAV("sfx/carCrash.wav");
 	sfxMap.insert(make_pair("crash", crash));
-
+	torqueSpeed = 10000.0;
 }
 
 

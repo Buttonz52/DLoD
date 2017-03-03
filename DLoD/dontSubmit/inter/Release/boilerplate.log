@@ -1,0 +1,54 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (B:\Desktop\DLoD\DLoD\dontSubmit\inter\Release\) contains files shared from another project (DLoD.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  AI.cpp
+  Arena.cpp
+  ArmourPack.cpp
+  Audio.cpp
+B:\Desktop\DLoD\DLoD\boilerplate\headers\Game/Audio.h(22): error C2535: 'void Audio::PlaySfx(Mix_Chunk *)': member function already defined or declared
+  B:\Desktop\DLoD\DLoD\boilerplate\headers\Game/Audio.h(18): note: see declaration of 'Audio::PlaySfx'
+  Camera.cpp
+src\Camera.cpp(24): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(25): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(28): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(29): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(39): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(50): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(71): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  GEO.cpp
+src\GEO.cpp(53): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(54): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(55): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(56): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(59): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(60): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(61): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(62): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(65): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(66): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  HealthPack.cpp
+  HeavyVehicle.cpp
+  Human.cpp
+  Item.cpp
+  Light.cpp
+  LightVehicle.cpp
+  main.cpp
+b:\desktop\dlod\dlod\boilerplate\headers\game\Audio.h(22): error C2535: 'void Audio::PlaySfx(Mix_Chunk *)': member function already defined or declared
+  b:\desktop\dlod\dlod\boilerplate\headers\game\Audio.h(18): note: see declaration of 'Audio::PlaySfx'
+b:\desktop\dlod\dlod\middleware\physx\include\foundation/PxPreprocessor.h(328): fatal error C1189: #error:  Exactly one of NDEBUG and _DEBUG needs to be defined by preprocessor
+  MediumVehicle.cpp
+  Mesh.cpp
+src\Mesh.cpp(36): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(51): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(84): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Mesh.cpp(85): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Mesh.cpp(89): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Mesh.cpp(90): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Mesh.cpp(102): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(185): error C2065: 'program': undeclared identifier
+  PhysXMain.cpp
+b:\desktop\dlod\dlod\middleware\physx\include\foundation/PxPreprocessor.h(328): fatal error C1189: #error:  Exactly one of NDEBUG and _DEBUG needs to be defined by preprocessor
+  Player.cpp
+  Trap.cpp
+  TrapPack.cpp
+  Vehicle.cpp

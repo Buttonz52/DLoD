@@ -93,7 +93,7 @@ void AlternKeyCallback(GLFWwindow* window)
 		  }
 		  else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		  {
-			  currentVehicle->decelerate(10);
+			  currentVehicle->decelerate(1);
 		  }
 		  else {
 			  currentVehicle->brake(100000.f);
