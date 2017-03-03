@@ -89,7 +89,7 @@ void AlternKeyCallback(GLFWwindow* window)
 	  if (!currentVehicle->isDead()) {
 		  if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 		  {
-			  currentVehicle->accelerate(10);
+			  currentVehicle->accelerate(1);
 		  }
 		  else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
 		  {

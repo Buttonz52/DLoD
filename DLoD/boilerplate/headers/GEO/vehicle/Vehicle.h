@@ -22,7 +22,7 @@ private:
   // Stores the rate of acceleration and maxVelocity
   double acceleration;
   double maxVelocity;
-  float torqueSpeed = 200.0;
+  float torqueSpeed = 10000.0;
   
   Mesh aliveCar, deadCar;
 
