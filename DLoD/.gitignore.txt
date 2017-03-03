@@ -6,5 +6,5 @@
 *.suo
 *.VC.*
 
-dontSubmit/
-.vs/
+DLoD/dontSubmit/
+DLoD/.vs/
