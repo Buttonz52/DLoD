@@ -232,8 +232,9 @@ void GEO::setBody(physx::PxRigidDynamic &b)
 
 // Rendering function that draws our scene to the frame buffer
 //TODO: Make specific to different types of GEOs, use inheritance
-void GEO::Render(Shader &shader, const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
+void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
 {
+
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shader.program);
@@ -245,11 +246,7 @@ void GEO::Render(Shader &shader, const mat4 &_view, const mat4 &_projection, con
 
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
-	if (isSkybox || isPlane)
-		updateModelMatrix();
 	mat4 M = getModelMatrix();
-	vec4 translation = vec4(M[3]);
-	M[3] = translation;
 	glm::mat4 lightProjection, lightView;
 	glm::mat4 lightSpaceMatrix;
 	GLfloat near_plane = 0.001f, far_plane = 1000.f;
@@ -285,6 +282,9 @@ void GEO::Render(Shader &shader, const mat4 &_view, const mat4 &_projection, con
 	//	texture.UnbindTexture(GL_TEXTURE_2D);
 	// check for an report any OpenGL errors
 	CheckGLErrors();
+
+  for (GEO* child : children)
+    child->Render(_view, _projection, _lightSource);
 }
 
 void GEO::shutdown()
