@@ -361,23 +361,18 @@ int main(int argc, char *argv[])
 
 		p1.vehicle->Render(p1.vehicle->getShader(),_view, _proj, _lightSource);
 		dummyAI.vehicle->Render(dummyAI.vehicle->getShader(),_view, _proj, _lightSource);
-		skybox.Render(skybox.getShader(), mat4(), _proj, _lightSource);
+		skybox.Render(skybox.getShader(), _view, _proj, _lightSource);
 		plane.Render(plane.getShader(),_view, _proj, _lightSource);
 		logo.Render(GL_TRIANGLE_STRIP);	//render logo
 		
 		
 		glfwSwapBuffers(window);
 
-    while (true) {
-      if (testController.Connected())
-        GetControllerInput();
+    if (testController.Connected())
+      GetControllerInput();
 
-      AlternKeyCallback(window);
-      glfwPollEvents();
-
-      if (!paused)
-        break;
-    }
+    AlternKeyCallback(window);
+    glfwPollEvents();
 	}
 
 	p1.vehicle->shutdown();
@@ -406,15 +401,14 @@ void PrintDirections() {
 
 void initVehicle(Vehicle* v)
 {
+  v->setScale(vec3(0.8));
+
 	v->setFilename("teapot.obj");	//alive mesh
-	//v->setFilename("cube.obj");
 	if (!v->initMesh("cube.obj")) {	//dead mesh
 		cout << "Failed to initialize mesh." << endl;
 	}
 	v->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
-	//v->setScale(vec3(sqrt(6.3f)));
-	//v->setColour(vec3(1, 0, 0));	//red
 
 	if (!v->initBuffers()) {
 		cout << "Could not initialize buffers for game object " << v->getFilename() << endl;
@@ -432,7 +426,7 @@ GEO initGroundPlane()
 	if (!plane.initMesh("plane.obj")) {
 		cout << "Failed to initialize mesh." << endl;
 	}
-	plane.setScale(vec3(10.f));
+	plane.setScale(vec3(150.f));
 	if (!plane.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 		cout << "Failed to initialize plane." << endl;
 	}
@@ -459,7 +453,7 @@ GEO initSkyBox()
 		cout << "Failed to initialize mesh." << endl;
 	}
 	//scale cube large
-	skybox.setScale(vec3(15.f));
+	skybox.setScale(vec3(500.0));
 	if (!skybox.initSkybox(skyboxFiles)) {
 		cout << "Failed to initialize skybox." << endl;
 	}
@@ -488,7 +482,7 @@ void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget, S
 		cout << "Failed to initialize screen overlay." << endl;
 	}
 	//faaaar left
-	loadWidget->setPosition(vec3(0, -0.75, 0));
+	loadWidget->setPosition(vec3(-4, -0.75, 0));
 
 	//Not working properly at the moment, otherwise, move to this code insted of the above code.
 	//if (!loadBkgrd->InitQuad("textures/DLoDLogo.png",

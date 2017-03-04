@@ -14,6 +14,10 @@ public:
   double distanceTo;
 
   bool obstructed = false;
+
+  double neighbourRadius = 9.0;
+
+  double dist;
 };
 
 class OctTree
@@ -28,11 +32,13 @@ class OctTree
 
 public:
 
-  OctTree(vector<AStarNode*> ps, const vec3 &cp, const double &x, const double &y, const double &z);
+  OctTree(vector<AStarNode*> ps, vec3 cp, double x, double y, double z);
   ~OctTree();
 
-  // Takes a centerpoint and a radius. Will treat the cursor as a cube
-  vector<AStarNode *> getNodesForSphere(const vec3 &, const double &);
+  // Takes a vector to fill a centerpoint and a radius. Will treat the cp and radius as a cube
+  void getNodesForSphere(vector<AStarNode *> &nodesInArea, vec3 cp, double r);
+
+  void resetNodes();
 
 };
 

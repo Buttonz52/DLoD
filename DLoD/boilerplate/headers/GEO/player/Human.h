@@ -7,5 +7,7 @@ class Human :
 public:
 	Human();
 	~Human();
+
+  //void getInput();
 };
 #endif
