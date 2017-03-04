@@ -10,12 +10,21 @@
 class Game
 {
 private:
-  vector<Player *> players;
-  PhysXMain PhysX;
+  GEO* skybox;
+  vector<Player*> players;
+  vector<GEO*> physXObjects;
+  PhysXMain physX;
+  GLFWwindow *window;
 
 public:
 
+  Game(GLFWwindow*);
+
   void start();
+
+  void initSkyBox();
+
+  void initVehicle(Vehicle * v);
 
 
 };

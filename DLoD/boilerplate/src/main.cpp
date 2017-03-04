@@ -338,6 +338,8 @@ int main(int argc, char *argv[])
 		plane = initGroundPlane();
 		skybox = initSkyBox();
 
+    skybox.children.push_back(p1.vehicle);
+
 		currentVehicle = p1.vehicle;
 		currentPlayer = &p1;
 		glEnable(GL_DEPTH_TEST);
@@ -369,14 +371,16 @@ int main(int argc, char *argv[])
 		}
 		frameCtr++;
 		
-		_proj = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
+		_proj = winRatio * camera->calculateProjectionMatrix((float) width/ (float)height);
 		_view = camera->calculateViewMatrix();
 
 		textWidget.Render(GL_LINE_STRIP, vec3(-1, 0, 0), 0.25f);
-		p1.vehicle->Render(p1.vehicle->getShader(),_view, _proj, _lightSource);
-		dummyAI.vehicle->Render(dummyAI.vehicle->getShader(),_view, _proj, _lightSource);
-		skybox.Render(skybox.getShader(), _view, _proj, _lightSource);
-		plane.Render(plane.getShader(),_view, _proj, _lightSource);
+
+		//p1.vehicle->Render(_view, _proj, _lightSource);
+		dummyAI.vehicle->Render(_view, _proj, _lightSource);
+		skybox.Render(_view, _proj, _lightSource);
+		plane.Render(_view, _proj, _lightSource);
+		//moving stuff into game
 		logo.Render(GL_TRIANGLE_STRIP);	//render logo
 		
 		
@@ -440,12 +444,13 @@ GEO initGroundPlane()
 	if (!plane.initMesh("plane.obj")) {
 		cout << "Failed to initialize mesh." << endl;
 	}
-	plane.setScale(vec3(150.f));
 	if (!plane.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 		cout << "Failed to initialize plane." << endl;
 	}
 	plane.addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+  plane.setScale(vec3(150.f));
 	plane.setPosition(vec3(0, -0.7, 0));
+  plane.updateModelMatrix();
 
 	return plane;
 }
@@ -468,6 +473,7 @@ GEO initSkyBox()
 	}
 	//scale cube large
 	skybox.setScale(vec3(500.0));
+  skybox.updateModelMatrix();
 	if (!skybox.initSkybox(skyboxFiles)) {
 		cout << "Failed to initialize skybox." << endl;
 	}

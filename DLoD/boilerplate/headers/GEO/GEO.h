@@ -20,6 +20,8 @@ class GEO
 public:
 	GEO();
 	~GEO();
+
+  vector<GEO*> children;
 	
 	bool hasTexture;
 	bool isSkybox;
@@ -48,7 +50,7 @@ public:
 	mat4 getModelMatrix();
 	void setModelMatrix(mat4 m);
 	void updateModelMatrix();
-	virtual void Render(Shader &shader, const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
+	virtual void Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
 	//shader, texture, mesh
 	void addShaders(const string &vertex, const string &fragment);
 	virtual bool initBuffers();
