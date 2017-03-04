@@ -82,7 +82,9 @@ void TitleScreen::Initialize() {
 
 	//generic button
 	ScreenOverlay button;
-	
+	if (!audio.Init()) {
+		cout << "Failed to init audio." << endl;
+	}
 	//vector of buttons
 	menuButtons.push_back(button);
 	menuButtons.push_back(button);
@@ -206,6 +208,37 @@ void TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller)
 				break;
 			}
 	}
+}
+
+bool TitleScreen::Display(GLFWwindow *window, XboxController *controller) {
+
+	//initialize title screen
+	Initialize();
+
+	//loop until something happens
+	while (!isStartPressed()) {
+		// clear screen to a dark grey colour;
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		Render();		//render titlescreen
+		glfwSwapBuffers(window);	//need this to output to screen
+		KeyCallback(window, controller);	//check key callback
+
+													//if quit selected, or other input to close program selected, close program
+		if (isQuitPressed() || glfwWindowShouldClose(window)) {
+			glfwSetWindowShouldClose(window, GL_TRUE);
+			Destroy();
+			glfwDestroyWindow(window);
+			glfwTerminate();
+			return 0;
+		}
+		Sleep(100);		//slow down input so not crazy fast
+		glfwPollEvents();
+	}
+	Destroy();	//destroy title page
+	return 1;
+	//Initialize "Loading screen"
 }
 //clean up
 void TitleScreen::Destroy() {

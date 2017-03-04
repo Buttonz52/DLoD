@@ -18,6 +18,7 @@ public:
 	void PlaySfx(Mix_Chunk *sfx);
 	void ResumeMusic();
 	void PausePlay();
+	bool Init();
 
 
 
