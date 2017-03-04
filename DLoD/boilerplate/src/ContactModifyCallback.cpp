@@ -55,7 +55,7 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
           double forceApplied = (v1Impulse - v2Impluse).magnitude() * 0.00042;
 		  forceApplied /= (double) nbPoints;
 
-		  if (forceApplied > (1.0 / (double)nbPoints))
+		  if (forceApplied > (10.0 / (double)nbPoints))
 		  {
 			  cout << "Damage: " << forceApplied << endl;
 			  v1->playSFX("crash");
