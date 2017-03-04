@@ -8,7 +8,7 @@
 
 ScreenOverlay::ScreenOverlay()
 {
-
+	updateFactor = 5;
 	vertexArray = -1;
 	elementCount = 0;
 
@@ -35,7 +35,7 @@ void ScreenOverlay::InitializeShaders(const string & vert, const string & frag)
 }
 
 //makes a square/rectangle depending on scale
-bool ScreenOverlay::GenerateSquareVertices(const float scale_x, const float scale_y, const vec3 &col) {
+bool ScreenOverlay::GenerateSquareVertices(float scale_x, float scale_y, const vec3 &col) {
 	//uvs.clear();
 	//vertices.clear();
 	colour = col;
@@ -55,7 +55,7 @@ bool ScreenOverlay::GenerateSquareVertices(const float scale_x, const float scal
 		vec2(1,0)
 		
 	};
-		elementCount = vertices.size();
+	elementCount = vertices.size();
 	return Initialize();
 }
 
@@ -220,3 +220,33 @@ vec3 ScreenOverlay::Normalize(const vec3 &v) {
 	return (v / sqrt(magn));
 }
 
+//something about this is making the scale all weird for loading overlays
+bool ScreenOverlay::InitQuad(const string &tex, 
+	const string &vert, 
+	const string &frag, 
+	float x_scale, 
+	float y_scale,
+	const vec3 &colour) 
+{
+	if (!strcmp(tex.c_str(),"")) {
+		if (!initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+			cout << "Failed to init loadBkgrnd." << endl;
+			return false;
+		}
+	}
+
+#if DEBUG
+	cout << "Init loadBkgrd shaders ";
+#endif
+	InitializeShaders(vert, frag);
+#if DEBUG
+	cout << " -initialized";
+#endif
+	if (!GenerateSquareVertices(x_scale,y_scale,colour)) {
+		cout << "Failed to initialize screen overlay." << endl;
+		return false;
+	}
+	//setPosition(position);
+
+	return true;
+}

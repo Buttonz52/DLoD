@@ -1,7 +1,6 @@
 #include "Game/main.h"
 #include "Physics\PhysXMain.h"
 
-
 using namespace std;
 bool paused = false;
 
@@ -41,7 +40,7 @@ void updateLoadBar(GLFWwindow *window, ScreenOverlay &loadBkgrd, ScreenOverlay &
 											//Well, this is kind of a weird way to implement this, change later.
 											//loadWidget.setPosition(loadWidget.getPosition() + vec3(0.05, 0, 0));
 	loadWidget.setScale(loadWidget.getScale() + vec3(incr, 0, 0));	//makes larger
-
+	//loadWidget.setPosition(loadWidget.getPosition() + vec3(incr, 0, 0));
 	loadWidget.Render(GL_TRIANGLE_STRIP);	//render widget; this is just for testing at the moment
 											//Sleep(200); //Just to slow down the animation a bit
 	glfwSwapBuffers(window);	//need this to output to screen
@@ -283,139 +282,60 @@ int main(int argc, char *argv[])
 	QueryGLVersion();
 	camera = &testCams[camIndex];
 
-
 	//init music
 	if (!audio.InitMusic(mainMusic.c_str())) {
 		cout << "Failed to load music." << endl;
 	}
 
-	//initialize title screen
-	TitleScreen ts;
-	ts.Initialize();
-
-	//loop until something happens
-	while (!ts.isStartPressed()) {
-		clearScreen();
-		ts.Render();		//render titlescreen
-		glfwSwapBuffers(window);	//need this to output to screen
-		ts.KeyCallback(window, &testController);	//check key callback
-
-		//if quit selected, or other input to close program selected, close program
-		if (ts.isQuitPressed() || glfwWindowShouldClose(window)) {
-			glfwSetWindowShouldClose(window, GL_TRUE);
-			ts.Destroy();
-			glfwDestroyWindow(window);
-			glfwTerminate();
-			return 0;
-		}
-		Sleep(100);		//slow down input so not crazy fast
-		glfwPollEvents();
-	}
-	ts.Destroy();	//destroy title page
-
 	//Initialize "Loading screen"
+	TitleScreen ts;
+	AI dummyAI;
+	Human p1;
+	mat4 _proj, _view;
+	GEO plane, skybox;
+	ScreenOverlay logo, loadBkgrd, loadWidget;
+	int frameCtr;
 
+	bool playGame = ts.Display(window, &testController);
+	if (playGame) {
+		InitializeLoadScreen(&loadBkgrd, &loadWidget, &logo);
 
-	ScreenOverlay loadBkgrd;
-	if (!loadBkgrd.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init loadBkgrnd." << endl;
+		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+
+		//initialize PhysX
+		PhysX.init();
+
+		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+
+		if (!audio.PlayMusic()) {
+			cout << "Failed to play music" << endl;
+		}
+
+		//human and AI instead of just using vehicle
+
+		dummyAI.vehicle = new Vehicle();
+		p1.vehicle = new Vehicle();
+		dummyAI.vehicle->setPosition(vec3(30, 0, 30));
+		initVehicle(p1.vehicle);
+		initVehicle(dummyAI.vehicle);
+
+		players.push_back(&p1);
+		players.push_back(&dummyAI);
+
+		plane = initGroundPlane();
+		skybox = initSkyBox();
+
+		currentVehicle = p1.vehicle;
+		currentPlayer = &p1;
+		glEnable(GL_DEPTH_TEST);
+
+		frameCtr = 0;
+		PrintDirections();
+
+		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+		loadBkgrd.Destroy();
+		loadWidget.Destroy();
 	}
-#if DEBUG
-	cout << "Init loadBkgrd shaders ";
-#endif
-	loadBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-	//screenOverlay.colour = vec3(1, 0, 0);
-#if DEBUG
-	cout << " -initialized";
-#endif
-	if (!loadBkgrd.GenerateSquareVertices(1, 1, vec3(0))) {
-		cout << "Failed to initialize screen overlay." << endl;
-	}
-
-	//Initialize load widget; this is just a test to see that multiple things render
-	ScreenOverlay loadWidget;
-	//if (!loadWidget.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
-	//	cout << "Failed to loadWidget." << endl;
-	//}
-#if DEBUG
-	cout << "Init widget shaders ";
-#endif
-	loadWidget.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-#if DEBUG
-	cout << " -initialized";
-#endif
-	//screenOverlay.colour = vec3(1, 0, 0);
-	if (!loadWidget.GenerateSquareVertices(0.1, 0.1, vec3(1,0,0))) {
-		cout << "Failed to initialize screen overlay." << endl;
-	}
-	//faaaar left
-	loadWidget.setPosition(vec3(-4, -0.75, 0));
-
-	//Initialize logo in top right corner 
-	ScreenOverlay logo;
-	if (!logo.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init texture." << endl;
-	}
-#if DEBUG
-	cout << "Init widget shaders ";
-#endif
-	logo.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-	//screenOverlay.colour = vec3(1, 0, 0);
-#if DEBUG
-	cout << " -initialized";
-#endif
-	if (!logo.GenerateSquareVertices(0.1, 0.1, vec3(0))) {
-		cout << "Failed to initialize screen overlay." << endl;
-	}
-	logo.setPosition(vec3(0.9f, 0.9f, 0));
-
-	updateLoadBar(window, loadBkgrd, loadWidget, 3);
-
-
-	if (!audio.PlayMusic()) {
-		cout << "Failed to play music" << endl;
-	}
-
-	updateLoadBar(window, loadBkgrd, loadWidget, 3);
-
-	//initialize PhysX
-	PhysX.init();
-
-	updateLoadBar(window, loadBkgrd, loadWidget, 3);
-
-  //human and AI instead of just using vehicle
-  AI dummyAI;
-  Human p1;
-  dummyAI.vehicle = new Vehicle();
-  p1.vehicle = new Vehicle();
-  dummyAI.vehicle->setPosition(vec3(30, 0, 30));
-  //dummyAI.vehicle = dummy;
-  //p1.vehicle = 
-	initVehicle(p1.vehicle);
-	initVehicle(dummyAI.vehicle);
-	
-	players.push_back(&p1);
-	players.push_back(&dummyAI);
-
-	GEO plane = initGroundPlane();
-	GEO skybox = initSkyBox();
-
-	currentVehicle = p1.vehicle;
-	currentPlayer = &p1;
-	glEnable(GL_DEPTH_TEST);
-
-	int frameCtr = 0;
-	PrintDirections();
-
-	mat4 _proj;
-	mat4 _view;
-
-	Shader sh;
-	sh.InitializeShaders("shaders/shadow.vert", "shaders/shadow.frag");
-	Shadow shadow;
-	shadow.initShadow();
-	shadow.addShaders("shaders/simpleDepthShader.vert", "shaders/simpleDepthShader.frag");
-	updateLoadBar(window, loadBkgrd, loadWidget, 3);
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
@@ -438,38 +358,6 @@ int main(int argc, char *argv[])
 		
 		_proj = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
 		_view = camera->calculateViewMatrix();
-
-
-	/*	shadow.Render(shadow.getShader(), _view, _proj, _lightSource);
-		
-		plane.Render(shadow.getShader(), _view, _proj, _lightSource);
-		vehicle->Render(shadow.getShader(), _view, _proj, _lightSource);
-		dummy->Render(shadow.getShader(), _view, _proj, _lightSource);
-
-		shadow.endRender();
-
-		glViewport(0, 0, width, height);
-		clearScreen();
-
-		shadow.bindForReading(GL_TEXTURE0);
-		//vehicle->Render(sh, _view, _proj, _lightSource);
-		//dummy->Render(sh, _view, _proj, _lightSource);
-		plane.Render(sh, _view, _proj, _lightSource);
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D, shadow.depthMap);
-		//plane.Render(sh, _view, _proj, _lightSource);
-		*/
-
-	//	glActiveTexture(GL_TEXTURE0);
-	//	glBindTexture(GL_TEXTURE_2D, woodTexture);
-
-	//	glActiveTexture(GL_TEXTURE1);
-		//glActiveTexture(GL_TEXTURE0 + shadow.depthMap);
-		//glBindTexture(GL_TEXTURE_2D, shadow.depthMap);
-		//glUniform1i(glGetUniformLocation(sh.program, string("shadowMap").c_str()), shadow.depthMap);
-
-		//draw
-		//clearScreen();
 
 		p1.vehicle->Render(p1.vehicle->getShader(),_view, _proj, _lightSource);
 		dummyAI.vehicle->Render(dummyAI.vehicle->getShader(),_view, _proj, _lightSource);
@@ -572,4 +460,58 @@ GEO initSkyBox()
 	skybox.addShaders("shaders/skybox.vert", "shaders/skybox.frag");
 
 	return skybox;
+}
+
+void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget, ScreenOverlay *logo) {
+	//		ScreenOverlay loadBkgrd;
+	if (!loadBkgrd->initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init loadBkgrnd." << endl;
+	}
+
+	loadBkgrd->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	if (!loadBkgrd->GenerateSquareVertices(1, 1, vec3(0))) {
+		cout << "Failed to initialize screen overlay." << endl;
+	}
+	
+	//Initialize load widget; this is just a test to see that multiple things render
+
+	loadWidget->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	if (!loadWidget->GenerateSquareVertices(0.1, 0.1, vec3(1, 0, 0))) {
+		cout << "Failed to initialize screen overlay." << endl;
+	}
+	//faaaar left
+	loadWidget->setPosition(vec3(-4, -0.75, 0));
+
+	//Not working properly at the moment, otherwise, move to this code insted of the above code.
+	//if (!loadBkgrd->InitQuad("textures/DLoDLogo.png",
+	//	"shaders/screenOverlay.vert",
+	//	"shaders/screenOverlay.frag",
+	//	1.f,
+	//	1.f,
+	//	vec3(0))) {
+	//	cout << "Failed to init load bkgrnd." << endl;
+	//}
+	////Initialize load widget; this is just a test to see that multiple things render
+	//if (!loadWidget->InitQuad("",
+	//	"shaders/screenOverlay.vert",
+	//	"shaders/screenOverlay.frag",
+	//	0.1,
+	//	0.1,
+	//	vec3(1, 0, 0))) {
+	//	cout << "Failed to init load load bar." << endl;
+	//}
+
+	//Initialize logo in top right corner 
+	if (!logo->initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init texture." << endl;
+	}
+
+	logo->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	if (!logo->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
+		cout << "Failed to initialize screen overlay." << endl;
+	}
+	logo->setPosition(vec3(0.9f, 0.9f, 0));
 }

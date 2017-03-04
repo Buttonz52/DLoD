@@ -8,8 +8,7 @@ Audio::~Audio()
 {
 }
 
-bool Audio::InitMusic(const char *filename) {
-	//Make sure everything initializes properly
+bool Audio::Init() {
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1) {
 		return false;
 	}
@@ -18,6 +17,10 @@ bool Audio::InitMusic(const char *filename) {
 	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
 		return false;
 	}
+	return true;
+}
+bool Audio::InitMusic(const char *filename) {
+	Init();
 	//Load the music file.  If there's nothing in the file, return false.
 	music_file = Mix_LoadMUS(filename);
 	horn = Mix_LoadWAV("sfx/horn.wav");

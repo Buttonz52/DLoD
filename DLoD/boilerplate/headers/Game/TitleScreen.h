@@ -17,6 +17,7 @@ public:
 
 	void Initialize();
 	void Render();
+	bool Display(GLFWwindow *, XboxController *controller);
 	void Destroy();
 
 	void KeyCallback(GLFWwindow* window, XboxController *ctrller);

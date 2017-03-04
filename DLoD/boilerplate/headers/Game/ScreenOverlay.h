@@ -6,6 +6,7 @@
 class ScreenOverlay
 {
 public:
+	float updateFactor;
 	void InitializeShaders(const string &vert, const string &frag);
 	bool initTexture(const string &filename, GLuint target);
 	bool GenerateSquareVertices(const float scale_x, const float scale_y, const vec3 &col);
@@ -24,6 +25,12 @@ public:
 	int getMixColour();
 	void setScale(const vec3 &s);
 	vec3 & getScale();
+	bool InitQuad(const string &tex,
+		const string &vert,
+		const string &frag,
+		const float x,
+		const float y,
+		const vec3 &col);
 
 	ScreenOverlay();
 	~ScreenOverlay();

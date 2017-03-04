@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
 PhysX3ExtensionsDEBUG.lib(ExtCpuWorkerThread.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtCpuWorkerThread.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
 PhysX3ExtensionsDEBUG.lib(ExtDefaultCpuDispatcher.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtDefaultCpuDispatcher.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
@@ -27,3 +28,16 @@ PhysXProfileSDKDEBUG.lib(PxProfileEventImpl.obj) : warning LNK4099: PDB 'PhysXPr
 PhysXVisualDebuggerSDKDEBUG.lib(PvdNetworkStreams.obj) : warning LNK4099: PDB 'PhysXVisualDebuggerSDKDEBUG.pdb' was not found with 'PhysXVisualDebuggerSDKDEBUG.lib(PvdNetworkStreams.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysXVisualDebuggerSDKDEBUG.pdb'; linking object as if no debug info
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+=======
+﻿  main.cpp
+c:\users\kiersten\desktop\git mar 3\dlod\boilerplate\src\main.cpp(9): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git mar 3\dlod\boilerplate\src\main.cpp(21): warning C4018: '>=': signed/unsigned mismatch
+c:\users\kiersten\desktop\git mar 3\dlod\boilerplate\src\main.cpp(207): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git mar 3\dlod\boilerplate\src\main.cpp(208): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git mar 3\dlod\boilerplate\src\main.cpp(218): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git mar 3\dlod\boilerplate\src\main.cpp(404): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git mar 3\dlod\boilerplate\src\main.cpp(481): warning C4305: 'argument': truncation from 'double' to 'const float'
+c:\users\kiersten\desktop\git mar 3\dlod\boilerplate\src\main.cpp(513): warning C4305: 'argument': truncation from 'double' to 'const float'
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git mar 3\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git mar 3\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
+>>>>>>> d435e6fbb10ca27f736b428375ba22f147d386eb
