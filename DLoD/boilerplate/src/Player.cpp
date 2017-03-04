@@ -14,3 +14,8 @@ Player::~Player()
 bool Player::isDead() {
 	return vehicle->isDead();
 }
+
+void Player::getInput()
+{
+
+}

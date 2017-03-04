@@ -169,6 +169,8 @@ void Vehicle::updateHealth(const float &damage)
 	}
 }
 
+
+
 bool Vehicle::initMesh(const string &file) {
 
 	if (!aliveCar.ReadMesh("models/" + filename)) {
@@ -176,35 +178,34 @@ bool Vehicle::initMesh(const string &file) {
 		return 0;
 	}
 	aliveCar.AddColour(vec3(1, 0, 0));
-	//if (!aliveCar.Initialize()) {
-	//	return 0;
-	//}
 
 	if (!deadCar.ReadMesh("models/" + file)) {
 		cout << "Error reading destroyed car" << endl;
 		return 0;
 	}
 	deadCar.AddColour(vec3(0, 1, 0));
-#if DEBUG
-	cout << "Number of verts: " << deadCar.vertices.size() << endl;
-#endif
-	//if (!destroyedCar.Initialize()) {
-	//	return 0;
-	//}
-	//cout << "number of verts: " << mesh.vertices.size() << endl;
-	//cout << "Loaded " << filename << endl;
-	//	cout << "number of verts destroyed car: " << destroyedCar.vertices.size() << endl;
-	//	cout << "Loaded destroyed car: " << file << endl;
+
+  mat3 scaleM = mat3(1);
+  scaleM[0][0] = scale.x;
+  scaleM[1][1] = scale.y;
+  scaleM[2][2] = scale.z;
+
+  for (int i = 0; i < aliveCar.vertices.size(); ++i)
+    aliveCar.vertices[i] = scaleM * aliveCar.vertices[i];
+
+  for (int i = 0; i < deadCar.vertices.size(); ++i)
+    deadCar.vertices[i] = scaleM * deadCar.vertices[i];
+
 	return 1;
 }
 
-void Vehicle::changeMeshDead() {
+
+
+void Vehicle::changeMeshDead() 
+{
 	mesh = deadCar;
-	//mesh.Initialize();
-	//if (!initBuffers()) {
-	//	cout << "Could not initialize buffers for destroyed car" << endl;
-	//}
 }
+
 bool Vehicle::initBuffers() {
 	if (!aliveCar.Initialize() || !deadCar.Initialize()) {
 		return false;

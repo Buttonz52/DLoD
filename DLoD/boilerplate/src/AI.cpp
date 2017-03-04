@@ -9,6 +9,9 @@ struct sortClass
     double dista = a->distanceTo + length(destination - a->position);
     double distb = b->distanceTo + length(destination - b->position);
 
+    a->dist = dista;
+    b->dist = distb;
+
     return dista > distb;
   }
 };
@@ -27,6 +30,31 @@ bool vecContains(vector<AStarNode*> vec, AStarNode* node)
 
 AI::AI()
 {
+  /*
+  for (int i = -10; i < 10; ++i)
+  {
+    for (int j = -10; j < 10; ++j)
+    {
+
+      AStarNode* node = new AStarNode();
+      node->position = vec3(i * 5, 0, j * 5);
+      AStarNodes.push_back(node);
+    }
+    
+  } */
+
+  nodeTree = new OctTree(AStarNodes, vec3(0, 0, 0), 50.0, 50.0, 50.0);
+
+  for (AStarNode* n : AStarNodes)
+  {
+    vector<AStarNode*> neighbours;
+    nodeTree->getNodesForSphere(neighbours, n->position, n->neighbourRadius);
+    for (AStarNode* m : neighbours)
+    {
+      if (m != n)
+        n->neighbours.push_back(m);
+    }
+  }
 }
 
 
@@ -41,52 +69,73 @@ int AI::DetermineBehaviour()
 
 void AI::getInput()
 {
+  // determine the behaviour
+  int behavour;
 
+  // determine a target
+  vec3 target;
+
+  // path to the target
+  vec3 dest = pathTo(target);
+
+  // drive to target
+  driveTo(target);
 }
 
 /*
 This function does not work dont use it yet
 wont currently support multithreading
 */
-vec3 AI::pathTo(const vec3 &dest)
+vec3 AI::pathTo(vec3 dest)
 {
-
-  // Get all the AStar Nodes and set there distance to value to be big
-
-  // These values need to be grabed from somewhere
-  OctTree* AStarTree;
-  double radius = 0;
+  // Get all the AStar Nodes and set their distance to value to be big
+  nodeTree->resetNodes();
 
   // Find all the closest AStarNodes to the destination
   AStarNode* start = new AStarNode();
   start->position = vec3(vehicle->getModelMatrix()[3]);
-  //start->neighbours = AStarTree->getNodesForSphere(dest, radius);
+  nodeTree->getNodesForSphere(start->neighbours, start->position, start->neighbourRadius);
 
-  // Remove this at some point
-  assert(!start->neighbours.empty());
+  AStarNode* destination = new AStarNode();
+  destination->position = dest;
+  nodeTree->getNodesForSphere(destination->neighbours, destination->position, destination->neighbourRadius);
 
-  // Add itself as a neighbour to its neighbours
+  start->distanceTo = 0;
+  destination->distanceTo = 50000;
+
+  // Add start as a neighbour to its neighbours
   for (AStarNode* n : start->neighbours)
     n->neighbours.push_back(start);
 
-
-  // Find all the closest AStarNodes to the destination
-  AStarNode* destination = new AStarNode();
-  destination->position = dest;
-  //destination->neighbours = AStarTree->getNodesForSphere(dest, radius);
-  
-  // Remove this at some point
-  assert(!destination->neighbours.empty());
-
-  // Add itself as a neighbour to its neighbours
+  // Add destination as a neighbour to its neighbours
   for (AStarNode* n : destination->neighbours)
     n->neighbours.push_back(destination);
 
+  if (length(start->position - destination->position) < 1.8)
+  {
+    start->neighbours.push_back(destination);
+    destination->neighbours.push_back(start);
+  }
+
+  if (destination->neighbours.size() == 0)
+  {
+    delete start;
+    delete destination;
+    return dest;
+  }
+
+  if (start->neighbours.size() == 0)
+  {
+    delete start;
+    delete destination;
+    return dest;
+  }
+
   vector<AStarNode*> investigatedNodes;
   vector<AStarNode*> neighbours; // neighbours to the investigatedNodes
-  investigatedNodes.push_back(closestNode);
+  investigatedNodes.push_back(start);
 
-  AStarNode* node = closestNode;
+  AStarNode* node = start;
 
   //
   while (!vecContains(investigatedNodes, destination))
@@ -96,24 +145,27 @@ vec3 AI::pathTo(const vec3 &dest)
       // calculate a new distanceTo 
       n->distanceTo = min(n->distanceTo, node->distanceTo + length(n->position - node->position));
 
-      if (!n->obstructed && !vecContains(investigatedNodes, n) && !vecContains(neighbours, destination))
+      if (!n->obstructed && !vecContains(investigatedNodes, n) && !vecContains(neighbours, n))
         neighbours.push_back(n);
     }
 
-    // Sort the neighbours 
-    sortClass obj;
-    obj.destination = dest;
-    sort(neighbours.begin(), neighbours.end(), obj);
 
     if (!neighbours.empty())
     {
+      // Sort the neighbours 
+      sortClass obj;
+      obj.destination = dest;
+      sort(neighbours.begin(), neighbours.end(), obj);
+
       node = neighbours.back();
       neighbours.pop_back();
 
       investigatedNodes.push_back(node);
     }
     else {
-      return start->position;
+      delete start;
+      delete destination;
+      return vec3(0,0,0);
     }
   }
 
@@ -121,7 +173,7 @@ vec3 AI::pathTo(const vec3 &dest)
   vector<AStarNode*> path;
   node = destination;
 
-  while (!vecContains(path, start))
+  while (node != start)
   {
     path.push_back(node);
 
@@ -134,16 +186,16 @@ vec3 AI::pathTo(const vec3 &dest)
 
     // sort the temp
     sort(temp.begin(), temp.end(), sortFunc);
-
     node = temp.back();
-    temp.pop_back();
   }
+
+  vec3 nextPos = path.back()->position;
 
   // delete the destination node that we created
   delete destination;
   delete start;
 
-  return path.back()->position;
+  return nextPos;
 } 
 
 
@@ -151,7 +203,7 @@ vec3 AI::pathTo(const vec3 &dest)
 Method to drive the AI to the destination point
 No actual pathfinding happens here
 */
-void AI::driveTo(const vec3 &destination)
+void AI::driveTo(vec3 destination)
 {
   // get the position of the vehicle
   mat4 M = vehicle->getModelMatrix();
@@ -188,7 +240,7 @@ void AI::driveTo(const vec3 &destination)
   {
     vehicle->accelerate(5);
 
-    double turn = min(max(-oD.x / oD.z, -0.6), 0.6);
+    double turn = min(max(-oD.x / oD.z, -1), 1);
     turn = ((vehicle->physXVehicle->computeForwardSpeed() > 0)) ? turn : -turn;
 
     vehicle->turn(turn);
@@ -197,16 +249,9 @@ void AI::driveTo(const vec3 &destination)
   {
     vehicle->decelerate(5);
     
-    double turn = min(max(-oD.x / oD.z, -0.7), 0.7);
+    double turn = (oD.x < 0) ? -1.0 : 1.0;
     turn = ((vehicle->physXVehicle->computeForwardSpeed() < 0)) ? turn : -turn;
 
-    vehicle->turn(turn);
+    vehicle->turn(turn * M_PI);
   }
-
-  if (length(displacement) < 5)
-  {
-    vehicle->brake(10000.0);
-    cout << "breaking" << endl;
-  }
-
 }

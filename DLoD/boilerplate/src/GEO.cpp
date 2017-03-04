@@ -249,12 +249,6 @@ void GEO::Render(Shader &shader, const mat4 &_view, const mat4 &_projection, con
 		updateModelMatrix();
 	mat4 M = getModelMatrix();
 	vec4 translation = vec4(M[3]);
-	vec3 scale = getScale();
-	mat4 scaleM = mat4(1);
-	scaleM[0][0] = scale.x;
-	scaleM[1][1] = scale.y;
-	scaleM[2][2] = scale.z;
-	M *= scaleM;
 	M[3] = translation;
 	glm::mat4 lightProjection, lightView;
 	glm::mat4 lightSpaceMatrix;

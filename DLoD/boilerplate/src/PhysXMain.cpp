@@ -114,7 +114,7 @@ void PhysXMain::initVehicle(Vehicle* v)
 
 	//change Center of Mass
 	PxTransform centerOfMass = v->physXVehicle->getRigidDynamicActor()->getCMassLocalPose();
-	centerOfMass.p = PxVec3(0.0, -1.0, 0.25);		//default = (0.0, -0.35, 0.25)
+	centerOfMass.p = PxVec3(0.0, -0.35, 0.25);		//default = (0.0, -0.35, 0.25)
 	v->physXVehicle->getRigidDynamicActor()->setCMassLocalPose(centerOfMass);
 
 	PxTransform startTransform(PxVec3(v->getPosition().x, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), v->getPosition().z), PxQuat(PxIdentity));

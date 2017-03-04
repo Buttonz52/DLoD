@@ -1,6 +1,6 @@
 #include "GEO\AStarNode.h"
 
-OctTree::OctTree(vector<AStarNode *> aStarNodes, const vec3 &cp, const double &x, const double &y, const double &z)
+OctTree::OctTree(vector<AStarNode *> aStarNodes, vec3 cp, double x, double y, double z)
 {
 
   centerPoint = cp;
@@ -58,17 +58,14 @@ OctTree::OctTree(vector<AStarNode *> aStarNodes, const vec3 &cp, const double &x
   else {
     nodes = aStarNodes;
   }
-
 }
 
 OctTree::~OctTree()
 {
 }
 
-vector<AStarNode*> OctTree::getNodesForSphere(const vec3 &cp, const double &r)
+void OctTree::getNodesForSphere(vector<AStarNode*> &nodesInArea, vec3 cp, double r)
 {
-
-  vector<AStarNode *> nodesInArea;
   if (abs(cp.x - centerPoint.x) < distx + r && abs(cp.y - centerPoint.y) < disty + r && abs(cp.z - centerPoint.z) < distz + r)
   {
     for (AStarNode* node : nodes) {
@@ -78,21 +75,32 @@ vector<AStarNode*> OctTree::getNodesForSphere(const vec3 &cp, const double &r)
 
     for (OctTree* child : children)
     {
-      vector<AStarNode*> childNodes = child->getNodesForSphere(cp, r);
-      copy(childNodes.begin(), childNodes.end(), back_inserter(nodesInArea));
+      child->getNodesForSphere(nodesInArea, cp, r);
     }
   }
-
-  return nodesInArea;
-
 }
 
-// This is a special delete method dont use it
+void OctTree::resetNodes()
+{
+  // just needs to be a big number
+  for (AStarNode* n : nodes)
+    n->distanceTo = 50000;
+
+  for (OctTree* child : children)
+    child->resetNodes();
+}
+
+
 AStarNode::~AStarNode()
 {
   // delete itself from the neighbours list of its neighbours 
-  for (AStarNode * n : neighbours)
+  for (AStarNode* n : neighbours)
   {
-    n->neighbours.pop_back();
+    for (int i = 0; i < n->neighbours.size(); ++i)
+    {
+      if (n->neighbours[i] == this)
+        n->neighbours.erase(n->neighbours.begin() + i);
+    }
+
   }
 }
