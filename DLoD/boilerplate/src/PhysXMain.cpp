@@ -31,7 +31,7 @@ PhysXMain::~PhysXMain()
 
 VehicleDesc PhysXMain::initVehicleDesc()
 {
-	const PxF32 chassisMass = 1500.0;
+	const PxF32 chassisMass = 1400.0;
 	const PxVec3 chassisDims(5.0f, 2.0f, 5.0f);
 	const PxVec3 chassisMOI
 		((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass /12.0f,
@@ -41,11 +41,11 @@ VehicleDesc PhysXMain::initVehicleDesc()
 
 	//Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
 	//Moment of inertia is just the moment of inertia of a cylinder.
-	const PxF32 wheelMass = 300.0f;
+	const PxF32 wheelMass = 20;
 	const PxF32 wheelRadius = 0.5f;
-	const PxF32 wheelWidth = 0.6f;
-	const PxF32 wheelMOI = 0.5f*wheelMass*wheelRadius*wheelRadius;
-	const PxU32 nbWheels = 6;
+	const PxF32 wheelWidth = 0.15f;
+	const PxF32 wheelMOI = 0.000001f*wheelMass*wheelRadius*wheelRadius;
+	const PxU32 nbWheels = 4;
 
 	VehicleDesc vehicleDesc;
 	vehicleDesc.chassisMass = chassisMass;

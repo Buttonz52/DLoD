@@ -1,14 +1,3 @@
-﻿  main.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(10): warning C4018: '>=': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(22): warning C4018: '>=': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(208): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(209): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(219): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(348): warning C4305: 'argument': truncation from 'double' to 'const float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(367): warning C4305: 'argument': truncation from 'double' to 'const float'
-  PhysXMain.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\physxmain.cpp(146): warning C4018: '<': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\physxmain.cpp(159): warning C4018: '<': signed/unsigned mismatch
-  Generating Code...
+﻿  SnippetVehicleNoDriveCreate.cpp
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

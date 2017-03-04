@@ -9,7 +9,7 @@ Vehicle::Vehicle()
 	//initialize crash sound and place in map
 	crash = Mix_LoadWAV("sfx/carCrash.wav");
 	sfxMap.insert(make_pair("crash", crash));
-	torqueSpeed = 10000.0;
+	torqueSpeed = 12000.0;
 }
 
 
@@ -21,10 +21,14 @@ Vehicle::~Vehicle()
 
 void Vehicle::accelerate(const float &m)
 {
-  physXVehicle->setDriveTorque(0, m*torqueSpeed);
-  physXVehicle->setDriveTorque(1, m*torqueSpeed);
-  physXVehicle->setDriveTorque(2, m*torqueSpeed);
-  physXVehicle->setDriveTorque(3, m*torqueSpeed);
+	if (physXVehicle->computeForwardSpeed() < 60.0)
+	{
+		cout << "driving" << endl;
+		physXVehicle->setDriveTorque(0, m*torqueSpeed);
+		physXVehicle->setDriveTorque(1, m*torqueSpeed);
+		physXVehicle->setDriveTorque(2, m*torqueSpeed);
+		physXVehicle->setDriveTorque(3, m*torqueSpeed);
+	}
 }
 
 
@@ -38,8 +42,8 @@ void Vehicle::decelerate(const float &m)
 
 void Vehicle::turn(const float &dir)
 {
-  physXVehicle->setSteerAngle(0, dir / 5);
-  physXVehicle->setSteerAngle(1, dir / 5);
+  physXVehicle->setSteerAngle(0, dir / 4);
+  physXVehicle->setSteerAngle(1, dir / 4);
 }
 
 void Vehicle::brake(const float &brake)
