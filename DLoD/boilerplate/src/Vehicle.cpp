@@ -4,7 +4,7 @@
 
 Vehicle::Vehicle()
 {
-	health = 10;	//set to 50 for debugging stuff
+	health = 100;	//set to 50 for debugging stuff
 	dead = false;
 	//initialize crash sound and place in map
 	crash = Mix_LoadWAV("sfx/carCrash.wav");
@@ -23,7 +23,6 @@ void Vehicle::accelerate(const float &m)
 {
 	if (physXVehicle->computeForwardSpeed() < 60.0)
 	{
-		cout << "driving" << endl;
 		physXVehicle->setDriveTorque(0, m*torqueSpeed);
 		physXVehicle->setDriveTorque(1, m*torqueSpeed);
 		physXVehicle->setDriveTorque(2, m*torqueSpeed);
