@@ -4,29 +4,6 @@
 using namespace std;
 bool paused = false;
 
-//changes between game objects
-void changeGEO() {
-	geoIndex >= gameObjects.size() - 1 ? geoIndex = 0 : geoIndex++;	//if statement: increment/reset camIndex				is this broken now?
-	//currentGEO = gameObjects[geoIndex];
-
-	cout << "Switching control to GEO: " << geoIndex << endl;
-
-}
-//changes between cameras
-//This is just messing around with stuff, feel free to change implementation/whatnot.
-//-Kiersten
-
-void changeCamera() {
-	//camIndex >= testCams.size()-1 ? camIndex = 0 : camIndex++;	//if statement: increment/reset camIndex 
-	camIndex >= players.size() - 1 ? camIndex = 0 : camIndex++;	//if statement: increment/reset camIndex 
-
-	//camera = &testCams[camIndex];		//new camera
-	currentPlayer = players[camIndex];
-	//testing purposes only
-	//vec3 *c = camera->getCenter();		//just printing out camera center for testing purposes, delete later
-//	cout << c->x << " " << c->y << " " << c->z << endl;
-}
-
 void clearScreen() {
 	// clear screen to a dark grey colour;
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -59,29 +36,7 @@ void ErrorCallback(int error, const char* description)
 // handles keyboard input events when we want multiple keys pressed at once
 void AlternKeyCallback(GLFWwindow* window)
 {
-
   int state;
-
-  // Camera movement
-  double factor = 0.5;
-  state = glfwGetKey(window, GLFW_KEY_I);
-  if (state == GLFW_PRESS)
-    camera->translate3D(vec3(0, 0, factor));
-
-  state = glfwGetKey(window, GLFW_KEY_K);
-  if (state == GLFW_PRESS) 
-    camera->translate3D(vec3(0, 0, -factor));
-
-  state = glfwGetKey(window, GLFW_KEY_J);
-  if (state == GLFW_PRESS) 
-    camera->translate3D(vec3(factor, 0, 0));
-
-  state = glfwGetKey(window, GLFW_KEY_L);
-  if (state == GLFW_PRESS) 
-    camera->translate3D(vec3(-factor, 0, 0));
-
-  factor = 0.05;
-
   //Movement of the GEOs with keyboard if controller not connected
   if (!testController.Connected())
   {
@@ -118,34 +73,25 @@ void AlternKeyCallback(GLFWwindow* window)
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	float factor = 1.00;
 	if (action == GLFW_RELEASE)
 		return;
 
-	switch (key) {
+  switch (key) {
     case GLFW_KEY_ESCAPE:
       glfwSetWindowShouldClose(window, GL_TRUE);
       break;
 
-	case GLFW_KEY_P:
-		audio.PausePlay();
-		break;
+    case GLFW_KEY_P:
+      audio.PausePlay();
+      break;
 
-	case GLFW_KEY_SPACE:
-    paused = !paused;
-		audio.PlaySfx(audio.horn);
-		break;
-      
-	case GLFW_KEY_G:
-		changeGEO();
-		break;
-    case GLFW_KEY_TAB:
-		changeCamera();
+    case GLFW_KEY_SPACE:
+      audio.PlaySfx(audio.horn);
       break;
 
     default:
       break;
-	}
+  }
 }
 
 void GetControllerInput()
@@ -177,9 +123,6 @@ void GetControllerInput()
 	else {	//just stop
 		currentVehicle->brake(1000.0);
 	}
-
-	// Update for next frame
-	//testController.RefreshState();
 }
 
 // handles mouse click
@@ -229,6 +172,8 @@ void resizeCallback(GLFWwindow* window, int width, int height)
 	float minDim = float(min(width, height));
 
 	winRatio[0][0] = minDim / float(width);
+
+  camera->setAsp((float)width / (float)height);
 }
 
 // ==========================================================================
@@ -289,10 +234,6 @@ int main(int argc, char *argv[])
 
 	//Initialize "Loading screen"
 	TitleScreen ts;
-	AI dummyAI;
-	Human p1;
-	mat4 _proj, _view;
-	GEO plane, skybox;
 	ScreenOverlay logo, loadBkgrd, loadWidget;
 	Text textWidget;
 	textWidget.AddShaders("shaders/hud.vert", "shaders/hud.frag");
@@ -309,97 +250,30 @@ int main(int argc, char *argv[])
 
 	int frameCtr;
 
-	bool playGame = ts.Display(window, &testController);
-	if (playGame) {
-		InitializeLoadScreen(&loadBkgrd, &loadWidget, &logo);
+	ts.Display(window, &testController);
+	InitializeLoadScreen(&loadBkgrd, &loadWidget, &logo);
 
-		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
-		//initialize PhysX
-		PhysX.init();
+	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
-		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
-
-		if (!audio.PlayMusic()) {
-			cout << "Failed to play music" << endl;
-		}
-
-		//human and AI instead of just using vehicle
-
-		dummyAI.vehicle = new Vehicle();
-		p1.vehicle = new Vehicle();
-		dummyAI.vehicle->setPosition(vec3(30, 0, 30));
-		initVehicle(p1.vehicle);
-		initVehicle(dummyAI.vehicle);
-
-		players.push_back(&p1);
-		players.push_back(&dummyAI);
-
-		plane = initGroundPlane();
-		skybox = initSkyBox();
-
-    skybox.children.push_back(p1.vehicle);
-
-		currentVehicle = p1.vehicle;
-		currentPlayer = &p1;
-		glEnable(GL_DEPTH_TEST);
-
-		frameCtr = 0;
-		PrintDirections();
-
-		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
-		loadBkgrd.Destroy();
-		loadWidget.Destroy();
-	}
-	while (!glfwWindowShouldClose(window))
-	{
-		clearScreen();
-		//input
-
-		PhysX.stepPhysics(true, gameObjects);
-		
-		//update
-
-		camera->followVehicle(currentPlayer->vehicle);
-		//Check if AI is dead.  If so, can't move. Else, moves.
-		dummyAI.isDead() ==false ? dummyAI.driveTo(p1.vehicle->getModelMatrix()[3]) : dummyAI.vehicle->brake(10000.0);
-		
-		if(frameCtr % 60 == 0)
-		{
-			cout << "Vehicle speed: " << p1.vehicle->physXVehicle->computeForwardSpeed() << "\tVehicle mass: " << p1.vehicle->physXVehicle->getRigidDynamicActor()->getMass() << endl;
-			cout << "Player 1 HP: " << p1.vehicle->getHealth() << "\tDummyCar HP: " << dummyAI.vehicle->getHealth() << endl << endl;
-		}
-		frameCtr++;
-		
-		_proj = winRatio * camera->calculateProjectionMatrix((float) width/ (float)height);
-		_view = camera->calculateViewMatrix();
-
-		textWidget.Render(GL_LINE_STRIP, vec3(-1, 0, 0), 0.25f);
-
-		//p1.vehicle->Render(_view, _proj, _lightSource);
-		dummyAI.vehicle->Render(_view, _proj, _lightSource);
-		skybox.Render(_view, _proj, _lightSource);
-		plane.Render(_view, _proj, _lightSource);
-		//moving stuff into game
-		logo.Render(GL_TRIANGLE_STRIP);	//render logo
-		
-		
-		glfwSwapBuffers(window);
-
-    if (testController.Connected())
-      GetControllerInput();
-
-    AlternKeyCallback(window);
-    glfwPollEvents();
+	if (!audio.PlayMusic()) {
+		cout << "Failed to play music" << endl;
 	}
 
-	p1.vehicle->shutdown();
-	dummyAI.vehicle->shutdown();
-	skybox.shutdown();
-	plane.shutdown();
-	logo.Destroy();
-	PhysX.cleanupPhysics(true);
-	audio.CleanUp();
+	glEnable(GL_DEPTH_TEST);
+
+	frameCtr = 0;
+	PrintDirections();
+
+	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+	loadBkgrd.Destroy();
+	loadWidget.Destroy();
+
+  Game game = Game(window);
+  game.start();
+
+  audio.CleanUp();
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -415,71 +289,6 @@ void PrintDirections() {
 	cout << "Xbox B-Button: decelerate" << endl;
 	cout << "Xbox L-Stick: turning" << endl;
 	cout << "ESC: Exit program" << endl;
-}
-
-void initVehicle(Vehicle* v)
-{
-  v->setScale(vec3(0.8));
-
-	v->setFilename("teapot.obj");	//alive mesh
-	if (!v->initMesh("cube.obj")) {	//dead mesh
-		cout << "Failed to initialize mesh." << endl;
-	}
-	v->addShaders("shaders/toon.vert", "shaders/toon.frag");
-
-
-	if (!v->initBuffers()) {
-		cout << "Could not initialize buffers for game object " << v->getFilename() << endl;
-	}
-
-	PhysX.initVehicle(v);
-
-	gameObjects.push_back(v);
-}
-
-GEO initGroundPlane()
-{
-	GEO plane;
-	plane.setFilename("plane.obj");
-	if (!plane.initMesh("plane.obj")) {
-		cout << "Failed to initialize mesh." << endl;
-	}
-	if (!plane.initTexture("textures/ground.png", GL_TEXTURE_2D)) {
-		cout << "Failed to initialize plane." << endl;
-	}
-	plane.addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
-  plane.setScale(vec3(150.f));
-	plane.setPosition(vec3(0, -0.7, 0));
-  plane.updateModelMatrix();
-
-	return plane;
-}
-
-GEO initSkyBox()
-{
-	vector<string> skyboxFiles = {
-		"textures/ame_ash/ashcanyon_rt.tga",
-		"textures/ame_ash/ashcanyon_lf.tga",
-		"textures/ame_ash/ashcanyon_up.tga",
-		"textures/ame_ash/ashcanyon_dn.tga",
-		"textures/ame_ash/ashcanyon_bk.tga",
-		"textures/ame_ash/ashcanyon_ft.tga",
-	};
-
-	GEO skybox;
-	skybox.setFilename("cube.obj");
-	if (!skybox.initMesh("cube.obj")) {
-		cout << "Failed to initialize mesh." << endl;
-	}
-	//scale cube large
-	skybox.setScale(vec3(500.0));
-  skybox.updateModelMatrix();
-	if (!skybox.initSkybox(skyboxFiles)) {
-		cout << "Failed to initialize skybox." << endl;
-	}
-	skybox.addShaders("shaders/skybox.vert", "shaders/skybox.frag");
-
-	return skybox;
 }
 
 void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget, ScreenOverlay *logo) {

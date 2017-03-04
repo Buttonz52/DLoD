@@ -16,6 +16,8 @@
 #include "TitleScreen.h"
 #include "../GEO/Shadow.h"
 #include "../GameEngine/Text.h"
+#include "Game.h"
+
 using namespace std;
 
 // --------------------------------------------------------------------------

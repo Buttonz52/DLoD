@@ -26,7 +26,9 @@ void Camera::setInitValues() {
 
 	fov = M_PI / 3;
 	_near = 0.001;
-	_far = 600;
+	_far = 1000;
+
+  asp = (float)1920 / (float)1080;
 }
 
 void Camera::setCenter(vec3 &c) {
@@ -41,6 +43,11 @@ void Camera::setAlt(float newAlt)
 void Camera::setAzu(float newAzu)
 {
 	azu = newAzu;
+}
+
+void Camera::setAsp(float newAsp)
+{
+  asp = newAsp;
 }
 
 void Camera::incrementAlt(float newAlt)
@@ -65,7 +72,7 @@ void Camera::incrementRadius(float newRad)
 	radius = min(max(radius, 6.0f), 200.0f);
 }
 
-mat4 Camera::calculateProjectionMatrix(float asp) 
+mat4 Camera::calculateProjectionMatrix() 
 {
 	float dy = _near * tan(fov * 0.5);
 	float dx = dy * asp;
@@ -89,11 +96,9 @@ mat4 Camera::calculateViewMatrix()
 	float x = radius * sin(alt) * cos(azu - M_PI / 2);
 	float y = radius * cos(alt);
 	float z = radius * sin(alt) * sin(azu - M_PI / 2);
-	//  cout << "x: " << x << " y: " << y << " z: " << z << endl;
-	//focalPoint = c;
-	vec3 eye(x, y, z);
+
+  vec3 eye(x, y, z);
 	vec3 up(0.0f, 1.0f, 0.0f);
-	//vec3 center(0.0f, 0.0f, 0.0f);
 
 	mat4 view = lookAt(eye, center, up);
   

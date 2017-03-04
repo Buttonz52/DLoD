@@ -16,17 +16,20 @@ private:
   PhysXMain physX;
   GLFWwindow *window;
 
+  vec3 lightSource = vec3(0.f, 100.f, 0.f);
+
+  bool gameOver = false;
+
+  void initSkyBox();
+  void initVehicle(Vehicle * v);
+
+  void gameLoop();
+
 public:
 
   Game(GLFWwindow*);
 
   void start();
-
-  void initSkyBox();
-
-  void initVehicle(Vehicle * v);
-
-
 };
 
 #endif
