@@ -15,6 +15,7 @@
 #include "ScreenOverlay.h"
 #include "TitleScreen.h"
 #include "../GEO/Shadow.h"
+#include "../GameEngine/Text.h"
 using namespace std;
 
 // --------------------------------------------------------------------------
@@ -53,7 +54,8 @@ Audio audio;
 Vehicle *currentVehicle;
 vec3 _lightSource = vec3(0.f, 100.f, 0.f);
 
-string mainMusic= "music/TimeLapse.wav";
+//string mainMusic= "music/TimeLapse.wav";	//theme
+string mainMusic = "music/Fluffing_a_duck.wav";
 //Audio music;
 
 // OpenGL utility and support function prototypes

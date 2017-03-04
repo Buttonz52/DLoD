@@ -23,6 +23,8 @@ bool CheckGLErrors()
 	bool error = false;
 	for (GLenum flag = glGetError(); flag != GL_NO_ERROR; flag = glGetError())
 	{
+		//yells at you only if you are in debug mode
+#if DEBUG
 	//	cout << "OpenGL ERROR:  ";
 		switch (flag) {
 		case GL_INVALID_ENUM:
@@ -41,6 +43,7 @@ bool CheckGLErrors()
 		default:
 			cout << "[unknown error code]" << endl;
 		}
+#endif
 		error = true;
 	}
 	return error;

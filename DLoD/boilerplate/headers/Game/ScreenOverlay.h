@@ -2,6 +2,7 @@
 #include "Utility.h"
 #include "../GameEngine/Texture.h"
 #include "../GameEngine/Shader.h"
+#include "../GameEngine/GlyphExtractor.h"
 
 class ScreenOverlay
 {
@@ -34,6 +35,8 @@ public:
 
 	ScreenOverlay();
 	~ScreenOverlay();
+	
+	//Holds glyph data
 	
 private:
 	vec3 Normalize(const vec3 &v);

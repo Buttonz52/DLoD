@@ -76,6 +76,9 @@
     <Filter Include="Header Files\GEO\vehicle">
       <UniqueIdentifier>{1c4600b4-28b2-4b7e-bd0b-b747344b1355}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\tesselation">
+      <UniqueIdentifier>{526699ba-fa15-4c6c-ab9a-942874625ebe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\middleware\glad\src\glad.c">
@@ -165,6 +168,12 @@
     <ClCompile Include="src\Game.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\GlyphExtractor.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Text.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GameState.h">
@@ -248,6 +257,9 @@
     <ClInclude Include="headers\Game\Game.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="headers\GameEngine\Text.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\skybox.frag">
@@ -297,6 +309,15 @@
     </None>
     <None Include="shaders\simpleDepthShader.frag">
       <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\tesselationctrl.glsl">
+      <Filter>Shaders\tesselation</Filter>
+    </None>
+    <None Include="shaders\tesselationevalcubic.glsl">
+      <Filter>Shaders\tesselation</Filter>
+    </None>
+    <None Include="shaders\tesselationevalquad.glsl">
+      <Filter>Shaders\tesselation</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

@@ -294,6 +294,19 @@ int main(int argc, char *argv[])
 	mat4 _proj, _view;
 	GEO plane, skybox;
 	ScreenOverlay logo, loadBkgrd, loadWidget;
+	Text textWidget;
+	textWidget.AddShaders("shaders/hud.vert", "shaders/hud.frag");
+
+	//testing text
+	textWidget.InitText("pls fix me", vec3 (1,1,0));
+	//glPointSize(10.f);
+	//glLineWidth(20.f);
+	//while (true) {
+	//	textWidget.Render(GL_POINTS, vec3(-1,0,0), 0.5f);
+	//	textWidget.Render(GL_LINE_STRIP, vec3(-1, 0, 0), 0.25f);
+	//	glfwSwapBuffers(window);
+	//}
+
 	int frameCtr;
 
 	bool playGame = ts.Display(window, &testController);
@@ -359,6 +372,7 @@ int main(int argc, char *argv[])
 		_proj = winRatio * camera->calculateProjectionMatrix((float)width / (float)height);
 		_view = camera->calculateViewMatrix();
 
+		textWidget.Render(GL_LINE_STRIP, vec3(-1, 0, 0), 0.25f);
 		p1.vehicle->Render(p1.vehicle->getShader(),_view, _proj, _lightSource);
 		dummyAI.vehicle->Render(dummyAI.vehicle->getShader(),_view, _proj, _lightSource);
 		skybox.Render(skybox.getShader(), _view, _proj, _lightSource);
