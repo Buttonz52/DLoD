@@ -53,8 +53,7 @@ void Game::start()
   gameLoop();
 
 
-  // Display the win screen
-
+  // Clean up and Display the win screen
   delete skybox;
   physX.cleanupPhysics(true);
 
@@ -63,9 +62,11 @@ void Game::start()
 
 void Game::gameLoop()
 {
+
   InitializeGameOverlay(&logo, &fontTex);
 
-  while (!glfwWindowShouldClose(window) || gameOver)
+  while (!glfwWindowShouldClose(window) && !gameOver)
+
   {
     // clear screen to a dark grey colour;
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -102,6 +103,13 @@ void Game::gameLoop()
 
       p->playerCam->followVehicle(p->vehicle);
     }
+
+    // CHECK GAMEOVER
+    int aliveCount = 0;
+    for (Player* p : players)
+      aliveCount += p->isDead() ? 0 : 1;
+
+    gameOver = aliveCount < 2;
 
     glfwPollEvents();
   }

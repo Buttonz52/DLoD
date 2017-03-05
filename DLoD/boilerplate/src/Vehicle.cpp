@@ -131,7 +131,7 @@ float Vehicle::calculateDamage(const double &x, const double &y, const double &z
     }
   }
 
-  health -= damage;
+  updateHealth(damage);
   checkDead();
   return damage;
 
