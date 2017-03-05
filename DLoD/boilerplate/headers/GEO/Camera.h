@@ -14,6 +14,8 @@ private:
 	float fov;
 	float _near;
 	float _far;
+
+  float asp;
 	
 	vec3 center;
 public:
@@ -31,9 +33,11 @@ public:
 	void incrementAzu(float);
 	void incrementAlt(float);
 	void incrementRadius(float);
+
+  void setAsp(float);
  
 	vec3 focalPoint;
-	mat4 calculateProjectionMatrix(float asp);
+	mat4 calculateProjectionMatrix();
 	mat4 calculateViewMatrix();
 
 	void translate3D(vec3);

@@ -14,6 +14,10 @@ GEO::GEO()
 
 GEO::~GEO()
 {
+  shutdown();
+
+  for (GEO* child : children)
+    delete child;
 }
 
 double GEO::getRadius()
@@ -261,25 +265,18 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 
 	//uniform variables
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE, value_ptr(M));
-	if (!isSkybox || !isPlane) {
-		glUniformMatrix4fv(glGetUniformLocation(shader.program, "modelview"), 1, GL_FALSE, value_ptr(_view));
-	}
-	else {
-		glUniformMatrix4fv(glGetUniformLocation(shader.program, "modelview"), 1, GL_FALSE, value_ptr(mat4(mat3(_view))));
-	}
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "modelview"), 1, GL_FALSE, value_ptr(_view));
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "projection"), 1, GL_FALSE, value_ptr(_projection));
 	glUniform3fv(glGetUniformLocation(shader.program, "lightPosition"), 1, value_ptr(_lightSource));
-	//	glUniform3fv(glGetUniformLocation(geo->getShader().program, "position"), 1, value_ptr(geo->getPosition()));
-
-	//mesh->texture.BindTexture(shader->program, GL_TEXTURE_2D, "sampler");
 
 	glDrawElements(GL_TRIANGLES, mesh.elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);
 	glUseProgram(0);
 	if (hasTexture)
-	//	texture.UnbindTexture(GL_TEXTURE_2D);
+		texture.UnbindTexture(GL_TEXTURE_2D);
+
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 
@@ -292,6 +289,9 @@ void GEO::shutdown()
 	shader.DestroyShaders();
 	texture.DestroyTexture();
 	mesh.DestroyMesh();
+
+  for (GEO* child : children)
+    child->shutdown();
 }
 
 void GEO::playSFX(const string &name)

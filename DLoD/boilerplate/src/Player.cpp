@@ -4,11 +4,13 @@
 
 Player::Player()
 {
+  playerCam = new Camera();
 }
 
 
 Player::~Player()
 {
+  delete playerCam;
 }
 
 bool Player::isDead() {
