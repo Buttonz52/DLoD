@@ -52,7 +52,7 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
           v1Impulse = (normal * (normal.dot(v1Impulse))) * v1->physXVehicle->getRigidDynamicActor()->getMass();
           v2Impluse = (normal * (normal.dot(v2Impluse))) * v2->physXVehicle->getRigidDynamicActor()->getMass();
 
-          double forceApplied = (v1Impulse - v2Impluse).magnitude() * 0.042;
+          double forceApplied = (v1Impulse - v2Impluse).magnitude() * 0.00042;
 		      forceApplied /= (double) nbPoints;
 
 		      if (forceApplied > (10.0 / (double)nbPoints))

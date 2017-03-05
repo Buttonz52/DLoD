@@ -29,7 +29,11 @@ private:
 
   void gameLoop();
 
-  void InitializeGameOverlay(ScreenOverlay *logo, ScreenOverlay *fontTex);
+  void InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3&colour);
+
+  void UpdateGameText(ScreenOverlay * fontText, const string &text);
+
+  void GenerateTextUVs(vector<vec2>& uvs, const char &c);
 
   //string  = "sfx/win.wav";
   Mix_Chunk *winSFX = Mix_LoadWAV("sfx/win.wav");

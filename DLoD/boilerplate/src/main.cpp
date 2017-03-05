@@ -226,7 +226,10 @@ int main(int argc, char *argv[])
 	QueryGLVersion();
 	camera = &testCams[camIndex];
 
-	//init music
+	if (!audio.Init()) {
+		cout << "Failed to init audio." << endl;
+	}
+	////init music
 	if (!audio.InitMusic(mainMusic.c_str())) {
 		cout << "Failed to load music." << endl;
 	}
@@ -236,9 +239,9 @@ int main(int argc, char *argv[])
 
 	ScreenOverlay loadBkgrd, loadWidget;
 
-	Text textWidget;
+	/*Text textWidget;
 	textWidget.AddShaders("shaders/hud.vert", "shaders/hud.frag");
-
+*/
 
 	//testing text
 	//textWidget.InitText("Health: " + to_string((int)p1.vehicle->getHealth()), vec3(1, 1, 0));
@@ -254,16 +257,12 @@ int main(int argc, char *argv[])
 	int frameCtr;
 
 
-	ts.Display(window, &testController);
+	ts.Display(window, &testController, &audio);
 	InitializeLoadScreen(&loadBkgrd, &loadWidget);
 
 	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
 	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
-
-	if (!audio.PlayMusic()) {
-		cout << "Failed to play music" << endl;
-	}
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -274,9 +273,12 @@ int main(int argc, char *argv[])
 	loadBkgrd.Destroy();
 	loadWidget.Destroy();
 
-
-
 	Game game = Game(window, audio);
+
+	if (!audio.PlayMusic()) {
+		cout << "Failed to play music" << endl;
+	}
+
 	game.start();
 
 

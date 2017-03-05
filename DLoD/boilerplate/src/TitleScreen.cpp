@@ -7,6 +7,7 @@
 TitleScreen::TitleScreen()
 {
 	menuIndex;
+//	this->audio = audio;
 	buttonWidth = 0.2;
 	buttonHeight = 0.1;
 	padding = 0.05;
@@ -16,7 +17,7 @@ TitleScreen::TitleScreen()
 	numMenuButtons = 3;
 	prevCol = vec3(0);
 	click = Mix_LoadWAV("sfx/bubblePop.wav");
-	press = Mix_LoadWAV("sfx/carCrash.wav");
+	press = Mix_LoadWAV("sfx/startNoise.wav");
 }
 
 
@@ -25,9 +26,9 @@ TitleScreen::~TitleScreen()
 	Destroy();
 }
 //toggle startt boolean
-void TitleScreen::pressStart() {
+void TitleScreen::pressStart(Audio *audio) {
 	isStart = true;
-	audio.PlaySfx(press);
+	audio->PlaySfx(press);
 }
 //quit game
 void TitleScreen::pressQuit() {
@@ -55,7 +56,7 @@ bool TitleScreen::isRulesPressed()
 }
 
 //change buttons
-void TitleScreen::toggleMenuIndex(const int &s) {
+void TitleScreen::toggleMenuIndex(const int &s, Audio *audio) {
 	menuButtons[menuIndex].setColour(prevCol);	//button back to normal colour
 	menuButtons[menuIndex].setMixColour(0);	//no longer mix colour
 	menuIndex+=s;
@@ -74,7 +75,7 @@ void TitleScreen::toggleMenuIndex(const int &s) {
 	menuButtons[menuIndex].setColour(vec3(0, 1, 0));
 	//sex mixColour flag
 	menuButtons[menuIndex].setMixColour(1);
-	audio.PlaySfx(click);
+	audio->PlaySfx(click);
 	
 }
 
@@ -82,9 +83,9 @@ void TitleScreen::Initialize() {
 
 	//generic button
 	ScreenOverlay button;
-	if (!audio.Init()) {
-		cout << "Failed to init audio." << endl;
-	}
+	//if (!audio.Init()) {
+	//	cout << "Failed to init audio." << endl;
+	//}
 	//vector of buttons
 	menuButtons.push_back(button);
 	menuButtons.push_back(button);
@@ -152,23 +153,23 @@ void TitleScreen::Render() {
 // handles keyboard input events for title screen
 //TODO: IMPLEMENT FOR CONTROLLER
 
-void TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller)
+void TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio)
 {
 	//Please test to 
 	if (ctrller->Connected()) {
 		//down
 		if (ctrller->GetButtonPressed(XBtns.DPad_Up)) {
-			toggleMenuIndex(-1);
+			toggleMenuIndex(-1, audio);
 		}
 		else if (ctrller->GetButtonPressed(XBtns.DPad_Down)) {
-			toggleMenuIndex(1);
+			toggleMenuIndex(1, audio);
 		}
 		//Don't know if this is correct..
 		else if (ctrller->GetButtonPressed(XBtns.A)) {
 			switch (menuIndex)
 			{
 			case 0:
-				pressStart();	//start game
+				pressStart(audio);	//start game
 				break;
 			case 1:
 				pressRules();	//read rules (not implemented yet)
@@ -185,12 +186,12 @@ void TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller)
 		// up menu
 		state = glfwGetKey(window, GLFW_KEY_UP);
 		if (state == GLFW_PRESS)
-			toggleMenuIndex(-1);
+			toggleMenuIndex(-1, audio);
 
 		//down menu
 		state = glfwGetKey(window, GLFW_KEY_DOWN);
 		if (state == GLFW_PRESS)
-			toggleMenuIndex(1);
+			toggleMenuIndex(1, audio);
 
 		//select
 		state = glfwGetKey(window, GLFW_KEY_ENTER);
@@ -198,7 +199,7 @@ void TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller)
 			switch (menuIndex)
 			{
 			case 0:
-				pressStart();	//start game
+				pressStart(audio);	//start game
 				break;
 			case 1:
 				pressRules();	//read rules (not implemented yet)
@@ -210,7 +211,7 @@ void TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller)
 	}
 }
 
-bool TitleScreen::Display(GLFWwindow *window, XboxController *controller) {
+bool TitleScreen::Display(GLFWwindow *window, XboxController *controller, Audio *audio) {
 
 	//initialize title screen
 	Initialize();
@@ -223,7 +224,7 @@ bool TitleScreen::Display(GLFWwindow *window, XboxController *controller) {
 
 		Render();		//render titlescreen
 		glfwSwapBuffers(window);	//need this to output to screen
-		KeyCallback(window, controller);	//check key callback
+		KeyCallback(window, controller, audio);	//check key callback
 
 													//if quit selected, or other input to close program selected, close program
 		if (isQuitPressed() || glfwWindowShouldClose(window)) {

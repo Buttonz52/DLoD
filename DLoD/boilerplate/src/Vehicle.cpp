@@ -212,3 +212,24 @@ bool Vehicle::initBuffers() {
 	mesh = aliveCar;
 	return true;
 }
+
+//returns health string
+string Vehicle::toString() {
+	string retStr;
+	string playerHealth = to_string(int (health));
+
+	switch (playerHealth.size()) {
+	case 3:
+		retStr = playerHealth;
+		break;
+	case 2:
+		retStr = "0" + playerHealth;
+		break;
+	case 1:
+		retStr = "00" + playerHealth;
+		break;
+	default:
+		retStr = playerHealth;
+	}
+	return retStr;
+}

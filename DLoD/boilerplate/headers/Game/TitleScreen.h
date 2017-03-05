@@ -17,10 +17,10 @@ public:
 
 	void Initialize();
 	void Render();
-	bool Display(GLFWwindow *, XboxController *controller);
+	bool Display(GLFWwindow *, XboxController *controller, Audio *audio);
 	void Destroy();
 
-	void KeyCallback(GLFWwindow* window, XboxController *ctrller);
+	void KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
 
 private:
 	bool isQuit, isStart, isRules;
@@ -34,12 +34,11 @@ private:
 	vector<ScreenOverlay> menuButtons;
 
 	vec3 prevCol;
-	void pressStart();
+	void pressStart(Audio *audio);
 	void pressQuit();
 	void pressRules();
-	void toggleMenuIndex(const int &s);
+	void toggleMenuIndex(const int &s, Audio *audio);
 	XboxController controller;
-	Audio audio;
 	Mix_Chunk *click;
 	Mix_Chunk *press;
 	//string backgroundTexture; //might not need

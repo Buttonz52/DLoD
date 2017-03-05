@@ -19,6 +19,7 @@ ScreenOverlay::ScreenOverlay()
 	rotateZ = 0;
 	position = vec3(0);
 	mixColour = 0;
+	isFontTex = 0;
 	_scale = vec3(1);
 }
 
@@ -83,6 +84,18 @@ vec3 & ScreenOverlay::getColour() {
 	return colour;
 }
 //initialize buffers
+void ScreenOverlay::UpdateBuffers(vector<vec2> *uvs) {
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	//glBufferData(GL_ARRAY_BUFFER, uvs->size() * sizeof(vec2), uvs->data(), GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, uvs->size() * sizeof(vec2), uvs->data());
+	//const GLuint UV_INDEX = 1;
+
+	//glGenBuffers(1, &textureBuffer);
+	//glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	//glBufferData(GL_ARRAY_BUFFER, uvs->size() * sizeof(vec2), uvs->data(), GL_STATIC_DRAW);
+	//glVertexAttribPointer(UV_INDEX, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	//glEnableVertexAttribArray(UV_INDEX);
+}
 bool ScreenOverlay::Initialize() {
 
 	/* Initialization of buffers for mesh goes here */
@@ -143,6 +156,8 @@ void ScreenOverlay::Render(GLuint type)
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE,value_ptr(model));
 	glUniform1i(glGetUniformLocation(shader.program, "hasTexture"), hasTexture);
 	glUniform1i(glGetUniformLocation(shader.program, "mixColour"), mixColour);
+	glUniform1i(glGetUniformLocation(shader.program, "isFontTex"), isFontTex);
+
 	glDrawArrays(type, 0, elementCount);
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);

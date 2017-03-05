@@ -1,4 +1,7 @@
-﻿  Game.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(163): warning C4305: 'argument': truncation from 'double' to 'float'
+﻿  main.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(150): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(151): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(161): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(320): warning C4305: 'argument': truncation from 'double' to 'const float'
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
