@@ -2,7 +2,7 @@
 #include "Physics\PhysXMain.h"
 
 using namespace std;
-bool paused = false;
+
 
 void clearScreen() {
 	// clear screen to a dark grey colour;
@@ -276,7 +276,7 @@ int main(int argc, char *argv[])
 
 
 
-	Game game = Game(window);
+	Game game = Game(window, audio);
 	game.start();
 
 

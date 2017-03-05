@@ -12,7 +12,9 @@ public:
   XboxController* controller;
 
   void getInput(GLFWwindow*);
+  void getGameOverInput(GLFWwindow*, bool&);
   void vehicleControls(GLFWwindow*);
+  void gameOverControls(GLFWwindow*, bool&);
   void menuControls(GLFWwindow*);
 };
 #endif

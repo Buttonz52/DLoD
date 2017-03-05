@@ -1,2 +1,4 @@
-﻿  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+﻿  Game.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(163): warning C4305: 'argument': truncation from 'double' to 'float'
+  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

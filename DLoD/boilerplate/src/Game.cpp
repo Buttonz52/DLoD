@@ -19,7 +19,7 @@ GEO* initGroundPlane()
 }
 
 
-Game::Game(GLFWwindow* w)
+Game::Game(GLFWwindow* w, Audio audio)
 {
   window = w;
   physX.init();
@@ -47,15 +47,33 @@ Game::Game(GLFWwindow* w)
 void Game::start()
 {
   // Set up the game
-
+	
 
   // start the game loop
   gameLoop();
 
-
   // Clean up and Display the win screen
   delete skybox;
   physX.cleanupPhysics(true);
+
+  //glfwSetKeyCallback(window, GameKeyCallback);
+
+  audio.PlaySfx(winSFX);
+  bool pause = true;
+
+
+  while (pause && !glfwWindowShouldClose(window))
+  {
+	  for (Player* p : players)
+	  {
+		  Human* human = dynamic_cast<Human*> (p);
+		  if (human != nullptr)
+			  human->getGameOverInput(window,pause);
+	  }
+
+	  glfwPollEvents();
+  }
+
 
 }
 
@@ -114,9 +132,6 @@ void Game::gameLoop()
     glfwPollEvents();
   }
 }
-
-
-
 
 void Game::initSkyBox()
 {
