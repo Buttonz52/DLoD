@@ -143,6 +143,7 @@
     <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ContactModifyCallback.cpp" />
+    <ClCompile Include="src\DamageTrap.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\GEO.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="headers\GEO\AStarNode.h" />
     <ClInclude Include="headers\GEO\Camera.h" />
     <ClInclude Include="headers\GEO\GEO.h" />
+    <ClInclude Include="headers\GEO\item\DamageTrap.h" />
     <ClInclude Include="headers\GEO\item\Item.h" />
     <ClInclude Include="headers\GEO\Light.h" />
     <ClInclude Include="headers\GEO\player\AI.h" />

@@ -11,7 +11,7 @@ Item::~Item()
 {
 }
 
-int Item::ReturnValue()
+void Item::onPickUp(Vehicle* v)
 {
-	return 0;
+
 }

@@ -174,6 +174,9 @@
     <ClCompile Include="src\Text.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\DamageTrap.cpp">
+      <Filter>Source Files\GEO\itempickup</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GameState.h">
@@ -259,6 +262,9 @@
     </ClInclude>
     <ClInclude Include="headers\GameEngine\Text.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\item\DamageTrap.h">
+      <Filter>Header Files\GEO\itempickup</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
