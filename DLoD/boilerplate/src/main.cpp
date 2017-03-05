@@ -232,7 +232,7 @@ int main(int argc, char *argv[])
 	}
 
 	//Initialize "Loading screen"
-	TitleScreen ts;
+	TitleScreen ts(audio);
 
 	ScreenOverlay loadBkgrd, loadWidget;
 
@@ -261,10 +261,6 @@ int main(int argc, char *argv[])
 
 	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
-	if (!audio.PlayMusic()) {
-		cout << "Failed to play music" << endl;
-	}
-
 	glEnable(GL_DEPTH_TEST);
 
 	frameCtr = 0;
@@ -275,7 +271,9 @@ int main(int argc, char *argv[])
 	loadWidget.Destroy();
 
 
-
+	if (!audio.PlayMusic()) {
+		cout << "Failed to play music" << endl;
+	}
 	Game game = Game(window);
 	game.start();
 

@@ -8,7 +8,7 @@
 class TitleScreen
 {
 public:
-	TitleScreen();
+	TitleScreen(Audio &audio);
 	~TitleScreen();
 
 	bool isStartPressed();
