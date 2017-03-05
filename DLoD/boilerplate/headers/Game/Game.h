@@ -27,7 +27,7 @@ private:
 
   void gameLoop();
 
-  void InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position);
+  void InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3&colour);
 
   void UpdateGameText(ScreenOverlay * fontText, const string &text);
 

@@ -65,7 +65,7 @@ void Game::gameLoop()
 
   //InitializeGameText(&fontTex, to_string(players[0]->vehicle->getHealth()), vec3(0.5,0.9,0));
   char textCharBuffer[3];
-  InitializeGameText(&fontTex, players[0]->vehicle->toString(), vec3(0.5, 0.9, 0));
+  InitializeGameText(&fontTex, players[0]->vehicle->toString(), vec3(0.5, 0.9, 0), vec3(0.5,0,0));
 
   while (!glfwWindowShouldClose(window) && !gameOver)
 
@@ -164,7 +164,10 @@ void Game::initVehicle(Vehicle* v)
   physXObjects.push_back(v);
 }
 
-void Game::InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position) {
+void Game::InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3 &colour) {
+	int kerning = 15.f;
+	fontTex->isFontTex = 1;
+	fontTex->setColour(colour);
 	if (!fontTex->initTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init fonts." << endl;
 	}
@@ -185,12 +188,12 @@ void Game::InitializeGameText(ScreenOverlay *fontTex, const string &text, const 
 		//	vec3(0.05,0.1,0)
 		//};
 
-		verts.push_back(vec3(0 + float(index)/16.f, 0, 0));
-		verts.push_back(vec3(0.05 + float(index) / 16.f, 0, 0));
-		verts.push_back(vec3(0 + float(index) / 16.f, 0.1, 0));
-		verts.push_back(vec3(0.05 + float(index) / 16.f, 0, 0));
-		verts.push_back(vec3(0 + float(index) / 16.f, 0.1, 0));
-		verts.push_back(vec3(0.05 + float(index) / 16.f, 0.1, 0));
+		verts.push_back(vec3(0 + float(index)/kerning, 0, 0));
+		verts.push_back(vec3(0.05 + float(index) / kerning, 0, 0));
+		verts.push_back(vec3(0 + float(index) / kerning, 0.1, 0));
+		verts.push_back(vec3(0.05 + float(index) / kerning, 0, 0));
+		verts.push_back(vec3(0 + float(index) / kerning, 0.1, 0));
+		verts.push_back(vec3(0.05 + float(index) / kerning, 0.1, 0));
 		index++;
 	}
 

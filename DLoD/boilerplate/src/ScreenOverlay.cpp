@@ -19,6 +19,7 @@ ScreenOverlay::ScreenOverlay()
 	rotateZ = 0;
 	position = vec3(0);
 	mixColour = 0;
+	isFontTex = 0;
 	_scale = vec3(1);
 }
 
@@ -155,6 +156,8 @@ void ScreenOverlay::Render(GLuint type)
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE,value_ptr(model));
 	glUniform1i(glGetUniformLocation(shader.program, "hasTexture"), hasTexture);
 	glUniform1i(glGetUniformLocation(shader.program, "mixColour"), mixColour);
+	glUniform1i(glGetUniformLocation(shader.program, "isFontTex"), isFontTex);
+
 	glDrawArrays(type, 0, elementCount);
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);

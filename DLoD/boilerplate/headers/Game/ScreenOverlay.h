@@ -7,6 +7,7 @@
 class ScreenOverlay
 {
 public:
+	int isFontTex;
 	float updateFactor;
 	void InitializeShaders(const string &vert, const string &frag);
 	bool initTexture(const string &filename, GLuint target);
