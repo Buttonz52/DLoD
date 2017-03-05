@@ -230,9 +230,9 @@ int main(int argc, char *argv[])
 		cout << "Failed to init audio." << endl;
 	}
 	////init music
-	//if (!audio.InitMusic(mainMusic.c_str())) {
-	//	cout << "Failed to load music." << endl;
-	//}
+	if (!audio.InitMusic(mainMusic.c_str())) {
+		cout << "Failed to load music." << endl;
+	}
 
 	//Initialize "Loading screen"
 	TitleScreen ts;

@@ -56,7 +56,6 @@ void Game::start()
   // Clean up and Display the win screen
   delete skybox;
   physX.cleanupPhysics(true);
-
 }
 
 
@@ -65,8 +64,13 @@ void Game::gameLoop()
 
   //InitializeGameText(&fontTex, to_string(players[0]->vehicle->getHealth()), vec3(0.5,0.9,0));
   char textCharBuffer[3];
-  InitializeGameText(&fontTex, players[0]->vehicle->toString(), vec3(0.5, 0.9, 0), vec3(0.5,0,0));
+  InitializeGameText(&healthTitle, "health:", vec3(0, 0.9, 0), vec3(1, 0, 0), 20);
+  InitializeGameText(&armourTitle, "armour:", vec3(-1, 0.9, 0), vec3(0, 0, 1), 20);
 
+  InitializeGameText(&healthTex, players[0]->vehicle->getHealthString(), vec3(0.5, 0.9, 0), vec3(1,0,0), 20);
+  InitializeGameText(&armourTex, players[0]->vehicle->getArmourString(), vec3(-0.5, 0.9, 0), vec3(0, 0, 1), 20);
+
+  int frameCtr = 0;
   while (!glfwWindowShouldClose(window) && !gameOver)
 
   {
@@ -81,9 +85,15 @@ void Game::gameLoop()
     mat4 projectionMatrix = players[0]->playerCam->calculateProjectionMatrix();
     mat4 viewMatrix = players[0]->playerCam->calculateViewMatrix();
 
-	UpdateGameText(&fontTex, players[0]->vehicle->toString());
+	UpdateGameText(&healthTex, players[0]->vehicle->getHealthString());
+	UpdateGameText(&armourTex, players[0]->vehicle->getArmourString());
+
     skybox->Render(viewMatrix, projectionMatrix, lightSource);
-	fontTex.Render(GL_TRIANGLES);
+	healthTitle.Render(GL_TRIANGLES);
+	armourTitle.Render(GL_TRIANGLES);
+	healthTex.Render(GL_TRIANGLES);
+	armourTex.Render(GL_TRIANGLES);
+
 
 
     glfwSwapBuffers(window);
@@ -110,6 +120,14 @@ void Game::gameLoop()
     for (Player* p : players)
       aliveCount += p->isDead() ? 0 : 1;
 
+	//regenerate armour
+	if (frameCtr % 60*8 == 0)
+	{
+		for (Player* p : players)
+			p->vehicle->regenArmour();
+		//cout << "Regen armour" << endl;
+	}
+	frameCtr >= 60*8 ? frameCtr = 1: frameCtr++;
     gameOver = aliveCount < 2;
 
     glfwPollEvents();
@@ -164,8 +182,7 @@ void Game::initVehicle(Vehicle* v)
   physXObjects.push_back(v);
 }
 
-void Game::InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3 &colour) {
-	int kerning = 15.f;
+void Game::InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3 &colour, int kerning) {
 	fontTex->isFontTex = 1;
 	fontTex->setColour(colour);
 	if (!fontTex->initTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
@@ -198,11 +215,11 @@ void Game::InitializeGameText(ScreenOverlay *fontTex, const string &text, const 
 	}
 
 	//if (!fontTex->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
-	if (!fontTex->GenerateVertices(&verts, vec3(1, 0, 0), &uvs)) {
+	if (!fontTex->GenerateVertices(&verts, colour, &uvs)) {
 		cout << "Failed to initialize font overlay." << endl;
 	}
 
-	fontTex->setPosition(vec3(0.5f, 0.9f, 0));
+	fontTex->setPosition(position);
 }
 void Game::UpdateGameText(ScreenOverlay *fontTex, const string &text) {
 	vector<vec2> uvs;

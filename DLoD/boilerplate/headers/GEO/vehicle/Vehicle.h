@@ -14,10 +14,11 @@ private:
 	bool dead;
   // Stores the Vehicle Health
   float health;
-  double armourLeft;
-  double armourRight;
-  double armourFront;
-  double armourBack;
+  float armour;
+  //double armourLeft;
+  //double armourRight;
+  //double armourFront;
+  //double armourBack;
 
   // Stores the rate of acceleration and maxVelocity
   double acceleration;
@@ -49,8 +50,12 @@ public:
 
 	float getHealth();
 	float calculateDamage(const double &, const double &, const double &, const double &);
+	void regenArmour();
+	float updateArmour(const float & damage);
 	void updateHealth(const float &damage);
-	string toString();
+	float getArmour();
+	string getHealthString();
+	string getArmourString();
 
 };
 

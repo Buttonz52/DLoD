@@ -16,7 +16,7 @@ private:
   PhysXMain physX;
   GLFWwindow *window;
 
-  ScreenOverlay logo, fontTex;
+  ScreenOverlay logo, healthTex, armourTex, healthTitle, armourTitle;
 
   vec3 lightSource = vec3(0.f, 100.f, 0.f);
 
@@ -27,7 +27,7 @@ private:
 
   void gameLoop();
 
-  void InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3&colour);
+  void InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3&colour, int kerning);
 
   void UpdateGameText(ScreenOverlay * fontText, const string &text);
 

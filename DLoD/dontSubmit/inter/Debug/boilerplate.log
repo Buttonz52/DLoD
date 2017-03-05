@@ -1,0 +1,6 @@
+﻿  Game.cpp
+c:\users\kiersten\desktop\git mar 4\dlod\boilerplate\src\game.cpp(66): warning C4101: 'textCharBuffer': unreferenced local variable
+c:\users\kiersten\desktop\git mar 4\dlod\boilerplate\src\game.cpp(167): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\kiersten\desktop\git mar 4\dlod\boilerplate\src\game.cpp(241): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git mar 4\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git mar 4\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

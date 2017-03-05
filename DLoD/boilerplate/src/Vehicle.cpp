@@ -4,6 +4,7 @@
 
 Vehicle::Vehicle()
 {
+	armour = 20;
 	health = 100;	//set to 50 for debugging stuff
 	dead = false;
 	//initialize crash sound and place in map
@@ -145,6 +146,10 @@ float Vehicle::getHealth()
 	return health;
 }
 
+float Vehicle::getArmour() {
+	return armour;
+}
+
 void Vehicle::checkDead() {
 	if (health < 0) {
 		health = 0;
@@ -155,14 +160,33 @@ void Vehicle::checkDead() {
 		dead = true;
 	}
 }
+//regenerates armour for vehicle
+void Vehicle::regenArmour() {
+	armour >= 20 ? armour = 20: armour++;
+}
+
 void Vehicle::updateHealth(const float &damage)
 {
-	health -= damage;
+	float damageToHealth = 0;
+	
+	if (armour == 0) {
+		damageToHealth = damage;
+	}
+	else {
+		//armour takes damage
+		armour -= damage;
+		//check if there is leftover damage for player
+		if (armour < 0) {
+			damageToHealth = abs(armour);
+			armour = 0;
+		}
+	}
+
+	health -= damageToHealth;
 	if (health < 0) {
 		health = 0;
 		if (!dead) {
 			changeMeshDead();
-
 		}
 		dead = true;
 	}
@@ -199,7 +223,6 @@ bool Vehicle::initMesh(const string &file) {
 }
 
 
-
 void Vehicle::changeMeshDead() 
 {
 	mesh = deadCar;
@@ -214,7 +237,7 @@ bool Vehicle::initBuffers() {
 }
 
 //returns health string
-string Vehicle::toString() {
+string Vehicle::getHealthString() {
 	string retStr;
 	string playerHealth = to_string(int (health));
 
@@ -231,5 +254,26 @@ string Vehicle::toString() {
 	default:
 		retStr = playerHealth;
 	}
+	return retStr;
+}
+
+string Vehicle::getArmourString() {
+	string retStr;
+	string playerArmour = to_string(int(armour));
+
+	switch (playerArmour.size()) {
+	case 3:
+		retStr = playerArmour;
+		break;
+	case 2:
+		retStr = "0" + playerArmour;
+		break;
+	case 1:
+		retStr = "00" + playerArmour;
+		break;
+	default:
+		retStr = playerArmour;
+	}
+	return retStr;
 	return retStr;
 }

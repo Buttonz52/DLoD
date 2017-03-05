@@ -20,7 +20,7 @@ bool Audio::Init() {
 	return true;
 }
 bool Audio::InitMusic(const char *filename) {
-	Init();
+	//Init();
 	//Load the music file.  If there's nothing in the file, return false.
 	music_file = Mix_LoadMUS(filename);
 	horn = Mix_LoadWAV("sfx/horn.wav");
