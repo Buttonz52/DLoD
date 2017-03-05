@@ -16,7 +16,7 @@ TitleScreen::TitleScreen()
 	numMenuButtons = 3;
 	prevCol = vec3(0);
 	click = Mix_LoadWAV("sfx/bubblePop.wav");
-	press = Mix_LoadWAV("sfx/carCrash.wav");
+	press = Mix_LoadWAV("sfx/startNoise.wav");
 }
 
 
