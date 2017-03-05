@@ -234,11 +234,7 @@ int main(int argc, char *argv[])
 	//Initialize "Loading screen"
 	TitleScreen ts;
 
-	AI dummyAI;
-	Human p1;
-	mat4 _proj, _view;
-	GEO plane, skybox;
-	ScreenOverlay logo, loadBkgrd, loadWidget, fontTex;
+	ScreenOverlay loadBkgrd, loadWidget;
 
 	Text textWidget;
 	textWidget.AddShaders("shaders/hud.vert", "shaders/hud.frag");
@@ -259,7 +255,7 @@ int main(int argc, char *argv[])
 
 
 	ts.Display(window, &testController);
-	InitializeLoadScreen(&loadBkgrd, &loadWidget, &logo, &fontTex);
+	InitializeLoadScreen(&loadBkgrd, &loadWidget);
 
 	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
@@ -278,10 +274,14 @@ int main(int argc, char *argv[])
 	loadBkgrd.Destroy();
 	loadWidget.Destroy();
 
-  Game game = Game(window);
-  game.start();
 
-  audio.CleanUp();
+
+	Game game = Game(window);
+	game.start();
+
+
+
+	audio.CleanUp();
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -299,7 +299,7 @@ void PrintDirections() {
 	cout << "ESC: Exit program" << endl;
 }
 
-void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget, ScreenOverlay *logo, ScreenOverlay *fontTex) {
+void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget) {
 	//		ScreenOverlay loadBkgrd;
 	if (!loadBkgrd->initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init loadBkgrnd." << endl;
@@ -341,43 +341,5 @@ void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget, S
 	//}
 
 	//Initialize logo in top right corner 
-	if (!logo->initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init texture." << endl;
-	}
-
-	logo->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-
-	if (!logo->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
-		cout << "Failed to initialize screen overlay." << endl;
-	}
-	logo->setPosition(vec3(0.9f, 0.9f, 0));
-
-
-
-	if (!fontTex->initTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init fonts." << endl;
-	}
-	fontTex->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-
-	/*vector<vec3> verts = {
-		vec3(0,0,0),
-		vec3(0.1,0,0),
-		vec3(0,0.1,0),
-		vec3(0.1,0.1,0)
-	};
-
-	vector<vec2> uvs = {
-		vec2(0.5,0.3125),
-		vec2(0.5,0.25),
-		vec2(0.5625,0.3125),
-		vec2(0.5625,0.25)
-	};*/
-
-	if (!fontTex->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
-		//if (!fontTex->GenerateVertices(&verts, vec3(1,0,0), &uvs)) {
-		cout << "Failed to initialize font overlay." << endl;
-	}
-
-	fontTex->setPosition(vec3(0.5f, 0.9f, 0));
 
 }

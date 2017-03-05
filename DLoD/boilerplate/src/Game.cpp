@@ -39,7 +39,6 @@ Game::Game(GLFWwindow* w)
   initVehicle(ai->vehicle);
   skybox->children.push_back(ai->vehicle);
 
-
   players.push_back(human);
   players.push_back(ai);
 }
@@ -64,6 +63,8 @@ void Game::start()
 
 void Game::gameLoop()
 {
+  InitializeGameOverlay(&logo, &fontTex);
+
   while (!glfwWindowShouldClose(window) || gameOver)
   {
     // clear screen to a dark grey colour;
@@ -78,7 +79,10 @@ void Game::gameLoop()
     mat4 viewMatrix = players[0]->playerCam->calculateViewMatrix();
 
 
+
     skybox->Render(viewMatrix, projectionMatrix, lightSource);
+	fontTex.Render(GL_TRIANGLES);
+
 
     glfwSwapBuffers(window);
 
@@ -151,5 +155,50 @@ void Game::initVehicle(Vehicle* v)
   physXObjects.push_back(v);
 }
 
+void Game::InitializeGameOverlay(ScreenOverlay *logo, ScreenOverlay *fontTex) {
+	//if (!logo->initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+	//	cout << "Failed to init texture." << endl;
+	//}
 
+	//logo->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	//if (!logo->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
+	//	cout << "Failed to initialize screen overlay." << endl;
+	//}
+	//logo->setPosition(vec3(0.9f, 0.9f, 0));
+
+
+
+	if (!fontTex->initTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init fonts." << endl;
+	}
+	fontTex->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	vector<vec3> verts = {
+		vec3(0,0,0),
+		vec3(0.05,0,0),
+		vec3(0,0.1,0),
+		vec3(0.05,0,0),
+		vec3(0,0.1,0),
+		vec3(0.05,0.1,0)
+
+
+	};
+
+	vector<vec2> uvs = {
+		vec2(0.5,0.25),
+		vec2(0.5625,0.25),
+		vec2(0.5,0.3125),
+		vec2(0.5625,0.25),
+		vec2(0.5,0.3125),
+		vec2(0.5625,0.3125)
+	};
+
+	//if (!fontTex->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
+	if (!fontTex->GenerateVertices(&verts, vec3(1, 0, 0), &uvs)) {
+		cout << "Failed to initialize font overlay." << endl;
+	}
+
+	fontTex->setPosition(vec3(0.5f, 0.9f, 0));
+}
 

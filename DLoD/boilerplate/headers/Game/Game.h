@@ -5,7 +5,7 @@
 #include "../GEO/Player/AI.h"
 #include "../GEO/player/Human.h"
 #include "../Physics/PhysXMain.h"
-
+#include "..\headers\Game\ScreenOverlay.h"
 
 class Game
 {
@@ -16,6 +16,8 @@ private:
   PhysXMain physX;
   GLFWwindow *window;
 
+  ScreenOverlay logo, fontTex;
+
   vec3 lightSource = vec3(0.f, 100.f, 0.f);
 
   bool gameOver = false;
@@ -24,6 +26,8 @@ private:
   void initVehicle(Vehicle * v);
 
   void gameLoop();
+
+  void InitializeGameOverlay(ScreenOverlay *logo, ScreenOverlay *fontTex);
 
 public:
 
