@@ -12,6 +12,7 @@ public:
 	bool initTexture(const string &filename, GLuint target);
 	bool GenerateSquareVertices(const float scale_x, const float scale_y, const vec3 &col);
 	bool GenerateVertices(const vector<vec3> *verts, const vec3 &colour, const vector<vec2> *uv);
+	void UpdateBuffers(vector<vec2> *uvs);
 	bool Initialize();
 	void Render(GLuint type);
 	void Destroy();

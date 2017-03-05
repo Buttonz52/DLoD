@@ -226,19 +226,22 @@ int main(int argc, char *argv[])
 	QueryGLVersion();
 	camera = &testCams[camIndex];
 
-	//init music
-	if (!audio.InitMusic(mainMusic.c_str())) {
-		cout << "Failed to load music." << endl;
+	if (!audio.Init()) {
+		cout << "Failed to init audio." << endl;
 	}
+	////init music
+	//if (!audio.InitMusic(mainMusic.c_str())) {
+	//	cout << "Failed to load music." << endl;
+	//}
 
 	//Initialize "Loading screen"
-	TitleScreen ts(audio);
+	TitleScreen ts;
 
 	ScreenOverlay loadBkgrd, loadWidget;
 
-	Text textWidget;
+	/*Text textWidget;
 	textWidget.AddShaders("shaders/hud.vert", "shaders/hud.frag");
-
+*/
 
 	//testing text
 	//textWidget.InitText("Health: " + to_string((int)p1.vehicle->getHealth()), vec3(1, 1, 0));
@@ -254,7 +257,7 @@ int main(int argc, char *argv[])
 	int frameCtr;
 
 
-	ts.Display(window, &testController);
+	ts.Display(window, &testController, &audio);
 	InitializeLoadScreen(&loadBkgrd, &loadWidget);
 
 	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);

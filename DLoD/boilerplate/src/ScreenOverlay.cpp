@@ -83,6 +83,18 @@ vec3 & ScreenOverlay::getColour() {
 	return colour;
 }
 //initialize buffers
+void ScreenOverlay::UpdateBuffers(vector<vec2> *uvs) {
+	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	//glBufferData(GL_ARRAY_BUFFER, uvs->size() * sizeof(vec2), uvs->data(), GL_DYNAMIC_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, uvs->size() * sizeof(vec2), uvs->data());
+	//const GLuint UV_INDEX = 1;
+
+	//glGenBuffers(1, &textureBuffer);
+	//glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
+	//glBufferData(GL_ARRAY_BUFFER, uvs->size() * sizeof(vec2), uvs->data(), GL_STATIC_DRAW);
+	//glVertexAttribPointer(UV_INDEX, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	//glEnableVertexAttribArray(UV_INDEX);
+}
 bool ScreenOverlay::Initialize() {
 
 	/* Initialization of buffers for mesh goes here */

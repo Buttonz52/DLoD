@@ -63,7 +63,9 @@ void Game::start()
 void Game::gameLoop()
 {
 
-  InitializeGameOverlay(&logo, &fontTex);
+  //InitializeGameText(&fontTex, to_string(players[0]->vehicle->getHealth()), vec3(0.5,0.9,0));
+  char textCharBuffer[3];
+  InitializeGameText(&fontTex, players[0]->vehicle->toString(), vec3(0.5, 0.9, 0));
 
   while (!glfwWindowShouldClose(window) && !gameOver)
 
@@ -79,8 +81,7 @@ void Game::gameLoop()
     mat4 projectionMatrix = players[0]->playerCam->calculateProjectionMatrix();
     mat4 viewMatrix = players[0]->playerCam->calculateViewMatrix();
 
-
-
+	UpdateGameText(&fontTex, players[0]->vehicle->toString());
     skybox->Render(viewMatrix, projectionMatrix, lightSource);
 	fontTex.Render(GL_TRIANGLES);
 
@@ -163,44 +164,35 @@ void Game::initVehicle(Vehicle* v)
   physXObjects.push_back(v);
 }
 
-void Game::InitializeGameOverlay(ScreenOverlay *logo, ScreenOverlay *fontTex) {
-	//if (!logo->initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
-	//	cout << "Failed to init texture." << endl;
-	//}
-
-	//logo->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-
-	//if (!logo->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
-	//	cout << "Failed to initialize screen overlay." << endl;
-	//}
-	//logo->setPosition(vec3(0.9f, 0.9f, 0));
-
-
-
+void Game::InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position) {
 	if (!fontTex->initTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init fonts." << endl;
 	}
 	fontTex->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	vector<vec3> verts;
+	vector<vec2> uvs;
 
-	vector<vec3> verts = {
-		vec3(0,0,0),
-		vec3(0.05,0,0),
-		vec3(0,0.1,0),
-		vec3(0.05,0,0),
-		vec3(0,0.1,0),
-		vec3(0.05,0.1,0)
+	int index = 0;
+	for (char c : text) {
+		GenerateTextUVs(uvs, c);
 
+		//vector<vec3> verts = {
+		//	vec3(0,0,0),
+		//	vec3(0.05,0,0),
+		//	vec3(0,0.1,0),
+		//	vec3(0.05,0,0),
+		//	vec3(0,0.1,0),
+		//	vec3(0.05,0.1,0)
+		//};
 
-	};
-
-	vector<vec2> uvs = {
-		vec2(0.5,0.25),
-		vec2(0.5625,0.25),
-		vec2(0.5,0.3125),
-		vec2(0.5625,0.25),
-		vec2(0.5,0.3125),
-		vec2(0.5625,0.3125)
-	};
+		verts.push_back(vec3(0 + float(index)/16.f, 0, 0));
+		verts.push_back(vec3(0.05 + float(index) / 16.f, 0, 0));
+		verts.push_back(vec3(0 + float(index) / 16.f, 0.1, 0));
+		verts.push_back(vec3(0.05 + float(index) / 16.f, 0, 0));
+		verts.push_back(vec3(0 + float(index) / 16.f, 0.1, 0));
+		verts.push_back(vec3(0.05 + float(index) / 16.f, 0.1, 0));
+		index++;
+	}
 
 	//if (!fontTex->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
 	if (!fontTex->GenerateVertices(&verts, vec3(1, 0, 0), &uvs)) {
@@ -208,5 +200,58 @@ void Game::InitializeGameOverlay(ScreenOverlay *logo, ScreenOverlay *fontTex) {
 	}
 
 	fontTex->setPosition(vec3(0.5f, 0.9f, 0));
+}
+void Game::UpdateGameText(ScreenOverlay *fontTex, const string &text) {
+	vector<vec2> uvs;
+	for (char c : text) {
+		GenerateTextUVs(uvs, c);
+	}
+	fontTex->UpdateBuffers(&uvs);
+
+	//if (!fontTex->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
+	//if (!fontTex->GenerateVertices(&verts, vec3(1, 0, 0), &uvs)) {
+	//	cout << "Failed to initialize font overlay." << endl;
+	//}
+}
+
+void Game::GenerateTextUVs(vector <vec2> &uvs,const char &ch) {
+	//for letters 
+	char c = ch;
+	c = toupper(c); //make lowercase
+	float asciiLocation = int(c) - int('A');
+	float horizontalLoc;
+	//is a letter ( >= A)
+	if (asciiLocation >= 0) {
+		horizontalLoc = float((int(c) - int('A') + 1) % 16);
+	}
+	//is the row above (numbers)
+	else {
+		horizontalLoc = float((16 - abs((int(c) - int('A') + 1))) % 16);
+	}
+
+	float verticalLoc = asciiLocation;
+	if (verticalLoc >= 15) {
+		verticalLoc = 5;
+	}
+	else if (verticalLoc < -1) {
+		verticalLoc = 3;
+	}
+	else {
+		verticalLoc = 4;
+	}
+
+	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc + 1.f) / 16.f));	//bottom left
+	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc + 1.f) / 16.f));		//bottom right
+	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc) / 16.f));			//top left
+	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc + 1.f) / 16.f));
+	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc) / 16.f));
+	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc) / 16.f));
+
+	//	vec2(8.f / 16.f,4.f / 16.f),
+	//	vec2(9.f / 16.f,4.f / 16.f),
+	//	vec2(8.f / 16.f,5.f / 16.f),
+	//	vec2(9.f / 16.f,4.f / 16.f),
+	//	vec2(8.f / 16.f,5.f / 16.f),
+	//	vec2(9.f / 16.f,5.f / 16.f)
 }
 

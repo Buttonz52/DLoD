@@ -1,0 +1,8 @@
+﻿  Vehicle.cpp
+c:\users\kiersten\desktop\git mar 4\dlod\boilerplate\src\vehicle.cpp(90): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
+c:\users\kiersten\desktop\git mar 4\dlod\boilerplate\src\vehicle.cpp(134): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+c:\users\kiersten\desktop\git mar 4\dlod\boilerplate\src\vehicle.cpp(136): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\kiersten\desktop\git mar 4\dlod\boilerplate\src\vehicle.cpp(192): warning C4018: '<': signed/unsigned mismatch
+c:\users\kiersten\desktop\git mar 4\dlod\boilerplate\src\vehicle.cpp(195): warning C4018: '<': signed/unsigned mismatch
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git mar 4\DLoD\dontSubmit\bin\Debug\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git mar 4\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)
