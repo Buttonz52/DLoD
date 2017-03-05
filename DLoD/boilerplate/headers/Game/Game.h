@@ -35,7 +35,6 @@ private:
 
   void GenerateTextUVs(vector<vec2>& uvs, const char &c);
 
-  //string  = "sfx/win.wav";
   Mix_Chunk *winSFX = Mix_LoadWAV("sfx/win.wav");
 
 public:

@@ -239,21 +239,6 @@ int main(int argc, char *argv[])
 
 	ScreenOverlay loadBkgrd, loadWidget;
 
-	/*Text textWidget;
-	textWidget.AddShaders("shaders/hud.vert", "shaders/hud.frag");
-*/
-
-	//testing text
-	//textWidget.InitText("Health: " + to_string((int)p1.vehicle->getHealth()), vec3(1, 1, 0));
-	//glPointSize(2.f);
-	//glLineWidth(20.f);
-	//while (true) {
-	//	textWidget.Render(GL_POINTS, vec3(-1,0,0), 0.5f);
-	//	textWidget.Render(GL_LINE_STRIP, vec3(-1, 0, 0), 0.25f);
-	//	glfwSwapBuffers(window);
-	//}
-
-
 	int frameCtr;
 
 
@@ -322,26 +307,4 @@ void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget) {
 	}
 	//faaaar left
 	loadWidget->setPosition(vec3(-4, -0.75, 0));
-
-	//Not working properly at the moment, otherwise, move to this code insted of the above code.
-	//if (!loadBkgrd->InitQuad("textures/DLoDLogo.png",
-	//	"shaders/screenOverlay.vert",
-	//	"shaders/screenOverlay.frag",
-	//	1.f,
-	//	1.f,
-	//	vec3(0))) {
-	//	cout << "Failed to init load bkgrnd." << endl;
-	//}
-	////Initialize load widget; this is just a test to see that multiple things render
-	//if (!loadWidget->InitQuad("",
-	//	"shaders/screenOverlay.vert",
-	//	"shaders/screenOverlay.frag",
-	//	0.1,
-	//	0.1,
-	//	vec3(1, 0, 0))) {
-	//	cout << "Failed to init load load bar." << endl;
-	//}
-
-	//Initialize logo in top right corner 
-
 }

@@ -2,7 +2,6 @@
 #include "Utility.h"
 #include "../GameEngine/Texture.h"
 #include "../GameEngine/Shader.h"
-#include "../GameEngine/GlyphExtractor.h"
 
 class ScreenOverlay
 {
