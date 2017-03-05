@@ -27,13 +27,13 @@ Game::Game(GLFWwindow* w, Audio audio)
   initSkyBox();
   skybox->children.push_back(initGroundPlane());
 
-  Human* human = new Human();
+  Human* human = new Human(0);
   human->vehicle = new Vehicle();
   initVehicle(human->vehicle);
   skybox->children.push_back(human->vehicle);
 
 
-  AI* ai = new AI();
+  AI* ai = new AI(1);
   ai->vehicle = new Vehicle();
   ai->vehicle->setPosition(vec3(30, 0, 30));
   initVehicle(ai->vehicle);
@@ -98,7 +98,7 @@ void Game::gameLoop()
 
 	UpdateGameText(&fontTex, players[0]->vehicle->toString());
     skybox->Render(viewMatrix, projectionMatrix, lightSource);
-	fontTex.Render(GL_TRIANGLES);
+	  fontTex.Render(GL_TRIANGLES);
 
 
     glfwSwapBuffers(window);
