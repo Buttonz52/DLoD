@@ -268,7 +268,6 @@ int main(int argc, char *argv[])
 	glfwSetScrollCallback(window, scroll_callback);
 	glfwSetWindowSizeCallback(window, resizeCallback);
 
-
 	//Intialize GLAD
 #ifndef LAB_LINUX
 	if (!gladLoadGL())
@@ -293,13 +292,14 @@ int main(int argc, char *argv[])
 	Human p1;
 	mat4 _proj, _view;
 	GEO plane, skybox;
-	ScreenOverlay logo, loadBkgrd, loadWidget;
+	ScreenOverlay logo, loadBkgrd, loadWidget, fontTex;
 	Text textWidget;
 	textWidget.AddShaders("shaders/hud.vert", "shaders/hud.frag");
 
+
 	//testing text
-	textWidget.InitText("pls fix me", vec3 (1,1,0));
-	//glPointSize(10.f);
+	//textWidget.InitText("Health: " + to_string((int)p1.vehicle->getHealth()), vec3(1, 1, 0));
+	//glPointSize(2.f);
 	//glLineWidth(20.f);
 	//while (true) {
 	//	textWidget.Render(GL_POINTS, vec3(-1,0,0), 0.5f);
@@ -307,11 +307,15 @@ int main(int argc, char *argv[])
 	//	glfwSwapBuffers(window);
 	//}
 
+
 	int frameCtr;
 
 	bool playGame = ts.Display(window, &testController);
 	if (playGame) {
-		InitializeLoadScreen(&loadBkgrd, &loadWidget, &logo);
+
+		
+
+		InitializeLoadScreen(&loadBkgrd, &loadWidget, &logo, &fontTex);
 
 		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
@@ -351,6 +355,11 @@ int main(int argc, char *argv[])
 		loadBkgrd.Destroy();
 		loadWidget.Destroy();
 	}
+
+
+
+	
+
 	while (!glfwWindowShouldClose(window))
 	{
 		clearScreen();
@@ -374,16 +383,17 @@ int main(int argc, char *argv[])
 		_proj = winRatio * camera->calculateProjectionMatrix((float) width/ (float)height);
 		_view = camera->calculateViewMatrix();
 
-		textWidget.Render(GL_LINE_STRIP, vec3(-1, 0, 0), 0.25f);
+		textWidget.Render(GL_POINTS, vec3(-1, 0, 0), 0.1f);
 
 		//p1.vehicle->Render(_view, _proj, _lightSource);
 		dummyAI.vehicle->Render(_view, _proj, _lightSource);
 		skybox.Render(_view, _proj, _lightSource);
 		plane.Render(_view, _proj, _lightSource);
 		//moving stuff into game
+		fontTex.Render(GL_TRIANGLE_STRIP);
 		logo.Render(GL_TRIANGLE_STRIP);	//render logo
 		
-		
+
 		glfwSwapBuffers(window);
 
     if (testController.Connected())
@@ -482,7 +492,7 @@ GEO initSkyBox()
 	return skybox;
 }
 
-void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget, ScreenOverlay *logo) {
+void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget, ScreenOverlay *logo, ScreenOverlay *fontTex) {
 	//		ScreenOverlay loadBkgrd;
 	if (!loadBkgrd->initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init loadBkgrnd." << endl;
@@ -534,4 +544,33 @@ void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget, S
 		cout << "Failed to initialize screen overlay." << endl;
 	}
 	logo->setPosition(vec3(0.9f, 0.9f, 0));
+
+
+
+	if (!fontTex->initTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init fonts." << endl;
+	}
+	fontTex->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	/*vector<vec3> verts = {
+		vec3(0,0,0),
+		vec3(0.1,0,0),
+		vec3(0,0.1,0),
+		vec3(0.1,0.1,0)
+	};
+
+	vector<vec2> uvs = {
+		vec2(0.5,0.3125),
+		vec2(0.5,0.25),
+		vec2(0.5625,0.3125),
+		vec2(0.5625,0.25)
+	};*/
+
+	if (!fontTex->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
+		//if (!fontTex->GenerateVertices(&verts, vec3(1,0,0), &uvs)) {
+		cout << "Failed to initialize font overlay." << endl;
+	}
+
+	fontTex->setPosition(vec3(0.5f, 0.9f, 0));
+
 }

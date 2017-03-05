@@ -26,7 +26,7 @@ void Camera::setInitValues() {
 
 	fov = M_PI / 3;
 	_near = 0.001;
-	_far = 600;
+	_far = 1000;
 }
 
 void Camera::setCenter(vec3 &c) {

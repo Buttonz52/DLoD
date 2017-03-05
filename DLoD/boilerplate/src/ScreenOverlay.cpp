@@ -147,7 +147,7 @@ void ScreenOverlay::Render(GLuint type)
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);
 	glUseProgram(0);
-	if (hasTexture ==1)
+	if (hasTexture)
 		texture.UnbindTexture(GL_TEXTURE_2D);
 	// check for an report any OpenGL errors
 	CheckGLErrors();

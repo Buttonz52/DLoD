@@ -63,7 +63,7 @@ void PrintDirections();
 
 // Mesh functions
 int LoadAllObjFiles(const char *pathname);	
-void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget, ScreenOverlay *logo);
+void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget, ScreenOverlay *logo, ScreenOverlay *fontTex);
 //init GEO functions
 GEO* initCube();
 void initVehicle(Vehicle* v);

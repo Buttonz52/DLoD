@@ -20,7 +20,7 @@ void Text::AddShaders(const string &vert, const string &frag) {
 vec3 Text::lerp(const vec3 &a, const vec3 &b, float t) {
 	return (a + (b - a)*t);
 }
-//vec3 Text::lerp(const vec3 &a, const vec3 &b, float t) {
+
 void Text::segLerp(MySegment *segment, float advance) {
 	int segDegree = segment->degree;
 	if (segDegree == 1) {
@@ -44,7 +44,6 @@ void Text::segLerp(MySegment *segment, float advance) {
 			mesh.vertices.push_back(vec3(l123.x+advance, l123.y,l123.z));
 		}				
 	}
-	//return (a + (b - a)*t);
 }
 void Text::InitText(const string &text, const vec3 & colour) {
 	vector<MyGlyph> vGlyphs;
@@ -77,17 +76,7 @@ void Text::InitText(const string &text, const vec3 & colour) {
 		totalAdvance += vGlyphs[i].advance;
 		for (uint j = 0; j < vGlyphs[i].contours.size(); j++) {
 			for (uint k = 0; k < vGlyphs[i].contours[j].size(); k++) {
-				for (uint l = 0; l < vGlyphs[i].contours[j][k].degree; l++) {
-					segLerp(&vGlyphs[i].contours[j][k], totalAdvance);
-				/*	mesh.vertices.push_back(
-						vec3(
-							vGlyphs[i].contours[j][k].x[l] + totalAdvance,
-							vGlyphs[i].contours[j][k].y[l],
-							0.f));
-					mesh.colours.push_back(colour);*/
-				}
-				/*	int segDegree = vGlyphs[i].contours[j][k].degree;
-				vertices.push_back(contour[j][k].x[0]);*/
+				segLerp(&vGlyphs[i].contours[j][k], totalAdvance);
 			}
 		}
 	}
