@@ -56,6 +56,8 @@ public:
 	PhysXMain();
 	~PhysXMain();
 
+  vector<GEO*> deletedGeos;
+
 	void init();
 	VehicleDesc initVehicleDesc();
 	void initVehicle(Vehicle* v);

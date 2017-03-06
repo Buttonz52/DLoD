@@ -21,6 +21,21 @@ GEO::~GEO()
     delete child;
 }
 
+void GEO::removeChild(GEO * child)
+{
+  vector<GEO*>::iterator itr = children.begin();
+  while (itr != children.end()) {
+    if (*itr._Ptr == child) {
+      itr = children.erase(itr);
+      break;
+    }
+    else {
+      (*itr._Ptr)->removeChild(child);
+      ++itr;
+    }
+  }
+}
+
 double GEO::getRadius()
 {
 	return radius;

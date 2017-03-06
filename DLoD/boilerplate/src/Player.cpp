@@ -6,6 +6,7 @@ Player::Player(int i)
 {
   identifier = i;
   playerCam = new Camera();
+  ableToTrap = true;
 }
 
 

@@ -20,7 +20,7 @@ private:
   Timer timer;
 
   // vector of actors 
-  vector<pair<pair<Item*, Player*>, int>> itemsToAdd;
+  vector<pair<Player*, int>> itemsToAdd;
 
   PhysXMain physX;
   GLFWwindow *window;

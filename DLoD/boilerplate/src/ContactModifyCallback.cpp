@@ -89,6 +89,7 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
         while (itr != geoMap.end()) {
           if (itr->second == item) {
             gScene->removeActor(*itr->first);
+            deletedGeos.push_back(itr->second);
             itr = geoMap.erase(itr);
             break;
           }
