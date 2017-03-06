@@ -43,7 +43,6 @@ public:
 	void init();
 	VehicleDesc initVehicleDesc();
 	void initVehicle(Vehicle* v);
-	void initObject(GEO* g);
 
   void collisionFunction(PxContactModifyPair* const, PxU32);
 

@@ -213,27 +213,6 @@ void GEO::setColour(const vec3 &col) {
 	mesh.AddColour(col);
 }
 
-
-physx::PxShape& GEO::getShape()
-{
-	return *shape;
-}
-
-physx::PxRigidDynamic* GEO::getBody()
-{
-	return body;
-}
-
-void GEO::setShape(physx::PxShape &s)
-{
-	shape = &s;
-}
-
-void GEO::setBody(physx::PxRigidDynamic &b)
-{
-	body = &b;
-}
-
 // Rendering function that draws our scene to the frame buffer
 //TODO: Make specific to different types of GEOs, use inheritance
 void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)

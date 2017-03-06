@@ -67,12 +67,6 @@ public:
 	void setMesh(const Mesh &m);
 	void setColour(const vec3 &col);
 
-	//PhysX
-	physx::PxShape& getShape();
-	physx::PxRigidDynamic* getBody();
-	void setShape(physx::PxShape &s);
-	void setBody(physx::PxRigidDynamic &b);
-
 	void shutdown();		//destroy shader, texture, mesh
 	void playSFX(const string &name);
 
