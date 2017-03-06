@@ -15,7 +15,6 @@
 #include "ScreenOverlay.h"
 #include "TitleScreen.h"
 #include "../GEO/Shadow.h"
-#include "../GameEngine/Text.h"
 #include "Game.h"
 
 using namespace std;
@@ -64,13 +63,7 @@ string mainMusic = "music/Fluffing_a_duck.wav";
 void PrintDirections();
 
 // Mesh functions
-int LoadAllObjFiles(const char *pathname);	
 void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget);
-//init GEO functions
-GEO* initCube();
-void initVehicle(Vehicle* v);
-GEO initGroundPlane();
-GEO initSkyBox();
 
 //PhysX object
 PhysXMain PhysX;

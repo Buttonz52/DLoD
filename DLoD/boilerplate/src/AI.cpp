@@ -28,7 +28,7 @@ bool vecContains(vector<AStarNode*> vec, AStarNode* node)
 
 
 
-AI::AI()
+AI::AI(int i) : Player(i)
 {
   /*
   for (int i = -10; i < 10; ++i)

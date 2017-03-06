@@ -19,7 +19,7 @@ GEO* initGroundPlane()
 }
 
 
-Game::Game(GLFWwindow* w)
+Game::Game(GLFWwindow* w, Audio audio)
 {
   window = w;
   physX.init();
@@ -27,13 +27,13 @@ Game::Game(GLFWwindow* w)
   initSkyBox();
   skybox->children.push_back(initGroundPlane());
 
-  Human* human = new Human();
+  Human* human = new Human(0);
   human->vehicle = new Vehicle();
   initVehicle(human->vehicle);
   skybox->children.push_back(human->vehicle);
 
 
-  AI* ai = new AI();
+  AI* ai = new AI(1);
   ai->vehicle = new Vehicle();
   ai->vehicle->setPosition(vec3(30, 0, 30));
   initVehicle(ai->vehicle);
@@ -47,17 +47,30 @@ Game::Game(GLFWwindow* w)
 void Game::start()
 {
   // Set up the game
-
+	
 
   // start the game loop
   gameLoop();
 
-
   // Clean up and Display the win screen
   delete skybox;
   physX.cleanupPhysics(true);
-}
 
+  audio.PlaySfx(winSFX);
+  bool pause = true;
+
+  while (pause && !glfwWindowShouldClose(window))
+  {
+	  for (Player* p : players)
+	  {
+		  Human* human = dynamic_cast<Human*> (p);
+		  if (human != nullptr)
+			  human->getGameOverInput(window,pause);
+	  }
+
+	  glfwPollEvents();
+  }
+}
 
 void Game::gameLoop()
 {
@@ -93,8 +106,6 @@ void Game::gameLoop()
 	armourTitle.Render(GL_TRIANGLES);
 	healthTex.Render(GL_TRIANGLES);
 	armourTex.Render(GL_TRIANGLES);
-
-
 
     glfwSwapBuffers(window);
 
@@ -133,9 +144,6 @@ void Game::gameLoop()
     glfwPollEvents();
   }
 }
-
-
-
 
 void Game::initSkyBox()
 {
@@ -196,15 +204,6 @@ void Game::InitializeGameText(ScreenOverlay *fontTex, const string &text, const 
 	for (char c : text) {
 		GenerateTextUVs(uvs, c);
 
-		//vector<vec3> verts = {
-		//	vec3(0,0,0),
-		//	vec3(0.05,0,0),
-		//	vec3(0,0.1,0),
-		//	vec3(0.05,0,0),
-		//	vec3(0,0.1,0),
-		//	vec3(0.05,0.1,0)
-		//};
-
 		verts.push_back(vec3(0 + float(index)/kerning, 0, 0));
 		verts.push_back(vec3(0.05 + float(index) / kerning, 0, 0));
 		verts.push_back(vec3(0 + float(index) / kerning, 0.1, 0));
@@ -227,11 +226,6 @@ void Game::UpdateGameText(ScreenOverlay *fontTex, const string &text) {
 		GenerateTextUVs(uvs, c);
 	}
 	fontTex->UpdateBuffers(&uvs);
-
-	//if (!fontTex->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
-	//if (!fontTex->GenerateVertices(&verts, vec3(1, 0, 0), &uvs)) {
-	//	cout << "Failed to initialize font overlay." << endl;
-	//}
 }
 
 void Game::GenerateTextUVs(vector <vec2> &uvs,const char &ch) {
@@ -266,12 +260,5 @@ void Game::GenerateTextUVs(vector <vec2> &uvs,const char &ch) {
 	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc + 1.f) / 16.f));
 	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc) / 16.f));
 	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc) / 16.f));
-
-	//	vec2(8.f / 16.f,4.f / 16.f),
-	//	vec2(9.f / 16.f,4.f / 16.f),
-	//	vec2(8.f / 16.f,5.f / 16.f),
-	//	vec2(9.f / 16.f,4.f / 16.f),
-	//	vec2(8.f / 16.f,5.f / 16.f),
-	//	vec2(9.f / 16.f,5.f / 16.f)
 }
 

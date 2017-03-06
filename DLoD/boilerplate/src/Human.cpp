@@ -2,7 +2,7 @@
 
 
 
-Human::Human()
+Human::Human(int i) : Player(i)
 {
   controller = new XboxController(1);
 }
@@ -20,6 +20,21 @@ void Human::getInput(GLFWwindow* window)
   vehicleControls(window);
 }
 
+void Human::getGameOverInput(GLFWwindow* window, bool &pause)
+{
+	gameOverControls(window, pause);
+}
+
+void Human::gameOverControls(GLFWwindow* window, bool &pause)
+{
+	if (!controller->Connected())
+	{
+		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
+		{
+			pause = false;
+		}
+	}
+}
 
 // handles keyboard input events when we want multiple keys pressed at once
 void Human::vehicleControls(GLFWwindow* window)

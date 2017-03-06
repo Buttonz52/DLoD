@@ -5,8 +5,10 @@
 class Player
 {
 public:
-	Player();
+	Player(int);
 	~Player();
+
+  int identifier;
 	
 	Vehicle* vehicle;
 	Camera* playerCam;

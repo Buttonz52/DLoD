@@ -6,6 +6,7 @@
 #include "../GEO/player/Human.h"
 #include "../Physics/PhysXMain.h"
 #include "..\headers\Game\ScreenOverlay.h"
+#include "..\headers\Game\Audio.h"
 
 class Game
 {
@@ -15,6 +16,7 @@ private:
   vector<GEO*> physXObjects;
   PhysXMain physX;
   GLFWwindow *window;
+  Audio audio;
 
   ScreenOverlay logo, healthTex, armourTex, healthTitle, armourTitle;
 
@@ -33,9 +35,11 @@ private:
 
   void GenerateTextUVs(vector<vec2>& uvs, const char &c);
 
+  Mix_Chunk *winSFX = Mix_LoadWAV("sfx/win.wav");
+
 public:
 
-  Game(GLFWwindow*);
+  Game(GLFWwindow*, Audio audio);
 
   void start();
 };

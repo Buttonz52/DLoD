@@ -1,7 +1,6 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 #include "..\GEO.h"
-#include "..\item\Item.h"
 
 using namespace physx;
 

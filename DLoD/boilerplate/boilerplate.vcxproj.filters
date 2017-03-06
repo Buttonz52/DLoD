@@ -168,12 +168,6 @@
     <ClCompile Include="src\Game.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\GlyphExtractor.cpp">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Text.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GameState.h">
@@ -256,9 +250,6 @@
     </ClInclude>
     <ClInclude Include="headers\Game\Game.h">
       <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\GameEngine\Text.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
