@@ -33,8 +33,12 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
     if (dynamic0 != NULL && dynamic1 != NULL)
     {
 
-      Vehicle* v1 = vMap[(PxRigidBody*)dynamic0];
-      Vehicle* v2 = vMap[(PxRigidBody*)dynamic1];
+      Vehicle* v1 = dynamic_cast<Vehicle*>(geoMap[(PxRigidBody*)dynamic0]);
+      Vehicle* v2 = dynamic_cast<Vehicle*>(geoMap[(PxRigidBody*)dynamic1]);
+
+      Item* i1 = dynamic_cast<Item*>(geoMap[(PxRigidBody*)dynamic0]);
+      Item* i2 = dynamic_cast<Item*>(geoMap[(PxRigidBody*)dynamic1]);
+
 
       // If both actors are vehicles
       if (v1 != nullptr && v2 != nullptr)
@@ -64,6 +68,60 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
 		      }
         }
       }
+
+
+      // If one actor is a vehicle and one is an item
+      if ((v1 != nullptr && i2 != nullptr) || (v2 != nullptr && i1 != nullptr))
+      {
+
+        Vehicle* car = (v1 != nullptr) ? v1 : v2;
+        Item* item = (i1 != nullptr) ? i1 : i2;
+
+        for (PxU32 j = 0; j < nbPoints; ++j)
+        {
+          pairs[i].contacts.setMaxImpulse(j, 0);
+        }
+
+        item->onPickUp(car);
+
+        // remove the item
+        map<PxRigidActor*, GEO*>::iterator itr = geoMap.begin();
+        while (itr != geoMap.end()) {
+          if (itr->second == item) {
+            gScene->removeActor(*itr->first);
+            itr = geoMap.erase(itr);
+            break;
+          }
+          else {
+            ++itr;
+          }
+        }
+      }
+
+
+      // If both are items
+      if (i1 != nullptr && i2 != nullptr)
+      {
+        for (PxU32 j = 0; j < nbPoints; ++j)
+        {
+          pairs[i].contacts.setMaxImpulse(j, 0);
+        }
+
+        // remove the item
+        /*
+        map<PxRigidActor*, GEO*>::iterator itr = geoMap.begin();
+        while (itr != geoMap.end()) {
+          if (itr->second == i2) {
+            gScene->removeActor(*itr->first);
+            itr = geoMap.erase(itr);
+            break;
+          }
+          else {
+            ++itr;
+          }
+        } */
+      }
+
     }
   }
 }

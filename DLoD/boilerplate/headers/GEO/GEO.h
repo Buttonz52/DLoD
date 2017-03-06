@@ -69,6 +69,7 @@ public:
 
 	void shutdown();		//destroy shader, texture, mesh
 	void playSFX(const string &name);
+	Mesh mesh;
 
 protected:
 	string filename;
@@ -83,7 +84,6 @@ protected:
 	physx::PxShape* shape;
 	physx::PxRigidDynamic* body;
 
-	Mesh mesh;
 	Shader shader;
 	Texture texture;
 

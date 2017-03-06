@@ -25,17 +25,20 @@ Game::Game(GLFWwindow* w, Audio audio)
   physX.init();
 
   initSkyBox();
-  skybox->children.push_back(initGroundPlane());
+  //skybox->children.push_back(initArena());
+  arena = initArena();
+  //skybox->children.push_back(initGroundPlane());
 
   Human* human = new Human(0);
   human->vehicle = new Vehicle();
+  human->vehicle->setPosition(vec3(0, 300, 0));
   initVehicle(human->vehicle);
   skybox->children.push_back(human->vehicle);
 
 
   AI* ai = new AI(1);
   ai->vehicle = new Vehicle();
-  ai->vehicle->setPosition(vec3(30, 0, 30));
+  ai->vehicle->setPosition(vec3(30, 20, 30));
   ai->vehicle->setColour(vec3(0, 1, 0));
   initVehicle(ai->vehicle);
   skybox->children.push_back(ai->vehicle);
@@ -43,8 +46,6 @@ Game::Game(GLFWwindow* w, Audio audio)
   players.push_back(human);
   players.push_back(ai);
 
-  //arena = new GEO();
-  //initArena(arena);
   //skybox->children.push_back(arena);
 }
 
@@ -55,6 +56,7 @@ void Game::start()
 	
 
   // start the game loop
+  timer.start();
   gameLoop();
 
   // Clean up and Display the win screen
@@ -96,6 +98,20 @@ void Game::start()
 
 void Game::gameLoop()
 {
+  // Add items to the scene
+  vector<pair<pair<Item*, Player*>, int>>::iterator itr = itemsToAdd.begin();
+  while (itr != itemsToAdd.end()) {
+    if (itr->second < timer.getTicks()) {
+      //initItem(itr->first->first);
+      itr->first.second->ableToTrap = true;
+      itr = itemsToAdd.erase(itr);
+      break;
+    }
+    else {
+      ++itr;
+    }
+  }
+
 
   //InitializeGameText(&fontTex, to_string(players[0]->vehicle->getHealth()), vec3(0.5,0.9,0));
   healthTitle.InitializeGameText("Health:", vec3(0, 0.9, 0), vec3(1, 0, 0), 20);
@@ -105,6 +121,9 @@ void Game::gameLoop()
   armourTex.InitializeGameText(players[0]->vehicle->getArmourString(), vec3(-0.5, 0.9, 0), vec3(0, 0, 1), 20);
 
   int frameCtr = 0;
+ /* glEnable(GL_CULL_FACE);
+
+  glCullFace(GL_FRONT);*/
   while (!glfwWindowShouldClose(window) && !gameOver)
 
   {
@@ -121,12 +140,16 @@ void Game::gameLoop()
 
 	healthTex.UpdateGameText(players[0]->vehicle->getHealthString());
 	armourTex.UpdateGameText(players[0]->vehicle->getArmourString());
-
+	
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	arena->Render(viewMatrix, projectionMatrix, lightSource);
+	glDisable(GL_CULL_FACE);
     skybox->Render(viewMatrix, projectionMatrix, lightSource);
-	healthTitle.Render(GL_TRIANGLES);
-	armourTitle.Render(GL_TRIANGLES);
-	healthTex.Render(GL_TRIANGLES);
-	armourTex.Render(GL_TRIANGLES);
+	  healthTitle.Render(GL_TRIANGLES);
+	  armourTitle.Render(GL_TRIANGLES);
+	  healthTex.Render(GL_TRIANGLES);
+	  armourTex.Render(GL_TRIANGLES);
 
     glfwSwapBuffers(window);
 
@@ -145,6 +168,41 @@ void Game::gameLoop()
         human->getInput(window);
 
       p->playerCam->followVehicle(p->vehicle);
+      
+      if (p->layTrap && p->ableToTrap)
+      {
+        // create a new item at the appropriate location and add it to the items list
+        mat4 M = p->vehicle->getModelMatrix();
+        vec3 vPos = vec3(M[3]);
+
+        // Get the rotation of the object
+        physx::PxVec3 axis = physx::PxVec3(0, 1, 0);
+        physx::PxReal angle = 0;
+        p->vehicle->physXVehicle->getRigidDynamicActor()->getGlobalPose().q.toRadiansAndUnitAxis(angle, axis);
+
+        int fix = (axis.y < 0) ? 1 : -1;
+        angle *= fix;
+        if (angle < 0)
+          angle += M_PI * 2;
+
+        // Calculation the normalized orientated displacement
+        mat3 rotation(1);
+        rotation[0][0] = cos(-angle);
+        rotation[0][2] = sin(-angle);
+        rotation[2][0] = -sin(-angle);
+        rotation[2][2] = cos(-angle);
+        vec3 dis = rotation * -vec3(0, 0, 8);
+
+        Item* item = new Item(DamageTrap);
+        mat4 m = mat4(1);
+        m[3] = vec4(vPos + dis, 1);
+        item->setModelMatrix(m);
+
+        itemsToAdd.push_back(make_pair(make_pair(item, p), timer.getTicks() + 1500));
+
+        p->layTrap = false;
+        p->ableToTrap = false;
+      }
     }
 
     // CHECK GAMEOVER
@@ -210,19 +268,30 @@ void Game::initVehicle(Vehicle* v)
   physXObjects.push_back(v);
 }
 
-void Game::initArena(GEO *arena) {
-	arena->setFilename("cube.obj");
-	arena->setColour(vec3(1, 0, 0));
-	if (!arena->initMesh("cube.obj")) {
+
+//initialize arena
+GEO* Game::initArena() {
+	GEO *arena = new GEO();
+	arena->setFilename("ObjModels/Arena6.obj");
+	if (!arena->initMesh("ObjModels/Arena6.obj")) {
 		cout << "Failed to init arena" << endl;
 	}
-	arena->addShaders("shaders/toon.vert", "shaders/toon.frag");
+	arena->setColour(vec3(1, 0, 0));
+	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
+		cout << "Failed to initialize plane." << endl;
+	}
+	//arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+	arena->addShaders("shaders/phong.vert", "shaders/phong.frag");
 
 	if (!arena->initBuffers()) {
 		cout << "Could not initialize buffers for game object " << arena->getFilename() << endl;
 	}
+	arena->setScale(vec3(25.f));
+	arena->setPosition(vec3(0, 0, 0));
+	arena->updateModelMatrix();
 
 	physX.initArena(arena);
-	physXObjects.push_back(arena);
+	//physXObjects.push_back(arena);
+	return arena;
 }
 

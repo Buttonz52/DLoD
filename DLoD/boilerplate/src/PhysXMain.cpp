@@ -3,7 +3,6 @@
 
 using namespace physx;
 
-
 PxDefaultAllocator		      gAllocator;
 PxDefaultErrorCallback    	gErrorCallback;
 PxFoundation*			          gFoundation = NULL;
@@ -16,6 +15,7 @@ PxVisualDebuggerConnection* gConnection = NULL;
 VehicleSceneQueryData*	    gVehicleSceneQueryData = NULL;
 PxBatchQuery*			          gBatchQuery = NULL;
 PxRigidStatic*			        gGroundPlane = NULL;
+PxRigidStatic*					gArena = NULL;
 PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
 bool					gIsVehicleInAir = true; // unused
 
@@ -104,9 +104,9 @@ void PhysXMain::init()
 	gFrictionPairs = createFrictionPairs(gMaterial);
 
 	//plane to drive on
-	gGroundPlane = createDrivablePlane(gMaterial, gPhysics);
-	gScene->addActor(*gGroundPlane);
 
+	//gGroundPlane = createDrivablePlane(gMaterial, gPhysics);
+	//gScene->addActor(*gGroundPlane);
 }
 
 void PhysXMain::initVehicle(Vehicle* v)
@@ -123,20 +123,72 @@ void PhysXMain::initVehicle(Vehicle* v)
 	PxTransform startTransform(PxVec3(v->getPosition().x, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), v->getPosition().z), PxQuat(PxIdentity));
 	v->physXVehicle->getRigidDynamicActor()->setGlobalPose(startTransform);
 	gScene->addActor(*v->physXVehicle->getRigidDynamicActor());
-	vMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great
+	geoMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great
 }
+
+void PhysXMain::initItem(Item* item)
+{
+  PxShape* shape = gPhysics->createShape(PxBoxGeometry(4, 4, 4), *gMaterial);
+
+  vec3 pos = item->getModelMatrix()[3];
+
+  PxRigidStatic *body = gPhysics->createRigidStatic(PxTransform(PxVec3(pos.x, pos.y + 10, pos.z)));
+
+  PxFilterData simFilterData;
+  simFilterData.word0 = COLLISION_FLAG_CHASSIS;
+  simFilterData.word1 = COLLISION_FLAG_CHASSIS_AGAINST;
+
+  PxFilterData qryFilterData;
+  setupNonDrivableSurface(qryFilterData);
+
+  shape->setQueryFilterData(qryFilterData);
+  shape->setSimulationFilterData(simFilterData);
+
+  body->attachShape(*shape);
+  gScene->addActor(*body);
+  geoMap.insert(make_pair(body, item));
+}
+
+
 
 void PhysXMain::initArena(GEO *arena) {
 	PxTriangleMesh* tMesh = initTriangleMesh(arena);
 	if (tMesh != NULL) {
-		PxRigidDynamic* actor = gPhysics->createRigidDynamic(PxTransform(PxIdentity));
-		PxShape *shape = actor->createShape(PxTriangleMeshGeometry(tMesh), *gMaterial);
-		//arena->setShape(*shape);
-		actor->setAngularDamping(13);
-		actor->attachShape(*shape);
-		PxRigidBodyExt::updateMassAndInertia(*actor, 20.0f);
-		//arena->setBody(*actor);
-		gScene->addActor(*actor);
+		PX_ASSERT(tMesh);
+		PxMeshScale meshScale = PxMeshScale(PxVec3(arena->getScale().x, arena->getScale().y, arena->getScale().z), PxQuat(PxIdentity));
+		//gArena= gPhysics->createRigidDynamic(PxTransform(PxIdentity));
+		gArena = gPhysics->createRigidStatic(PxTransform(PxIdentity));
+
+		//PxShape *shape = actor->createShape(PxTriangleMeshGeometry(tMesh), *gMaterial);
+		////arena->setShape(*shape);
+		//actor->setAngularDamping(13);
+		//actor->attachShape(*shape);
+		//PxRigidBodyExt::updateMassAndInertia(*actor, 20.0f);
+		////arena->setBody(*actor);
+		//gScene->addActor(*actor);
+		PX_ASSERT(actor);
+		//gArena->setRigidDynamicFlag(PxRigidDynamicFlag::eKINEMATIC, true);
+		//PxShape * shape = gArena->createShape(PxTriangleMeshGeometry(tMesh, meshScale), *gMaterial);
+		PxShape * shape[1];
+		shape[0] = gArena->createShape(PxTriangleMeshGeometry(tMesh, meshScale), *gMaterial);
+		gArena->getShapes(shape, 1);
+
+		PX_ASSERT(shape);
+		////gScene->addActor(*actor);
+		//shape[0]->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+		/*gArena->setRigidDynamicFlag(PxRigidDynamicFlag::eKINEMATIC, false);
+		shape->setFlag(PxShapeFlag::eVISUALIZATION, false);*/
+		//Set the query filter data of the ground plane so that the vehicle raycasts can hit the ground.
+		physx::PxFilterData qryFilterData;
+		setupDrivableSurface(qryFilterData);
+		shape[0]->setQueryFilterData(qryFilterData);
+
+		//Set the simulation filter data of the ground plane so that it collides with the chassis of a vehicle but not the wheels.
+		PxFilterData simFilterData;
+		simFilterData.word0 = COLLISION_FLAG_GROUND;
+		simFilterData.word1 = COLLISION_FLAG_GROUND_AGAINST;
+		shape[0]->setSimulationFilterData(simFilterData);
+		gScene->addActor(*gArena);
 	}
 	else {
 		cout << "Did not init triangle mesh" << endl;
@@ -146,19 +198,29 @@ void PhysXMain::initArena(GEO *arena) {
 //initialize triangle mesh
 PxTriangleMesh* PhysXMain::initTriangleMesh(GEO *geo) {
 	PxTriangleMeshDesc meshDesc;
-	meshDesc.points.count = geo->getMesh().vertices.size();
-	meshDesc.points.stride = sizeof(vec3);
-	meshDesc.points.data = geo->getMesh().vertices.data();
 
-	meshDesc.triangles.count = geo->getMesh().faces.size();
-	meshDesc.triangles.stride = 3 * sizeof(u16);
-	meshDesc.triangles.data = geo->getMesh().faces.data();
+	vector<PxVec3> verts;
+	vector<PxU32> indices;
+	for (int i = 0; i < geo->mesh.vertices.size(); i++) {
+		vec3 p = geo->mesh.vertices.at(i);
+		verts.push_back(PxVec3(p.x, p.y, p.z));
+	}
+	for (int i = 0; i < geo->mesh.faces.size(); i++) {
+		indices.push_back(geo->mesh.faces.at(i));
+	}
+
+	meshDesc.points.count = verts.size();
+	meshDesc.points.stride = sizeof(PxVec3);
+	meshDesc.points.data = &verts[0];
+
+	meshDesc.triangles.count = indices.size()/3;
+	meshDesc.triangles.stride = 3 * sizeof(PxU32);
+	meshDesc.triangles.data = &indices[0];
 
 	PxDefaultMemoryOutputStream writeBuffer;
 	bool status = gCooking->cookTriangleMesh(meshDesc, writeBuffer);
 	if (!status)
 		return NULL;
-
 	PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
 	return gPhysics->createTriangleMesh(readBuffer);
 }
@@ -186,7 +248,7 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 		vehicles.push_back(vehiclesVec[i]->physXVehicle);
 		vehicleQueryResults.push_back({ wheelQueryResults, vehiclesVec[i]->physXVehicle->mWheelsSimData.getNbWheels() });
 	}
-
+	cout << gArena->getGlobalPose().p.y << endl;
 	const PxF32 timestep = 1.0f / 60.0f;
 	//Raycasts.
 	PxRaycastQueryResult* raycastResults = gVehicleSceneQueryData->getRaycastQueryResultBuffer(0);
