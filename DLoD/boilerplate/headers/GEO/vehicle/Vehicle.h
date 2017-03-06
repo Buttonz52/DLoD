@@ -32,6 +32,9 @@ public:
 
   PxVehicleNoDrive* physXVehicle;
 
+  string wheelFileName;
+  void updateWheelPosition();
+
   // Methods to control driving the vehicle
   void accelerate(const float &m);
   void decelerate(const float &m);

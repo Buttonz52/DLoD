@@ -259,8 +259,8 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 
-  for (GEO* child : children)
-    child->Render(_view, _projection, _lightSource);
+  for (int i = 0; i < children.size(); i++)		//GEO* child : children)
+    children[i]->Render(_view, _projection, _lightSource);
 }
 
 void GEO::shutdown()

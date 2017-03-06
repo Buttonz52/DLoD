@@ -1,22 +1,4 @@
-﻿  main.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(150): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(151): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(161): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(305): warning C4305: 'argument': truncation from 'double' to 'const float'
-  XboxController.cpp
-  Vehicle.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(90): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(134): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(136): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(192): warning C4018: '<': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(195): warning C4018: '<': signed/unsigned mismatch
-  GameState.cpp
-  Game.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(82): warning C4101: 'textCharBuffer': unreferenced local variable
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(161): warning C4305: 'argument': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(180): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(222): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-  GEO.cpp
+﻿  GEO.cpp
 \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(66): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
@@ -29,58 +11,6 @@
 \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(79): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(80): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
 \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(81): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  ContactModifyCallback.cpp
-  Camera.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(23): warning C4305: '=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(24): warning C4305: '=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(27): warning C4305: '=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(28): warning C4305: '=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(56): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(77): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(96): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(98): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(136): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(139): warning C4305: '-=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(151): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(153): warning C4305: '+=': truncation from 'double' to 'float'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(156): warning C4305: '-=': truncation from 'double' to 'float'
-  Audio.cpp
-  AStarNode.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\astarnode.cpp(16): warning C4018: '<': signed/unsigned mismatch
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\astarnode.cpp(99): warning C4018: '<': signed/unsigned mismatch
-  AI.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(73): warning C4101: 'behavour': unreferenced local variable
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(222): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(246): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(255): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-  Generating Code...
-LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
-PhysX3ExtensionsDEBUG.lib(ExtCpuWorkerThread.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtCpuWorkerThread.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
-PhysX3ExtensionsDEBUG.lib(ExtDefaultCpuDispatcher.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtDefaultCpuDispatcher.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
-PhysX3ExtensionsDEBUG.lib(ExtDefaultErrorCallback.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtDefaultErrorCallback.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
-PhysX3ExtensionsDEBUG.lib(ExtDefaultStreams.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtDefaultStreams.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
-PhysX3ExtensionsDEBUG.lib(ExtPvdClientImpl.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtPvdClientImpl.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
-PhysX3ExtensionsDEBUG.lib(ExtRigidBodyExt.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtRigidBodyExt.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
-PhysX3ExtensionsDEBUG.lib(ExtSimpleFactory.obj) : warning LNK4099: PDB 'PhysX3ExtensionsDEBUG.pdb' was not found with 'PhysX3ExtensionsDEBUG.lib(ExtSimpleFactory.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3ExtensionsDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleComponents.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleComponents.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleDrive.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleDrive.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleDrive4W.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleDrive4W.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleDriveNW.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleDriveNW.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleDriveTank.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleDriveTank.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleMetaData.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleMetaData.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleNoDrive.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleNoDrive.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleSDK.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleSDK.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleSerialization.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleSerialization.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleSuspWheelTire4.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleSuspWheelTire4.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleTireFriction.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleTireFriction.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleUpdate.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleUpdate.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleWheels.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleWheels.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(VehicleUtilSetup.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(VehicleUtilSetup.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(VehicleUtilTelemetry.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(VehicleUtilTelemetry.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleAutoGeneratedMetaDataObjects.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleAutoGeneratedMetaDataObjects.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysX3VehicleDEBUG.lib(PxVehicleMetaDataObjects.obj) : warning LNK4099: PDB 'PhysX3VehicleDEBUG.pdb' was not found with 'PhysX3VehicleDEBUG.lib(PxVehicleMetaDataObjects.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysX3VehicleDEBUG.pdb'; linking object as if no debug info
-PhysXProfileSDKDEBUG.lib(PxProfileEventImpl.obj) : warning LNK4099: PDB 'PhysXProfileSDKDEBUG.pdb' was not found with 'PhysXProfileSDKDEBUG.lib(PxProfileEventImpl.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysXProfileSDKDEBUG.pdb'; linking object as if no debug info
-PhysXVisualDebuggerSDKDEBUG.lib(PvdNetworkStreams.obj) : warning LNK4099: PDB 'PhysXVisualDebuggerSDKDEBUG.pdb' was not found with 'PhysXVisualDebuggerSDKDEBUG.lib(PvdNetworkStreams.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\PhysXVisualDebuggerSDKDEBUG.pdb'; linking object as if no debug info
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(262): warning C4018: '<': signed/unsigned mismatch
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

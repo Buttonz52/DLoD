@@ -31,8 +31,8 @@ PhysXMain::~PhysXMain()
 
 VehicleDesc PhysXMain::initVehicleDesc()
 {
-	const PxF32 chassisMass = 1400.0;
-	const PxVec3 chassisDims(5.0f, 2.0f, 5.0f);
+	const PxF32 chassisMass = 1000.0;
+	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
 	const PxVec3 chassisMOI
 		((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass /12.0f,
 			(chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
@@ -125,18 +125,6 @@ void PhysXMain::initVehicle(Vehicle* v)
 
 
 
-void PhysXMain::initObject(GEO* g)
-{
-	PxShape* shape = gPhysics->createShape(PxBoxGeometry(2, 1, 2), *gMaterial);
-	g->setShape(*shape);
-	PxRigidDynamic *body = gPhysics->createRigidDynamic(PxTransform(PxVec3(0, 2, 0)));
-	body->setAngularDamping(13);
-	body->attachShape(*shape);
-	PxRigidBodyExt::updateMassAndInertia(*body, 20.0f);
-	g->setBody(*body);
-	gScene->addActor(*body); //when simulate is called anything added to scene is go for sim.	
-}
-
 
 void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 {
@@ -181,16 +169,9 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 		PxRigidDynamic* body = v->physXVehicle->getRigidDynamicActor();
 		mat4 M = convertMat(body->getGlobalPose().q.getBasisVector0(), body->getGlobalPose().q.getBasisVector1(), body->getGlobalPose().q.getBasisVector2(), body->getGlobalPose().p);
 		v->setModelMatrix(M);
+		v->updateWheelPosition();
 		v->releaseAllControls();
 	}
-
-	for (GEO* g : geosVec)
-	{
-		PxRigidDynamic* body = g->getBody();
-		mat4 M = convertMat(body->getGlobalPose().q.getBasisVector0(), body->getGlobalPose().q.getBasisVector1(), body->getGlobalPose().q.getBasisVector2(), body->getGlobalPose().p);
-		g->setModelMatrix(M);
-	}
-
 }
 
 void PhysXMain::cleanupPhysics(bool interactive)

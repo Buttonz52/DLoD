@@ -4,6 +4,7 @@
 
 Vehicle::Vehicle()
 {
+	
 	health = 100;	//set to 50 for debugging stuff
 	dead = false;
 	//initialize crash sound and place in map
@@ -18,6 +19,33 @@ Vehicle::~Vehicle()
 	audio.CleanUp();
 }
 
+void Vehicle::updateWheelPosition()
+{
+	float xoff = 1.5;
+	float zoff = 4.5;
+	mat4 m;
+	PxVec3 vCenter = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().p;
+	
+	//front right
+	m = children[0]->getModelMatrix();
+	m[3] = vec4(vCenter.x + xoff, 1.0, vCenter.z + zoff, 1.0);
+	children[0]->setModelMatrix(m);
+
+	//front left
+	m = children[1]->getModelMatrix();
+	m[3] = vec4(vCenter.x - xoff, 1.0, vCenter.z + zoff, 1.0);
+	children[1]->setModelMatrix(m);
+
+	//back left
+	m = children[2]->getModelMatrix();
+	m[3] = vec4(vCenter.x - xoff, 1.0, vCenter.z - zoff, 1.0);
+	children[2]->setModelMatrix(m);
+
+	//back right
+	m = children[3]->getModelMatrix();
+	m[3] = vec4(vCenter.x + xoff, 1.0, vCenter.z - zoff, 1.0);
+	children[3]->setModelMatrix(m);
+}
 
 void Vehicle::accelerate(const float &m)
 {
@@ -184,16 +212,33 @@ bool Vehicle::initMesh(const string &file) {
 	}
 	deadCar.AddColour(vec3(0, 1, 0));
 
-  mat3 scaleM = mat3(1);
-  scaleM[0][0] = scale.x;
-  scaleM[1][1] = scale.y;
-  scaleM[2][2] = scale.z;
+	//init wheels mesh
+	GEO wheel;
+	if (!wheel.initMesh("ObjModels/" + wheelFileName)) {
+		cout << "Error reading wheel mesh" << endl;
+	}
+
+	wheel.getMesh().AddColour(vec3(1, 0, 0));
+
+	mat3 scaleM = mat3(1);
+	scaleM[0][0] = scale.x;
+	scaleM[1][1] = scale.y;
+	scaleM[2][2] = scale.z;
+
+	for (int i = 0; i < wheel.getMesh().vertices.size(); ++i)
+		wheel.getMesh().vertices[i] = scaleM * wheel.getMesh().vertices[i];
+
+	for (int i = 0; i < 4; i++) {
+		children.push_back(new GEO());
+		children[i]->setMesh(wheel.getMesh());
+	}
 
   for (int i = 0; i < aliveCar.vertices.size(); ++i)
     aliveCar.vertices[i] = scaleM * aliveCar.vertices[i];
 
   for (int i = 0; i < deadCar.vertices.size(); ++i)
     deadCar.vertices[i] = scaleM * deadCar.vertices[i];
+
 
 	return 1;
 }

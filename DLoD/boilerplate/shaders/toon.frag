@@ -45,6 +45,6 @@ void main(void)
 	//FragmentColour = vec4(1.0, 0.0, 0.0, 1.0);
 	//FragmentColour = vec4(uv.xy, 0.0, 1.0);
 	//FragmentColour = texture(sampler, uv.xy);
-    FragmentColour = vec4(Colour*vec3(diffuse) + specular, 1.0);
+    FragmentColour = vec4(Colour*vec3(diffuse), 1.0);
 
 }
