@@ -71,10 +71,13 @@ void Vehicle::accelerate(const float &m)
 
 void Vehicle::decelerate(const float &m)
 {
-  physXVehicle->setDriveTorque(0, m*-torqueSpeed);
-  physXVehicle->setDriveTorque(1, m*-torqueSpeed);
-  physXVehicle->setDriveTorque(2, m*-torqueSpeed);
-  physXVehicle->setDriveTorque(3, m*-torqueSpeed);
+	if (physXVehicle->computeForwardSpeed() > -maxVelocity)
+	{
+		physXVehicle->setDriveTorque(0, m*-torqueSpeed);
+		physXVehicle->setDriveTorque(1, m*-torqueSpeed);
+		physXVehicle->setDriveTorque(2, m*-torqueSpeed);
+		physXVehicle->setDriveTorque(3, m*-torqueSpeed);
+	}
 }
 
 void Vehicle::turn(const float &dir)
@@ -170,7 +173,6 @@ float Vehicle::calculateDamage(const double &x, const double &y, const double &z
   }
 
   updateHealth(damage);
-  checkDead();
   return damage;
 
 }
@@ -220,13 +222,8 @@ void Vehicle::updateHealth(const float &damage)
 	}
 
 	health -= damageToHealth;
-	if (health < 0) {
-		health = 0;
-		if (!dead) {
-			changeMeshDead();
-		}
-		dead = true;
-	}
+	checkDead();
+	
 }
 
 

@@ -88,7 +88,7 @@ void PhysXMain::init()
 	sceneDesc.contactModifyCallback = new ContactModifyCallback(this);
 	gScene = gPhysics->createScene(sceneDesc);
 
-	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.2f);	//static friction, dynamic friction, restitution
+	gMaterial = gPhysics->createMaterial(0.5f, 0.5f, 0.0f);	//static friction, dynamic friction, restitution
 
 	gCooking = PxCreateCooking(PX_PHYSICS_VERSION, *gFoundation, PxCookingParams(PxTolerancesScale()));
 

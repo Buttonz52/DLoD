@@ -68,26 +68,23 @@ void Game::start()
   gameLoop();
 
   // Clean up and Display the win screen
-  delete skybox;
-  physX.cleanupPhysics(true);
 
-  //problems with this
-  //for (Player * p: players) {
-	 // if (typeid(*p) == typeid(AI))
-	 // {
-		//  if (p->isDead()){
-		//	audio.PlaySfx(winSFX);
-		//	break;
-		// }
-		//  //ai->getInput();
-	 // }
-	 // else if (typeid(*p) == typeid(Human)){
-		//  if (p->isDead()) {
-		//	  audio.PlaySfx(loseSFX);
-		//	  break;
-		//  }
-		//}
-  //}
+  ScreenOverlay endGameText;
+	if (players[1]->isDead())
+	{
+		endGameText.InitializeGameText("WIN!", vec3(-0.1, 0, 0), vec3(0, 1, 0), 20);
+		endGameText.Render(GL_TRIANGLES);
+		glfwSwapBuffers(window);
+
+		audio.PlaySfx(winSFX);
+	}
+	else if (players[0]->isDead()){
+		endGameText.InitializeGameText("LOSE!", vec3(-0.1, 0, 0), vec3(0, 0, 1), 20);
+		endGameText.Render(GL_TRIANGLES);
+		glfwSwapBuffers(window);
+
+		audio.PlaySfx(loseSFX);
+	}
 
   bool pause = true;
 
@@ -102,6 +99,8 @@ void Game::start()
 
 	  glfwPollEvents();
   }
+  delete skybox;
+  physX.cleanupPhysics(true);
 }
 
 void Game::gameLoop()
@@ -171,6 +170,9 @@ void Game::gameLoop()
     // For all players get input
     for (Player* p : players)
     {
+		if (p->vehicle->getModelMatrix()[3].y < -10)
+			p->vehicle->updateHealth(1000);
+
       AI* ai = dynamic_cast<AI*> (p);
       if (ai != nullptr && !ai->isDead())
       {
@@ -274,12 +276,21 @@ void Game::initVehicle(Vehicle* v)
 void Game::initItem(Item* item)
 {
   item->setFilename("cub.obj");
-  if (!item->initMesh("cube.obj")) {	//dead mesh
+  item->setScale(vec3(2));
+  if (!item->initMesh("/ObjModels/bearTrap.obj")) {	//dead mesh
     cout << "Failed to initialize mesh." << endl;
   }
   item->addShaders("shaders/toon.vert", "shaders/toon.frag");
+  
+  item->setColour(vec3(1, 1, 0));
 
-  item->setColour(vec3(1, 0, 0));
+  mat3 scaleM = mat3(1);
+  scaleM[0][0] = item->getScale().x;
+  scaleM[1][1] = item->getScale().y;
+  scaleM[2][2] = item->getScale().z;
+
+  for (int i = 0; i < item->getMesh().vertices.size(); ++i)
+	  item->getMesh().vertices[i] = scaleM * item->getMesh().vertices[i];
 
   if (!item->initBuffers()) {
     cout << "Could not initialize buffers for game object " << item->getFilename() << endl;
