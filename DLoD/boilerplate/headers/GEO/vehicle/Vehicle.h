@@ -50,7 +50,6 @@ public:
 	float getHealth();
 	float calculateDamage(const double &, const double &, const double &, const double &);
 	void regenArmour();
-	float updateArmour(const float & damage);
 	void updateHealth(const float &damage);
 	float getArmour();
 	string getHealthString();

@@ -35,7 +35,7 @@ void main()
 	mat3 normalMatrix = mat3(transpose(inverse(modelview)));
     N = normalize(normalMatrix*Normal);
     // assign output colour to be interpolated
-    Colour = VertexColour;
+    
 
 	vec4 L4 = modelview * vec4(lightPosition, 1.0);
 	L = normalize(L4.xyz - P);
@@ -44,4 +44,5 @@ void main()
 	//uv = UV;
 	uv = UV;
     gl_Position = projection * vertexCameraSpace;    
+
 }

@@ -4,8 +4,8 @@
 
 Vehicle::Vehicle()
 {
-	armour = 20;
-	health = 100;	//set to 50 for debugging stuff
+	armour = 0;
+	health = 10;	//set to 50 for debugging stuff
 	dead = false;
 	//initialize crash sound and place in map
 	crash = Mix_LoadWAV("sfx/carCrash.wav");

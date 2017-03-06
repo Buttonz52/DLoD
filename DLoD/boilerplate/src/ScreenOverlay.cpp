@@ -265,3 +265,56 @@ bool ScreenOverlay::InitQuad(const string &tex,
 
 	return true;
 }
+
+
+void ScreenOverlay::InitializeGameText(const string &text, const vec3 &position, const vec3 &colour, int kerning) {
+	isFontTex = 1;
+	setColour(colour);
+	if (!initTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init fonts." << endl;
+	}
+	InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	vector<vec3> verts;
+	vector<vec2> uvs;
+
+	int index = 0;
+	for (char c : text) {
+		GenerateTextUVs(uvs, c);
+
+		verts.push_back(vec3(0 + float(index) / kerning, 0, 0));
+		verts.push_back(vec3(0.05 + float(index) / kerning, 0, 0));
+		verts.push_back(vec3(0 + float(index) / kerning, 0.1, 0));
+		verts.push_back(vec3(0.05 + float(index) / kerning, 0, 0));
+		verts.push_back(vec3(0 + float(index) / kerning, 0.1, 0));
+		verts.push_back(vec3(0.05 + float(index) / kerning, 0.1, 0));
+		index++;
+	}
+
+	//if (!fontTex->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
+	if (!GenerateVertices(&verts, colour, &uvs)) {
+		cout << "Failed to initialize font overlay." << endl;
+	}
+
+	setPosition(position);
+}
+void ScreenOverlay::UpdateGameText(const string &text) {
+	vector<vec2> uvs;
+	for (char c : text) {
+		GenerateTextUVs(uvs, c);
+	}
+	UpdateBuffers(&uvs);
+}
+
+void ScreenOverlay::GenerateTextUVs(vector <vec2> &uvs, const char &ch) {
+	//for letters 
+	char c = ch;
+	float horizontalLoc = int(c) % 16;
+	float verticalLoc = int(int(c) / 16);
+
+	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc + 1.f) / 16.f));	//bottom left
+	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc + 1.f) / 16.f));		//bottom right
+	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc) / 16.f));			//top left
+	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc + 1.f) / 16.f));
+	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc) / 16.f));
+	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc) / 16.f));
+}

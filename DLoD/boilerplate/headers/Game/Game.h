@@ -12,6 +12,7 @@ class Game
 {
 private:
   GEO* skybox;
+  GEO* arena;
   vector<Player*> players;
   vector<GEO*> physXObjects;
   PhysXMain physX;
@@ -25,17 +26,19 @@ private:
   bool gameOver = false;
 
   void initSkyBox();
+  void initArena(GEO *arena);
   void initVehicle(Vehicle * v);
 
   void gameLoop();
 
-  void InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3&colour, int kerning);
+  //void InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3&colour, int kerning);
 
-  void UpdateGameText(ScreenOverlay * fontText, const string &text);
+  //void UpdateGameText(ScreenOverlay * fontText, const string &text);
 
-  void GenerateTextUVs(vector<vec2>& uvs, const char &c);
+  //void GenerateTextUVs(vector<vec2>& uvs, const char &c);
 
   Mix_Chunk *winSFX = Mix_LoadWAV("sfx/win.wav");
+  Mix_Chunk *loseSFX = Mix_LoadWAV("sfx/bubblePop.wav");
 
 public:
 

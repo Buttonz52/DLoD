@@ -43,6 +43,8 @@ public:
 	void init();
 	VehicleDesc initVehicleDesc();
 	void initVehicle(Vehicle* v);
+	void initArena(GEO *arena);
+	PxTriangleMesh *initTriangleMesh(GEO * geo);
 	void initObject(GEO* g);
 
   void collisionFunction(PxContactModifyPair* const, PxU32);

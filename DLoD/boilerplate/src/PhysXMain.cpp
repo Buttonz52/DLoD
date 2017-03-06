@@ -123,7 +123,42 @@ void PhysXMain::initVehicle(Vehicle* v)
 	vMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great
 }
 
+void PhysXMain::initArena(GEO *arena) {
+	PxTriangleMesh* tMesh = initTriangleMesh(arena);
+	if (tMesh != NULL) {
+		PxRigidDynamic* actor = gPhysics->createRigidDynamic(PxTransform(PxIdentity));
+		PxShape *shape = actor->createShape(PxTriangleMeshGeometry(tMesh), *gMaterial);
+		arena->setShape(*shape);
+		actor->setAngularDamping(13);
+		actor->attachShape(*shape);
+		PxRigidBodyExt::updateMassAndInertia(*actor, 20.0f);
+		arena->setBody(*actor);
+		gScene->addActor(*actor);
+	}
+	else {
+		cout << "Did not init triangle mesh" << endl;
+	}
+}
 
+//initialize triangle mesh
+PxTriangleMesh* PhysXMain::initTriangleMesh(GEO *geo) {
+	PxTriangleMeshDesc meshDesc;
+	meshDesc.points.count = geo->getMesh().vertices.size();
+	meshDesc.points.stride = sizeof(vec3);
+	meshDesc.points.data = geo->getMesh().vertices.data();
+
+	meshDesc.triangles.count = geo->getMesh().faces.size();
+	meshDesc.triangles.stride = 3 * sizeof(GLushort);
+	meshDesc.triangles.data = geo->getMesh().faces.data();
+
+	PxDefaultMemoryOutputStream writeBuffer;
+	bool status = gCooking->cookTriangleMesh(meshDesc, writeBuffer);
+	if (!status)
+		return NULL;
+
+	PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
+	return gPhysics->createTriangleMesh(readBuffer);
+}
 
 void PhysXMain::initObject(GEO* g)
 {

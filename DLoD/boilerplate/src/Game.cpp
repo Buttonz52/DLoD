@@ -41,6 +41,10 @@ Game::Game(GLFWwindow* w, Audio audio)
 
   players.push_back(human);
   players.push_back(ai);
+
+  //arena = new GEO();
+  //initArena(arena);
+  //skybox->children.push_back(arena);
 }
 
 
@@ -56,7 +60,24 @@ void Game::start()
   delete skybox;
   physX.cleanupPhysics(true);
 
-  audio.PlaySfx(winSFX);
+  //problems with this
+  //for (Player * p: players) {
+	 // if (typeid(*p) == typeid(AI))
+	 // {
+		//  if (p->isDead()){
+		//	audio.PlaySfx(winSFX);
+		//	break;
+		// }
+		//  //ai->getInput();
+	 // }
+	 // else if (typeid(*p) == typeid(Human)){
+		//  if (p->isDead()) {
+		//	  audio.PlaySfx(loseSFX);
+		//	  break;
+		//  }
+		//}
+  //}
+
   bool pause = true;
 
   while (pause && !glfwWindowShouldClose(window))
@@ -76,12 +97,11 @@ void Game::gameLoop()
 {
 
   //InitializeGameText(&fontTex, to_string(players[0]->vehicle->getHealth()), vec3(0.5,0.9,0));
-  char textCharBuffer[3];
-  InitializeGameText(&healthTitle, "health:", vec3(0, 0.9, 0), vec3(1, 0, 0), 20);
-  InitializeGameText(&armourTitle, "armour:", vec3(-1, 0.9, 0), vec3(0, 0, 1), 20);
+  healthTitle.InitializeGameText("Health:", vec3(0, 0.9, 0), vec3(1, 0, 0), 20);
+  armourTitle.InitializeGameText("Armour:", vec3(-1, 0.9, 0), vec3(0, 0, 1), 20);
 
-  InitializeGameText(&healthTex, players[0]->vehicle->getHealthString(), vec3(0.5, 0.9, 0), vec3(1,0,0), 20);
-  InitializeGameText(&armourTex, players[0]->vehicle->getArmourString(), vec3(-0.5, 0.9, 0), vec3(0, 0, 1), 20);
+  healthTex.InitializeGameText(players[0]->vehicle->getHealthString(), vec3(0.5, 0.9, 0), vec3(1,0,0), 20);
+  armourTex.InitializeGameText(players[0]->vehicle->getArmourString(), vec3(-0.5, 0.9, 0), vec3(0, 0, 1), 20);
 
   int frameCtr = 0;
   while (!glfwWindowShouldClose(window) && !gameOver)
@@ -98,8 +118,8 @@ void Game::gameLoop()
     mat4 projectionMatrix = players[0]->playerCam->calculateProjectionMatrix();
     mat4 viewMatrix = players[0]->playerCam->calculateViewMatrix();
 
-	UpdateGameText(&healthTex, players[0]->vehicle->getHealthString());
-	UpdateGameText(&armourTex, players[0]->vehicle->getArmourString());
+	healthTex.UpdateGameText(players[0]->vehicle->getHealthString());
+	armourTex.UpdateGameText(players[0]->vehicle->getArmourString());
 
     skybox->Render(viewMatrix, projectionMatrix, lightSource);
 	healthTitle.Render(GL_TRIANGLES);
@@ -134,8 +154,8 @@ void Game::gameLoop()
 	//regenerate armour
 	if (frameCtr % 60*8 == 0)
 	{
-		for (Player* p : players)
-			p->vehicle->regenArmour();
+		for (Player* p : players) {}
+		//	p->vehicle->regenArmour();
 		//cout << "Regen armour" << endl;
 	}
 	frameCtr >= 60*8 ? frameCtr = 1: frameCtr++;
@@ -190,75 +210,19 @@ void Game::initVehicle(Vehicle* v)
   physXObjects.push_back(v);
 }
 
-void Game::InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3 &colour, int kerning) {
-	fontTex->isFontTex = 1;
-	fontTex->setColour(colour);
-	if (!fontTex->initTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init fonts." << endl;
+void Game::initArena(GEO *arena) {
+	arena->setFilename("cube.obj");
+	arena->setColour(vec3(1, 0, 0));
+	if (!arena->initMesh("cube.obj")) {
+		cout << "Failed to init arena" << endl;
 	}
-	fontTex->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-	vector<vec3> verts;
-	vector<vec2> uvs;
+	arena->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
-	int index = 0;
-	for (char c : text) {
-		GenerateTextUVs(uvs, c);
-
-		verts.push_back(vec3(0 + float(index)/kerning, 0, 0));
-		verts.push_back(vec3(0.05 + float(index) / kerning, 0, 0));
-		verts.push_back(vec3(0 + float(index) / kerning, 0.1, 0));
-		verts.push_back(vec3(0.05 + float(index) / kerning, 0, 0));
-		verts.push_back(vec3(0 + float(index) / kerning, 0.1, 0));
-		verts.push_back(vec3(0.05 + float(index) / kerning, 0.1, 0));
-		index++;
+	if (!arena->initBuffers()) {
+		cout << "Could not initialize buffers for game object " << arena->getFilename() << endl;
 	}
 
-	//if (!fontTex->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
-	if (!fontTex->GenerateVertices(&verts, colour, &uvs)) {
-		cout << "Failed to initialize font overlay." << endl;
-	}
-
-	fontTex->setPosition(position);
-}
-void Game::UpdateGameText(ScreenOverlay *fontTex, const string &text) {
-	vector<vec2> uvs;
-	for (char c : text) {
-		GenerateTextUVs(uvs, c);
-	}
-	fontTex->UpdateBuffers(&uvs);
-}
-
-void Game::GenerateTextUVs(vector <vec2> &uvs,const char &ch) {
-	//for letters 
-	char c = ch;
-	c = toupper(c); //make lowercase
-	float asciiLocation = int(c) - int('A');
-	float horizontalLoc;
-	//is a letter ( >= A)
-	if (asciiLocation >= 0) {
-		horizontalLoc = float((int(c) - int('A') + 1) % 16);
-	}
-	//is the row above (numbers)
-	else {
-		horizontalLoc = float((16 - abs((int(c) - int('A') + 1))) % 16);
-	}
-
-	float verticalLoc = asciiLocation;
-	if (verticalLoc >= 15) {
-		verticalLoc = 5;
-	}
-	else if (verticalLoc < -1) {
-		verticalLoc = 3;
-	}
-	else {
-		verticalLoc = 4;
-	}
-
-	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc + 1.f) / 16.f));	//bottom left
-	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc + 1.f) / 16.f));		//bottom right
-	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc) / 16.f));			//top left
-	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc + 1.f) / 16.f));
-	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc) / 16.f));
-	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc) / 16.f));
+	physX.initArena(arena);
+	physXObjects.push_back(arena);
 }
 
