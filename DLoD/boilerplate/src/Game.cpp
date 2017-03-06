@@ -25,19 +25,20 @@ Game::Game(GLFWwindow* w, Audio audio)
   physX.init();
 
   initSkyBox();
-  skybox->children.push_back(initArena());
-
+  //skybox->children.push_back(initArena());
+  arena = initArena();
   //skybox->children.push_back(initGroundPlane());
 
   Human* human = new Human(0);
   human->vehicle = new Vehicle();
+  human->vehicle->setPosition(vec3(0, 300, 0));
   initVehicle(human->vehicle);
   skybox->children.push_back(human->vehicle);
 
 
   AI* ai = new AI(1);
   ai->vehicle = new Vehicle();
-  ai->vehicle->setPosition(vec3(30, 0, 30));
+  ai->vehicle->setPosition(vec3(30, 20, 30));
   ai->vehicle->setColour(vec3(0, 1, 0));
   initVehicle(ai->vehicle);
   skybox->children.push_back(ai->vehicle);
@@ -124,6 +125,11 @@ void Game::gameLoop()
 
 	healthTex.UpdateGameText(players[0]->vehicle->getHealthString());
 	armourTex.UpdateGameText(players[0]->vehicle->getArmourString());
+	
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	arena->Render(viewMatrix, projectionMatrix, lightSource);
+	glDisable(GL_CULL_FACE);
 
     skybox->Render(viewMatrix, projectionMatrix, lightSource);
 	healthTitle.Render(GL_TRIANGLES);
@@ -220,23 +226,25 @@ void Game::initVehicle(Vehicle* v)
 //initialize arena
 GEO* Game::initArena() {
 	GEO *arena = new GEO();
-	arena->setFilename("ObjModels/Arena3.obj");
-	if (!arena->initMesh("ObjModels/Arena3.obj")) {
+	arena->setFilename("ObjModels/arena9.obj");
+	if (!arena->initMesh("ObjModels/arena9.obj")) {
 		cout << "Failed to init arena" << endl;
 	}
 	arena->setColour(vec3(1, 0, 0));
 	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 		cout << "Failed to initialize plane." << endl;
 	}
-	arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+	//arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+	arena->addShaders("shaders/phong.vert", "shaders/phong.frag");
 
 	if (!arena->initBuffers()) {
 		cout << "Could not initialize buffers for game object " << arena->getFilename() << endl;
 	}
-	arena->setScale(vec3(150.f));
-	arena->setPosition(vec3(0, -0.7, 0));
+	arena->setScale(vec3(25.f));
+	arena->setPosition(vec3(0, 0, 0));
 	arena->updateModelMatrix();
-	//physX.initArena(arena);
+
+	physX.initArena(arena);
 	//physXObjects.push_back(arena);
 	return arena;
 }
