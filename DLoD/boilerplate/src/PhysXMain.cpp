@@ -128,11 +128,11 @@ void PhysXMain::initVehicle(Vehicle* v)
 
 void PhysXMain::initItem(Item* item)
 {
-  PxShape* shape = gPhysics->createShape(PxBoxGeometry(4, 4, 4), *gMaterial);
+  PxShape* shape = gPhysics->createShape(PxBoxGeometry(1, 1, 1), *gMaterial);
 
   vec3 pos = item->getModelMatrix()[3];
 
-  PxRigidStatic *body = gPhysics->createRigidStatic(PxTransform(PxVec3(pos.x, pos.y + 10, pos.z)));
+  PxRigidDynamic *body = gPhysics->createRigidDynamic(PxTransform(PxVec3(pos.x, pos.y, pos.z)));
 
   PxFilterData simFilterData;
   simFilterData.word0 = COLLISION_FLAG_CHASSIS;
@@ -264,11 +264,24 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 	gScene->fetchResults(true);
 
 	//will want to bring in a vector<GEO* > GEOs to go through their models and update them here
+
+  map<PxRigidActor*, GEO*>::iterator itr = geoMap.begin();
+  PxRigidActor* body;
+
+  while (itr != geoMap.end()) 
+  {
+    PxRigidActor* body = itr->first;
+    if (body != nullptr && itr->second != nullptr)
+    {
+      mat4 M = convertMat(body->getGlobalPose().q.getBasisVector0(), body->getGlobalPose().q.getBasisVector1(), body->getGlobalPose().q.getBasisVector2(), body->getGlobalPose().p);
+      itr->second->setModelMatrix(M);
+    }
+
+    ++itr;
+  }
+
 	for (Vehicle* v : vehiclesVec)
 	{
-		PxRigidDynamic* body = v->physXVehicle->getRigidDynamicActor();
-		mat4 M = convertMat(body->getGlobalPose().q.getBasisVector0(), body->getGlobalPose().q.getBasisVector1(), body->getGlobalPose().q.getBasisVector2(), body->getGlobalPose().p);
-		v->setModelMatrix(M);
 		v->updateWheelPosition();
 		v->releaseAllControls();
 	}

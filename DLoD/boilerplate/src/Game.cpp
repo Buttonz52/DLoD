@@ -43,6 +43,14 @@ Game::Game(GLFWwindow* w, Audio audio)
   initVehicle(ai->vehicle);
   skybox->children.push_back(ai->vehicle);
 
+  /*
+  Item* item = new Item(DamageTrap);
+  mat4 m = mat4(1);
+  m[3] = vec4(vec3(0,5,30), 1);
+  item->setModelMatrix(m);
+  initItem(item); */
+
+
   players.push_back(human);
   players.push_back(ai);
 
@@ -98,20 +106,6 @@ void Game::start()
 
 void Game::gameLoop()
 {
-  // Add items to the scene
-  vector<pair<pair<Item*, Player*>, int>>::iterator itr = itemsToAdd.begin();
-  while (itr != itemsToAdd.end()) {
-    if (itr->second < timer.getTicks()) {
-      //initItem(itr->first->first);
-      itr->first.second->ableToTrap = true;
-      itr = itemsToAdd.erase(itr);
-      break;
-    }
-    else {
-      ++itr;
-    }
-  }
-
 
   //InitializeGameText(&fontTex, to_string(players[0]->vehicle->getHealth()), vec3(0.5,0.9,0));
   healthTitle.InitializeGameText("Health:", vec3(0, 0.9, 0), vec3(1, 0, 0), 20);
@@ -125,8 +119,28 @@ void Game::gameLoop()
 
   glCullFace(GL_FRONT);*/
   while (!glfwWindowShouldClose(window) && !gameOver)
-
   {
+    // Add items to the scene
+    vector<pair<Player*, int>>::iterator itr = itemsToAdd.begin();
+    while (itr != itemsToAdd.end()) {
+      if (itr->second < timer.getTicks()) {
+        itr->first->ableToTrap = true;
+        itr->first->layTrap = false;
+        itr = itemsToAdd.erase(itr);
+        break;
+      }
+      else {
+        ++itr;
+      }
+    }
+
+    // remove the deleted geometry
+    for (GEO* g : physX.deletedGeos)
+    {
+      skybox->removeChild(g);
+    }
+    physX.deletedGeos.clear();
+
     // clear screen to a dark grey colour;
     glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -161,7 +175,8 @@ void Game::gameLoop()
       if (ai != nullptr && !ai->isDead())
       {
         ai->driveTo(players[0]->vehicle->getModelMatrix()[3]);
-        //ai->getInput();
+        if (abs(ai->vehicle->physXVehicle->computeForwardSpeed()) > 20)
+          ai->layTrap = true;
       }
 
       Human* human = dynamic_cast<Human*> (p);
@@ -175,31 +190,16 @@ void Game::gameLoop()
         // create a new item at the appropriate location and add it to the items list
         mat4 M = p->vehicle->getModelMatrix();
         vec3 vPos = vec3(M[3]);
-
-        // Get the rotation of the object
-        physx::PxVec3 axis = physx::PxVec3(0, 1, 0);
-        physx::PxReal angle = 0;
-        p->vehicle->physXVehicle->getRigidDynamicActor()->getGlobalPose().q.toRadiansAndUnitAxis(angle, axis);
-
-        int fix = (axis.y < 0) ? 1 : -1;
-        angle *= fix;
-        if (angle < 0)
-          angle += M_PI * 2;
-
-        // Calculation the normalized orientated displacement
-        mat3 rotation(1);
-        rotation[0][0] = cos(-angle);
-        rotation[0][2] = sin(-angle);
-        rotation[2][0] = -sin(-angle);
-        rotation[2][2] = cos(-angle);
-        vec3 dis = rotation * -vec3(0, 0, 8);
+        vec3 dis = vec3(0, 8, 0);
 
         Item* item = new Item(DamageTrap);
         mat4 m = mat4(1);
         m[3] = vec4(vPos + dis, 1);
         item->setModelMatrix(m);
 
-        itemsToAdd.push_back(make_pair(make_pair(item, p), timer.getTicks() + 1500));
+        itemsToAdd.push_back(make_pair(p, timer.getTicks() + 5000));
+
+        initItem(item);
 
         p->layTrap = false;
         p->ableToTrap = false;
@@ -267,6 +267,26 @@ void Game::initVehicle(Vehicle* v)
   physX.initVehicle(v);
 
   physXObjects.push_back(v);
+}
+
+
+//
+void Game::initItem(Item* item)
+{
+  item->setFilename("cub.obj");
+  if (!item->initMesh("cube.obj")) {	//dead mesh
+    cout << "Failed to initialize mesh." << endl;
+  }
+  item->addShaders("shaders/toon.vert", "shaders/toon.frag");
+
+  item->setColour(vec3(1, 0, 0));
+
+  if (!item->initBuffers()) {
+    cout << "Could not initialize buffers for game object " << item->getFilename() << endl;
+  }
+
+  physX.initItem(item);
+  skybox->children.push_back(item);
 }
 
 

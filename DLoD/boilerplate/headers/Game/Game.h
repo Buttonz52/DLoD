@@ -20,7 +20,7 @@ private:
   Timer timer;
 
   // vector of actors 
-  vector<pair<pair<Item*, Player*>, int>> itemsToAdd;
+  vector<pair<Player*, int>> itemsToAdd;
 
   PhysXMain physX;
   GLFWwindow *window;
@@ -35,6 +35,8 @@ private:
   void initSkyBox();
   GEO * initArena();
   void initVehicle(Vehicle * v);
+
+  void initItem(Item * item);
 
   void gameLoop();
 
