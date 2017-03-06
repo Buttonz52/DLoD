@@ -24,28 +24,37 @@ void Vehicle::updateWheelPosition()
 {
 	float xoff = 1.5;
 	float zoff = 4.5;
-	mat4 m;
+	mat4 model;
+	PxTransform m = this->physXVehicle->getRigidDynamicActor()->getGlobalPose();
+	PxQuat rotate = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().q;
 	PxVec3 vCenter = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().p;
 	
+	mat4 mm = convertMat(m.q.getBasisVector0(), m.q.getBasisVector1(), m.q.getBasisVector2(), vCenter);
+	mat4 mRotate = convertMat(rotate.getBasisVector0(), rotate.getBasisVector1(), rotate.getBasisVector2(),PxVec3(0,0,0));
+	
 	//front right
-	m = children[0]->getModelMatrix();
-	m[3] = vec4(vCenter.x + xoff, 1.0, vCenter.z + zoff, 1.0);
-	children[0]->setModelMatrix(m);
+	model = children[0]->getModelMatrix();
+	model[3] = vec4(vCenter.x + xoff, 1.0, vCenter.z + zoff, 1.0);
+	model = mm * mRotate;
+	children[0]->setModelMatrix(model);
 
 	//front left
-	m = children[1]->getModelMatrix();
-	m[3] = vec4(vCenter.x - xoff, 1.0, vCenter.z + zoff, 1.0);
-	children[1]->setModelMatrix(m);
+	model = children[1]->getModelMatrix();
+	model[3] = vec4(vCenter.x - xoff, 1.0, vCenter.z + zoff, 1.0);
+	model = mm * mRotate;
+	children[1]->setModelMatrix(model);
 
 	//back left
-	m = children[2]->getModelMatrix();
-	m[3] = vec4(vCenter.x - xoff, 1.0, vCenter.z - zoff, 1.0);
-	children[2]->setModelMatrix(m);
+	model = children[2]->getModelMatrix();
+	model[3] = vec4(vCenter.x - xoff, 1.0, vCenter.z - zoff, 1.0);
+	model = mm * mRotate;
+	children[2]->setModelMatrix(model);
 
 	//back right
-	m = children[3]->getModelMatrix();
-	m[3] = vec4(vCenter.x + xoff, 1.0, vCenter.z - zoff, 1.0);
-	children[3]->setModelMatrix(m);
+	model = children[3]->getModelMatrix();
+	model[3] = vec4(vCenter.x + xoff, 1.0, vCenter.z - zoff, 1.0);
+	model = mm * mRotate;
+	children[3]->setModelMatrix(model);
 }
 
 void Vehicle::accelerate(const float &m)
@@ -237,25 +246,12 @@ bool Vehicle::initMesh(const string &file) {
 	deadCar.AddColour(vec3(0, 1, 0));
 
 	//init wheels mesh
-	GEO wheel;
-	if (!wheel.initMesh("ObjModels/" + wheelFileName)) {
-		cout << "Error reading wheel mesh" << endl;
-	}
-
-	wheel.getMesh().AddColour(vec3(1, 0, 0));
+	giveMeWheels();
 
 	mat3 scaleM = mat3(1);
 	scaleM[0][0] = scale.x;
 	scaleM[1][1] = scale.y;
 	scaleM[2][2] = scale.z;
-
-	for (int i = 0; i < wheel.getMesh().vertices.size(); ++i)
-		wheel.getMesh().vertices[i] = scaleM * wheel.getMesh().vertices[i];
-
-	for (int i = 0; i < 4; i++) {
-		children.push_back(new GEO());
-		children[i]->setMesh(wheel.getMesh());
-	}
 
   for (int i = 0; i < aliveCar.vertices.size(); ++i)
     aliveCar.vertices[i] = scaleM * aliveCar.vertices[i];
@@ -267,6 +263,37 @@ bool Vehicle::initMesh(const string &file) {
 	return 1;
 }
 
+void Vehicle::giveMeWheels()
+{
+	mat3 scaleM = mat3(1);
+	scaleM[0][0] = scale.x;
+	scaleM[1][1] = scale.y;
+	scaleM[2][2] = scale.z;
+
+	for (int i = 0; i < 4; i++)
+	{
+		//init wheels mesh
+		GEO* wheel = new GEO();
+		wheel->setFilename("mediumCarTire.obj");
+		if (!wheel->initMesh("ObjModels/mediumCarTire.obj")) {
+			cout << "Error reading wheel mesh" << endl;
+		}
+
+		wheel->addShaders("shaders/toon.vert", "shaders/toon.frag");
+
+		wheel->setColour(vec3(1, 0, 0));
+
+		if (!wheel->initBuffers()) {
+			cout << "Could not initialize buffers for game object " << wheel->getFilename() << endl;
+		}
+
+		for (int i = 0; i < wheel->getMesh().vertices.size(); ++i)
+			wheel->getMesh().vertices[i] = scaleM * wheel->getMesh().vertices[i];
+
+		children.push_back(wheel);
+	}
+
+}
 
 void Vehicle::changeMeshDead() 
 {
@@ -322,3 +349,64 @@ string Vehicle::getArmourString() {
 	return retStr;
 	return retStr;
 }
+
+void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
+{
+
+	// bind our shader program and the vertex array object containing our
+	// scene geometry, then tell OpenGL to draw our geometry
+	glUseProgram(shader.program);
+	glBindVertexArray(mesh.vertexArray);
+
+	if (hasTexture) {
+		texture.BindTexture(shader.program, "sampler");
+	}
+
+	vec3 fp = vec3(0, 0, 0);		//focal point
+
+	mat4 M = getModelMatrix();
+	glm::mat4 lightProjection, lightView;
+	glm::mat4 lightSpaceMatrix;
+	GLfloat near_plane = 0.001f, far_plane = 1000.f;
+	//lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
+	lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, near_plane, far_plane);
+
+	//lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
+	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+	lightSpaceMatrix = lightProjection * lightView;
+
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
+
+	//uniform variables
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE, value_ptr(M));
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "projection"), 1, GL_FALSE, value_ptr(_projection));
+	glUniform3fv(glGetUniformLocation(shader.program, "lightPosition"), 1, value_ptr(_lightSource));
+
+	glDrawElements(GL_TRIANGLES, mesh.elementCount, GL_UNSIGNED_SHORT, 0);
+	// reset state to default (no shader or geometry bound)
+	glBindVertexArray(0);
+	glUseProgram(0);
+	if (hasTexture)
+		texture.UnbindTexture(GL_TEXTURE_2D);
+
+	// check for an report any OpenGL errors
+	CheckGLErrors();
+
+	for (int i = 0; i < children.size(); i++)		//GEO* child : children)
+		children[i]->Render(_view, _projection, _lightSource);
+}
+mat4 Vehicle::convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w)
+{
+	mat4 M = mat4(x.x, y.x, z.x, w.x,
+		x.y, y.y, z.y, w.y,
+		x.z, y.z, z.z, w.z,
+		0.0, 0.0, 0.0, 1.0f);
+
+	M = glm::transpose(M);
+
+	return M;
+}
+
+

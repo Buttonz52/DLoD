@@ -20,6 +20,8 @@ PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
 bool					gIsVehicleInAir = true; // unused
 
 
+
+
 PhysXMain::PhysXMain()
 {
 
@@ -104,6 +106,7 @@ void PhysXMain::init()
 	//plane to drive on
 	gGroundPlane = createDrivablePlane(gMaterial, gPhysics);
 	gScene->addActor(*gGroundPlane);
+
 }
 
 void PhysXMain::initVehicle(Vehicle* v)
@@ -148,7 +151,7 @@ PxTriangleMesh* PhysXMain::initTriangleMesh(GEO *geo) {
 	meshDesc.points.data = geo->getMesh().vertices.data();
 
 	meshDesc.triangles.count = geo->getMesh().faces.size();
-	meshDesc.triangles.stride = 3 * sizeof(GLushort);
+	meshDesc.triangles.stride = 3 * sizeof(u16);
 	meshDesc.triangles.data = geo->getMesh().faces.data();
 
 	PxDefaultMemoryOutputStream writeBuffer;

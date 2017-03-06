@@ -34,6 +34,11 @@ public:
 
   string wheelFileName;
   void updateWheelPosition();
+  void giveMeWheels();
+
+  void Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
+
+  mat4 convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w);
 
   // Methods to control driving the vehicle
   void accelerate(const float &m);

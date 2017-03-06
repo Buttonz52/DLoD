@@ -193,8 +193,7 @@ void Game::initSkyBox()
 void Game::initVehicle(Vehicle* v)
 {
   v->setScale(vec3(1.5));
-
-  v->wheelFileName = "mediumCarTire.obj";
+ 
   v->setFilename("ObjModels/mediumCarBody.obj");	//alive mesh
   if (!v->initMesh("cube.obj")) {	//dead mesh
     cout << "Failed to initialize mesh." << endl;
@@ -207,8 +206,6 @@ void Game::initVehicle(Vehicle* v)
   }
 
   physX.initVehicle(v);
-
-  v->updateWheelPosition();			//init the 4 wheels per car
 
   physXObjects.push_back(v);
 }

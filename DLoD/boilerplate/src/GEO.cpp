@@ -146,7 +146,7 @@ void GEO::updateModelMatrix()
 //Adds shaders 
 void GEO::addShaders(const string &vert, const string &frag)
 {
-	shader.program = getShader().InitializeShaders(vert, frag);
+	shader.InitializeShaders(vert, frag);
 }
 
 bool GEO::initBuffers() {

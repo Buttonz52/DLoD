@@ -181,6 +181,7 @@ void resizeCallback(GLFWwindow* window, int width, int height)
 
 int main(int argc, char *argv[])
 {
+
 	// initialize the GLFW windowing system
 	if (!glfwInit()) {
 		cout << "ERROR: GLFW failed to initialize, TERMINATING" << endl;
