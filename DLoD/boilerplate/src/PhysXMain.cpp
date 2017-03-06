@@ -120,7 +120,7 @@ void PhysXMain::initVehicle(Vehicle* v)
 	centerOfMass.p = PxVec3(0.0, -0.35, 0.25);		//default = (0.0, -0.35, 0.25)
 	v->physXVehicle->getRigidDynamicActor()->setCMassLocalPose(centerOfMass);
 
-	PxTransform startTransform(PxVec3(v->getPosition().x, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), v->getPosition().z), PxQuat(PxIdentity));
+	PxTransform startTransform(PxVec3(v->getPosition().x, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f)+v->getPosition().y, v->getPosition().z), PxQuat(PxIdentity));
 	v->physXVehicle->getRigidDynamicActor()->setGlobalPose(startTransform);
 	gScene->addActor(*v->physXVehicle->getRigidDynamicActor());
 	geoMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great
