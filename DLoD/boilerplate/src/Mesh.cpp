@@ -146,7 +146,7 @@ aiVector3D Mesh::AddUV(const aiVector3D &vertex, const string &type) {
 void Mesh::AddColour(const vec3 &colour) {
 	colours.clear();
 	if (faces.size() == 0) {
-		cout << "ERROR MESH: Mesh not loaded to add colour." << endl;
+		cout << "ERROR MESH: Error loading colours, faces.size() = 0." << endl;
 	}
 	else {
 		for (int i = 0; i < faces.size(); i++) {

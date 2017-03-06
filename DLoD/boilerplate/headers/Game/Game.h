@@ -26,7 +26,7 @@ private:
   bool gameOver = false;
 
   void initSkyBox();
-  void initArena(GEO *arena);
+  GEO * initArena();
   void initVehicle(Vehicle * v);
 
   void gameLoop();

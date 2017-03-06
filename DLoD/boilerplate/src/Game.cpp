@@ -25,7 +25,9 @@ Game::Game(GLFWwindow* w, Audio audio)
   physX.init();
 
   initSkyBox();
-  skybox->children.push_back(initGroundPlane());
+  skybox->children.push_back(initArena());
+
+  //skybox->children.push_back(initGroundPlane());
 
   Human* human = new Human(0);
   human->vehicle = new Vehicle();
@@ -43,8 +45,6 @@ Game::Game(GLFWwindow* w, Audio audio)
   players.push_back(human);
   players.push_back(ai);
 
-  //arena = new GEO();
-  //initArena(arena);
   //skybox->children.push_back(arena);
 }
 
@@ -105,6 +105,9 @@ void Game::gameLoop()
   armourTex.InitializeGameText(players[0]->vehicle->getArmourString(), vec3(-0.5, 0.9, 0), vec3(0, 0, 1), 20);
 
   int frameCtr = 0;
+ /* glEnable(GL_CULL_FACE);
+
+  glCullFace(GL_FRONT);*/
   while (!glfwWindowShouldClose(window) && !gameOver)
 
   {
@@ -213,19 +216,28 @@ void Game::initVehicle(Vehicle* v)
   physXObjects.push_back(v);
 }
 
-void Game::initArena(GEO *arena) {
-	arena->setFilename("cube.obj");
-	arena->setColour(vec3(1, 0, 0));
-	if (!arena->initMesh("cube.obj")) {
+
+//initialize arena
+GEO* Game::initArena() {
+	GEO *arena = new GEO();
+	arena->setFilename("ObjModels/Arena3.obj");
+	if (!arena->initMesh("ObjModels/Arena3.obj")) {
 		cout << "Failed to init arena" << endl;
 	}
-	arena->addShaders("shaders/toon.vert", "shaders/toon.frag");
+	arena->setColour(vec3(1, 0, 0));
+	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
+		cout << "Failed to initialize plane." << endl;
+	}
+	arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
 
 	if (!arena->initBuffers()) {
 		cout << "Could not initialize buffers for game object " << arena->getFilename() << endl;
 	}
-
-	physX.initArena(arena);
-	physXObjects.push_back(arena);
+	arena->setScale(vec3(150.f));
+	arena->setPosition(vec3(0, -0.7, 0));
+	arena->updateModelMatrix();
+	//physX.initArena(arena);
+	//physXObjects.push_back(arena);
+	return arena;
 }
 
