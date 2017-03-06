@@ -56,6 +56,7 @@ void Game::start()
 	
 
   // start the game loop
+  timer.start();
   gameLoop();
 
   // Clean up and Display the win screen
@@ -97,6 +98,20 @@ void Game::start()
 
 void Game::gameLoop()
 {
+  // Add items to the scene
+  vector<pair<pair<Item*, Player*>, int>>::iterator itr = itemsToAdd.begin();
+  while (itr != itemsToAdd.end()) {
+    if (itr->second < timer.getTicks()) {
+      //initItem(itr->first->first);
+      itr->first.second->ableToTrap = true;
+      itr = itemsToAdd.erase(itr);
+      break;
+    }
+    else {
+      ++itr;
+    }
+  }
+
 
   //InitializeGameText(&fontTex, to_string(players[0]->vehicle->getHealth()), vec3(0.5,0.9,0));
   healthTitle.InitializeGameText("Health:", vec3(0, 0.9, 0), vec3(1, 0, 0), 20);
@@ -130,12 +145,11 @@ void Game::gameLoop()
 	glCullFace(GL_BACK);
 	arena->Render(viewMatrix, projectionMatrix, lightSource);
 	glDisable(GL_CULL_FACE);
-
     skybox->Render(viewMatrix, projectionMatrix, lightSource);
-	healthTitle.Render(GL_TRIANGLES);
-	armourTitle.Render(GL_TRIANGLES);
-	healthTex.Render(GL_TRIANGLES);
-	armourTex.Render(GL_TRIANGLES);
+	  healthTitle.Render(GL_TRIANGLES);
+	  armourTitle.Render(GL_TRIANGLES);
+	  healthTex.Render(GL_TRIANGLES);
+	  armourTex.Render(GL_TRIANGLES);
 
     glfwSwapBuffers(window);
 
@@ -154,6 +168,41 @@ void Game::gameLoop()
         human->getInput(window);
 
       p->playerCam->followVehicle(p->vehicle);
+      
+      if (p->layTrap && p->ableToTrap)
+      {
+        // create a new item at the appropriate location and add it to the items list
+        mat4 M = p->vehicle->getModelMatrix();
+        vec3 vPos = vec3(M[3]);
+
+        // Get the rotation of the object
+        physx::PxVec3 axis = physx::PxVec3(0, 1, 0);
+        physx::PxReal angle = 0;
+        p->vehicle->physXVehicle->getRigidDynamicActor()->getGlobalPose().q.toRadiansAndUnitAxis(angle, axis);
+
+        int fix = (axis.y < 0) ? 1 : -1;
+        angle *= fix;
+        if (angle < 0)
+          angle += M_PI * 2;
+
+        // Calculation the normalized orientated displacement
+        mat3 rotation(1);
+        rotation[0][0] = cos(-angle);
+        rotation[0][2] = sin(-angle);
+        rotation[2][0] = -sin(-angle);
+        rotation[2][2] = cos(-angle);
+        vec3 dis = rotation * -vec3(0, 0, 8);
+
+        Item* item = new Item(DamageTrap);
+        mat4 m = mat4(1);
+        m[3] = vec4(vPos + dis, 1);
+        item->setModelMatrix(m);
+
+        itemsToAdd.push_back(make_pair(make_pair(item, p), timer.getTicks() + 1500));
+
+        p->layTrap = false;
+        p->ableToTrap = false;
+      }
     }
 
     // CHECK GAMEOVER

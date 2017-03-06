@@ -3,7 +3,6 @@
 
 using namespace physx;
 
-
 PxDefaultAllocator		      gAllocator;
 PxDefaultErrorCallback    	gErrorCallback;
 PxFoundation*			          gFoundation = NULL;
@@ -121,8 +120,33 @@ void PhysXMain::initVehicle(Vehicle* v)
 	PxTransform startTransform(PxVec3(v->getPosition().x, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f), v->getPosition().z), PxQuat(PxIdentity));
 	v->physXVehicle->getRigidDynamicActor()->setGlobalPose(startTransform);
 	gScene->addActor(*v->physXVehicle->getRigidDynamicActor());
-	vMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great
+	geoMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great
 }
+
+void PhysXMain::initItem(Item* item)
+{
+  PxShape* shape = gPhysics->createShape(PxBoxGeometry(4, 4, 4), *gMaterial);
+
+  vec3 pos = item->getModelMatrix()[3];
+
+  PxRigidStatic *body = gPhysics->createRigidStatic(PxTransform(PxVec3(pos.x, pos.y + 10, pos.z)));
+
+  PxFilterData simFilterData;
+  simFilterData.word0 = COLLISION_FLAG_CHASSIS;
+  simFilterData.word1 = COLLISION_FLAG_CHASSIS_AGAINST;
+
+  PxFilterData qryFilterData;
+  setupNonDrivableSurface(qryFilterData);
+
+  shape->setQueryFilterData(qryFilterData);
+  shape->setSimulationFilterData(simFilterData);
+
+  body->attachShape(*shape);
+  gScene->addActor(*body);
+  geoMap.insert(make_pair(body, item));
+}
+
+
 
 void PhysXMain::initArena(GEO *arena) {
 	PxTriangleMesh* tMesh = initTriangleMesh(arena);

@@ -7,6 +7,7 @@
 #include "../Physics/PhysXMain.h"
 #include "..\headers\Game\ScreenOverlay.h"
 #include "..\headers\Game\Audio.h"
+#include "..\headers\Game\Timer.h"
 
 class Game
 {
@@ -15,6 +16,12 @@ private:
   GEO* arena;
   vector<Player*> players;
   vector<GEO*> physXObjects;
+
+  Timer timer;
+
+  // vector of actors 
+  vector<pair<pair<Item*, Player*>, int>> itemsToAdd;
+
   PhysXMain physX;
   GLFWwindow *window;
   Audio audio;
