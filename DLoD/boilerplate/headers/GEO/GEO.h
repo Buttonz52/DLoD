@@ -73,6 +73,7 @@ public:
 protected:
 	string filename;
 	double radius;
+	vec3 colour;
 
 	vec3 position;
 	vec3 scale;  

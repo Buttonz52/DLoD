@@ -1,16 +1,18 @@
-﻿  GEO.cpp
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(66): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(67): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(68): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(72): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(73): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(74): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(75): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(78): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(79): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(80): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(81): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(262): warning C4018: '<': signed/unsigned mismatch
+﻿  AI.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(73): warning C4101: 'behavour': unreferenced local variable
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(222): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(246): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(255): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+  Generating Code...
+  Skipping... (no relevant changes detected)
+  main.cpp
+  Vehicle.cpp
+  Player.cpp
+  PhysXMain.cpp
+  Item.cpp
+  Human.cpp
+  Game.cpp
+  ContactModifyCallback.cpp
+  Camera.cpp
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe
   boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.pdb (Partial PDB)

@@ -6,7 +6,7 @@ class Human :
 	public Player
 {
 public:
-	Human();
+	Human(int);
 	~Human();
 
   XboxController* controller;

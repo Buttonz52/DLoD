@@ -15,29 +15,26 @@ void main(void)
 //if texture exists, render that. Otherwise, render colour.
 	if (hasTexture==1) {
 		//Mix with colour and texture
+		vec3 texColour = texture(sampler, UV).xyz;
+		//is a font
+		if (isFontTex ==1) {
+			//make transparent background
+			if (texColour.x < 0.5) {
+				//we don't want to draw to screen if it is bitmap background 
+				discard;
+			}
+			//else set it to colour of text
+			else {
+				//FragmentColour = vec4(Colour, 1.f);
+				texColour = Colour;
+			}
+		}
+
 		if (mixColour == 1) {
-			FragmentColour = vec4(mix(texture(sampler,UV).xyz, Colour, 0.5),1.0);
+			FragmentColour = vec4(mix(texColour, Colour, 0.5),1.0);
 		}
 		else {
-			//is a font
-			if (isFontTex ==1) {
-				vec4 texColour = texture(sampler, UV);
-
-				//make transparent background
-				if (texColour.x < 0.5) {
-					//we don't want to draw to screen if it is bitmap background 
-					discard;
-				}
-				//else set it to colour of text
-				else {
-					FragmentColour = vec4(Colour, 1.f);;
-				}
-			}
-			//not a font
-			else {
-				FragmentColour = texture(sampler, UV);
-			}
-
+			FragmentColour = vec4(texColour,1.f);
 		}
 	}
 	else {

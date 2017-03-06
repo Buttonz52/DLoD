@@ -7,7 +7,7 @@ class AI :
 	public Player
 {
 public:
-	AI();
+	AI(int);
 	~AI();
 	int difficultyState;
 

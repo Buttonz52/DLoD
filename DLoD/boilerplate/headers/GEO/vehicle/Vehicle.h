@@ -1,7 +1,6 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 #include "..\GEO.h"
-#include "..\item\Item.h"
 
 using namespace physx;
 
@@ -14,14 +13,15 @@ private:
 	bool dead;
   // Stores the Vehicle Health
   float health;
-  double armourLeft;
-  double armourRight;
-  double armourFront;
-  double armourBack;
+  float armour;
+  //double armourLeft;
+  //double armourRight;
+  //double armourFront;
+  //double armourBack;
 
   // Stores the rate of acceleration and maxVelocity
   double acceleration;
-  double maxVelocity;
+  double maxVelocity = 70;
   float torqueSpeed;
   
   Mesh aliveCar, deadCar;
@@ -46,14 +46,16 @@ public:
   void changeMeshDead();
   bool isDead();
   bool initMesh(const string &);
-	vec3 colour;
 
 	Mix_Chunk* crash;
 
 	float getHealth();
 	float calculateDamage(const double &, const double &, const double &, const double &);
+	void regenArmour();
 	void updateHealth(const float &damage);
-	string toString();
+	float getArmour();
+	string getHealthString();
+	string getArmourString();
 
 };
 

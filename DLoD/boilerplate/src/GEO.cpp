@@ -9,6 +9,7 @@ GEO::GEO()
 	xRotation = 0; yRotation = 0; zRotation = 0;
 	hasTexture = 0;
 	isSkybox = 0;
+	colour = vec3(1,1,1);
 	//sfxMap.insert(make_pair("sfx", sfx));
 }
 
@@ -210,6 +211,7 @@ void GEO::setMesh(const Mesh &m)
 }
 
 void GEO::setColour(const vec3 &col) {
+	colour = col;
 	mesh.AddColour(col);
 }
 

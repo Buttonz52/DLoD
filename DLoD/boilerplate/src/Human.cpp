@@ -2,7 +2,7 @@
 
 
 
-Human::Human()
+Human::Human(int i) : Player(i)
 {
   controller = new XboxController(1);
 }

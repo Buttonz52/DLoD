@@ -44,6 +44,9 @@ public:
 	VehicleDesc initVehicleDesc();
 	void initVehicle(Vehicle* v);
 
+	void initArena(GEO *arena);
+	PxTriangleMesh *initTriangleMesh(GEO * geo);
+
   void collisionFunction(PxContactModifyPair* const, PxU32);
 
 	void stepPhysics(bool interactive, vector<GEO *> g);

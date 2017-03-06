@@ -34,6 +34,12 @@ public:
 		const float y,
 		const vec3 &col);
 
+	void InitializeGameText(const string & text, const vec3 & position, const vec3 & colour, int kerning);
+
+	void UpdateGameText(const string & text);
+
+	void GenerateTextUVs(vector<vec2>& uvs, const char & ch);
+
 	ScreenOverlay();
 	~ScreenOverlay();
 	

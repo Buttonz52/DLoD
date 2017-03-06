@@ -21,5 +21,6 @@ out vec4 FragmentColour;
 
 void main(void)
 {
+
 	FragmentColour = texture(sampler, uv.xy);
 }
