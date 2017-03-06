@@ -43,6 +43,14 @@ Game::Game(GLFWwindow* w, Audio audio)
   initVehicle(ai->vehicle);
   skybox->children.push_back(ai->vehicle);
 
+
+  Item* item = new Item(DamageTrap);
+  mat4 m = mat4(1);
+  m[3] = vec4(vec3(0,0,30), 1);
+  item->setModelMatrix(m);
+  initItem(item);
+
+
   players.push_back(human);
   players.push_back(ai);
 
@@ -102,7 +110,7 @@ void Game::gameLoop()
   vector<pair<pair<Item*, Player*>, int>>::iterator itr = itemsToAdd.begin();
   while (itr != itemsToAdd.end()) {
     if (itr->second < timer.getTicks()) {
-      //initItem(itr->first->first);
+      //initItem(itr->first.first);
       itr->first.second->ableToTrap = true;
       itr = itemsToAdd.erase(itr);
       break;
@@ -266,6 +274,24 @@ void Game::initVehicle(Vehicle* v)
   physX.initVehicle(v);
 
   physXObjects.push_back(v);
+}
+
+
+//
+void Game::initItem(Item* item)
+{
+  item->setFilename("cub.obj");
+  if (!item->initMesh("cube.obj")) {	//dead mesh
+    cout << "Failed to initialize mesh." << endl;
+  }
+  item->addShaders("shaders/toon.vert", "shaders/toon.frag");
+
+  if (!item->initBuffers()) {
+    cout << "Could not initialize buffers for game object " << item->getFilename() << endl;
+  }
+
+  physX.initItem(item);
+  //skybox->children.push_back(item);
 }
 
 

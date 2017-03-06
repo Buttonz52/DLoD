@@ -36,6 +36,8 @@ private:
   GEO * initArena();
   void initVehicle(Vehicle * v);
 
+  void initItem(Item * item);
+
   void gameLoop();
 
   //void InitializeGameText(ScreenOverlay *fontTex, const string &text, const vec3 &position, const vec3&colour, int kerning);
