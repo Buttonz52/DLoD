@@ -6,7 +6,7 @@
 #include "PxPhysicsAPI.h"
 #include "PxPhysics.h"
 #include "PxScene.h"
-#include "../GEO/GEO.h"
+#include "../GEO/item/Item.h"
 #include "../GEO/vehicle/Vehicle.h"
 #include "Physics\SnippetVehicleRaycast.h"
 #include "Physics\SnippetVehicleCreate.h"
@@ -34,7 +34,23 @@ struct ContactModFlags
 class PhysXMain
 {
 private:
-  map<PxRigidBody*, Vehicle*> vMap;
+  map<PxRigidActor*, GEO*> geoMap;
+
+  PxDefaultAllocator		      gAllocator;
+  PxDefaultErrorCallback    	gErrorCallback;
+  PxFoundation*			          gFoundation = NULL;
+  PxPhysics*				          gPhysics = NULL;
+  PxDefaultCpuDispatcher*   	gDispatcher = NULL;
+  PxScene*				            gScene = NULL;
+  PxCooking*				          gCooking = NULL;
+  PxMaterial*				          gMaterial = NULL;
+  PxVisualDebuggerConnection* gConnection = NULL;
+  VehicleSceneQueryData*	    gVehicleSceneQueryData = NULL;
+  PxBatchQuery*			          gBatchQuery = NULL;
+  PxRigidStatic*			        gGroundPlane = NULL;
+  PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
+  bool					gIsVehicleInAir = true; // unused
+
 
 public:
 	PhysXMain();
@@ -43,6 +59,8 @@ public:
 	void init();
 	VehicleDesc initVehicleDesc();
 	void initVehicle(Vehicle* v);
+
+  void initItem(Item * item);
 
 	void initArena(GEO *arena);
 	PxTriangleMesh *initTriangleMesh(GEO * geo);

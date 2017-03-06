@@ -15,5 +15,8 @@ public:
 
 	virtual void getInput();
 	bool isDead();
+
+  bool layTrap = false;
+  bool ableToTrap = true;
 };
 #endif
