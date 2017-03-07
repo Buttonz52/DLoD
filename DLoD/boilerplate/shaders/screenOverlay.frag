@@ -9,6 +9,7 @@ uniform sampler2D sampler;
 uniform int hasTexture;
 uniform int mixColour;
 uniform int isFontTex;
+uniform int isRedTransparent;
 in vec2 UV;
 void main(void)
 {
@@ -16,6 +17,11 @@ void main(void)
 	if (hasTexture==1) {
 		//Mix with colour and texture
 		vec3 texColour = texture(sampler, UV).xyz;
+		if (isRedTransparent ==1) {
+			if (texColour.x >0.7 && texColour.y < 0.2 && texColour.z < 0.2) {
+				discard;
+			}
+		}
 		//is a font
 		if (isFontTex ==1) {
 			//make transparent background
@@ -33,9 +39,11 @@ void main(void)
 		if (mixColour == 1) {
 			FragmentColour = vec4(mix(texColour, Colour, 0.5),1.0);
 		}
+
 		else {
 			FragmentColour = vec4(texColour,1.f);
 		}
+
 	}
 	else {
 	//just colour

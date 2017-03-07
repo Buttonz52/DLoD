@@ -56,7 +56,20 @@ Vehicle *currentVehicle;
 vec3 _lightSource = vec3(0.f, 100.f, 0.f);
 
 //string mainMusic= "music/TimeLapse.wav";	//theme
-string mainMusic = "music/Fluffing_a_duck.wav";
+string mainMusic = "music/TimeLapse.wav";
+
+int skyboxIndex, arenaIndex;
+vector<string> skyboxFilePathnames = {
+	"textures/ame_ash/",
+	"textures/jf_nuke/",
+	"textures/mp_deviltooth/",
+	"textures/mp_emerald/"
+};
+
+vector <string> arenaObjFilenames = {
+	"arenas/arena9.obj",
+	"arenas/bpArena2.obj"
+};
 //Audio music;
 
 // OpenGL utility and support function prototypes

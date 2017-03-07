@@ -298,7 +298,7 @@ void Vehicle::changeMeshDead()
 }
 
 bool Vehicle::initBuffers() {
-	if (!aliveCar.Initialize() || !deadCar.Initialize()) {
+	if (!aliveCar.Initialize(hasBumpTexture) || !deadCar.Initialize(hasBumpTexture)) {
 		return false;
 	}
 	mesh = aliveCar;

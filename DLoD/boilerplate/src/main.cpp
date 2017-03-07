@@ -181,7 +181,8 @@ void resizeCallback(GLFWwindow* window, int width, int height)
 
 int main(int argc, char *argv[])
 {
-
+	skyboxIndex = 0;
+	arenaIndex = 0;
 	// initialize the GLFW windowing system
 	if (!glfwInit()) {
 		cout << "ERROR: GLFW failed to initialize, TERMINATING" << endl;
@@ -239,35 +240,34 @@ int main(int argc, char *argv[])
 	TitleScreen ts;
 
 	ScreenOverlay loadBkgrd, loadWidget;
+	if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex)) {
+		ts.Destroy();
+		cout << skyboxIndex << " " << arenaIndex << endl;
+		InitializeLoadScreen(&loadBkgrd, &loadWidget);
 
-	int frameCtr;
+		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
+		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
-	ts.Display(window, &testController, &audio);
-	InitializeLoadScreen(&loadBkgrd, &loadWidget);
+		glEnable(GL_DEPTH_TEST);
 
-	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+		PrintDirections();
 
-	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+		loadBkgrd.Destroy();
+		loadWidget.Destroy();
 
-	glEnable(GL_DEPTH_TEST);
+		Game game = Game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex]);
 
-	frameCtr = 0;
-	PrintDirections();
+		if (!audio.PlayMusic()) {
+			cout << "Failed to play music" << endl;
+		}
 
-	updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
-	loadBkgrd.Destroy();
-	loadWidget.Destroy();
-
-	Game game = Game(window, audio);
-
-	if (!audio.PlayMusic()) {
-		cout << "Failed to play music" << endl;
+		game.start();
 	}
-
-	game.start();
-
-
+	else {
+		ts.Destroy();
+	}
 
 	audio.CleanUp();
 

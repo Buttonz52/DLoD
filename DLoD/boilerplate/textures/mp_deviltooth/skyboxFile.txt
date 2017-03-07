@@ -1,0 +1,7 @@
+devils-tooth_rt.tga
+devils-tooth_lf.tga
+devils-tooth_up.tga
+devils-tooth_dn.tga
+devils-tooth_bk.tga
+devils-tooth_ft.tga
+devils-tooth_bump.tga

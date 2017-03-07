@@ -248,7 +248,6 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 		vehicles.push_back(vehiclesVec[i]->physXVehicle);
 		vehicleQueryResults.push_back({ wheelQueryResults, vehiclesVec[i]->physXVehicle->mWheelsSimData.getNbWheels() });
 	}
-	cout << gArena->getGlobalPose().p.y << endl;
 	const PxF32 timestep = 1.0f / 60.0f;
 	//Raycasts.
 	PxRaycastQueryResult* raycastResults = gVehicleSceneQueryData->getRaycastQueryResultBuffer(0);

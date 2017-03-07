@@ -16,6 +16,8 @@ private:
   GEO* arena;
   vector<Player*> players;
   vector<GEO*> physXObjects;
+  string arenaTexFilename;
+  string arenaBumpmap;
 
   Timer timer;
 
@@ -32,8 +34,8 @@ private:
 
   bool gameOver = false;
 
-  void initSkyBox();
-  GEO * initArena();
+  void initSkyBox(const string &pathname);
+  GEO * initArena(const string &texfilename, const string &objfilename);
   void initVehicle(Vehicle * v);
 
   void initItem(Item * item);
@@ -47,11 +49,11 @@ private:
   //void GenerateTextUVs(vector<vec2>& uvs, const char &c);
 
   Mix_Chunk *winSFX = Mix_LoadWAV("sfx/win.wav");
-  Mix_Chunk *loseSFX = Mix_LoadWAV("sfx/bubblePop.wav");
+  Mix_Chunk *loseSFX = Mix_LoadWAV("sfx/lose.wav");
 
 public:
 
-  Game(GLFWwindow*, Audio audio);
+  Game(GLFWwindow*, Audio audio, const string &skyboxFilepath, const string &arenaFilepath);
 
   void start();
 };

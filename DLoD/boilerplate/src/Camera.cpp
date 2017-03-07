@@ -25,7 +25,7 @@ void Camera::setInitValues() {
 	radius = 35;
 
 	fov = M_PI / 3;
-	_near = 0.001;
+	_near = 1;
 	_far = 1000;
 
   asp = (float)1920 / (float)1080;

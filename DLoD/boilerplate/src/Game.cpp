@@ -19,14 +19,14 @@ GEO* initGroundPlane()
 }
 
 
-Game::Game(GLFWwindow* w, Audio audio)
+Game::Game(GLFWwindow* w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath)
 {
   window = w;
   physX.init();
 
-  initSkyBox();
+  initSkyBox(skyboxFilepath);
   //skybox->children.push_back(initArena());
-  arena = initArena();
+  arena = initArena(arenaTexFilename, arenaFilepath);
   //skybox->children.push_back(initGroundPlane());
 
   Human* human = new Human(0);
@@ -100,6 +100,7 @@ void Game::start()
 	  glfwPollEvents();
   }
   delete skybox;
+  delete arena;
   physX.cleanupPhysics(true);
 }
 
@@ -154,7 +155,6 @@ void Game::gameLoop()
 	healthTex.UpdateGameText(players[0]->vehicle->getHealthString());
 	armourTex.UpdateGameText(players[0]->vehicle->getArmourString());
 	
-	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	arena->Render(viewMatrix, projectionMatrix, lightSource);
@@ -226,27 +226,51 @@ void Game::gameLoop()
   }
 }
 
-void Game::initSkyBox()
+void Game::initSkyBox(const string &pathname)
 {
-  vector<string> skyboxFiles = {
-    "textures/ame_ash/ashcanyon_rt.tga",
-    "textures/ame_ash/ashcanyon_lf.tga",
-    "textures/ame_ash/ashcanyon_up.tga",
-    "textures/ame_ash/ashcanyon_dn.tga",
-    "textures/ame_ash/ashcanyon_bk.tga",
-    "textures/ame_ash/ashcanyon_ft.tga",
-  };
+	string skyboxConfigFile = pathname +"skyboxFile.txt";
+	ifstream f_stream(skyboxConfigFile);
+	if (!f_stream.is_open()) {
+		cout << "Error loading file " << skyboxConfigFile << endl;
+		return;
+	}
+	//load the file
+	string line;
+	size_t found;
+	vector<string> skyboxFiles;
+	cout << "Loading file " << skyboxConfigFile << endl;
+	while (getline(f_stream, line)) {
+		//If there is a #, then there is a new celestial body to be added
+		if (line.length() == 0) {
+			continue;
+		}
+		if ((found = line.find("bump")) != string::npos) {
+			arenaBumpmap = line;
+			continue;
+		}
+		skyboxFiles.push_back(pathname +line);
+	}
+	arenaTexFilename = skyboxFiles[3]; //ground 
+  //vector<string> skyboxFiles = {
+  //  "textures/ame_ash/ashcanyon_rt.tga",
+  //  "textures/ame_ash/ashcanyon_lf.tga",
+  //  "textures/ame_ash/ashcanyon_up.tga",
+  //  "textures/ame_ash/ashcanyon_dn.tga",
+  //  "textures/ame_ash/ashcanyon_bk.tga",
+  //  "textures/ame_ash/ashcanyon_ft.tga"
+  //};
 
   skybox = new GEO();
   skybox->setFilename("cube.obj");
+  skybox->setColour(vec3(0, 0, 0));
   if (!skybox->initMesh("cube.obj")) {
-    cout << "Failed to initialize mesh." << endl;
+    cout << "Failed to initialize skybox mesh." << endl;
   }
   //scale cube large
   skybox->setScale(vec3(500.0));
   skybox->updateModelMatrix();
   if (!skybox->initSkybox(skyboxFiles)) {
-    cout << "Failed to initialize skybox." << endl;
+    cout << "Failed to initialize skybox texture." << endl;
   }
   skybox->addShaders("shaders/skybox.vert", "shaders/skybox.frag");
 }
@@ -275,10 +299,10 @@ void Game::initVehicle(Vehicle* v)
 //
 void Game::initItem(Item* item)
 {
-  item->setFilename("cub.obj");
+  item->setFilename("cube.obj");
   item->setScale(vec3(2));
   if (!item->initMesh("/ObjModels/bearTrap.obj")) {	//dead mesh
-    cout << "Failed to initialize mesh." << endl;
+    cout << "Failed to initialize bear trap." << endl;
   }
   item->addShaders("shaders/toon.vert", "shaders/toon.frag");
   
@@ -293,25 +317,34 @@ void Game::initItem(Item* item)
 	  item->getMesh().vertices[i] = scaleM * item->getMesh().vertices[i];
 
   if (!item->initBuffers()) {
-    cout << "Could not initialize buffers for game object " << item->getFilename() << endl;
+	  cout << "Could not initialize buffers for initialized item." << endl;
   }
-
   physX.initItem(item);
   skybox->children.push_back(item);
 }
 
 
 //initialize arena
-GEO* Game::initArena() {
+GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	GEO *arena = new GEO();
-	arena->setFilename("ObjModels/bpArena2.obj");
-	if (!arena->initMesh("ObjModels/bpArena2.obj")) {
+	arena->hasBumpTexture = true;
+	arena->setFilename(objfilename);
+	if (!arena->initMesh(objfilename)) {
 		cout << "Failed to init arena" << endl;
 	}
 	arena->setColour(vec3(1, 0, 0));
-	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
-		cout << "Failed to initialize plane." << endl;
+	if (!arena->initTexture(texfilename, GL_TEXTURE_2D)) {
+		cout << "Failed to initialize arena ground texture." << endl;
 	}
+
+	//bump map initialization
+	if (!arena->initTexture(arenaBumpmap, GL_TEXTURE_2D)) {
+		cout << "Failed to initialize arena bump map." << endl;
+	}
+	//cout << "Calc arena mesh tangents" << endl;
+	//calculate tangent for bump map
+	arena->calculateMeshTangent();
+
 	arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
 	//arena->addShaders("shaders/phong.vert", "shaders/phong.frag");
 

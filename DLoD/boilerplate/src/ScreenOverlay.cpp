@@ -21,6 +21,7 @@ ScreenOverlay::ScreenOverlay()
 	mixColour = 0;
 	isFontTex = 0;
 	_scale = vec3(1);
+	isRedTransparent = 0;
 }
 
 
@@ -157,6 +158,8 @@ void ScreenOverlay::Render(GLuint type)
 	glUniform1i(glGetUniformLocation(shader.program, "hasTexture"), hasTexture);
 	glUniform1i(glGetUniformLocation(shader.program, "mixColour"), mixColour);
 	glUniform1i(glGetUniformLocation(shader.program, "isFontTex"), isFontTex);
+	glUniform1i(glGetUniformLocation(shader.program, "isRedTransparent"), isRedTransparent);
+
 
 	glDrawArrays(type, 0, elementCount);
 	// reset state to default (no shader or geometry bound)

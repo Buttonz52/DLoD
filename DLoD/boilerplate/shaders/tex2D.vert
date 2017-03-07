@@ -12,12 +12,14 @@ layout(location = 0) in vec3 VertexPosition;
 layout(location = 1) in vec3 VertexColour;
 layout(location = 2) in vec3 Normal;
 layout(location = 3) in vec3 UV;
+layout(location = 4) in vec3 tangent;
 
 // output to be interpolated between vertices and passed to the fragment stage
 uniform mat4 modelview;
 uniform mat4 projection;
 uniform mat4 model;
 uniform vec3 lightPosition;
+uniform int hasBumpTexture;
 
 out vec3 Colour;
 out vec3 N;
@@ -36,13 +38,23 @@ void main()
     N = normalize(normalMatrix*Normal);
     // assign output colour to be interpolated
     
-
 	vec4 L4 = modelview * vec4(lightPosition, 1.0);
 	L = normalize(L4.xyz - P);
 	V = normalize(-P);
     //Pass uv coordinates and position.	
 	//uv = UV;
 	uv = UV;
+
+	if (hasBumpTexture ==1) {
+		vec3 T = normalize(mat3(transpose(inverse(modelview)))*tangent);
+		T = normalize(T-dot(T,N)*N);
+
+		vec3 B = normalize(cross(T,N));
+		mat3 TBN = mat3(T,B,N);
+
+		L = normalize(vec3(dot (L,T),dot (L,B),dot (L,N)));
+	}
+
     gl_Position = projection * vertexCameraSpace;    
 
 }

@@ -12,7 +12,7 @@ Mesh::~Mesh()
 //Resources: https://learnopengl.com/#!Model-Loading/Model
 //https://nickthecoder.wordpress.com/2013/01/20/mesh-loading-with-assimp/
 
-bool Mesh::Initialize() {
+bool Mesh::Initialize(bool hasTangents) {
 
 	/* Initialization of buffers for mesh goes here */
 
@@ -55,6 +55,13 @@ bool Mesh::Initialize() {
 	glVertexAttribPointer(UV_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(UV_INDEX);
 
+	if (hasTangents) {
+		glGenBuffers(1, &tangentBuffer);
+		glBindBuffer(GL_ARRAY_BUFFER, tangentBuffer);
+		glBufferData(GL_ARRAY_BUFFER, tangentMesh.size() * sizeof(vec3), tangentMesh.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glEnableVertexAttribArray(4);
+	}
 	//Indices buffer.
 	glGenBuffers(1, &indicesBuffer);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer);
@@ -143,6 +150,44 @@ aiVector3D Mesh::AddUV(const aiVector3D &vertex, const string &type) {
 	return aiVector3D(theta, phi, r);
 }
 
+/** Calculates tangent coordinates for mesh. */
+void Mesh::calculateMeshTangent() {
+	tangentMesh.clear();	//Clear previous tangent coordinates.
+
+	for (int i = 0; i < vertices.size(); i += 3) {
+		//Get vertices of triangle.
+		glm::vec3 v0(vertices[i]);
+		glm::vec3 v1(vertices[i + 1]);
+		glm::vec3 v2(vertices[i + 2]);
+
+
+		glm::vec3 e1 = v1 - v0;
+		glm::vec3 e2 = v2 - v0;
+
+		glm::vec3 Duv1 = uvs[i + 1] - uvs[i];
+		glm::vec3 Duv2 = uvs[i + 2] - uvs[i];
+
+		GLfloat fractal;
+		float denom = (Duv1.x * Duv2.y - Duv1.y*Duv2.x);
+		if (denom != 0.f) {	//Check that not dividing by 0.
+			fractal = 1.f / denom;
+		}
+
+		else {
+			fractal = 0.f;
+		}
+		vec3 tan1;
+		tan1.x = fractal * (e1.x * Duv2.y + e2.x * (-Duv1.y));
+		tan1.y = fractal * (e1.y * Duv2.y + e2.y * (-Duv1.y));
+		tan1.z = fractal * (e1.z * Duv2.y + e2.z * (-Duv1.y));
+
+		//Push back tangent for each vertex of triangle.
+		tangentMesh.push_back(tan1);
+		tangentMesh.push_back(tan1);
+		tangentMesh.push_back(tan1);
+	}
+}
+
 void Mesh::AddColour(const vec3 &colour) {
 	colours.clear();
 	if (faces.size() == 0) {
@@ -169,6 +214,7 @@ void Mesh::DestroyMesh() {
 	glDeleteBuffers(1, &normalBuffer);
 	glDeleteBuffers(1, &indicesBuffer);
 	glDeleteBuffers(1, &textureBuffer);
+	glDeleteBuffers(1, &tangentBuffer);
 	glDeleteBuffers(1, &colourBuffer);
 
 	glDeleteVertexArrays(1, &vertexArray);

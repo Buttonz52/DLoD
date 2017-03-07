@@ -15,21 +15,23 @@ public:
 	bool isQuitPressed();
 	bool isRulesPressed();
 
-	void Initialize();
+	void InitializeTitleScreen();
+	void InitializeChooseScreen();
 	void Render();
-	bool Display(GLFWwindow *, XboxController *controller, Audio *audio);
+	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex);
 	void Destroy();
 
-	void KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
+	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
 
 private:
-	bool isQuit, isStart, isRules;
+	bool isQuit, isStart, isRules, isLoadScreen, isChooseArena;
 	int menuIndex;
 	int numMenuButtons;
 	float buttonWidth;
 	float buttonHeight;
 	float padding;
-
+	vec3 selectColour;
+	vec3 pressColour;
 	ScreenOverlay background;
 	vector<ScreenOverlay> menuButtons;
 
@@ -41,6 +43,7 @@ private:
 	XboxController controller;
 	Mix_Chunk *click;
 	Mix_Chunk *press;
+	Mix_Chunk *back;
 	//string backgroundTexture; //might not need
 	//string startTexture;	//might not need
 	//string rulesTexture;	//might not need

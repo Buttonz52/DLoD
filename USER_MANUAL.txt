@@ -8,7 +8,7 @@ UP: accelerate
 DOWN: reverse
 LEFT: Turn left
 RIGHT: turn right
-
+B (in menu): Go back to title screen
 
 Notes:
 
