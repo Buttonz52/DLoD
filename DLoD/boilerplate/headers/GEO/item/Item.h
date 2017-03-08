@@ -7,6 +7,7 @@
 enum ItemType
 {
   DamageTrap,
+  EmpTrap,
 
 };
 

@@ -17,6 +17,16 @@ Human::~Human()
 // FIX THIS
 void Human::getInput(GLFWwindow* window)
 {
+  if (vehicle->stun.first) {
+    if (vehicle->timer.getTicks() < vehicle->stun.second)
+      return;
+    else {
+      vehicle->stun = make_pair(false, 0);
+      vehicle->timer.stop();
+      vehicle->timer.reset();
+    }
+  }
+
   vehicleControls(window);
 }
 
@@ -65,11 +75,19 @@ void Human::vehicleControls(GLFWwindow* window)
     {
       vehicle->turn(1);
     }
-    state = glfwGetKey(window, GLFW_KEY_SPACE);
+    state = glfwGetKey(window, GLFW_KEY_A);
     if (state == GLFW_PRESS)
     {
       layTrap = true;
+      trap = DamageTrap;
     }
+    state = glfwGetKey(window, GLFW_KEY_S);
+    if (state == GLFW_PRESS)
+    {
+      layTrap = true;
+      trap = EmpTrap;
+    }
+
 
   }
   else {
