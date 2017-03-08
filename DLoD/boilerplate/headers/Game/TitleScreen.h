@@ -25,6 +25,7 @@ public:
 
 private:
 	bool isQuit, isStart, isRules, isLoadScreen, isChooseArena, isChooseSkybox;
+	int arenaButtonInitIndex, skyboxButtonInitIndex, carButtonInitIndex;
 	int menuIndex;
 	int numMenuButtons;
 	float buttonWidth;

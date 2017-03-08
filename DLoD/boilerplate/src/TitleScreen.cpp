@@ -7,6 +7,9 @@
 TitleScreen::TitleScreen()
 {
 	menuIndex = 0;
+	arenaButtonInitIndex = 3;
+	skyboxButtonInitIndex = 6;
+	carButtonInitIndex = 10;
 	isLoadScreen = false;
 //	this->audio = audio;
 	buttonWidth = 0.2;
@@ -200,52 +203,52 @@ void TitleScreen::InitializeChooseScreen() {
 	menuButtons[2].InitializeGameText("Choose your vehicle", vec3(-0.5, -0.4, 0), vec3(0, 1, 0), 20);
 
 	//init transparent arena textures
-	if (!menuButtons[3].initTexture("textures/arenaImgs/arena9.png", GL_TEXTURE_2D)) {
+	if (!menuButtons[arenaButtonInitIndex].initTexture("textures/arenaImgs/arena9.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init arena9 texture." << endl;
 	}
-	if (!menuButtons[4].initTexture("textures/arenaImgs/bpArena2.png", GL_TEXTURE_2D)) {
+	if (!menuButtons[arenaButtonInitIndex+1].initTexture("textures/arenaImgs/bpArena2.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
-	if (!menuButtons[5].initTexture("textures/arenaImgs/bumpyArena.png", GL_TEXTURE_2D)) {
+	if (!menuButtons[arenaButtonInitIndex+2].initTexture("textures/arenaImgs/bumpyArena.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
-	menuButtons[3].isRedTransparent = 1;
-	menuButtons[4].isRedTransparent = 1;
-	menuButtons[5].isRedTransparent = 1;
+	menuButtons[arenaButtonInitIndex].isRedTransparent = 1;
+	menuButtons[arenaButtonInitIndex+1].isRedTransparent = 1;
+	menuButtons[arenaButtonInitIndex+2].isRedTransparent = 1;
 
 
 	//initialize which button cursor will be on upon starting
-	menuButtons[3].setColour(selectColour);	//is set to green initially
-	menuButtons[3].setMixColour(1); //init
+	menuButtons[arenaButtonInitIndex].setColour(selectColour);	//is set to green initially
+	menuButtons[arenaButtonInitIndex].setMixColour(1); //init
 	prevCol = vec3(1, 1, 0);	//colour for first button
 
 	//textures for skybox choice buttons
-	if (!menuButtons[6].initTexture("textures/ame_ash/ashcanyon_lf.tga", GL_TEXTURE_2D)) {
+	if (!menuButtons[skyboxButtonInitIndex].initTexture("textures/ame_ash/ashcanyon_lf.tga", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
-	if (!menuButtons[7].initTexture("textures/jf_nuke/nuke_lf.tga", GL_TEXTURE_2D)) {
+	if (!menuButtons[skyboxButtonInitIndex+1].initTexture("textures/jf_nuke/nuke_lf.tga", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
-	if (!menuButtons[8].initTexture("textures/mp_deviltooth/devils-tooth_lf.tga", GL_TEXTURE_2D)) {
+	if (!menuButtons[skyboxButtonInitIndex+2].initTexture("textures/mp_deviltooth/devils-tooth_lf.tga", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
-	if (!menuButtons[9].initTexture("textures/mp_emerald/emerald-summit_lf.tga", GL_TEXTURE_2D)) {
+	if (!menuButtons[skyboxButtonInitIndex+3].initTexture("textures/mp_emerald/emerald-summit_lf.tga", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
 
 	//vehicle choice buttons
-	if (!menuButtons[10].initTexture("textures/carImgs/lightCar.png", GL_TEXTURE_2D)) {
+	if (!menuButtons[carButtonInitIndex].initTexture("textures/carImgs/lightCar.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init light car texture." << endl;
 	}
-	if (!menuButtons[11].initTexture("textures/carImgs/mediumCar.png", GL_TEXTURE_2D)) {
+	if (!menuButtons[carButtonInitIndex+1].initTexture("textures/carImgs/mediumCar.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init medium car texture." << endl;
 	}
-	if (!menuButtons[12].initTexture("textures/carImgs/heavyCar.png", GL_TEXTURE_2D)) {
+	if (!menuButtons[carButtonInitIndex+2].initTexture("textures/carImgs/heavyCar.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init heavy car texture." << endl;
 	}
-	menuButtons[10].isRedTransparent = 1;
-	menuButtons[11].isRedTransparent = 1;
-	menuButtons[12].isRedTransparent = 1;
+	menuButtons[carButtonInitIndex].isRedTransparent = 1;
+	menuButtons[carButtonInitIndex+1].isRedTransparent = 1;
+	menuButtons[carButtonInitIndex+2].isRedTransparent = 1;
 
 	//vertices for background
 	background.GenerateSquareVertices(1, 1, vec3(0, 0, 1));	//invalid_enum occurs here
@@ -395,7 +398,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					//init load screen
 					InitializeChooseScreen();
 					isChooseArena = true;
-					menuIndex = 3;	//going to next loop, reset menuIndex
+					menuIndex = arenaButtonInitIndex;	//going to next loop, reset menuIndex
 					Sleep(150);		//slow down input so not crazy fast
 					break;
 				case 1:
@@ -429,34 +432,34 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					isChooseArena = false;
 					isChooseSkybox = true;
 					//get arena index (location of button in menuButtons vector -2)
-					arenaIndex = menuIndex - 3;
+					arenaIndex = menuIndex - arenaButtonInitIndex;
 					//set to colour to indicate choice
 					menuButtons[menuIndex].setColour(pressColour);	
 
 					//new menu index to choose scenery/skybox
-					menuIndex = 6;
-					menuButtons[6].setColour(selectColour);	//set initial choice colour to green
+					menuIndex = skyboxButtonInitIndex;
+					menuButtons[skyboxButtonInitIndex].setColour(selectColour);	//set initial choice colour to green
 					//sex mixColour flag
-					menuButtons[6].setMixColour(1);
+					menuButtons[skyboxButtonInitIndex].setMixColour(1);
 				}
 				//choosing skybox
 				else if (isChooseSkybox){
 					isChooseSkybox = false;
 					//skybox chosen, so get index from menuButton vector 
-					skyboxIndex = menuIndex - 6;
+					skyboxIndex = menuIndex - skyboxButtonInitIndex;
 					menuButtons[menuIndex].setColour(pressColour);	//indicate choice
 					menuButtons[menuIndex].setMixColour(1);
 
 					//new menu index to choose scenery/skybox
-					menuIndex = 10;
-					menuButtons[10].setColour(selectColour);	//set initial choice colour to green
+					menuIndex = carButtonInitIndex;
+					menuButtons[carButtonInitIndex].setColour(selectColour);	//set initial choice colour to green
 															//sex mixColour flag
-					menuButtons[10].setMixColour(1);
+					menuButtons[carButtonInitIndex].setMixColour(1);
 					//pressStart(audio);	//start game
 				}
 				//choosing vehicle
 				else {
-					humanVehicleChoice = menuIndex - 10;
+					humanVehicleChoice = menuIndex - carButtonInitIndex;
 					menuButtons[menuIndex].setColour(pressColour);	//indicate choice
 					menuButtons[menuIndex].setMixColour(1);
 					pressStart(audio);	//start game
@@ -472,7 +475,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					//unset skybox choice colours
 					menuButtons[menuIndex].setMixColour(0);
 					//reset menu index for arenas
-					menuIndex = skyboxIndex + 6;
+					menuIndex = skyboxIndex + skyboxButtonInitIndex;
 
 					//unset choice colour back to pick colour
 					menuButtons[menuIndex].setColour(selectColour);
@@ -486,7 +489,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					//unset skybox choice colours
 					menuButtons[menuIndex].setMixColour(0);
 					//reset menu index for arenas
-					menuIndex = arenaIndex + 3;
+					menuIndex = arenaIndex + arenaButtonInitIndex;
 
 					//unset choice colour back to pick colour
 					menuButtons[menuIndex].setColour(selectColour);
