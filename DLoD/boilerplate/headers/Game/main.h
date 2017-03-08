@@ -58,7 +58,7 @@ vec3 _lightSource = vec3(0.f, 100.f, 0.f);
 //string mainMusic= "music/TimeLapse.wav";	//theme
 string mainMusic = "music/TimeLapse.wav";
 
-int skyboxIndex, arenaIndex;
+int skyboxIndex, arenaIndex, humanVehicleChoice;
 vector<string> skyboxFilePathnames = {
 	"textures/ame_ash/",
 	"textures/jf_nuke/",
@@ -68,7 +68,8 @@ vector<string> skyboxFilePathnames = {
 
 vector <string> arenaObjFilenames = {
 	"arenas/arena9.obj",
-	"arenas/bpArena2.obj"
+	"arenas/bpArena2.obj",
+	"arenas/bumpyArena3.obj"
 };
 //Audio music;
 

@@ -8,6 +8,9 @@
 #include "..\headers\Game\ScreenOverlay.h"
 #include "..\headers\Game\Audio.h"
 #include "..\headers\Game\Timer.h"
+#include "../GEO/vehicle/LargeVehicle.h"
+#include "../GEO/vehicle/MediumVehicle.h"
+#include "../GEO/vehicle/LightVehicle.h"
 
 class Game
 {
@@ -53,7 +56,7 @@ private:
 
 public:
 
-  Game(GLFWwindow*, Audio audio, const string &skyboxFilepath, const string &arenaFilepath);
+  Game(GLFWwindow*, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const int &humanVehicleChoice);
 
   void start();
 };

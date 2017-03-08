@@ -183,6 +183,7 @@ int main(int argc, char *argv[])
 {
 	skyboxIndex = 0;
 	arenaIndex = 0;
+	humanVehicleChoice = 0;
 	// initialize the GLFW windowing system
 	if (!glfwInit()) {
 		cout << "ERROR: GLFW failed to initialize, TERMINATING" << endl;
@@ -240,35 +241,36 @@ int main(int argc, char *argv[])
 	TitleScreen ts;
 
 	ScreenOverlay loadBkgrd, loadWidget;
-	if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex)) {
-		ts.Destroy();
-		cout << skyboxIndex << " " << arenaIndex << endl;
-		InitializeLoadScreen(&loadBkgrd, &loadWidget);
+	//while (!glfwWindowShouldClose(window)) {
+		if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex, humanVehicleChoice)) {
+			ts.Destroy();
+			InitializeLoadScreen(&loadBkgrd, &loadWidget);
 
-		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
-		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
-		glEnable(GL_DEPTH_TEST);
+			glEnable(GL_DEPTH_TEST);
 
-		PrintDirections();
+			PrintDirections();
 
-		updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
-		loadBkgrd.Destroy();
-		loadWidget.Destroy();
+			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
+			loadBkgrd.Destroy();
+			loadWidget.Destroy();
 
-		Game game = Game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex]);
+			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], humanVehicleChoice);
 
-		if (!audio.PlayMusic()) {
-			cout << "Failed to play music" << endl;
+			if (!audio.PlayMusic()) {
+				cout << "Failed to play music" << endl;
+			}
+
+			game.start();
 		}
-
-		game.start();
-	}
-	else {
-		ts.Destroy();
-	}
-
+		else {
+			glfwSetWindowShouldClose(window, true);
+			ts.Destroy();
+		}
+//	}
 	audio.CleanUp();
 
 	glfwDestroyWindow(window);

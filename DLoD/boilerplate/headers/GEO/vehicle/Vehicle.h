@@ -7,10 +7,10 @@ using namespace physx;
 class Vehicle :
 	public GEO
 {
-private:
+protected:
 
 
-	bool dead;
+  bool dead;
   // Stores the Vehicle Health
   float health;
   float armour;
@@ -21,7 +21,7 @@ private:
 
   // Stores the rate of acceleration and maxVelocity
   double acceleration;
-  double maxVelocity = 70;
+  double maxVelocity;
   float torqueSpeed;
   
   Mesh aliveCar, deadCar;

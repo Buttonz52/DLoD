@@ -18,13 +18,13 @@ public:
 	void InitializeTitleScreen();
 	void InitializeChooseScreen();
 	void Render();
-	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex);
+	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, int &humanVehicleChoice);
 	void Destroy();
 
 	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
 
 private:
-	bool isQuit, isStart, isRules, isLoadScreen, isChooseArena;
+	bool isQuit, isStart, isRules, isLoadScreen, isChooseArena, isChooseSkybox;
 	int menuIndex;
 	int numMenuButtons;
 	float buttonWidth;
@@ -40,7 +40,6 @@ private:
 	void pressQuit();
 	void pressRules();
 	void toggleMenuIndex(const int &s, Audio *audio);
-	XboxController controller;
 	Mix_Chunk *click;
 	Mix_Chunk *press;
 	Mix_Chunk *back;

@@ -19,7 +19,7 @@ GEO* initGroundPlane()
 }
 
 
-Game::Game(GLFWwindow* w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath)
+Game::Game(GLFWwindow* w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const int &humanVehicleChoice)
 {
   window = w;
   physX.init();
@@ -30,15 +30,50 @@ Game::Game(GLFWwindow* w, Audio audio, const string &skyboxFilepath, const strin
   //skybox->children.push_back(initGroundPlane());
 
   Human* human = new Human(0);
-  human->vehicle = new Vehicle();
-  human->vehicle->setPosition(vec3(0, 20, -50));
+  //choice between vehicles
+	switch (humanVehicleChoice) {
+	case 0:
+		human->vehicle = new LightVehicle();
+		break;
+	case 1:
+		human->vehicle = new MediumVehicle();
+		break;
+	case 2:
+		human->vehicle = new LargeVehicle();
+		break;
+	default:
+		human->vehicle = new MediumVehicle();
+		break;
+	}
+
+ // human->vehicle = new Vehicle();
+  human->vehicle->setPosition(vec3(0, 50, -50));
   initVehicle(human->vehicle);
   skybox->children.push_back(human->vehicle);
 
-
+  int aiRNGChoose;
+  srand(time(NULL));
+  aiRNGChoose = rand() % 3;
   AI* ai = new AI(1);
-  ai->vehicle = new Vehicle();
-  ai->vehicle->setPosition(vec3(0, 20, 50));
+
+  //random choice between vehicle classes
+  switch (aiRNGChoose){
+  case 0:
+	  ai->vehicle = new LightVehicle();
+	  break;
+  case 1:
+	  ai->vehicle = new MediumVehicle();
+	  break;
+  case 2:
+	  ai->vehicle = new LargeVehicle();
+	  break;
+  default:
+	  ai->vehicle = new MediumVehicle();
+	  break;
+  }
+  cout << "AI choice: "<<aiRNGChoose << endl;
+
+  ai->vehicle->setPosition(vec3(0, 50, 50));
   ai->vehicle->setColour(vec3(0, 1, 0));
   initVehicle(ai->vehicle);
   skybox->children.push_back(ai->vehicle);
@@ -279,7 +314,7 @@ void Game::initVehicle(Vehicle* v)
 {
   v->setScale(vec3(1.5));
  
-  v->setFilename("ObjModels/mediumCarBody.obj");	//alive mesh
+  //v->setFilename("ObjModels/mediumCarBody.obj");	//alive mesh
   if (!v->initMesh("cube.obj")) {	//dead mesh
     cout << "Failed to initialize mesh." << endl;
   }

@@ -27,7 +27,6 @@ void main(void)
 	if (hasBumpTexture ==1) {
 		normal = normalize((texture(bump, uv.xy).rgb *2.0-1.0));
 		diffuse = max(0.0, dot(normal, normalize(L)));
-
 	}
 	else {
 		normal = N;

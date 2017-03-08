@@ -148,8 +148,11 @@
     <ClCompile Include="src\GEO.cpp" />
     <ClCompile Include="src\Human.cpp" />
     <ClCompile Include="src\Item.cpp" />
+    <ClCompile Include="src\LargeVehicle.cpp" />
     <ClCompile Include="src\Light.cpp" />
+    <ClCompile Include="src\LightVehicle.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MediumVehicle.cpp" />
     <ClCompile Include="src\Mesh.cpp" />
     <ClCompile Include="src\PhysXMain.cpp" />
     <ClCompile Include="src\Player.cpp" />
@@ -190,6 +193,9 @@
     <ClInclude Include="headers\GEO\player\Human.h" />
     <ClInclude Include="headers\GEO\player\Player.h" />
     <ClInclude Include="headers\GEO\Shadow.h" />
+    <ClInclude Include="headers\GEO\vehicle\LargeVehicle.h" />
+    <ClInclude Include="headers\GEO\vehicle\LightVehicle.h" />
+    <ClInclude Include="headers\GEO\vehicle\MediumVehicle.h" />
     <ClInclude Include="headers\GEO\vehicle\Vehicle.h" />
     <ClInclude Include="headers\Physics\ContactModifyCallback.h" />
     <ClInclude Include="headers\Physics\PhysXMain.h" />

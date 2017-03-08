@@ -10,7 +10,9 @@ Vehicle::Vehicle()
 	//initialize crash sound and place in map
 	crash = Mix_LoadWAV("sfx/carCrash.wav");
 	sfxMap.insert(make_pair("crash", crash));
+	filename = "cars/mediumCarBody.obj";
 	torqueSpeed = 12000.0;
+	maxVelocity = 70;
 	colour = vec3(1,0, 0);
 }
 
@@ -271,8 +273,8 @@ void Vehicle::giveMeWheels()
 	{
 		//init wheels mesh
 		GEO* wheel = new GEO();
-		wheel->setFilename("mediumCarTire.obj");
-		if (!wheel->initMesh("ObjModels/mediumCarTire.obj")) {
+		wheel->setFilename("wheels/mediumCarTire.obj");
+		if (!wheel->initMesh("wheels/mediumCarTire.obj")) {
 			cout << "Error reading wheel mesh" << endl;
 		}
 
