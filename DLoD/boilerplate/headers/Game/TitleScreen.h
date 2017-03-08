@@ -31,6 +31,7 @@ private:
 	float buttonWidth;
 	float buttonHeight;
 	float padding;
+	string titleMusic = "music/Faded_intro.wav";
 	vec3 selectColour;
 	vec3 pressColour;
 	ScreenOverlay background;
@@ -40,6 +41,7 @@ private:
 	void pressStart(Audio *audio);
 	void pressQuit();
 	void pressRules();
+	void InitMusic();
 	void toggleMenuIndex(const int &s, Audio *audio);
 	Mix_Chunk *click;
 	Mix_Chunk *press;

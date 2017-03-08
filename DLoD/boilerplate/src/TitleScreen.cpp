@@ -368,6 +368,12 @@ int TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio 
 
 //displays title screen
 bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, int &humanVehicleChoice) {
+	if (!audio->InitMusic(titleMusic.c_str())) {
+		cout << "Failed to init title music." << endl;
+	}
+	if (!audio->PlayMusic()) {
+		cout << "Failed to play music" << endl;
+	}
 	isLoadScreen = false;
 	menuIndex = 0;
 
@@ -425,9 +431,9 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 				//press "select"
 			case 4:
+				audio->PlaySfx(press);
 				//if you choose arena
 				if (isChooseArena) {
-					audio->PlaySfx(press);
 					//set flag to false
 					isChooseArena = false;
 					isChooseSkybox = true;
@@ -441,6 +447,8 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					menuButtons[skyboxButtonInitIndex].setColour(selectColour);	//set initial choice colour to green
 					//sex mixColour flag
 					menuButtons[skyboxButtonInitIndex].setMixColour(1);
+					Sleep(150);		//slow down input so not crazy fast
+
 				}
 				//choosing skybox
 				else if (isChooseSkybox){
@@ -455,6 +463,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					menuButtons[carButtonInitIndex].setColour(selectColour);	//set initial choice colour to green
 															//sex mixColour flag
 					menuButtons[carButtonInitIndex].setMixColour(1);
+					Sleep(150);		//slow down input so not crazy fast
 					//pressStart(audio);	//start game
 				}
 				//choosing vehicle
@@ -527,6 +536,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 		Sleep(100);		//slow down input so not crazy fast
 		glfwPollEvents();
 	}
+	audio->FreeMusic();
 	Sleep(600);
 	return 1;
 	//Initialize "Loading screen"

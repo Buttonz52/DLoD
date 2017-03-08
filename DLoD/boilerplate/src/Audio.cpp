@@ -31,6 +31,10 @@ bool Audio::InitMusic(const char *filename) {
 	return true;
 }
 
+void Audio::FreeMusic() {
+	Mix_FreeMusic(music_file);
+	//Mix_CloseAudio();
+}
 //Clean up resources.
 void Audio::CleanUp()
 {

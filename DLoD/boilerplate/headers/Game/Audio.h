@@ -12,6 +12,7 @@ public:
 	Mix_Chunk *horn = NULL;
 
 	bool InitMusic(const char *filename);
+	void FreeMusic();
 	void CleanUp();
 	bool PlayMusic();
 	void PauseMusic();

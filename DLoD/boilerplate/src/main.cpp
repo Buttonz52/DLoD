@@ -232,10 +232,6 @@ int main(int argc, char *argv[])
 	if (!audio.Init()) {
 		cout << "Failed to init audio." << endl;
 	}
-	////init music
-	if (!audio.InitMusic(mainMusic.c_str())) {
-		cout << "Failed to load music." << endl;
-	}
 
 	//Initialize "Loading screen"
 	TitleScreen ts;
@@ -245,7 +241,10 @@ int main(int argc, char *argv[])
 		if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex, humanVehicleChoice)) {
 			ts.Destroy();
 			InitializeLoadScreen(&loadBkgrd, &loadWidget);
-
+			////init music
+			if (!audio.InitMusic(mainMusic.c_str())) {
+				cout << "Failed to load music." << endl;
+			}
 			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
 			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
