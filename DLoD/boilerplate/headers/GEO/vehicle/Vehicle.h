@@ -1,6 +1,7 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
 #include "..\GEO.h"
+#include "..\..\Game\timer.h"
 
 using namespace physx;
 
@@ -8,7 +9,6 @@ class Vehicle :
 	public GEO
 {
 protected:
-
 
   bool dead;
   // Stores the Vehicle Health
@@ -31,6 +31,10 @@ public:
 	~Vehicle();
 
   PxVehicleNoDrive* physXVehicle;
+  pair<bool, double> stun = make_pair(false, 0);
+  Timer timer;
+
+
 
   string wheelFileName;
   void updateWheelPosition();

@@ -232,7 +232,7 @@ void Game::gameLoop()
         vec3 vPos = vec3(M[3]);
         vec3 dis = vec3(0, 8, 0);
 
-        Item* item = new Item(DamageTrap);
+        Item* item = new Item(p->trap);
         mat4 m = mat4(1);
         m[3] = vec4(vPos + dis, 1);
         item->setModelMatrix(m);

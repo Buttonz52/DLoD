@@ -2,6 +2,7 @@
 #define PLAYER_H
 #include "..\vehicle\Vehicle.h"
 #include "..\Camera.h"
+#include "..\item\Item.h"
 class Player
 {
 public:
@@ -18,5 +19,7 @@ public:
 
   bool layTrap = false;
   bool ableToTrap = true;
+  ItemType trap;
+
 };
 #endif

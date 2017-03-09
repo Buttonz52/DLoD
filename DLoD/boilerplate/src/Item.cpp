@@ -13,6 +13,12 @@ void damageTrap(Vehicle* v)
   v->updateHealth(30);
 }
 
+void empTrap(Vehicle* v)
+{
+  v->timer.start();
+  v->stun = make_pair(true, 5000);
+}
+
 
 
 
@@ -22,6 +28,10 @@ Item::Item(ItemType type)
   {
   case DamageTrap:
     onPickUp = damageTrap;
+    break;
+
+  case EmpTrap:
+    onPickUp = empTrap;
     break;
 
   default:
