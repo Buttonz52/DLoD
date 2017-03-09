@@ -15,7 +15,7 @@ public:
 	Mesh();
 	~Mesh();
 
-	bool Initialize(bool hasTangents);
+	bool Initialize();
 	bool InitializeTangentBuffer();
 	bool ReadMesh(const string &filename);
 
@@ -31,7 +31,6 @@ public:
 	vector<vec3> uvs;
 	vector<GLushort> faces;
 	vector<vec3> normals;
-	vector<vec3> tangentMesh;
 	GLuint vertexArray;
 	GLsizei elementCount;
 	
@@ -41,9 +40,8 @@ private:
 	GLuint normalBuffer;
 	GLuint indicesBuffer;
 	GLuint textureBuffer;
-	GLuint tangentBuffer;
 	GLuint colourBuffer; //might not need
-
+	vec3 colour;
 	aiVector3D AddUV(const aiVector3D &vertex, const string &filename);
 };
 #endif

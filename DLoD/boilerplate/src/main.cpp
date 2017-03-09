@@ -249,15 +249,21 @@ int main(int argc, char *argv[])
 
 			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
+			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
+			// Enable blending (for transparency)
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			PrintDirections();
 
 			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 			loadBkgrd.Destroy();
 			loadWidget.Destroy();
-
-			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], humanVehicleChoice);
+			glfwSetWindowSize(window, width / numPlayers, height /numPlayers);
+			//glfwSetWindowPos(window, 0,0);
+			windows.push_back(window);
+			Game game(&windows, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],humanVehicleChoice);
 
 			if (!audio.PlayMusic()) {
 				cout << "Failed to play music" << endl;

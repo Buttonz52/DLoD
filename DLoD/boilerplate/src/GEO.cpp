@@ -2,7 +2,6 @@
 
 GEO::GEO()
 {
-	hasBumpTexture = false;
 	position = vec3(0);
 	radius = 1.f;
 	filename = "";
@@ -167,9 +166,7 @@ void GEO::addShaders(const string &vert, const string &frag)
 
 bool GEO::initBuffers() {
 	//if there's a bump texture, init tangent buffer
-	if (hasBumpTexture) {
-		return (mesh.Initialize(hasBumpTexture));
-	}
+	return mesh.Initialize();
 }
 
 bool GEO::initMesh(const string &filename) {
@@ -179,7 +176,7 @@ bool GEO::initMesh(const string &filename) {
 		cout << "Error reading mesh" << endl;
 		return 0;
 	}
-	if (!mesh.Initialize(hasBumpTexture)) {
+	if (!mesh.Initialize()) {
 		cout << "Error  with initializiation of mesh"<<endl;
 		return 0;
 	}
@@ -195,12 +192,12 @@ bool GEO::initTexture(const string &filename, GLuint target) {
 	return texture.InitializeTexture(filename, target);
 }
 
-
-
-/** Calculates tangent coordinates for mesh. */
-void GEO::calculateMeshTangent() {
-	mesh.calculateMeshTangent(); 
-}
+//
+//
+///** Calculates tangent coordinates for mesh. */
+//void GEO::calculateMeshTangent() {
+//	mesh.calculateMeshTangent(); 
+//}
 
 bool GEO::initSkybox(const vector <string> &filenames) {
 	hasTexture = 1;
@@ -241,6 +238,9 @@ void GEO::setColour(const vec3 &col) {
 	mesh.AddColour(col);
 }
 
+vec3 *GEO::getColour() {
+	return &colour;
+}
 // Rendering function that draws our scene to the frame buffer
 //TODO: Make specific to different types of GEOs, use inheritance
 void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
@@ -253,9 +253,6 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 
 	if (hasTexture) {
 		texture.BindTexture(shader.program, "sampler");
-		if (hasBumpTexture) {
-			bump.BindTexture(shader.program, "bump");
-		}
 	}
 
 	vec3 fp = vec3(0, 0, 0);		//focal point
@@ -279,17 +276,13 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "projection"), 1, GL_FALSE, value_ptr(_projection));
 	glUniform3fv(glGetUniformLocation(shader.program, "lightPosition"), 1, value_ptr(_lightSource));
-	glUniform1i(glGetUniformLocation(shader.program, "hasBumpTexture"), hasBumpTexture);
 
 	glDrawElements(GL_TRIANGLES, mesh.elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);
 	glUseProgram(0);
 	if (hasTexture) {
-		texture.UnbindTexture(GL_TEXTURE_2D);
-		if (hasBumpTexture) {
-			bump.UnbindTexture(GL_TEXTURE_2D);
-		}
+		texture.UnbindTexture();
 	}
 
 	// check for an report any OpenGL errors

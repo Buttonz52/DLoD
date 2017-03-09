@@ -110,7 +110,7 @@ bool Texture::BindTexture(GLuint program, const string &varName) {
 	return !CheckGLErrors();
 }
 
-void Texture::UnbindTexture(GLuint target) {
+void Texture::UnbindTexture() {
 	glBindTexture(target, 0);
 }
 

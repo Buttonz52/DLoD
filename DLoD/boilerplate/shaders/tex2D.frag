@@ -22,20 +22,12 @@ uniform int hasBumpTexture;
 void main(void)
 {
 	vec4 imageColour = texture(sampler,uv.xy);
-	vec3 normal;
 	float diffuse;
-	if (hasBumpTexture ==1) {
-		normal = normalize((texture(bump, uv.xy).rgb *2.0-1.0));
-		diffuse = max(0.0, dot(normal, normalize(L)));
-	}
-	else {
-		normal = N;
-		diffuse = max(0.0, dot(normal, normalize(L-P)));
-	}
-	//FragmentColour = vec4(vec3(diffuse),1.f);
-	FragmentColour = imageColour + vec4(vec3(diffuse*0.5),1.0);
-	//FragmentColour = texture(sampler, uv.xy);
 
+	diffuse = max(0.0, dot(N, normalize(L-P)));
+
+	FragmentColour = imageColour + vec4(vec3(diffuse*0.5),1.0);
+	//FragmentColour= imageColour;
 }
 
 

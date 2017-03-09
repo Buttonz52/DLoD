@@ -19,14 +19,19 @@ GEO* initGroundPlane()
 }
 
 
-Game::Game(GLFWwindow* w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const int &humanVehicleChoice)
+Game::Game(vector <GLFWwindow*> *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const int &humanVehicleChoice)
 {
-  window = w;
+ // window = w->at(0);
+	for (int i = 0; i < w->size(); i++) {
+		windows.push_back(w->at(0));
+	}
+	//windows = w;
   physX.init();
 
   initSkyBox(skyboxFilepath);
   //skybox->children.push_back(initArena());
   arena = initArena(arenaTexFilename, arenaFilepath);
+  arenaMap = arenaMapFile;
   //skybox->children.push_back(initGroundPlane());
 
   Human* human = new Human(0);
@@ -48,6 +53,7 @@ Game::Game(GLFWwindow* w, Audio audio, const string &skyboxFilepath, const strin
 
  // human->vehicle = new Vehicle();
   human->vehicle->setPosition(vec3(0, 50, -50));
+ // human->vehicle->setColour(vec3(0, 0, 1));
   initVehicle(human->vehicle);
   skybox->children.push_back(human->vehicle);
 
@@ -109,27 +115,27 @@ void Game::start()
 	{
 		endGameText.InitializeGameText("WIN!", vec3(-0.1, 0, 0), vec3(0, 1, 0), 20);
 		endGameText.Render(GL_TRIANGLES);
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(windows.at(0));
 
 		audio.PlaySfx(winSFX);
 	}
 	else if (players[0]->isDead()){
 		endGameText.InitializeGameText("LOSE!", vec3(-0.1, 0, 0), vec3(0, 0, 1), 20);
 		endGameText.Render(GL_TRIANGLES);
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(windows.at(0));
 
 		audio.PlaySfx(loseSFX);
 	}
 
   bool pause = true;
 
-  while (pause && !glfwWindowShouldClose(window))
+  while (pause && !glfwWindowShouldClose(windows.at(0)))
   {
 	  for (Player* p : players)
 	  {
 		  Human* human = dynamic_cast<Human*> (p);
 		  if (human != nullptr)
-			  human->getGameOverInput(window,pause);
+			  human->getGameOverInput(windows.at(0),pause);
 	  }
 
 	  glfwPollEvents();
@@ -141,19 +147,18 @@ void Game::start()
 
 void Game::gameLoop()
 {
-
-  //InitializeGameText(&fontTex, to_string(players[0]->vehicle->getHealth()), vec3(0.5,0.9,0));
-  healthTitle.InitializeGameText("Health:", vec3(0, 0.9, 0), vec3(1, 0, 0), 20);
-  armourTitle.InitializeGameText("Armour:", vec3(-1, 0.9, 0), vec3(0, 0, 1), 20);
-
-  healthTex.InitializeGameText(players[0]->vehicle->getHealthString(), vec3(0.5, 0.9, 0), vec3(1,0,0), 20);
-  armourTex.InitializeGameText(players[0]->vehicle->getArmourString(), vec3(-0.5, 0.9, 0), vec3(0, 0, 1), 20);
+	vector<vec3> positions;
+	for (Player *p : players) {
+		positions.push_back(p->vehicle->getModelMatrix()[3]);
+	}
+  //Initialize hud
+	gameHud.InitializeHud(*players[0]->vehicle->getColour(), &positions, arenaMap);
 
   int frameCtr = 0;
  /* glEnable(GL_CULL_FACE);
 
   glCullFace(GL_FRONT);*/
-  while (!glfwWindowShouldClose(window) && !gameOver)
+  while (!glfwWindowShouldClose(windows.at(0)) && !gameOver)
   {
     // Add items to the scene
     vector<pair<Player*, int>>::iterator itr = itemsToAdd.begin();
@@ -186,25 +191,23 @@ void Game::gameLoop()
     // Render
     mat4 projectionMatrix = players[0]->playerCam->calculateProjectionMatrix();
     mat4 viewMatrix = players[0]->playerCam->calculateViewMatrix();
-
-	healthTex.UpdateGameText(players[0]->vehicle->getHealthString());
-	armourTex.UpdateGameText(players[0]->vehicle->getArmourString());
 	
+	//render the game hud
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
 	arena->Render(viewMatrix, projectionMatrix, lightSource);
 	glDisable(GL_CULL_FACE);
     skybox->Render(viewMatrix, projectionMatrix, lightSource);
-	  healthTitle.Render(GL_TRIANGLES);
-	  armourTitle.Render(GL_TRIANGLES);
-	  healthTex.Render(GL_TRIANGLES);
-	  armourTex.Render(GL_TRIANGLES);
+	gameHud.Render(players[0]->vehicle->getHealthString(), players[0]->vehicle->getArmourString(), players[0]->vehicle->getVelocityString(), &positions);
 
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(windows.at(0));
 
+	positions.clear();
     // For all players get input
     for (Player* p : players)
     {
+		positions.push_back(p->vehicle->getModelMatrix()[3]);
+		//kill player if out of bounds
 		if (p->vehicle->getModelMatrix()[3].y < -10)
 			p->vehicle->updateHealth(1000);
 
@@ -218,7 +221,7 @@ void Game::gameLoop()
 
       Human* human = dynamic_cast<Human*> (p);
       if (human != nullptr)
-        human->getInput(window);
+        human->getInput(windows.at(0));
 
       p->playerCam->followVehicle(p->vehicle);
       
@@ -280,7 +283,7 @@ void Game::initSkyBox(const string &pathname)
 			continue;
 		}
 		if ((found = line.find("bump")) != string::npos) {
-			arenaBumpmap = line;
+			//arenaBumpmap = line;
 			continue;
 		}
 		skyboxFiles.push_back(pathname +line);
@@ -336,12 +339,13 @@ void Game::initItem(Item* item)
 {
   item->setFilename("cube.obj");
   item->setScale(vec3(2));
+  item->setColour(vec3(1, 1, 0));
+
   if (!item->initMesh("/ObjModels/bearTrap.obj")) {	//dead mesh
     cout << "Failed to initialize bear trap." << endl;
   }
   item->addShaders("shaders/toon.vert", "shaders/toon.frag");
   
-  item->setColour(vec3(1, 1, 0));
 
   mat3 scaleM = mat3(1);
   scaleM[0][0] = item->getScale().x;
@@ -362,25 +366,33 @@ void Game::initItem(Item* item)
 //initialize arena
 GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	GEO *arena = new GEO();
-	arena->hasBumpTexture = true;
 	arena->setFilename(objfilename);
+	arena->setColour(vec3(1, 0, 0));
+
 	if (!arena->initMesh(objfilename)) {
 		cout << "Failed to init arena" << endl;
 	}
-	arena->setColour(vec3(1, 0, 0));
-	if (!arena->initTexture(texfilename, GL_TEXTURE_2D)) {
-		cout << "Failed to initialize arena ground texture." << endl;
+	vector<string> arenaTexture;
+	for (int i = 0; i < 6; i++) {
+		arenaTexture.push_back(texfilename);
 	}
+	if (!arena->initSkybox(arenaTexture)) {
+		cout << "Failed to initialize arena texture." << endl;
+	}
+	arena->addShaders("shaders/skybox.vert", "shaders/skybox.frag");
+	//if (!arena->initTexture(texfilename, GL_TEXTURE_2D)) {
+	//	cout << "Failed to initialize arena ground texture." << endl;
+	//}
 
 	//bump map initialization
-	if (!arena->initTexture(arenaBumpmap, GL_TEXTURE_2D)) {
-		cout << "Failed to initialize arena bump map." << endl;
-	}
+//	if (!arena->initTexture(arenaBumpmap, GL_TEXTURE_2D)) {
+//		cout << "Failed to initialize arena bump map." << endl;
+//	}
 	//cout << "Calc arena mesh tangents" << endl;
 	//calculate tangent for bump map
-	arena->calculateMeshTangent();
+//	arena->calculateMeshTangent();
 
-	arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+	//arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
 	//arena->addShaders("shaders/phong.vert", "shaders/phong.frag");
 
 	if (!arena->initBuffers()) {

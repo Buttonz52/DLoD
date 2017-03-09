@@ -231,18 +231,18 @@ void Vehicle::updateHealth(const float &damage)
 
 
 bool Vehicle::initMesh(const string &file) {
+	aliveCar.AddColour(colour);
 
 	if (!aliveCar.ReadMesh("models/" + filename)) {
 		cout << "Error reading alive car" << endl;
 		return 0;
 	}
-	aliveCar.AddColour(colour);
+	deadCar.AddColour(vec3(0, 1, 0));
 
 	if (!deadCar.ReadMesh("models/" + file)) {
 		cout << "Error reading destroyed car" << endl;
 		return 0;
 	}
-	deadCar.AddColour(vec3(0, 1, 0));
 
 	//init wheels mesh
 	giveMeWheels();
@@ -274,13 +274,14 @@ void Vehicle::giveMeWheels()
 		//init wheels mesh
 		GEO* wheel = new GEO();
 		wheel->setFilename("wheels/mediumCarTire.obj");
+		wheel->setColour(vec3(1, 0, 0));
+
 		if (!wheel->initMesh("wheels/mediumCarTire.obj")) {
 			cout << "Error reading wheel mesh" << endl;
 		}
 
 		wheel->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
-		wheel->setColour(vec3(1, 0, 0));
 
 		if (!wheel->initBuffers()) {
 			cout << "Could not initialize buffers for game object " << wheel->getFilename() << endl;
@@ -300,7 +301,7 @@ void Vehicle::changeMeshDead()
 }
 
 bool Vehicle::initBuffers() {
-	if (!aliveCar.Initialize(hasBumpTexture) || !deadCar.Initialize(hasBumpTexture)) {
+	if (!aliveCar.Initialize() || !deadCar.Initialize()) {
 		return false;
 	}
 	mesh = aliveCar;
@@ -349,6 +350,24 @@ string Vehicle::getArmourString() {
 	return retStr;
 }
 
+string Vehicle::getVelocityString() {
+	string retStr;
+	PxVec3 velocity = physXVehicle->getRigidDynamicActor()->getLinearVelocity();
+	string playerVelocity = to_string(int(velocity.magnitude()));
+
+	switch (playerVelocity.size()) {
+	case 2:
+		retStr = playerVelocity;
+		break;
+	case 1:
+		retStr = "0" + playerVelocity;
+		break;
+	default:
+		retStr = playerVelocity;
+	}
+	return retStr;
+}
+
 void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
 {
 
@@ -388,7 +407,7 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 	glBindVertexArray(0);
 	glUseProgram(0);
 	if (hasTexture)
-		texture.UnbindTexture(GL_TEXTURE_2D);
+		texture.UnbindTexture();
 
 	// check for an report any OpenGL errors
 	CheckGLErrors();

@@ -8,6 +8,7 @@
 
 ScreenOverlay::ScreenOverlay()
 {
+	transparency = 1.f;
 	updateFactor = 5;
 	vertexArray = -1;
 	elementCount = 0;
@@ -36,6 +37,70 @@ void ScreenOverlay::InitializeShaders(const string & vert, const string & frag)
 	shader.program = shader.InitializeShaders(vert, frag);
 }
 
+bool ScreenOverlay::GenerateBorder(float scale_x, float scale_y, const float &thicc, const vec3 &col, const vec3 &position) {
+	colour = col;
+	this->position = position;
+	vertices = { vec3(-1 * scale_x,1 * scale_y,0),			//top bar
+				vec3(1*scale_x,(1-thicc)*scale_y,0),
+				vec3(-1*scale_x, (1-thicc)*scale_y,0),
+				vec3(-1 * scale_x,1 * scale_y,0),
+				vec3(1 * scale_x,1 * scale_y,0),
+				vec3(1*scale_x,(1-thicc)*scale_y,0),
+
+				vec3(1 * scale_x,(1-thicc) * scale_y,0),			//side right
+				vec3(1 * scale_x,(-1 + thicc)*scale_y,0),
+				vec3((1 - thicc) *scale_x, (1 - thicc)*scale_y,0),
+				vec3((1 - thicc) *scale_x, (1 - thicc)*scale_y,0),
+				vec3(1 * scale_x,(-1 + thicc)*scale_y,0),
+				vec3((1-thicc) * scale_x,(-1 + thicc)*scale_y,0),
+
+				vec3(-1 * scale_x,(-1+thicc) * scale_y,0),			//buttom bar
+				vec3(1 * scale_x,-1*scale_y,0),
+				vec3(-1 *scale_x, -1*scale_y,0),
+				vec3(-1 * scale_x,(-1 + thicc) * scale_y,0),			
+				vec3(1 * scale_x,(-1+thicc) * scale_y,0),
+				vec3(1 * scale_x, -1 * scale_y,0),
+
+				vec3(-1 * scale_x,(1 - thicc) * scale_y,0),			//side left
+				vec3((-1+thicc) * scale_x,(1 - thicc)*scale_y,0),
+				vec3((-1 +thicc) *scale_x, (-1 + thicc)*scale_y,0),
+				vec3(-1 * scale_x,(1 - thicc) * scale_y,0),	
+				vec3((-1 + thicc) *scale_x, (-1 + thicc)*scale_y,0),
+				vec3(-1 * scale_x,(-1 + thicc)*scale_y,0),		
+	};
+
+	uvs = { vec2(0,1),			//top 
+			vec2(1,1-thicc),
+			vec2(0,1-thicc),
+			vec2(0,1),
+			vec2(1,0),
+			vec2(0,1 - thicc),
+
+			vec2(1-thicc, thicc),		//side right
+			vec2(1,1-thicc),
+			vec2(1-thicc, 1-thicc),
+			vec2(1 - thicc, thicc),
+			vec2(1, thicc),
+			vec2(1 - thicc, 1 - thicc),
+
+			vec2(1,1-thicc),		//bottom 
+			vec2(1,1),
+			vec2(0,1),
+			vec2(1,1 - thicc),
+			vec2(1,1-thicc),
+			vec2(1,1),
+
+			vec2(0,thicc),			//left
+			vec2(thicc,1-thicc),
+			vec2(0,1-thicc),
+			vec2(0,thicc),
+			vec2(thicc, thicc),
+			vec2(thicc,1 - thicc)
+
+	};
+	elementCount = vertices.size();
+	return Initialize();
+}
 //makes a square/rectangle depending on scale
 bool ScreenOverlay::GenerateSquareVertices(float scale_x, float scale_y, const vec3 &col) {
 	//uvs.clear();
@@ -85,7 +150,7 @@ vec3 & ScreenOverlay::getColour() {
 	return colour;
 }
 //initialize buffers
-void ScreenOverlay::UpdateBuffers(vector<vec2> *uvs) {
+void ScreenOverlay::UpdateBuffers(const vector<vec2> *uvs) {
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 	//glBufferData(GL_ARRAY_BUFFER, uvs->size() * sizeof(vec2), uvs->data(), GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, uvs->size() * sizeof(vec2), uvs->data());
@@ -96,6 +161,11 @@ void ScreenOverlay::UpdateBuffers(vector<vec2> *uvs) {
 	//glBufferData(GL_ARRAY_BUFFER, uvs->size() * sizeof(vec2), uvs->data(), GL_STATIC_DRAW);
 	//glVertexAttribPointer(UV_INDEX, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	//glEnableVertexAttribArray(UV_INDEX);
+}
+
+void ScreenOverlay::UpdateVertices(const vector<vec3> *vertices) {
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices->size() * sizeof(vec2), vertices->data());
 }
 bool ScreenOverlay::Initialize() {
 
@@ -119,13 +189,13 @@ bool ScreenOverlay::Initialize() {
 
 	//}
 	// create another one for storing our uv
-	//if (uvs.size() != 0) {
+	if (uvs.size() != 0) {
 		glGenBuffers(1, &textureBuffer);
 		glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
 		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(vec2), uvs.data(), GL_STATIC_DRAW);
 		glVertexAttribPointer(UV_INDEX, 2, GL_FLOAT, GL_FALSE, 0, 0);
 		glEnableVertexAttribArray(UV_INDEX);
-	//}
+	}
 
 	// unbind our buffers, resetting to default state
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -143,6 +213,9 @@ void ScreenOverlay::Render(GLuint type)
 	glUseProgram(shader.program);
 	glBindVertexArray(vertexArray);
 
+	if (type == GL_POINTS) {
+		glPointSize(10.f);
+	}
 	if (hasTexture ==1) {
 		texture.BindTexture(shader.program, "sampler");
 	}
@@ -159,6 +232,8 @@ void ScreenOverlay::Render(GLuint type)
 	glUniform1i(glGetUniformLocation(shader.program, "mixColour"), mixColour);
 	glUniform1i(glGetUniformLocation(shader.program, "isFontTex"), isFontTex);
 	glUniform1i(glGetUniformLocation(shader.program, "isRedTransparent"), isRedTransparent);
+	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
+
 
 
 	glDrawArrays(type, 0, elementCount);
@@ -166,7 +241,7 @@ void ScreenOverlay::Render(GLuint type)
 	glBindVertexArray(0);
 	glUseProgram(0);
 	if (hasTexture)
-		texture.UnbindTexture(GL_TEXTURE_2D);
+		texture.UnbindTexture();
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 }

@@ -193,7 +193,7 @@ void TitleScreen::InitializeChooseScreen() {
 	ScreenOverlay button;
 
 	//vector of buttons
-	for (int i = 0; i < 13; i++) {
+	for (int i = 0; i <3 + carButtonInitIndex; i++) {
 		menuButtons.push_back(button);
 	}
 

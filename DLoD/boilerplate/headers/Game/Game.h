@@ -11,6 +11,7 @@
 #include "../GEO/vehicle/LargeVehicle.h"
 #include "../GEO/vehicle/MediumVehicle.h"
 #include "../GEO/vehicle/LightVehicle.h"
+#include "../Game/GameHud.h"
 
 class Game
 {
@@ -19,8 +20,9 @@ private:
   GEO* arena;
   vector<Player*> players;
   vector<GEO*> physXObjects;
+  vector<GLFWwindow*>windows;
   string arenaTexFilename;
-  string arenaBumpmap;
+  string arenaMap;
 
   Timer timer;
 
@@ -28,10 +30,10 @@ private:
   vector<pair<Player*, int>> itemsToAdd;
 
   PhysXMain physX;
-  GLFWwindow *window;
+  //GLFWwindow *window;
   Audio audio;
 
-  ScreenOverlay logo, healthTex, armourTex, healthTitle, armourTitle;
+  GameHud gameHud;
 
   vec3 lightSource = vec3(0.f, 100.f, 0.f);
 
@@ -56,7 +58,7 @@ private:
 
 public:
 
-  Game(GLFWwindow*, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const int &humanVehicleChoice);
+  Game(vector<GLFWwindow*> *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const int &humanVehicleChoice);
 
   void start();
 };

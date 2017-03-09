@@ -144,6 +144,7 @@
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ContactModifyCallback.cpp" />
     <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GameHud.cpp" />
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\GEO.cpp" />
     <ClCompile Include="src\Human.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="headers\GameState.h" />
     <ClInclude Include="headers\Game\Audio.h" />
     <ClInclude Include="headers\Game\Game.h" />
+    <ClInclude Include="headers\Game\GameHud.h" />
     <ClInclude Include="headers\Game\main.h" />
     <ClInclude Include="headers\Game\ScreenOverlay.h" />
     <ClInclude Include="headers\Game\Timer.h" />
@@ -217,9 +219,6 @@
     <None Include="shaders\skybox.vert" />
     <None Include="shaders\phong.frag" />
     <None Include="shaders\phong.vert" />
-    <None Include="shaders\tesselationctrl.glsl" />
-    <None Include="shaders\tesselationevalcubic.glsl" />
-    <None Include="shaders\tesselationevalquad.glsl" />
     <None Include="shaders\tex2D.frag" />
     <None Include="shaders\tex2D.vert" />
     <None Include="shaders\toon.frag" />

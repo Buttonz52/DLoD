@@ -8,12 +8,15 @@ class ScreenOverlay
 public:
 	int isFontTex;
 	int isRedTransparent;
+	float transparency;		//transparency of item being rendered (in shader, alpha channel)
 	float updateFactor;
 	void InitializeShaders(const string &vert, const string &frag);
+	bool GenerateBorder(float scale_x, float scale_y, const float & thicc, const vec3 & col, const vec3 & position);
 	bool initTexture(const string &filename, GLuint target);
 	bool GenerateSquareVertices(const float scale_x, const float scale_y, const vec3 &col);
 	bool GenerateVertices(const vector<vec3> *verts, const vec3 &colour, const vector<vec2> *uv);
-	void UpdateBuffers(vector<vec2> *uvs);
+	void UpdateBuffers(const vector<vec2> *uvs);
+	void UpdateVertices(const vector<vec3> *vertices);
 	bool Initialize();
 	void Render(GLuint type);
 	void Destroy();
@@ -40,14 +43,14 @@ public:
 	void UpdateGameText(const string & text);
 
 	void GenerateTextUVs(vector<vec2>& uvs, const char & ch);
+	vec3 Normalize(const vec3 &v);
 
 	ScreenOverlay();
 	~ScreenOverlay();
-	
+
 	//Holds glyph data
 	
 private:
-	vec3 Normalize(const vec3 &v);
 	GLuint vertexArray;
 	GLsizei elementCount;
 

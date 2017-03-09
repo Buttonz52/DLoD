@@ -62,6 +62,8 @@ public:
 	string getHealthString();
 	string getArmourString();
 
+	string getVelocityString();
+
 };
 
 #endif

@@ -28,7 +28,7 @@ void main(void)
 	vec3 ambient = ka * Colour;
 
     // write colour output without modification
-	float diffuse = kd * max( 0.0, dot( N, normalize(L - P)));
+	float diffuse = kd * max( 0.0, dot( -N, normalize(L - P)));
 
     vec3 specular = ks * pow(max(dot(R, V), 0.0), ke) * vec3(1.f);
 

@@ -41,7 +41,6 @@ private:
 	void pressStart(Audio *audio);
 	void pressQuit();
 	void pressRules();
-	void InitMusic();
 	void toggleMenuIndex(const int &s, Audio *audio);
 	Mix_Chunk *click;
 	Mix_Chunk *press;

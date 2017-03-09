@@ -27,7 +27,7 @@ vector<vec2> _uv;
 vector<GLushort> _faces;
 vector<vec3> _normals;
 vector<GEO *> gameObjects;
-
+vector<GLFWwindow *>windows;
 vector<Player*> players;
 Player * currentPlayer;
 //test cameras
@@ -40,6 +40,7 @@ vector<Camera> testCams = {	//just objects for now, make pointers or smth later
 int camIndex = 0, geoIndex = 0;	//index of test cameras
 
 int width = 1920, height = 1080;
+int numPlayers = 1;
 
 double mouse_old_x, mouse_old_y;
 float _translate_z = 1.0;
@@ -59,6 +60,7 @@ vec3 _lightSource = vec3(0.f, 100.f, 0.f);
 string mainMusic = "music/TimeLapse.wav";
 
 int skyboxIndex, arenaIndex, humanVehicleChoice;
+//skybox file paths
 vector<string> skyboxFilePathnames = {
 	"textures/ame_ash/",
 	"textures/jf_nuke/",
@@ -66,10 +68,17 @@ vector<string> skyboxFilePathnames = {
 	"textures/mp_emerald/"
 };
 
+//arena obj files
 vector <string> arenaObjFilenames = {
 	"arenas/arena9.obj",
 	"arenas/bpArena2.obj",
 	"arenas/bumpyArena3.obj"
+};
+//arean obj top view texture files
+vector <string> arenaMapFilenames = {
+	"textures/arenaImgs/map/arena9Map.png",
+	"textures/arenaImgs/map/bpArena2Map.png",
+	"textures/arenaImgs/map/bumpyArena3Map.png"
 };
 //Audio music;
 

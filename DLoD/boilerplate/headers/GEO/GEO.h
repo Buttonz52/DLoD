@@ -27,7 +27,6 @@ public:
 	bool hasTexture;
 	bool isSkybox;
 	bool isPlane;
-	bool hasBumpTexture;
 
 	double getRadius();
 	string getFilename();
@@ -69,9 +68,11 @@ public:
 	void setMesh(const Mesh &m);
 	void setColour(const vec3 &col);
 
+	vec3 * getColour();
+
 	void shutdown();		//destroy shader, texture, mesh
 	void playSFX(const string &name);
-	void calculateMeshTangent();
+	//void calculateMeshTangent();
 	Mesh mesh;
 
 protected:
@@ -89,7 +90,6 @@ protected:
 
 	Shader shader;
 	Texture texture;
-	Texture bump;
 	vector<vec3> tangentMesh;
 	Audio audio;
 	map<string, Mix_Chunk*> sfxMap;	//map of sounds
