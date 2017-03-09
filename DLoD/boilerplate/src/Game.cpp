@@ -113,14 +113,16 @@ void Game::start()
   ScreenOverlay endGameText;
 	if (players[1]->isDead())
 	{
-		endGameText.InitializeGameText("WIN!", vec3(-0.1, 0, 0), vec3(0, 1, 0), 20);
+		endGameText.InitializeGameText("WIN!", vec3(-0.3, 0, 0), vec3(1, 0, 0), 30);
+		endGameText.setScale(vec3(4.f));
 		endGameText.Render(GL_TRIANGLES);
 		glfwSwapBuffers(windows.at(0));
 
 		audio.PlaySfx(winSFX);
 	}
 	else if (players[0]->isDead()){
-		endGameText.InitializeGameText("LOSE!", vec3(-0.1, 0, 0), vec3(0, 0, 1), 20);
+		endGameText.InitializeGameText("LOSE!", vec3(-0.35, 0, 0), vec3(0, 0, 1), 30);
+		endGameText.setScale(vec3(4.f));
 		endGameText.Render(GL_TRIANGLES);
 		glfwSwapBuffers(windows.at(0));
 
@@ -289,14 +291,6 @@ void Game::initSkyBox(const string &pathname)
 		skyboxFiles.push_back(pathname +line);
 	}
 	arenaTexFilename = skyboxFiles[3]; //ground 
-  //vector<string> skyboxFiles = {
-  //  "textures/ame_ash/ashcanyon_rt.tga",
-  //  "textures/ame_ash/ashcanyon_lf.tga",
-  //  "textures/ame_ash/ashcanyon_up.tga",
-  //  "textures/ame_ash/ashcanyon_dn.tga",
-  //  "textures/ame_ash/ashcanyon_bk.tga",
-  //  "textures/ame_ash/ashcanyon_ft.tga"
-  //};
 
   skybox = new GEO();
   skybox->setFilename("cube.obj");
