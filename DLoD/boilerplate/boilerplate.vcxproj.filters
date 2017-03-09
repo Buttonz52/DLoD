@@ -178,7 +178,7 @@
       <Filter>Source Files\GEO\vehicle</Filter>
     </ClCompile>
     <ClCompile Include="src\GameHud.cpp">
-      <Filter>Source Files\GameEngine</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
