@@ -165,7 +165,8 @@ void ScreenOverlay::UpdateBuffers(const vector<vec2> *uvs) {
 
 void ScreenOverlay::UpdateVertices(const vector<vec3> *vertices) {
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices->size() * sizeof(vec2), vertices->data());
+	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices->size() * sizeof(vec3), vertices->data());
+	elementCount = vertices->size();
 }
 bool ScreenOverlay::Initialize() {
 
@@ -206,7 +207,7 @@ bool ScreenOverlay::Initialize() {
 }
 
 //renders screen.  No model matrix because don't need.
-void ScreenOverlay::Render(GLuint type)
+void ScreenOverlay::Render(GLuint type, const vec3 &colour)
 {
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry

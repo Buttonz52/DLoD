@@ -6,19 +6,18 @@ using namespace std;
 
 void clearScreen() {
 	// clear screen to a dark grey colour;
-	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void updateLoadBar(GLFWwindow *window, ScreenOverlay &loadBkgrd, ScreenOverlay &loadWidget, const float &incr) {
 	clearScreen();
-	loadBkgrd.Render(GL_TRIANGLE_STRIP);	//render "loading screen"
+	loadBkgrd.Render(GL_TRIANGLE_STRIP, loadBkgrd.getColour());	//render "loading screen"
 
 											//Well, this is kind of a weird way to implement this, change later.
 											//loadWidget.setPosition(loadWidget.getPosition() + vec3(0.05, 0, 0));
 	loadWidget.setScale(loadWidget.getScale() + vec3(incr, 0, 0));	//makes larger
 	//loadWidget.setPosition(loadWidget.getPosition() + vec3(incr, 0, 0));
-	loadWidget.Render(GL_TRIANGLE_STRIP);	//render widget; this is just for testing at the moment
+	loadWidget.Render(GL_TRIANGLE_STRIP, loadWidget.getColour());	//render widget; this is just for testing at the moment
 											//Sleep(200); //Just to slow down the animation a bit
 	glfwSwapBuffers(window);	//need this to output to screen
 }
@@ -78,6 +77,8 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
   switch (key) {
     case GLFW_KEY_ESCAPE:
+	 // insert pause menu here
+		//see line 131 of Game and use Human.cpp input files to figure out how to implement a pause menu
       glfwSetWindowShouldClose(window, GL_TRUE);
       break;
 
@@ -183,7 +184,7 @@ int main(int argc, char *argv[])
 {
 	skyboxIndex = 0;
 	arenaIndex = 0;
-	humanVehicleChoice = 0;
+	//humanVehicleChoice = 0;
 	// initialize the GLFW windowing system
 	if (!glfwInit()) {
 		cout << "ERROR: GLFW failed to initialize, TERMINATING" << endl;
@@ -198,7 +199,13 @@ int main(int argc, char *argv[])
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window = glfwCreateWindow(width, height, "Derby League of Destruction", 0, 0);
+	// Get the desktop resolution.
+	//const GLFWvidmode* desktop;
+
+	//desktop = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	window = glfwCreateWindow(width, height, "Derby League of Destruction",0,0);
+
+	//window = glfwCreateWindow(desktop->width, desktop->height, "Derby League of Destruction",glfwGetPrimaryMonitor(), window);
 	if (!window) {
 		cout << "Program failed to create GLFW window, TERMINATING" << endl;
 		glfwTerminate();
@@ -238,7 +245,7 @@ int main(int argc, char *argv[])
 
 	ScreenOverlay loadBkgrd, loadWidget;
 	//while (!glfwWindowShouldClose(window)) {
-		if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex, humanVehicleChoice)) {
+		if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex, &humanVehicleChoice)) {
 			ts.Destroy();
 			InitializeLoadScreen(&loadBkgrd, &loadWidget);
 			////init music
@@ -249,8 +256,14 @@ int main(int argc, char *argv[])
 
 			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 
+			glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
+
+			glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
+			glEnable(GL_POLYGON_SMOOTH);
+			glfwWindowHint(GLFW_SAMPLES, 4);
+			glEnable(GL_MULTISAMPLE);
 			// Enable blending (for transparency)
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -260,10 +273,8 @@ int main(int argc, char *argv[])
 			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 			loadBkgrd.Destroy();
 			loadWidget.Destroy();
-			glfwSetWindowSize(window, width / numPlayers, height /numPlayers);
 			//glfwSetWindowPos(window, 0,0);
-			windows.push_back(window);
-			Game game(&windows, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],humanVehicleChoice);
+			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, 1);
 
 			if (!audio.PlayMusic()) {
 				cout << "Failed to play music" << endl;

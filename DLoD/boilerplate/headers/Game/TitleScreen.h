@@ -18,7 +18,7 @@ public:
 	void InitializeTitleScreen();
 	void InitializeChooseScreen();
 	void Render();
-	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, int &humanVehicleChoice);
+	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector <int> *humanVehicleChoice);
 	void Destroy();
 
 	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);

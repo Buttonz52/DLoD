@@ -281,13 +281,13 @@ void TitleScreen::InitializeChooseScreen() {
 }
 //render all components
 void TitleScreen::Render() {
-	background.Render(GL_TRIANGLE_STRIP);	//render "loading screen"
+	background.Render(GL_TRIANGLE_STRIP, background.getColour());	//render "loading screen"
 	for (int i = 0; i < menuButtons.size(); i++)
 		if (!menuButtons[i].isFontTex) {
-			menuButtons[i].Render(GL_TRIANGLE_STRIP);	//render regular button
+			menuButtons[i].Render(GL_TRIANGLE_STRIP, menuButtons[i].getColour());	//render regular button
 		}
 		else {
-			menuButtons[i].Render(GL_TRIANGLES);	//render text, as it uses triangles, not triangle strip
+			menuButtons[i].Render(GL_TRIANGLES, menuButtons[i].getColour());	//render text, as it uses triangles, not triangle strip
 		}
 
 }
@@ -367,7 +367,8 @@ int TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio 
 }
 
 //displays title screen
-bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, int &humanVehicleChoice) {
+bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice) {
+	humanVehicleChoice->clear();
 	if (!audio->InitMusic(titleMusic.c_str())) {
 		cout << "Failed to init title music." << endl;
 	}
@@ -468,7 +469,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				}
 				//choosing vehicle
 				else {
-					humanVehicleChoice = menuIndex - carButtonInitIndex;
+					humanVehicleChoice->push_back(menuIndex - carButtonInitIndex);
 					menuButtons[menuIndex].setColour(pressColour);	//indicate choice
 					menuButtons[menuIndex].setMixColour(1);
 					pressStart(audio);	//start game

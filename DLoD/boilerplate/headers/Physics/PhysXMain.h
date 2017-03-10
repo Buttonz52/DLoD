@@ -58,7 +58,7 @@ public:
 
   vector<GEO*> deletedGeos;
 
-	void init();
+	void init(const int numVehicles);
 	VehicleDesc initVehicleDesc();
 	void initVehicle(Vehicle* v);
 

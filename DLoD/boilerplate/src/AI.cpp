@@ -255,3 +255,4 @@ void AI::driveTo(vec3 destination)
     vehicle->turn(turn * M_PI);
   }
 }
+

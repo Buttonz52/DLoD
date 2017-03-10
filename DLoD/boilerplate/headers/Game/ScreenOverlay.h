@@ -18,7 +18,7 @@ public:
 	void UpdateBuffers(const vector<vec2> *uvs);
 	void UpdateVertices(const vector<vec3> *vertices);
 	bool Initialize();
-	void Render(GLuint type);
+	void Render(GLuint type, const vec3 &colour);
 	void Destroy();
 	void setColour(const vec3 &c);
 	vec3 & getColour();

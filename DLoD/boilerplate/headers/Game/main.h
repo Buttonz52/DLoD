@@ -27,8 +27,8 @@ vector<vec2> _uv;
 vector<GLushort> _faces;
 vector<vec3> _normals;
 vector<GEO *> gameObjects;
-vector<GLFWwindow *>windows;
 vector<Player*> players;
+vector<int> humanVehicleChoice;
 Player * currentPlayer;
 //test cameras
 vector<Camera> testCams = {	//just objects for now, make pointers or smth later
@@ -59,7 +59,7 @@ vec3 _lightSource = vec3(0.f, 100.f, 0.f);
 //string mainMusic= "music/TimeLapse.wav";	//theme
 string mainMusic = "music/TimeLapse.wav";
 
-int skyboxIndex, arenaIndex, humanVehicleChoice;
+int skyboxIndex, arenaIndex;
 //skybox file paths
 vector<string> skyboxFilePathnames = {
 	"textures/ame_ash/",

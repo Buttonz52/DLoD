@@ -17,7 +17,7 @@ public:
 	void InitializeHud(const vec3 &colour, const vector<vec3>*positions, const string &reanaFilename);
 
 	//renders all widgets
-	void Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions);
+	void Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour);
 
 private:
 	//widgets of game hud
@@ -27,6 +27,6 @@ private:
 					botRightBorder, botRightBkgrd,
 					velocityTitle, velocityTex,
 					radarBkgrd,	radarBorder,
-					radarPoints;
+					radarPoints, screenBorder;
 };
 

@@ -18,15 +18,21 @@ GEO* initGroundPlane()
   return plane;
 }
 
-
-Game::Game(vector <GLFWwindow*> *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const int &humanVehicleChoice)
+Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers)
 {
- // window = w->at(0);
-	for (int i = 0; i < w->size(); i++) {
-		windows.push_back(w->at(0));
-	}
+	//set cameras so overtop and far-ish away from cars
+	overheadCam.setAlt(-90);
+	overheadCam.setRadius(450);
+
+	winningCam.setAlt(-90);
+	winningCam.setRadius(50);
+
+  window = w;
+  numPlayerScreens = 4;
+  glfwGetWindowSize(window, &width, &height);
+
 	//windows = w;
-  physX.init();
+  physX.init(8);
 
   initSkyBox(skyboxFilepath);
   //skybox->children.push_back(initArena());
@@ -34,75 +40,35 @@ Game::Game(vector <GLFWwindow*> *w, Audio audio, const string &skyboxFilepath, c
   arenaMap = arenaMapFile;
   //skybox->children.push_back(initGroundPlane());
 
-  Human* human = new Human(0);
-  //choice between vehicles
-	switch (humanVehicleChoice) {
-	case 0:
-		human->vehicle = new LightVehicle();
-		break;
-	case 1:
-		human->vehicle = new MediumVehicle();
-		break;
-	case 2:
-		human->vehicle = new LargeVehicle();
-		break;
-	default:
-		human->vehicle = new MediumVehicle();
-		break;
-	}
-
- // human->vehicle = new Vehicle();
-  human->vehicle->setPosition(vec3(0, 50, -50));
- // human->vehicle->setColour(vec3(0, 0, 1));
-  initVehicle(human->vehicle);
-  skybox->children.push_back(human->vehicle);
-
-  int aiRNGChoose;
-  srand(time(NULL));
-  aiRNGChoose = rand() % 3;
-  AI* ai = new AI(1);
-
-  //random choice between vehicle classes
-  switch (aiRNGChoose){
-  case 0:
-	  ai->vehicle = new LightVehicle();
-	  break;
-  case 1:
-	  ai->vehicle = new MediumVehicle();
-	  break;
-  case 2:
-	  ai->vehicle = new LargeVehicle();
-	  break;
-  default:
-	  ai->vehicle = new MediumVehicle();
-	  break;
+  for (int i = 0; i < numPlayers; i++) {
+	  Human* human = new Human(i);
+	  human->ChooseVehicle(humanVehicleChoice->at(i));
+	  human->vehicle->setPosition(vec3(0, 50, -50));
+	  initVehicle(human->vehicle);
+	  skybox->children.push_back(human->vehicle);
+	  players.push_back(human);
   }
-  cout << "AI choice: "<<aiRNGChoose << endl;
 
-  ai->vehicle->setPosition(vec3(0, 50, 50));
-  ai->vehicle->setColour(vec3(0, 1, 0));
-  initVehicle(ai->vehicle);
-  skybox->children.push_back(ai->vehicle);
+  //Adding a few AIs for the time being
+  //random number generator to choose AI cars
+  //create AIs so that there are 8 cars in the arena
+  //NOTE: This gets pretty slow, might want to think about multi-threading or trying to run in release mode (but need to link those libraries)
 
-  /*
-  Item* item = new Item(DamageTrap);
-  mat4 m = mat4(1);
-  m[3] = vec4(vec3(0,5,30), 1);
-  item->setModelMatrix(m);
-  initItem(item); */
-
-
-  players.push_back(human);
-  players.push_back(ai);
-
-  //skybox->children.push_back(arena);
+  srand(time(NULL));
+  for (int i = numPlayers; i < 8; i++) {
+	  AI* ai = new AI(i);
+	  int aiRNGChoose = rand() % 3;
+	  ai->ChooseVehicle(aiRNGChoose);
+	  ai->vehicle->setPosition(vec3(10*i, 50, 10*i));
+	  initVehicle(ai->vehicle);
+	  skybox->children.push_back(ai->vehicle);
+	  players.push_back(ai);
+  }
 }
 
 
 void Game::start()
 {
-  // Set up the game
-	
 
   // start the game loop
   timer.start();
@@ -110,34 +76,33 @@ void Game::start()
 
   // Clean up and Display the win screen
 
+  ///TODO: implmement for all screens -> lose/win for appropriate player
   ScreenOverlay endGameText;
-	if (players[1]->isDead())
-	{
-		endGameText.InitializeGameText("WIN!", vec3(-0.3, 0, 0), vec3(1, 0, 0), 30);
-		endGameText.setScale(vec3(4.f));
-		endGameText.Render(GL_TRIANGLES);
-		glfwSwapBuffers(windows.at(0));
+  endGameText.setScale(vec3(4.f));
+  for (int i = 0; i < numPlayerScreens; i++) {
+	  ResizeViewport(i, numPlayerScreens, width, height);
+	  if (players[i]->isDead()) {
+		  endGameText.InitializeGameText("LOSE!", vec3(-0.35, 0, 0), vec3(1, 0, 0), 30);
+	  }
+	  else {
+		  endGameText.InitializeGameText("WIN!", vec3(-0.3, 0, 0), vec3(0, 1, 0), 30);
+	  }
+	  endGameText.Render(GL_TRIANGLES, endGameText.getColour());
+  }
+  glfwSwapBuffers(window);
 
-		audio.PlaySfx(winSFX);
-	}
-	else if (players[0]->isDead()){
-		endGameText.InitializeGameText("LOSE!", vec3(-0.35, 0, 0), vec3(0, 0, 1), 30);
-		endGameText.setScale(vec3(4.f));
-		endGameText.Render(GL_TRIANGLES);
-		glfwSwapBuffers(windows.at(0));
-
-		audio.PlaySfx(loseSFX);
-	}
+	//	audio.PlaySfx(winSFX);
+	//	audio.PlaySfx(loseSFX);
 
   bool pause = true;
 
-  while (pause && !glfwWindowShouldClose(windows.at(0)))
+  while (pause && !glfwWindowShouldClose(window))
   {
 	  for (Player* p : players)
 	  {
 		  Human* human = dynamic_cast<Human*> (p);
 		  if (human != nullptr)
-			  human->getGameOverInput(windows.at(0),pause);
+			  human->getGameOverInput(window,pause);
 	  }
 
 	  glfwPollEvents();
@@ -151,7 +116,7 @@ void Game::gameLoop()
 {
 	vector<vec3> positions;
 	for (Player *p : players) {
-		positions.push_back(p->vehicle->getModelMatrix()[3]);
+			positions.push_back(p->vehicle->getModelMatrix()[3]);
 	}
   //Initialize hud
 	gameHud.InitializeHud(*players[0]->vehicle->getColour(), &positions, arenaMap);
@@ -160,7 +125,7 @@ void Game::gameLoop()
  /* glEnable(GL_CULL_FACE);
 
   glCullFace(GL_FRONT);*/
-  while (!glfwWindowShouldClose(windows.at(0)) && !gameOver)
+  while (!glfwWindowShouldClose(window) && !gameOver)
   {
     // Add items to the scene
     vector<pair<Player*, int>>::iterator itr = itemsToAdd.begin();
@@ -183,32 +148,80 @@ void Game::gameLoop()
     }
     physX.deletedGeos.clear();
 
-    // clear screen to a dark grey colour;
-    glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     // Step Physx
     physX.stepPhysics(true, physXObjects);
 
-    // Render
-    mat4 projectionMatrix = players[0]->playerCam->calculateProjectionMatrix();
-    mat4 viewMatrix = players[0]->playerCam->calculateViewMatrix();
+	//clear buffers
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	//render screens
+	//TODO: Make less.. ugly and long
+	int viewports = numPlayerScreens;
+	if (numPlayerScreens >= 3) {
+		viewports = 4;
+	}
+	for (int i = 0; i < viewports;i++) {
+		//getviewport
+		ResizeViewport(i, numPlayerScreens, width, height);
+		mat4 projectionMatrix, viewMatrix;
+		string healthStr, armourStr, velocityStr;
+		vec3 vColour;
+		// Render
+		//make sure rendering a player screen that 
+		//1) exists
+		//2) is not dead
+		//3) is defined as a human
+		if (i < players.size() &&!players[i]->isDead() && i < numPlayerScreens) {
+			projectionMatrix = players[i]->playerCam->calculateProjectionMatrix();
+			viewMatrix = players[i]->playerCam->calculateViewMatrix();
+			healthStr = players[i]->vehicle->getHealthString();
+			armourStr = players[i]->vehicle->getArmourString();
+			velocityStr = players[i]->vehicle->getVelocityString();
+			vColour = *players[i]->vehicle->getColour();
+		}
+
+		//otherwise, render either overhead camera or current win camera
+		else{
+			if (i == 0 || i ==3) {	//overhead cameras for bottom right or top left
+				//overhead cam
+				projectionMatrix = overheadCam.calculateProjectionMatrix();
+				viewMatrix = overheadCam.calculateViewMatrix();
+			}
+			//overhead cam for player with highest health
+			else {
+				int health =0, playerIndex =0;
+				for (int j = 0; j < players.size(); j++) {
+					if (players[j]->vehicle->getHealth() > health) {
+						health = players[j]->vehicle->getHealth();
+						playerIndex = j;
+					}
+				}
+				winningCam.followVehicle(players[playerIndex]->vehicle);
+				projectionMatrix = winningCam.calculateProjectionMatrix();
+				viewMatrix = winningCam.calculateViewMatrix();
+			}
+			healthStr = "000";
+			armourStr = "000";
+			velocityStr = "00";
+			vColour = vec3(0);
+		}
+		//render the game hud
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		arena->Render(viewMatrix, projectionMatrix, lightSource);
+		glDisable(GL_CULL_FACE);
+		skybox->Render(viewMatrix, projectionMatrix, lightSource);
+		gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour);
+	}
+	glfwSwapBuffers(window);
 	
-	//render the game hud
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	arena->Render(viewMatrix, projectionMatrix, lightSource);
-	glDisable(GL_CULL_FACE);
-    skybox->Render(viewMatrix, projectionMatrix, lightSource);
-	gameHud.Render(players[0]->vehicle->getHealthString(), players[0]->vehicle->getArmourString(), players[0]->vehicle->getVelocityString(), &positions);
-
-    glfwSwapBuffers(windows.at(0));
-
 	positions.clear();
     // For all players get input
     for (Player* p : players)
     {
-		positions.push_back(p->vehicle->getModelMatrix()[3]);
+		//get radar points for radar map
+		if (!p->isDead())
+			positions.push_back(p->vehicle->getModelMatrix()[3]);
 		//kill player if out of bounds
 		if (p->vehicle->getModelMatrix()[3].y < -10)
 			p->vehicle->updateHealth(1000);
@@ -222,8 +235,8 @@ void Game::gameLoop()
       }
 
       Human* human = dynamic_cast<Human*> (p);
-      if (human != nullptr)
-        human->getInput(windows.at(0));
+      if (human != nullptr && !human->isDead())
+        human->getInput(window);
 
       p->playerCam->followVehicle(p->vehicle);
       
@@ -401,3 +414,30 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	return arena;
 }
 
+void Game::ResizeViewport(const int index, const int numPlayerScreens, const int width, const int height) {
+
+	// Set up the game
+	int vHeight = 0, vWidth = 0;	//viewport starting point for height
+	int wSplit = 1, hSplit = 1;
+	switch (numPlayerScreens) {
+		//1 human
+	case 1:
+		break;
+		//2 humans
+	case 2:
+		wSplit = 2;
+		break;
+		// >3 players
+	default:
+		wSplit = 2;
+		hSplit = 2;
+		//top screens for players 1 and 2
+		if (index < 2) {
+			vHeight = height / 2;
+		}
+		//bottom screens for players 3 and 4 = 0, so do nothing
+	}
+
+	//resixe viewport
+	glViewport((index % 2)*float(width) / 2, vHeight, width / wSplit, height / hSplit);
+}

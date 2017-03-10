@@ -64,7 +64,7 @@ VehicleDesc PhysXMain::initVehicleDesc()
 	return vehicleDesc;
 }
 
-void PhysXMain::init()
+void PhysXMain::init(const int numVehicles)
 {
 	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 	PxProfileZoneManager* profileZoneManager = &PxProfileZoneManager::createProfileZoneManager(gFoundation);
@@ -97,7 +97,7 @@ void PhysXMain::init()
 	PxVehicleSetUpdateMode(PxVehicleUpdateMode::eVELOCITY_CHANGE);
 
 	//Create the batched scene queries for the suspension raycasts.
-	gVehicleSceneQueryData = VehicleSceneQueryData::allocate(1, PX_MAX_NB_WHEELS, 1, gAllocator);		//if we want more cars change this
+	gVehicleSceneQueryData = VehicleSceneQueryData::allocate(numVehicles, PX_MAX_NB_WHEELS, numVehicles, gAllocator);		//if we want more cars change this
 	gBatchQuery = VehicleSceneQueryData::setUpBatchedSceneQuery(0, *gVehicleSceneQueryData, gScene);
 
 	//Create the friction table for each combination of tire and surface type.
@@ -126,6 +126,56 @@ void PhysXMain::initVehicle(Vehicle* v)
 	geoMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great
 }
 
+/*
+//attempt to get triangle mesh working for traps
+void PhysXMain::initItem(Item* item)
+{
+PxTriangleMesh* tMesh = initTriangleMesh(item);
+if (tMesh != NULL) {
+PX_ASSERT(tMesh);
+PxMeshScale meshScale = PxMeshScale(PxVec3(item->getScale().x, item->getScale().y, item->getScale().z), PxQuat(PxIdentity));
+
+//fix gItem to match the PxRigidDynamic body definition
+vec3 pos = item->getModelMatrix()[3];
+
+//PxRigidDynamic *body = gPhysics->createRigidDynamic();
+
+PxRigidDynamic *gItem = gPhysics->createRigidDynamic(PxTransform(PxVec3(pos.x, pos.y, pos.z)));
+gItem->setRigidDynamicFlag(PxRigidDynamicFlag::eKINEMATIC, true);
+PxShape * shape[1];
+shape[0] = gItem->createShape(PxTriangleMeshGeometry(tMesh, meshScale), *gMaterial);
+
+//PX_ASSERT(actor);
+//gArena->setRigidDynamicFlag(PxRigidDynamicFlag::eKINEMATIC, true);
+//PxShape * shape = gArena->createShape(PxTriangleMeshGeometry(tMesh, meshScale), *gMaterial);
+//gArena->getShapes(shape, 1);
+
+PX_ASSERT(shape);
+//gScene->addActor(*actor);
+shape[0]->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
+gItem->setRigidDynamicFlag(PxRigidDynamicFlag::eKINEMATIC, false);
+//Set the query filter data of the ground plane so that the vehicle raycasts can hit the ground.
+
+PxFilterData simFilterData;
+simFilterData.word0 = COLLISION_FLAG_CHASSIS;
+simFilterData.word1 = COLLISION_FLAG_CHASSIS_AGAINST;
+
+PxFilterData qryFilterData;
+setupNonDrivableSurface(qryFilterData);
+
+shape[0]->setQueryFilterData(qryFilterData);
+shape[0]->setSimulationFilterData(simFilterData);
+
+gScene->addActor(*gItem);
+
+//gItem->attachShape(*shape[0]);
+geoMap.insert(make_pair(gItem, item));
+}
+else {
+cout << "Did not init triangle mesh" << endl;
+}
+}
+*/
 void PhysXMain::initItem(Item* item)
 {
   PxShape* shape = gPhysics->createShape(PxBoxGeometry(1, 1, 1), *gMaterial);

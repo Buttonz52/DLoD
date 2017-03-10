@@ -64,7 +64,7 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	botRightBkgrd.transparency = 0.4f;
 	botRightBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
-	botRightBorder.GenerateBorder(0.2, 0.2, 0.1, vec3(0, 0, 0), vec3(0.8, -0.8, 0));
+	botRightBorder.GenerateBorder(0.2, 0.2, 0.1, colour, vec3(0.8, -0.8, 0));
 	botRightBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 	//botRightBorder.transparency = 0.5f;
 
@@ -85,10 +85,14 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 
 	radarBorder.GenerateBorder(0.2, 0.2, 0.1, vec3(0, 0, 0), vec3(0.8, 0.8, 0));
 	radarBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	//screen border
+	screenBorder.GenerateBorder(1, 1, 0.01, vec3(0, 0, 0), vec3(0, 0, 0));
+	screenBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 }
 
 //render hud
-void GameHud::Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions) {
+void GameHud::Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour) {
 	//update values
 	healthTex.UpdateGameText(health);
 	armourTex.UpdateGameText(armour);
@@ -96,20 +100,21 @@ void GameHud::Render(const string &health, const string &armour, const string &v
 	UpdateRadar(positions);
 
 	//render widgets.  Render in order widget -> border ->background in order to show properly
-	healthTitle.Render(GL_TRIANGLES);
-	armourTitle.Render(GL_TRIANGLES);
-	healthTex.Render(GL_TRIANGLES);
-	armourTex.Render(GL_TRIANGLES);
-	topLeftBorder.Render(GL_TRIANGLES);
-	topLeftBkgrd.Render(GL_TRIANGLE_STRIP);
+	healthTitle.Render(GL_TRIANGLES, colour);
+	armourTitle.Render(GL_TRIANGLES, colour);
+	healthTex.Render(GL_TRIANGLES, colour);
+	armourTex.Render(GL_TRIANGLES, colour);
+	topLeftBorder.Render(GL_TRIANGLES, colour);
+	topLeftBkgrd.Render(GL_TRIANGLE_STRIP, topLeftBkgrd.getColour());
 
-	velocityTex.Render(GL_TRIANGLES);
-	velocityTitle.Render(GL_TRIANGLES);
-	botRightBorder.Render(GL_TRIANGLES);
-	botRightBkgrd.Render(GL_TRIANGLE_STRIP);
+	velocityTex.Render(GL_TRIANGLES, colour);
+	velocityTitle.Render(GL_TRIANGLES, colour);
+	botRightBorder.Render(GL_TRIANGLES, colour);
+	botRightBkgrd.Render(GL_TRIANGLE_STRIP, botRightBkgrd.getColour());
 
-	radarBorder.Render(GL_TRIANGLES);
-	radarPoints.Render(GL_POINTS);
-	radarBkgrd.Render(GL_TRIANGLE_STRIP);
+	radarBorder.Render(GL_TRIANGLES, colour);
+	radarPoints.Render(GL_POINTS, colour);
+	radarBkgrd.Render(GL_TRIANGLE_STRIP, radarBkgrd.getColour());
 
+	screenBorder.Render(GL_TRIANGLES, colour);
 }

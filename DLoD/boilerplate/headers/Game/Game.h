@@ -8,9 +8,7 @@
 #include "..\headers\Game\ScreenOverlay.h"
 #include "..\headers\Game\Audio.h"
 #include "..\headers\Game\Timer.h"
-#include "../GEO/vehicle/LargeVehicle.h"
-#include "../GEO/vehicle/MediumVehicle.h"
-#include "../GEO/vehicle/LightVehicle.h"
+
 #include "../Game/GameHud.h"
 
 class Game
@@ -18,12 +16,14 @@ class Game
 private:
   GEO* skybox;
   GEO* arena;
+  Camera overheadCam, winningCam;	//camera of entire arena, camera of current winning car
   vector<Player*> players;
   vector<GEO*> physXObjects;
-  vector<GLFWwindow*>windows;
+  GLFWwindow *window;
   string arenaTexFilename;
   string arenaMap;
-
+  int width, height;
+  int numPlayerScreens;
   Timer timer;
 
   // vector of actors 
@@ -41,6 +41,7 @@ private:
 
   void initSkyBox(const string &pathname);
   GEO * initArena(const string &texfilename, const string &objfilename);
+  void ResizeViewport(const int index, const int numHumans, const int width, const int height);
   void initVehicle(Vehicle * v);
 
   void initItem(Item * item);
@@ -58,7 +59,7 @@ private:
 
 public:
 
-  Game(vector<GLFWwindow*> *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const int &humanVehicleChoice);
+  Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers);
 
   void start();
 };
