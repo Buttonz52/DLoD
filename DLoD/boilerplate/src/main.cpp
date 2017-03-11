@@ -266,10 +266,6 @@ int main(int argc, char *argv[])
 			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
 
-			glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-			glEnable(GL_POLYGON_SMOOTH);
-			glfwWindowHint(GLFW_SAMPLES, 4);
-			glEnable(GL_MULTISAMPLE);
 			// Enable blending (for transparency)
 			glEnable(GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

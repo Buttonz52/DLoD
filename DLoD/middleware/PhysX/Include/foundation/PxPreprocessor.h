@@ -13,7 +13,7 @@
 
 #ifndef PX_FOUNDATION_PX_PREPROCESSOR_H
 #define PX_FOUNDATION_PX_PREPROCESSOR_H
-
+#define NDEBUG
 #include <stddef.h>
 
 /** \addtogroup foundation
