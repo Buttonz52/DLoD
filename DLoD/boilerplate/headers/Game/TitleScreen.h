@@ -4,6 +4,7 @@
 #include "ScreenOverlay.h"
 #include "../Controller/XboxController.h"
 #include "Audio.h"
+#include "..\Game\timer.h"
 
 class TitleScreen
 {

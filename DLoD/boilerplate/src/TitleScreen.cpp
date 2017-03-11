@@ -13,7 +13,7 @@ TitleScreen::TitleScreen()
 	controllerIndex = 0;
 	carButtonInitIndex = 1;
 	isLoadScreen = false;
-//	this->audio = audio;
+	//	this->audio = audio;
 	buttonWidth = 0.2;
 	buttonHeight = 0.1;
 	padding = 0.05;
@@ -71,14 +71,14 @@ bool TitleScreen::isRulesPressed()
 void TitleScreen::toggleMenuIndex(const int &s, Audio *audio, const int &initIndex, const int &maxIndex) {
 	menuButtons[menuIndex].setColour(prevCol);	//button back to normal colour
 	menuButtons[menuIndex].setMixColour(0);	//no longer mix colour
-	menuIndex+=s;
+	menuIndex += s;
 
 	//keep index in bounds
 	if (menuIndex > maxIndex)
 		menuIndex = initIndex;
 	if (menuIndex < initIndex)
 		menuIndex = maxIndex;
-	
+
 	//set the previous colour
 	prevCol = menuButtons[menuIndex].getColour();
 	//new colour (green for the moment); used to mix with texture for current button (we can change this)
@@ -86,7 +86,7 @@ void TitleScreen::toggleMenuIndex(const int &s, Audio *audio, const int &initInd
 	//sex mixColour flag
 	menuButtons[menuIndex].setMixColour(1);
 	audio->PlaySfx(click);
-	
+
 }
 
 //Initializes main screen
@@ -105,8 +105,8 @@ void TitleScreen::InitializeTitleScreen() {
 
 	//set colours of buttons for now
 	menuButtons[0].setColour(selectColour);	//is set to green initially
-	
-	//Initialize button textures
+
+											//Initialize button textures
 	if (!menuButtons[0].initTexture("textures/START.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init start texture." << endl;
 	}
@@ -127,22 +127,22 @@ void TitleScreen::InitializeTitleScreen() {
 	menuButtons[0].setMixColour(1); //init
 	prevCol = vec3(1, 1, 0);	//colour for first button
 
-//	if (!background.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
-//		cout << "Failed to init texture." << endl;
-//	}
+								//	if (!background.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+								//		cout << "Failed to init texture." << endl;
+								//	}
 
-	//generate vertices/scale
-	background.GenerateSquareVertices(1, 1, vec3(0,0,1));	//invalid_enum occurs here
+								//generate vertices/scale
+	background.GenerateSquareVertices(1, 1, vec3(0, 0, 1));	//invalid_enum occurs here
 
-	//gererate for buttons
-	for (int i = 0; i < menuButtons.size()-2; i++) {
+															//gererate for buttons
+	for (int i = 0; i < menuButtons.size() - 2; i++) {
 		menuButtons[i].GenerateSquareVertices(buttonWidth, buttonHeight, menuButtons[i].getColour());
 	}
 
 	//set positions of buttons
 	menuButtons[0].setPosition(vec3(0, 0, 0));
-	menuButtons[1].setPosition(vec3(0, -(buttonHeight*2+ padding), 0));
-	menuButtons[2].setPosition(vec3(0, -(buttonHeight*4 + padding*2), 0));
+	menuButtons[1].setPosition(vec3(0, -(buttonHeight * 2 + padding), 0));
+	menuButtons[2].setPosition(vec3(0, -(buttonHeight * 4 + padding * 2), 0));
 
 	//initialize shaders for background and buttons
 	background.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
@@ -167,7 +167,7 @@ void TitleScreen::InitializeMultiplayerScreen() {
 	menuButtons[0].InitializeGameText("How many players?", vec3(-0.6, 0.4, 0), vec3(0, 1, 0), 30);
 	menuButtons[0].setScale(vec3(2.f));
 	for (int i = 1; i < 5; i++) {
-		menuButtons[i].InitializeGameText(to_string(i), vec3(-0.6 + (2*i*0.1), -0.2, 0), vec3(0, 0, 0), 20);
+		menuButtons[i].InitializeGameText(to_string(i), vec3(-0.6 + (2 * i*0.1), -0.2, 0), vec3(0, 0, 0), 20);
 		menuButtons[i].setScale(vec3(3.f));
 
 	}
@@ -208,11 +208,11 @@ void TitleScreen::InitializeCarScreen() {
 	menuButtons[carButtonInitIndex + 2].isRedTransparent = 1;
 
 	menuButtons[carButtonInitIndex].setPosition(vec3(-0.4, 0, 0));
-	menuButtons[carButtonInitIndex+1].setPosition(vec3(0, 0, 0));
-	menuButtons[carButtonInitIndex+2].setPosition(vec3(0.4, 0, 0));
+	menuButtons[carButtonInitIndex + 1].setPosition(vec3(0, 0, 0));
+	menuButtons[carButtonInitIndex + 2].setPosition(vec3(0.4, 0, 0));
 
 	//gererate for buttons
-	for (int i = carButtonInitIndex; i < menuButtons.size(); i++) 
+	for (int i = carButtonInitIndex; i < menuButtons.size(); i++)
 		menuButtons[i].GenerateSquareVertices(0.2, 0.2, menuButtons[i].getColour());
 
 	for (int i = 0; i < menuButtons.size(); i++)
@@ -240,15 +240,15 @@ void TitleScreen::InitializeChooseScreen() {
 	if (!menuButtons[arenaButtonInitIndex].initTexture("textures/arenaImgs/arena9.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init arena9 texture." << endl;
 	}
-	if (!menuButtons[arenaButtonInitIndex+1].initTexture("textures/arenaImgs/bpArena2.png", GL_TEXTURE_2D)) {
+	if (!menuButtons[arenaButtonInitIndex + 1].initTexture("textures/arenaImgs/bpArena2.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
-	if (!menuButtons[arenaButtonInitIndex+2].initTexture("textures/arenaImgs/bumpyArena.png", GL_TEXTURE_2D)) {
+	if (!menuButtons[arenaButtonInitIndex + 2].initTexture("textures/arenaImgs/bumpyArena.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
 	menuButtons[arenaButtonInitIndex].isRedTransparent = 1;
-	menuButtons[arenaButtonInitIndex+1].isRedTransparent = 1;
-	menuButtons[arenaButtonInitIndex+2].isRedTransparent = 1;
+	menuButtons[arenaButtonInitIndex + 1].isRedTransparent = 1;
+	menuButtons[arenaButtonInitIndex + 2].isRedTransparent = 1;
 
 
 	//initialize which button cursor will be on upon starting
@@ -256,17 +256,17 @@ void TitleScreen::InitializeChooseScreen() {
 	menuButtons[arenaButtonInitIndex].setMixColour(1); //init
 	prevCol = vec3(1, 1, 0);	//colour for first button
 
-	//textures for skybox choice buttons
+								//textures for skybox choice buttons
 	if (!menuButtons[skyboxButtonInitIndex].initTexture("textures/ame_ash/ashcanyon_lf.tga", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
-	if (!menuButtons[skyboxButtonInitIndex+1].initTexture("textures/jf_nuke/nuke_lf.tga", GL_TEXTURE_2D)) {
+	if (!menuButtons[skyboxButtonInitIndex + 1].initTexture("textures/jf_nuke/nuke_lf.tga", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
-	if (!menuButtons[skyboxButtonInitIndex+2].initTexture("textures/mp_deviltooth/devils-tooth_lf.tga", GL_TEXTURE_2D)) {
+	if (!menuButtons[skyboxButtonInitIndex + 2].initTexture("textures/mp_deviltooth/devils-tooth_lf.tga", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
-	if (!menuButtons[skyboxButtonInitIndex+3].initTexture("textures/mp_emerald/emerald-summit_lf.tga", GL_TEXTURE_2D)) {
+	if (!menuButtons[skyboxButtonInitIndex + 3].initTexture("textures/mp_emerald/emerald-summit_lf.tga", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
 
@@ -291,14 +291,14 @@ void TitleScreen::InitializeChooseScreen() {
 
 	float arena_y = 0.4, skybox_y = -0.2;
 	//set positions of buttons
-	menuButtons[arenaButtonInitIndex].setPosition(vec3(-0.4,arena_y,0));
-	menuButtons[arenaButtonInitIndex+1].setPosition(vec3(0.0, arena_y,0));
-	menuButtons[arenaButtonInitIndex+2].setPosition(vec3(0.4, arena_y, 0));
+	menuButtons[arenaButtonInitIndex].setPosition(vec3(-0.4, arena_y, 0));
+	menuButtons[arenaButtonInitIndex + 1].setPosition(vec3(0.0, arena_y, 0));
+	menuButtons[arenaButtonInitIndex + 2].setPosition(vec3(0.4, arena_y, 0));
 
-	menuButtons[skyboxButtonInitIndex].setPosition(vec3(-0.6, skybox_y,0));
-	menuButtons[skyboxButtonInitIndex+1].setPosition(vec3(-0.2, skybox_y,0));
-	menuButtons[skyboxButtonInitIndex+2].setPosition(vec3(0.2, skybox_y,0));
-	menuButtons[skyboxButtonInitIndex+3].setPosition(vec3(0.6, skybox_y,0));
+	menuButtons[skyboxButtonInitIndex].setPosition(vec3(-0.6, skybox_y, 0));
+	menuButtons[skyboxButtonInitIndex + 1].setPosition(vec3(-0.2, skybox_y, 0));
+	menuButtons[skyboxButtonInitIndex + 2].setPosition(vec3(0.2, skybox_y, 0));
+	menuButtons[skyboxButtonInitIndex + 3].setPosition(vec3(0.6, skybox_y, 0));
 
 	//menuButtons[10].setPosition(vec3(-0.4,-0.55,0));
 	//menuButtons[11].setPosition(vec3(0, -0.55, 0));
@@ -350,10 +350,10 @@ int TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio 
 		else {
 			return -1;
 		}
-
 	}
-	//keyboard input
-	else {
+
+	//keyboard input for player 1 only
+	else if (ctrller->GetIndex() == 0) {
 		int state;
 		// up menu
 		state = glfwGetKey(window, GLFW_KEY_UP);
@@ -397,7 +397,9 @@ int TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio 
 //displays title screen
 bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers) {
 	//humanVehicleChoice->clear();
-	vector <XboxController*> controllers;
+	vector <XboxController> controllers;
+	/*int controllerTimeoutCounter = 10, playersNotAdded = 0;
+	Timer controllerTimeout;*/
 	if (!audio->InitMusic(titleMusic.c_str())) {
 		cout << "Failed to init title music." << endl;
 	}
@@ -484,18 +486,20 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				numPlayers = menuIndex;
 				humanVehicleChoice->clear();
 				controllers.clear();
-				if (controller->Connected())
-					controllers.push_back(controller);
-				controllers.push_back(controller);
+				//	if (controller->Connected())
+				// There will always be a Player 1, so push back regardless of whether controller is connected or not;
+				// they will be a keyboard otherwise.
+				controllers.push_back(*controller);
 				for (int i = 0; i < numPlayers; i++) {
 					humanVehicleChoice->emplace_back();
 				}
 				if (numPlayers > 1) {
-				//push back rest of controllers
-				for (int i = 1; i < numPlayers; i++)
-					controllers.push_back(new XboxController(i+1));
+					//push back rest of controllers
+					for (int i = 1; i < numPlayers; i++)
+						controllers.push_back(XboxController(i + 1));
 				}
 				controllerIndex = 0;
+				//controllerTimeoutCounter = 10, playersNotAdded = 0;
 				newMenuIndex(carButtonInitIndex, carButtonInitIndex, initIndex, maxIndex, 2);
 
 				break;
@@ -513,7 +517,71 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 		}
 		//choose cars
 		else if (isCarScreen) {
-			switch (KeyCallback(window, controllers[controllerIndex], audio)) {	//check key callback 
+			//This code is meant to have a timeout for if a controller is not connected, but it isn't 100% working 
+			//if (numPlayers > 1 &&!controllers[controllerIndex].Connected()) {
+			//	cout << "not connected" << endl;
+			//	std::stringstream fmt;
+			//	if (controllerTimeout.getTicks() % 1000 == 0) {
+			//		controllerTimeoutCounter--;
+			//	}
+			//	//tineout
+			//	if (controllerTimeoutCounter < 0) {
+			//		fmt << "PLAYER " << controllerIndex + 1 << " TIMEOUT. Not added.";
+			//		menuButtons[0].UpdateGameText(fmt.str());
+			//		//display colour
+			//		Render();		//render titlescreen
+			//		glfwSwapBuffers(window);	//need this to output to screen
+			//		Sleep(400);		//slow down input so not crazy fast
+			//		controllerIndex++;
+			//		controllerTimeoutCounter = 10;
+			//		playersNotAdded++;
+			//		//go to next player if no controller
+			//		if (controllerIndex < numPlayers) {
+			//			fmt << "Player " << controllerIndex + 1 << ", choose your vehicle:";
+			//			menuButtons[0].UpdateGameText(fmt.str());
+			//		}
+			//		//start game
+			//		else {
+			//			numPlayers - playersNotAdded;
+			//			if (!controllerTimeout.isStopped())
+			//				controllerTimeout.stop();
+			//			isCarScreen = false;
+			//			isLoadScreen = true;
+
+			//			isChooseArena = true;
+
+			//			////humanVehicleChoice->clear();
+			//			//for (int i = 0; i < numPlayers; i++)
+			//			//	humanVehicleChoice->at(controller->GetIndex()) = (menuIndex - carButtonInitIndex);
+			//			//menuButtons[menuIndex].setColour(pressColour);	//indicate choice
+			//			//menuButtons[menuIndex].setMixColour(1);
+
+			//			//display colour
+			//			Render();		//render titlescreen
+			//			glfwSwapBuffers(window);	//need this to output to screen
+			//			Sleep(400);		//slow down input so not crazy fast
+
+			//			for (int i = 0; i < menuButtons.size(); i++)
+			//				menuButtons[i].Destroy();
+			//			InitializeChooseScreen();
+
+			//			newMenuIndex(arenaButtonInitIndex, arenaButtonInitIndex, initIndex, maxIndex, 2);
+			//		}
+			//	}
+			//	else {
+			//		fmt << "Please insert a controller for player " << controllerIndex + 1 << ": " << controllerTimeoutCounter;
+			//		menuButtons[0].UpdateGameText(fmt.str());
+			//		if (controllerTimeout.isStarted()) {
+			//			controllerTimeout.reset();
+			//		}
+			//		else {
+			//			controllerTimeout.start();
+			//		}
+			//	}
+
+			//}
+			//else 
+			switch (KeyCallback(window, &controllers[controllerIndex], audio)) {	//check key callback 
 			case 2:
 				toggleMenuIndex(1, audio, initIndex, maxIndex);
 				break;
@@ -528,18 +596,12 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				menuButtons[menuIndex].setColour(pressColour);	//indicate choice
 				menuButtons[menuIndex].setMixColour(1);
 				Sleep(150);
+
 				controllerIndex++;
 				if (controllerIndex >= numPlayers) {
 					isCarScreen = false;
 					isLoadScreen = true;
-
 					isChooseArena = true;
-
-					////humanVehicleChoice->clear();
-					//for (int i = 0; i < numPlayers; i++)
-					//	humanVehicleChoice->at(controller->GetIndex()) = (menuIndex - carButtonInitIndex);
-					//menuButtons[menuIndex].setColour(pressColour);	//indicate choice
-					//menuButtons[menuIndex].setMixColour(1);
 
 					//display colour
 					Render();		//render titlescreen
@@ -556,33 +618,31 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					std::stringstream fmt;
 					fmt << "Player " << controllerIndex + 1 << ", choose your vehicle:";
 					menuButtons[0].UpdateGameText(fmt.str());
+					//controllerTimeoutCounter = 10;
 				}
 
 				break;
 				//press "back"
 			case 5:
-				if (controllers[controllerIndex]->GetIndex() == 0 && numPlayers == 1) {
-					audio->PlaySfx(back);
-					for (int i = 0; i < menuButtons.size(); i++)
-						menuButtons[i].Destroy();
+				//if (controllers[controllerIndex].GetIndex() == 0 && numPlayers == 1) {
+				audio->PlaySfx(back);
+				for (int i = 0; i < menuButtons.size(); i++)
+					menuButtons[i].Destroy();
 
-					//init load screen
-					InitializeMultiplayerScreen();
-					isMultiplayerScreen = true;
-					isCarScreen = false;
-					//int newMenInd = numPlayers + multiplayerInitIndex-1;
-
-					newMenuIndex(multiplayerInitIndex, multiplayerInitIndex, initIndex, maxIndex, 3);
-				}
+				//init load screen
+				InitializeMultiplayerScreen();
+				isMultiplayerScreen = true;
+				isCarScreen = false;
+				newMenuIndex(multiplayerInitIndex, multiplayerInitIndex, initIndex, maxIndex, 3);
+				//}
 				break;
 
 			case 6:
 				audio->PlaySfx(press);
 				break;
-
-				
 			}
 		}
+		//	}
 		//load screen
 		else {
 
@@ -604,36 +664,24 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					//get arena index (location of button in menuButtons vector -2)
 					arenaIndex = menuIndex - arenaButtonInitIndex;
 					//set to colour to indicate choice
-					menuButtons[menuIndex].setColour(pressColour);	
+					menuButtons[menuIndex].setColour(pressColour);
 
 					newMenuIndex(skyboxButtonInitIndex, skyboxButtonInitIndex, initIndex, maxIndex, 3);
 
 
 				}
 				//choosing skybox
-				else if (isChooseSkybox){
+				else if (isChooseSkybox) {
 					isChooseSkybox = false;
 					//skybox chosen, so get index from menuButton vector 
 					skyboxIndex = menuIndex - skyboxButtonInitIndex;
 					menuButtons[menuIndex].setColour(pressColour);	//indicate choice
 					menuButtons[menuIndex].setMixColour(1);
 					pressStart(audio);	//start game
-
-					//newMenuIndex(carButtonInitIndex, carButtonInitIndex, initIndex, maxIndex, 2);
-					//pressStart(audio);	//start game
 				}
-				//choosing vehicle
-				else {
-					//humanVehicleChoice->clear();
-					//for (int i = 0; i < numPlayers; i++) 
-					//	humanVehicleChoice->push_back(menuIndex - carButtonInitIndex);
 
-					//menuButtons[menuIndex].setColour(pressColour);	//indicate choice
-					//menuButtons[menuIndex].setMixColour(1);
-					//pressStart(audio);	//start game
-				}
 				break;
-			//press "back"
+				//press "back"
 			case 5:
 				audio->PlaySfx(back);
 				//reset to choose arena if choosing skybox
@@ -668,7 +716,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					InitializeCarScreen();
 					isCarScreen = true;
 					isLoadScreen = false;
-					//int newMenInd = numPlayers + multiplayerInitIndex-1;
+					//controllerTimeoutCounter = 10, playersNotAdded = 0;
 
 					newMenuIndex(carButtonInitIndex, carButtonInitIndex, initIndex, maxIndex, 2);
 					Sleep(150);		//slow down input so not crazy fast				}
@@ -687,7 +735,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 		Render();		//render titlescreen
 		glfwSwapBuffers(window);	//need this to output to screen
 
-		//if quit selected, or other input to close program selected, close program
+									//if quit selected, or other input to close program selected, close program
 		if (isQuitPressed() || glfwWindowShouldClose(window)) {
 			return 0;
 		}
@@ -709,7 +757,7 @@ void TitleScreen::Destroy() {
 	//delete click;
 	//delete press;
 	//delete back;
-} 
+}
 
 void TitleScreen::newMenuIndex(int &newMenuIndex, const int &newInitIndex, int &initIndex, int &maxIndex, const int &addIndex) {
 	//new menu index to choose scenery/skybox
@@ -717,6 +765,6 @@ void TitleScreen::newMenuIndex(int &newMenuIndex, const int &newInitIndex, int &
 	maxIndex = newInitIndex + addIndex;
 	menuIndex = newMenuIndex;
 	menuButtons[menuIndex].setColour(selectColour);	//set initial choice colour to green
-																//sex mixColour flag
+													//sex mixColour flag
 	menuButtons[menuIndex].setMixColour(1);
 }

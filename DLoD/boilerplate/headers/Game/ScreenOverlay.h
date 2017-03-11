@@ -49,7 +49,7 @@ public:
 	~ScreenOverlay();
 
 	//Holds glyph data
-	
+
 private:
 	GLuint vertexArray;
 	GLsizei elementCount;
