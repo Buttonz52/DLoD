@@ -66,7 +66,7 @@ public:
 	void setTexture(const Texture &texture);
 	Mesh& getMesh();
 	void setMesh(const Mesh &m);
-	void setColour(const vec3 &col);
+	virtual void setColour(const vec3 &col);
 
 	vec3 * getColour();
 

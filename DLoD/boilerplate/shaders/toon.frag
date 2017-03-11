@@ -36,11 +36,11 @@ void main(void)
 	else if (diffuse > 0.6) {
 		diffuse = 0.6f;
 	}
-	else if (diffuse > 0.3) {
-		diffuse = 0.3f;
+	else if (diffuse > 0.4) {
+		diffuse = 0.4f;
 	}
 	else {
-		diffuse = 0.1f;
+		diffuse = 0.3f;
 	}
 	//FragmentColour = vec4(1.0, 0.0, 0.0, 1.0);
 	//FragmentColour = vec4(uv.xy, 0.0, 1.0);

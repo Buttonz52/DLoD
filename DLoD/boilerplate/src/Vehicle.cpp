@@ -4,9 +4,12 @@
 
 Vehicle::Vehicle()
 {
+	timer.start();
 	armour = 30;
 	health = 100;	
+	lowHealth = health / 2;
 	dead = false;
+	canPulseColour = false;
 	//initialize crash sound and place in map
 	crash = Mix_LoadWAV("sfx/carCrash.wav");
 	sfxMap.insert(make_pair("crash", crash));
@@ -14,14 +17,21 @@ Vehicle::Vehicle()
 	torqueSpeed = 12000.0;
 	maxVelocity = 70;
 	colour = vec3(1,0, 0);
+	initColour = colour;
 }
 
 
 Vehicle::~Vehicle()
 {
 	audio.CleanUp();
+	if (!timer.isStopped())
+		timer.stop();
 }
 
+void Vehicle::setColour(const vec3 &col) {
+	GEO::setColour(col);
+	initColour = col;
+}
 void Vehicle::updateWheelPosition()
 {
 	float xoff = 1.5;
@@ -192,18 +202,35 @@ float Vehicle::getArmour() {
 }
 
 void Vehicle::checkDead() {
-	if (health < 0) {
+	if (health <= 0) {
 		health = 0;
 		if (!dead) {
+			if (!timer.isStopped())
+				timer.stop();
+			mesh.UpdateColour(&(colour = initColour * 0.2f));
 			changeMeshDead();
-
 		}
+		canPulseColour = false;
 		dead = true;
+	}
+	else if (health >= lowHealth) {
+		canPulseColour = false;
+	}
+	else {
+		canPulseColour = true;
 	}
 }
 //regenerates armour for vehicle
 void Vehicle::regenArmour() {
-	armour >= 20 ? armour = 20: armour++;
+	if (armour >= 20.f) {
+		//mesh.UpdateColour(&(colour = initColour));
+		armour = 20.f;
+	}
+	else {
+		armour++;
+	}
+			
+	//armour >= 20 ? armour = 20: armour++;
 }
 
 void Vehicle::updateHealth(const float &damage)
@@ -211,11 +238,13 @@ void Vehicle::updateHealth(const float &damage)
 	float damageToHealth = 0;
 	
 	if (armour == 0) {
+		//mesh.UpdateColour(&(colour = initColour * 0.5f));
 		damageToHealth = damage;
 	}
 	else {
 		//armour takes damage
 		armour -= damage;
+		//UpdateColour(&(colour = initColour -vec3(0.2f-(armour*0.1f))));
 		//check if there is leftover damage for player
 		if (armour < 0) {
 			damageToHealth = abs(armour);
@@ -292,7 +321,6 @@ void Vehicle::giveMeWheels()
 
 		children.push_back(wheel);
 	}
-
 }
 
 void Vehicle::changeMeshDead() 
@@ -370,7 +398,20 @@ string Vehicle::getVelocityString() {
 
 void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
 {
-
+	//make a timer or something so not pulsing crazily
+	if (canPulseColour) {
+		int denom;
+		//check not dividing by 0.  Fiddle with the 6 to find a good timing of pulsation.
+		int(ceil(health)/6) <= 0 ? denom = 1 : denom = int(ceil(health)/6);
+		//pulse based on how much health you have -> faster pulse - less health
+		if ((timer.getTicks() % denom) == 0) {
+			colour -= vec3(0.1);
+			//if colour = black, reset to initial colour
+			if (colour.x <= 0 && colour.y <= 0 && colour.z <= 0)
+				colour = initColour;
+			mesh.UpdateColour(&colour);
+		}
+	}
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shader.program);

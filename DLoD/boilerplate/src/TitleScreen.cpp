@@ -7,9 +7,11 @@
 TitleScreen::TitleScreen()
 {
 	menuIndex = 0;
-	arenaButtonInitIndex = 3;
-	skyboxButtonInitIndex = 6;
-	carButtonInitIndex = 10;
+	multiplayerInitIndex = 1;
+	arenaButtonInitIndex = 2;
+	skyboxButtonInitIndex = 5;
+	controllerIndex = 0;
+	carButtonInitIndex = 1;
 	isLoadScreen = false;
 //	this->audio = audio;
 	buttonWidth = 0.2;
@@ -20,6 +22,7 @@ TitleScreen::TitleScreen()
 	isRules = false;
 	isChooseSkybox = false;
 	isChooseArena = false;
+	isCarScreen = false;
 	numMenuButtons = 3;
 	selectColour = vec3(0, 1, 0);
 	pressColour = vec3(1, 0, 1);
@@ -65,52 +68,17 @@ bool TitleScreen::isRulesPressed()
 }
 
 //change buttons
-void TitleScreen::toggleMenuIndex(const int &s, Audio *audio) {
+void TitleScreen::toggleMenuIndex(const int &s, Audio *audio, const int &initIndex, const int &maxIndex) {
 	menuButtons[menuIndex].setColour(prevCol);	//button back to normal colour
 	menuButtons[menuIndex].setMixColour(0);	//no longer mix colour
 	menuIndex+=s;
-	//top to bottom
-	if (isLoadScreen) {
-		//choose arena
-		if (isChooseArena) {
-			if (menuIndex > 5) {
-				menuIndex = 3;
-			}
-			if (menuIndex < 3) {
-				menuIndex = 5;
-			}
-		}
-		//choose skybox
-		else if (isChooseSkybox){
-			if (menuIndex >9) {
-				menuIndex = 6;
-			}
-			if (menuIndex < 6) {
-				menuIndex = 9;
-			}
-		}
-		//choose vehicle
-		else {
-			if (menuIndex >= menuButtons.size()) {
-				menuIndex = 10;
-			}
-			if (menuIndex < 10) {
-				menuIndex = menuButtons.size() - 1;
-			}
-		}
-	}
-	else {
-		//top to bottom
-		if (menuIndex < 0) {
-			menuIndex = menuButtons.size() - 3;
-		}
 
-		//bottom to top
-		if (menuIndex >= menuButtons.size()-2) {
-			menuIndex = 0;
-		}
-	}
-
+	//keep index in bounds
+	if (menuIndex > maxIndex)
+		menuIndex = initIndex;
+	if (menuIndex < initIndex)
+		menuIndex = maxIndex;
+	
 	//set the previous colour
 	prevCol = menuButtons[menuIndex].getColour();
 	//new colour (green for the moment); used to mix with texture for current button (we can change this)
@@ -183,6 +151,73 @@ void TitleScreen::InitializeTitleScreen() {
 		menuButtons[i].InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 }
 
+void TitleScreen::InitializeMultiplayerScreen() {
+	//clear vector of menu buttons
+	menuButtons.clear();
+
+	//generic button
+	ScreenOverlay button;
+
+	//vector of buttons
+	for (int i = 0; i <5; i++) {
+		menuButtons.push_back(button);
+	}
+
+	//screen overlays for number of players
+	menuButtons[0].InitializeGameText("How many players?", vec3(-0.6, 0.4, 0), vec3(0, 1, 0), 30);
+	menuButtons[0].setScale(vec3(2.f));
+	for (int i = 1; i < 5; i++) {
+		menuButtons[i].InitializeGameText(to_string(i), vec3(-0.6 + (2*i*0.1), -0.2, 0), vec3(0, 0, 0), 20);
+		menuButtons[i].setScale(vec3(3.f));
+
+	}
+	//initialize which button cursor will be on upon starting
+	menuButtons[multiplayerInitIndex].setColour(selectColour);	//is set to green initially
+	menuButtons[multiplayerInitIndex].setMixColour(1); //init
+	prevCol = vec3(0, 0, 0);	//colour for first button
+
+	for (int i = 0; i < menuButtons.size(); i++)
+		menuButtons[i].InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+}
+
+void TitleScreen::InitializeCarScreen() {
+	//clear vector of menu buttons
+	menuButtons.clear();
+
+	//generic button
+	ScreenOverlay button;
+
+	//vector of buttons
+	for (int i = 0; i <4; i++) {
+		menuButtons.push_back(button);
+	}
+	menuButtons[0].InitializeGameText("Player 1, choose your vehicle:", vec3(-0.5, 0.3, 0), vec3(0, 1, 0), 30);
+
+	//vehicle choice buttons
+	if (!menuButtons[carButtonInitIndex].initTexture("textures/carImgs/lightCar.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init light car texture." << endl;
+	}
+	if (!menuButtons[carButtonInitIndex + 1].initTexture("textures/carImgs/mediumCar.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init medium car texture." << endl;
+	}
+	if (!menuButtons[carButtonInitIndex + 2].initTexture("textures/carImgs/heavyCar.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init heavy car texture." << endl;
+	}
+	menuButtons[carButtonInitIndex].isRedTransparent = 1;
+	menuButtons[carButtonInitIndex + 1].isRedTransparent = 1;
+	menuButtons[carButtonInitIndex + 2].isRedTransparent = 1;
+
+	menuButtons[carButtonInitIndex].setPosition(vec3(-0.4, 0, 0));
+	menuButtons[carButtonInitIndex+1].setPosition(vec3(0, 0, 0));
+	menuButtons[carButtonInitIndex+2].setPosition(vec3(0.4, 0, 0));
+
+	//gererate for buttons
+	for (int i = carButtonInitIndex; i < menuButtons.size(); i++) 
+		menuButtons[i].GenerateSquareVertices(0.2, 0.2, menuButtons[i].getColour());
+
+	for (int i = 0; i < menuButtons.size(); i++)
+		menuButtons[i].InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+}
 //initializes choose arena screen
 void TitleScreen::InitializeChooseScreen() {
 
@@ -193,14 +228,13 @@ void TitleScreen::InitializeChooseScreen() {
 	ScreenOverlay button;
 
 	//vector of buttons
-	for (int i = 0; i <3 + carButtonInitIndex; i++) {
+	for (int i = 0; i <9; i++) {
 		menuButtons.push_back(button);
 	}
 
 	//screen overlays for arena and location
 	menuButtons[0].InitializeGameText("Choose your arena", vec3(-0.4, 0.8, 0), vec3(0, 1, 0), 20);
 	menuButtons[1].InitializeGameText("Choose your location", vec3(-0.5, 0.2, 0), vec3(0, 1, 0), 20);
-	menuButtons[2].InitializeGameText("Choose your vehicle", vec3(-0.5, -0.4, 0), vec3(0, 1, 0), 20);
 
 	//init transparent arena textures
 	if (!menuButtons[arenaButtonInitIndex].initTexture("textures/arenaImgs/arena9.png", GL_TEXTURE_2D)) {
@@ -236,45 +270,39 @@ void TitleScreen::InitializeChooseScreen() {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
 
-	//vehicle choice buttons
-	if (!menuButtons[carButtonInitIndex].initTexture("textures/carImgs/lightCar.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init light car texture." << endl;
-	}
-	if (!menuButtons[carButtonInitIndex+1].initTexture("textures/carImgs/mediumCar.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init medium car texture." << endl;
-	}
-	if (!menuButtons[carButtonInitIndex+2].initTexture("textures/carImgs/heavyCar.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init heavy car texture." << endl;
-	}
-	menuButtons[carButtonInitIndex].isRedTransparent = 1;
-	menuButtons[carButtonInitIndex+1].isRedTransparent = 1;
-	menuButtons[carButtonInitIndex+2].isRedTransparent = 1;
-
-	//vertices for background
-	background.GenerateSquareVertices(1, 1, vec3(0, 0, 1));	//invalid_enum occurs here
+	////vehicle choice buttons
+	//if (!menuButtons[carButtonInitIndex].initTexture("textures/carImgs/lightCar.png", GL_TEXTURE_2D)) {
+	//	cout << "Failed to init light car texture." << endl;
+	//}
+	//if (!menuButtons[carButtonInitIndex+1].initTexture("textures/carImgs/mediumCar.png", GL_TEXTURE_2D)) {
+	//	cout << "Failed to init medium car texture." << endl;
+	//}
+	//if (!menuButtons[carButtonInitIndex+2].initTexture("textures/carImgs/heavyCar.png", GL_TEXTURE_2D)) {
+	//	cout << "Failed to init heavy car texture." << endl;
+	//}
+	//menuButtons[carButtonInitIndex].isRedTransparent = 1;
+	//menuButtons[carButtonInitIndex+1].isRedTransparent = 1;
+	//menuButtons[carButtonInitIndex+2].isRedTransparent = 1;
 
 	//gererate for buttons
-	for (int i = 3; i < menuButtons.size(); i++) {
+	for (int i = arenaButtonInitIndex; i < menuButtons.size(); i++) {
 		menuButtons[i].GenerateSquareVertices(0.2, 0.2, menuButtons[i].getColour());
 	}
 
+	float arena_y = 0.4, skybox_y = -0.2;
 	//set positions of buttons
-	menuButtons[3].setPosition(vec3(-0.4,0.6,0));
-	menuButtons[4].setPosition(vec3(0.0,0.6,0));
-	menuButtons[5].setPosition(vec3(0.4, 0.6, 0));
+	menuButtons[arenaButtonInitIndex].setPosition(vec3(-0.4,arena_y,0));
+	menuButtons[arenaButtonInitIndex+1].setPosition(vec3(0.0, arena_y,0));
+	menuButtons[arenaButtonInitIndex+2].setPosition(vec3(0.4, arena_y, 0));
 
-	menuButtons[6].setPosition(vec3(-0.6,0.0,0));
-	menuButtons[7].setPosition(vec3(-0.2,0.0,0));
-	menuButtons[8].setPosition(vec3(0.2,0.0,0));
-	menuButtons[9].setPosition(vec3(0.6,0.0,0));
+	menuButtons[skyboxButtonInitIndex].setPosition(vec3(-0.6, skybox_y,0));
+	menuButtons[skyboxButtonInitIndex+1].setPosition(vec3(-0.2, skybox_y,0));
+	menuButtons[skyboxButtonInitIndex+2].setPosition(vec3(0.2, skybox_y,0));
+	menuButtons[skyboxButtonInitIndex+3].setPosition(vec3(0.6, skybox_y,0));
 
-	menuButtons[10].setPosition(vec3(-0.4,-0.55,0));
-	menuButtons[11].setPosition(vec3(0, -0.55, 0));
-	menuButtons[12].setPosition(vec3(0.4, -0.55, 0));
-
-
-	//initialize shaders
-	background.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	//menuButtons[10].setPosition(vec3(-0.4,-0.55,0));
+	//menuButtons[11].setPosition(vec3(0, -0.55, 0));
+	//menuButtons[12].setPosition(vec3(0.4, -0.55, 0));
 
 	for (int i = 0; i < menuButtons.size(); i++)
 		menuButtons[i].InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
@@ -367,8 +395,9 @@ int TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio 
 }
 
 //displays title screen
-bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice) {
-	humanVehicleChoice->clear();
+bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers) {
+	//humanVehicleChoice->clear();
+	vector <XboxController*> controllers;
 	if (!audio->InitMusic(titleMusic.c_str())) {
 		cout << "Failed to init title music." << endl;
 	}
@@ -376,36 +405,38 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 		cout << "Failed to play music" << endl;
 	}
 	isLoadScreen = false;
+	isMultiplayerScreen = false;
 	menuIndex = 0;
-
+	int maxIndex = 2, initIndex = 0;
 	//initialize title screen
 	InitializeTitleScreen();
 
 	//loop until something happens
 	while (!isStartPressed()) {
 		//title screen
-		if (!isLoadScreen) {
+		if (!isLoadScreen && !isMultiplayerScreen && !isCarScreen) {
 			switch (KeyCallback(window, controller, audio)) {	//check key callback 
 			case 0:
-				toggleMenuIndex(-1, audio);
+				toggleMenuIndex(-1, audio, initIndex, maxIndex);
 				break;
 			case 1:
-				toggleMenuIndex(1, audio);
+				toggleMenuIndex(1, audio, initIndex, maxIndex);
 				break;
 			case 4:
 				switch (menuIndex)
 				{
 				case 0:
 					audio->PlaySfx(press);
-					isLoadScreen = true;
+					//isLoadScreen = true;
 					//destroy menu buttons
 					for (int i = 0; i < menuButtons.size(); i++)
 						menuButtons[i].Destroy();
 
 					//init load screen
-					InitializeChooseScreen();
-					isChooseArena = true;
-					menuIndex = arenaButtonInitIndex;	//going to next loop, reset menuIndex
+					InitializeMultiplayerScreen();
+					isMultiplayerScreen = true;
+
+					newMenuIndex(multiplayerInitIndex, multiplayerInitIndex, initIndex, maxIndex, 3);
 					Sleep(150);		//slow down input so not crazy fast
 					break;
 				case 1:
@@ -421,14 +452,146 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 			}
 		}
-		//load screen
-		else {
+		//multiplayer screen
+		else if (isMultiplayerScreen) {
 			switch (KeyCallback(window, controller, audio)) {	//check key callback 
 			case 2:
-				toggleMenuIndex(1, audio);
+				toggleMenuIndex(1, audio, initIndex, maxIndex);
 				break;
 			case 3:
-				toggleMenuIndex(-1, audio);
+				toggleMenuIndex(-1, audio, initIndex, maxIndex);
+				break;
+				//press "select"
+			case 4:
+				audio->PlaySfx(press);
+				//set flag to false
+				isMultiplayerScreen = false;
+				isCarScreen = true;
+
+				//get arena index (location of button in menuButtons vector -2)
+				menuButtons[menuIndex].setColour(pressColour);	//indicate choice
+				menuButtons[menuIndex].setMixColour(1);
+
+				//display colour
+				Render();		//render titlescreen
+				glfwSwapBuffers(window);	//need this to output to screen
+				Sleep(400);		//slow down input so not crazy fast
+
+				for (int i = 0; i < menuButtons.size(); i++)
+					menuButtons[i].Destroy();
+				InitializeCarScreen();
+
+				numPlayers = menuIndex;
+				humanVehicleChoice->clear();
+				controllers.clear();
+				if (controller->Connected())
+					controllers.push_back(controller);
+				controllers.push_back(controller);
+				for (int i = 0; i < numPlayers; i++) {
+					humanVehicleChoice->emplace_back();
+				}
+				if (numPlayers > 1) {
+				//push back rest of controllers
+				for (int i = 1; i < numPlayers; i++)
+					controllers.push_back(new XboxController(i+1));
+				}
+				controllerIndex = 0;
+				newMenuIndex(carButtonInitIndex, carButtonInitIndex, initIndex, maxIndex, 2);
+
+				break;
+				//press "back"
+			case 5:
+				audio->PlaySfx(back);
+				DisplayTitle(window, controller, audio, skyboxIndex, arenaIndex, humanVehicleChoice, numPlayers);
+				break;
+
+			case 6:
+				audio->PlaySfx(press);
+				break;
+
+			}
+		}
+		//choose cars
+		else if (isCarScreen) {
+			switch (KeyCallback(window, controllers[controllerIndex], audio)) {	//check key callback 
+			case 2:
+				toggleMenuIndex(1, audio, initIndex, maxIndex);
+				break;
+			case 3:
+				toggleMenuIndex(-1, audio, initIndex, maxIndex);
+				break;
+				//press "select"
+			case 4:
+				audio->PlaySfx(press);
+				//set flag to false
+				humanVehicleChoice->at(controllerIndex) = (menuIndex - carButtonInitIndex);
+				menuButtons[menuIndex].setColour(pressColour);	//indicate choice
+				menuButtons[menuIndex].setMixColour(1);
+				Sleep(150);
+				controllerIndex++;
+				if (controllerIndex >= numPlayers) {
+					isCarScreen = false;
+					isLoadScreen = true;
+
+					isChooseArena = true;
+
+					////humanVehicleChoice->clear();
+					//for (int i = 0; i < numPlayers; i++)
+					//	humanVehicleChoice->at(controller->GetIndex()) = (menuIndex - carButtonInitIndex);
+					//menuButtons[menuIndex].setColour(pressColour);	//indicate choice
+					//menuButtons[menuIndex].setMixColour(1);
+
+					//display colour
+					Render();		//render titlescreen
+					glfwSwapBuffers(window);	//need this to output to screen
+					Sleep(400);		//slow down input so not crazy fast
+
+					for (int i = 0; i < menuButtons.size(); i++)
+						menuButtons[i].Destroy();
+					InitializeChooseScreen();
+
+					newMenuIndex(arenaButtonInitIndex, arenaButtonInitIndex, initIndex, maxIndex, 2);
+				}
+				else {
+					std::stringstream fmt;
+					fmt << "Player " << controllerIndex + 1 << ", choose your vehicle:";
+					menuButtons[0].UpdateGameText(fmt.str());
+				}
+
+				break;
+				//press "back"
+			case 5:
+				if (controllers[controllerIndex]->GetIndex() == 0 && numPlayers == 1) {
+					audio->PlaySfx(back);
+					for (int i = 0; i < menuButtons.size(); i++)
+						menuButtons[i].Destroy();
+
+					//init load screen
+					InitializeMultiplayerScreen();
+					isMultiplayerScreen = true;
+					isCarScreen = false;
+					//int newMenInd = numPlayers + multiplayerInitIndex-1;
+
+					newMenuIndex(multiplayerInitIndex, multiplayerInitIndex, initIndex, maxIndex, 3);
+				}
+				break;
+
+			case 6:
+				audio->PlaySfx(press);
+				break;
+
+				
+			}
+		}
+		//load screen
+		else {
+
+			switch (KeyCallback(window, controller, audio)) {	//check key callback 
+			case 2:
+				toggleMenuIndex(1, audio, initIndex, maxIndex);
+				break;
+			case 3:
+				toggleMenuIndex(-1, audio, initIndex, maxIndex);
 				break;
 				//press "select"
 			case 4:
@@ -443,12 +606,8 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					//set to colour to indicate choice
 					menuButtons[menuIndex].setColour(pressColour);	
 
-					//new menu index to choose scenery/skybox
-					menuIndex = skyboxButtonInitIndex;
-					menuButtons[skyboxButtonInitIndex].setColour(selectColour);	//set initial choice colour to green
-					//sex mixColour flag
-					menuButtons[skyboxButtonInitIndex].setMixColour(1);
-					Sleep(150);		//slow down input so not crazy fast
+					newMenuIndex(skyboxButtonInitIndex, skyboxButtonInitIndex, initIndex, maxIndex, 3);
+
 
 				}
 				//choosing skybox
@@ -458,58 +617,61 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					skyboxIndex = menuIndex - skyboxButtonInitIndex;
 					menuButtons[menuIndex].setColour(pressColour);	//indicate choice
 					menuButtons[menuIndex].setMixColour(1);
+					pressStart(audio);	//start game
 
-					//new menu index to choose scenery/skybox
-					menuIndex = carButtonInitIndex;
-					menuButtons[carButtonInitIndex].setColour(selectColour);	//set initial choice colour to green
-															//sex mixColour flag
-					menuButtons[carButtonInitIndex].setMixColour(1);
-					Sleep(150);		//slow down input so not crazy fast
+					//newMenuIndex(carButtonInitIndex, carButtonInitIndex, initIndex, maxIndex, 2);
 					//pressStart(audio);	//start game
 				}
 				//choosing vehicle
 				else {
-					humanVehicleChoice->push_back(menuIndex - carButtonInitIndex);
-					menuButtons[menuIndex].setColour(pressColour);	//indicate choice
-					menuButtons[menuIndex].setMixColour(1);
-					pressStart(audio);	//start game
+					//humanVehicleChoice->clear();
+					//for (int i = 0; i < numPlayers; i++) 
+					//	humanVehicleChoice->push_back(menuIndex - carButtonInitIndex);
+
+					//menuButtons[menuIndex].setColour(pressColour);	//indicate choice
+					//menuButtons[menuIndex].setMixColour(1);
+					//pressStart(audio);	//start game
 				}
 				break;
 			//press "back"
 			case 5:
 				audio->PlaySfx(back);
 				//reset to choose arena if choosing skybox
-				if (!isChooseSkybox) {
+				if (!isChooseSkybox && !isChooseArena) {
 					//reset flag
 					isChooseSkybox = true;
 					//unset skybox choice colours
 					menuButtons[menuIndex].setMixColour(0);
+
 					//reset menu index for arenas
-					menuIndex = skyboxIndex + skyboxButtonInitIndex;
+					int newMenInd = skyboxIndex + skyboxButtonInitIndex;
+					newMenuIndex(newMenInd, skyboxButtonInitIndex, initIndex, maxIndex, 3);
 
-					//unset choice colour back to pick colour
-					menuButtons[menuIndex].setColour(selectColour);
-
-					//sex mixColour flag
-					menuButtons[menuIndex].setMixColour(1);
 				}
-				else if (!isChooseArena) {
+				//reset to choosing arena
+				else if (!isChooseArena && isChooseSkybox) {
 					//reset flag
 					isChooseArena = true;
 					//unset skybox choice colours
 					menuButtons[menuIndex].setMixColour(0);
+
 					//reset menu index for arenas
-					menuIndex = arenaIndex + arenaButtonInitIndex;
-
-					//unset choice colour back to pick colour
-					menuButtons[menuIndex].setColour(selectColour);
-
-					//sex mixColour flag
-					menuButtons[menuIndex].setMixColour(1);
+					int newMenInd = arenaIndex + arenaButtonInitIndex;
+					newMenuIndex(newMenInd, arenaButtonInitIndex, initIndex, maxIndex, 2);
 				}
 				//otherwise, go back to title page
 				else {
-					DisplayTitle(window, controller, audio, skyboxIndex, arenaIndex, humanVehicleChoice);
+					for (int i = 0; i < menuButtons.size(); i++)
+						menuButtons[i].Destroy();
+
+					//init load screen
+					InitializeCarScreen();
+					isCarScreen = true;
+					isLoadScreen = false;
+					//int newMenInd = numPlayers + multiplayerInitIndex-1;
+
+					newMenuIndex(carButtonInitIndex, carButtonInitIndex, initIndex, maxIndex, 2);
+					Sleep(150);		//slow down input so not crazy fast				}
 				}
 				break;
 
@@ -520,7 +682,6 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 			}
 		}
 		// clear screen to a dark grey colour;
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		Render();		//render titlescreen
@@ -528,17 +689,13 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 
 		//if quit selected, or other input to close program selected, close program
 		if (isQuitPressed() || glfwWindowShouldClose(window)) {
-			//glfwSetWindowShouldClose(window, GL_TRUE);
-			//Destroy();
-			//glfwDestroyWindow(window);
-			//glfwTerminate();
 			return 0;
 		}
 		Sleep(100);		//slow down input so not crazy fast
 		glfwPollEvents();
 	}
-	audio->FreeMusic();
 	Sleep(600);
+	//audio->FreeMusic();
 	return 1;
 	//Initialize "Loading screen"
 }
@@ -553,3 +710,13 @@ void TitleScreen::Destroy() {
 	//delete press;
 	//delete back;
 } 
+
+void TitleScreen::newMenuIndex(int &newMenuIndex, const int &newInitIndex, int &initIndex, int &maxIndex, const int &addIndex) {
+	//new menu index to choose scenery/skybox
+	initIndex = newInitIndex;
+	maxIndex = newInitIndex + addIndex;
+	menuIndex = newMenuIndex;
+	menuButtons[menuIndex].setColour(selectColour);	//set initial choice colour to green
+																//sex mixColour flag
+	menuButtons[menuIndex].setMixColour(1);
+}

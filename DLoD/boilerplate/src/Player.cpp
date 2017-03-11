@@ -34,13 +34,13 @@ void Player::SetPlayerColour() {
 		colour = vec3(1, 0.5, 0);	//orange
 		break;
 	case 5:
-		colour = vec3(1, 0, 1);		//magenta
+		colour = vec3(1, 0.078, 0.58);		//deep pink
 		break;
 	case 6:
 		colour = vec3(0, 1, 1);		//cyan
 		break;
 	case 7:
-		colour = vec3(0.5, 0, 0.5);	//purple
+		colour = vec3(0.55, 0.028, 0.54);	//orchid4
 		break;
 	default:
 		colour = vec3(0, 0, 0);		//default black
@@ -51,6 +51,9 @@ bool Player::isDead() {
 	return vehicle->isDead();
 }
 
+vec3 * Player::getColour() {
+	return &colour;
+}
 void Player::getInput()
 {
 

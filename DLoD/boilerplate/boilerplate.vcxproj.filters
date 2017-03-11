@@ -227,9 +227,6 @@
     <ClInclude Include="headers\GameEngine\Texture.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Physics\PhysXMain.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Physics\SnippetVehicleRaycast.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
@@ -277,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="headers\Game\GameHud.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Physics\PhysXMain.h">
+      <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

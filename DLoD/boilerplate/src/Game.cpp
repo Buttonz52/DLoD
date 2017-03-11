@@ -28,7 +28,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 	winningCam.setRadius(50);
 
   window = w;
-  numPlayerScreens = 4;
+  numPlayerScreens = numPlayers;
   glfwGetWindowSize(window, &width, &height);
 
 	//windows = w;
@@ -43,7 +43,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   for (int i = 0; i < numPlayers; i++) {
 	  Human* human = new Human(i);
 	  human->ChooseVehicle(humanVehicleChoice->at(i));
-	  human->vehicle->setPosition(vec3(0, 50, -50));
+	  human->vehicle->setPosition(vec3(0, 50, -20 * i));
 	  initVehicle(human->vehicle);
 	  skybox->children.push_back(human->vehicle);
 	  players.push_back(human);
@@ -177,7 +177,7 @@ void Game::gameLoop()
 			healthStr = players[i]->vehicle->getHealthString();
 			armourStr = players[i]->vehicle->getArmourString();
 			velocityStr = players[i]->vehicle->getVelocityString();
-			vColour = *players[i]->vehicle->getColour();
+			vColour = *players[i]->getColour();
 		}
 
 		//otherwise, render either overhead camera or current win camera
@@ -379,17 +379,17 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	if (!arena->initMesh(objfilename)) {
 		cout << "Failed to init arena" << endl;
 	}
-	vector<string> arenaTexture;
-	for (int i = 0; i < 6; i++) {
-		arenaTexture.push_back(texfilename);
-	}
-	if (!arena->initSkybox(arenaTexture)) {
-		cout << "Failed to initialize arena texture." << endl;
-	}
-	arena->addShaders("shaders/skybox.vert", "shaders/skybox.frag");
-	//if (!arena->initTexture(texfilename, GL_TEXTURE_2D)) {
-	//	cout << "Failed to initialize arena ground texture." << endl;
+	//vector<string> arenaTexture;
+	//for (int i = 0; i < 6; i++) {
+	//	arenaTexture.push_back(texfilename);
 	//}
+	//if (!arena->initSkybox(arenaTexture)) {
+	//	cout << "Failed to initialize arena texture." << endl;
+	//}
+	//arena->addShaders("shaders/skybox.vert", "shaders/skybox.frag");
+	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
+		cout << "Failed to initialize arena ground texture." << endl;
+	}
 
 	//bump map initialization
 //	if (!arena->initTexture(arenaBumpmap, GL_TEXTURE_2D)) {
@@ -399,7 +399,7 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	//calculate tangent for bump map
 //	arena->calculateMeshTangent();
 
-	//arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+	arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
 	//arena->addShaders("shaders/phong.vert", "shaders/phong.frag");
 
 	if (!arena->initBuffers()) {

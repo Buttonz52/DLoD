@@ -20,7 +20,10 @@ void GameHud::UpdateRadar(const vector<vec3> *positions) {
 		newVec = radarPoints.Normalize(positions->at(i));
 
 		//Since 2D and y vec is useless for radar map, want x and z coordinates instead
-		newPositions.push_back(vec3(-newVec.x, newVec.z,0)*0.1f);
+		///TODO: Fix radar scaling and stuff
+		//newPositions.push_back(vec3(-newVec.x/newVec.y, newVec.z/newVec.y,0) * 0.003f);
+		newPositions.push_back(vec3(-newVec.x, newVec.z, 0)*0.1f);
+
 	}
 	radarPoints.UpdateVertices(&newPositions);
 }

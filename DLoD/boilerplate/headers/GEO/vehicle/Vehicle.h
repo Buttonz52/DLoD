@@ -14,6 +14,8 @@ protected:
   // Stores the Vehicle Health
   float health;
   float armour;
+  int lowHealth;
+  vec3 initColour;
   //double armourLeft;
   //double armourRight;
   //double armourFront;
@@ -32,8 +34,9 @@ public:
 
   PxVehicleNoDrive* physXVehicle;
   pair<bool, double> stun = make_pair(false, 0);
+  bool canPulseColour;
   Timer timer;
-
+  void setColour(const vec3 &col);
 
 
   string wheelFileName;

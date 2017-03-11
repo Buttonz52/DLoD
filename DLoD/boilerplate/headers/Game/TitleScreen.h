@@ -16,16 +16,20 @@ public:
 	bool isRulesPressed();
 
 	void InitializeTitleScreen();
+	void InitializeMultiplayerScreen();
+	void InitializeCarScreen();
 	void InitializeChooseScreen();
 	void Render();
-	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector <int> *humanVehicleChoice);
+	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector <int> *humanVehicleChoice, int &numPlayers);
 	void Destroy();
+
+	void newMenuIndex(int &newMenuIndex, const int &newInitIndex, int &initIndex, int &maxIndex, const int &addIndex);
 
 	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
 
 private:
-	bool isQuit, isStart, isRules, isLoadScreen, isChooseArena, isChooseSkybox;
-	int arenaButtonInitIndex, skyboxButtonInitIndex, carButtonInitIndex;
+	bool isQuit, isStart, isRules, isLoadScreen, isChooseArena, isChooseSkybox, isMultiplayerScreen, isCarScreen;
+	int arenaButtonInitIndex, skyboxButtonInitIndex, carButtonInitIndex, multiplayerInitIndex, controllerIndex;
 	int menuIndex;
 	int numMenuButtons;
 	float buttonWidth;
@@ -41,7 +45,7 @@ private:
 	void pressStart(Audio *audio);
 	void pressQuit();
 	void pressRules();
-	void toggleMenuIndex(const int &s, Audio *audio);
+	void toggleMenuIndex(const int &s, Audio *audio, const int &initIndex, const int &maxIndex);
 	Mix_Chunk *click;
 	Mix_Chunk *press;
 	Mix_Chunk *back;
@@ -50,6 +54,3 @@ private:
 	//string rulesTexture;	//might not need
 	//string quitTexture;	//might not need 
 };
-
-
-

@@ -4,7 +4,7 @@
 
 Human::Human(int i) : Player(i)
 {
-  controller = new XboxController(1);
+  controller = new XboxController(i+1);
 }
 
 
@@ -37,7 +37,7 @@ void Human::getGameOverInput(GLFWwindow* window, bool &pause)
 
 void Human::gameOverControls(GLFWwindow* window, bool &pause)
 {
-	if (!controller->Connected())
+	if (!controller->Connected() && identifier == 0)
 	{
 		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS)
 		{
@@ -52,7 +52,8 @@ void Human::vehicleControls(GLFWwindow* window)
   int state;
 
   //Movement of the GEOs with keyboard if controller not connected
-  if (!controller->Connected())
+  //make it so that only player 1 can use keyboard if no controller
+  if (!controller->Connected() && identifier ==0)
   {
     if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
     {

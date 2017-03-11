@@ -24,7 +24,9 @@ bool Audio::InitMusic(const char *filename) {
 	//Load the music file.  If there's nothing in the file, return false.
 	music_file = Mix_LoadMUS(filename);
 	horn = Mix_LoadWAV("sfx/horn.wav");
-	if (music_file == NULL || horn == NULL) {
+	chicken = Mix_LoadWAV("sfx/startNoise.wav");
+
+	if (music_file == NULL || horn == NULL|| chicken == NULL) {
 		return false;
 	}
 	//Return true if everything is good.

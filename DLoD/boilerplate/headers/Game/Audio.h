@@ -10,6 +10,7 @@ public:
 	~Audio();
 
 	Mix_Chunk *horn = NULL;
+	Mix_Chunk *chicken = NULL;
 
 	bool InitMusic(const char *filename);
 	void FreeMusic();

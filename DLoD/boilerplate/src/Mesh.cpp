@@ -76,7 +76,14 @@ bool Mesh::Initialize() {
 	// check for OpenGL errors and return false if error occurred
 	return !CheckGLErrors();
 }
-
+void Mesh::UpdateColour(const vec3 *colour) {
+	vector<vec3> colours;
+	for (int i = 0; i < vertices.size(); i++) {
+		colours.push_back(*colour);
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, colours.size() * sizeof(vec3), colours.data());
+}
 bool Mesh::ReadMesh(const string &filename) {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(filename, aiProcess_Triangulate | 

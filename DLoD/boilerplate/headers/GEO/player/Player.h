@@ -20,12 +20,13 @@ public:
 	virtual void getInput();
 	void ChooseVehicle(int choice);
 	bool isDead();
+	vec3 * getColour();
+
   bool layTrap = false;
   bool ableToTrap = true;
   ItemType trap;
 private: 
 	void SetPlayerColour();
 	vec3 colour;
-
 };
 #endif
