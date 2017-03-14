@@ -166,3 +166,26 @@ void GameHud::RenderMenu(const int &menuIndex, const vec3 &colour) {
 	pauseBox.Render(GL_TRIANGLE_STRIP, pauseBox.getColour());
 	pauseBkgrd.Render(GL_TRIANGLE_STRIP, vec3(1.f-colour) * 0.3f);
 }
+
+void GameHud::Destroy() {
+	//kill all the ScreenOverlays
+	healthTex.Destroy();
+	armourTex.Destroy();
+	healthTitle.Destroy();
+	armourTitle.Destroy();
+	topLeftBkgrd.Destroy(); 
+	topLeftBorder.Destroy();
+	botRightBorder.Destroy(); 
+	botRightBkgrd.Destroy();
+	velocityTitle.Destroy(); 
+	velocityTex.Destroy();
+	radarBkgrd.Destroy(); 
+	radarBorder.Destroy();
+	radarPoints.Destroy(); 
+	screenBorder.Destroy();
+	resumeText.Destroy(); 
+	quitText.Destroy();
+	pauseBkgrd.Destroy(); 
+	pauseBox.Destroy(); 
+	pauseBorder.Destroy();
+}

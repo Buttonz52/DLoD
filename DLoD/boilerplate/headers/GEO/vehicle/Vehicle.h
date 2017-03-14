@@ -16,6 +16,7 @@ protected:
   float armour;
   int lowHealth;
   vec3 initColour;
+  string filename;
   //double armourLeft;
   //double armourRight;
   //double armourFront;
@@ -56,6 +57,7 @@ public:
   void checkDead();
   bool initBuffers();
   void changeMeshDead();
+  string & getAliveCarMesh();
   bool isDead();
   bool initMesh(const string &);
 
@@ -63,6 +65,7 @@ public:
 
 	float getHealth();
 	float calculateDamage(const double &, const double &, const double &, const double &);
+	void setAliveCarMesh(const string & file);
 	void regenArmour();
 	void updateHealth(const float &damage);
 	float getArmour();

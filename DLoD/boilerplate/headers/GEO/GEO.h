@@ -29,8 +29,6 @@ public:
 	bool isPlane;
 
 	double getRadius();
-	string getFilename();
-	void setFilename(const string &fname);
 
 	//Scale
 	vec3 &getScale();
@@ -76,7 +74,6 @@ public:
 	Mesh mesh;
 
 protected:
-	string filename;
 	double radius;
 	vec3 colour;
 

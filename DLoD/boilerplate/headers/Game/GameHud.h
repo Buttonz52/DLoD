@@ -23,6 +23,8 @@ public:
 
 	void RenderMenu(const int & menuIndex, const vec3 & colour);
 
+	void Destroy();
+
 	//void RenderMenu(const int & menuIndex);
 
 private:

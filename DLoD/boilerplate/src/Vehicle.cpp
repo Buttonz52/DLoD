@@ -190,6 +190,13 @@ float Vehicle::calculateDamage(const double &x, const double &y, const double &z
 
 }
 
+void Vehicle::setAliveCarMesh(const string &file) {
+	filename = file;
+}
+
+string & Vehicle::getAliveCarMesh() {
+	return filename;
+}
 bool Vehicle::isDead() {
 	return dead;
 }
@@ -303,10 +310,10 @@ void Vehicle::giveMeWheels()
 	{
 		//init wheels mesh
 		GEO* wheel = new GEO();
-		wheel->setFilename("wheels/mediumCarTire.obj");
+		//wheel->setFilename("wheels/mediumCarTire.obj");
 		wheel->setColour(vec3(1, 0, 0));
-
-		if (!wheel->initMesh("wheels/mediumCarTire.obj")) {
+		string filename = "wheels/mediumCarTire.obj";
+		if (!wheel->initMesh(filename)) {
 			cout << "Error reading wheel mesh" << endl;
 		}
 
@@ -314,7 +321,7 @@ void Vehicle::giveMeWheels()
 
 
 		if (!wheel->initBuffers()) {
-			cout << "Could not initialize buffers for game object " << wheel->getFilename() << endl;
+			cout << "Could not initialize buffers for game object " << filename << endl;
 		}
 
 		for (int i = 0; i < wheel->getMesh().vertices.size(); ++i)

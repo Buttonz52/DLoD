@@ -3,7 +3,7 @@
 GEO* initGroundPlane()
 {
   GEO* plane = new GEO();
-  plane->setFilename("plane.obj");
+ // plane->setFilename("plane.obj");
   if (!plane->initMesh("plane.obj")) {
     cout << "Failed to initialize mesh." << endl;
   }
@@ -119,7 +119,9 @@ void Game::start()
 
 	  glfwPollEvents();
   }
+  endGameText.Destroy();
   pauseText.Destroy();
+  gameHud.Destroy();
   delete skybox;
   delete arena;
   physX.cleanupPhysics(true);
@@ -375,7 +377,6 @@ void Game::initSkyBox(const string &pathname)
 	arenaTexFilename = skyboxFiles[3]; //ground 
 
   skybox = new GEO();
-  skybox->setFilename("cube.obj");
   skybox->setColour(vec3(0, 0, 0));
   if (!skybox->initMesh("cube.obj")) {
     cout << "Failed to initialize skybox mesh." << endl;
@@ -393,7 +394,6 @@ void Game::initVehicle(Vehicle* v)
 {
   v->setScale(vec3(1.5));
  
-  //v->setFilename("ObjModels/mediumCarBody.obj");	//alive mesh
   if (!v->initMesh("cube.obj")) {	//dead mesh
     cout << "Failed to initialize mesh." << endl;
   }
@@ -401,7 +401,7 @@ void Game::initVehicle(Vehicle* v)
 
 
   if (!v->initBuffers()) {
-    cout << "Could not initialize buffers for game object " << v->getFilename() << endl;
+    cout << "Could not initialize buffers for game object " << v->getAliveCarMesh() << endl;
   }
 
   physX.initVehicle(v);
@@ -413,7 +413,6 @@ void Game::initVehicle(Vehicle* v)
 //
 void Game::initItem(Item* item)
 {
-  item->setFilename("cube.obj");
   item->setScale(vec3(2));
   item->setColour(vec3(1, 1, 0));
 
@@ -442,7 +441,6 @@ void Game::initItem(Item* item)
 //initialize arena
 GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	GEO *arena = new GEO();
-	arena->setFilename(objfilename);
 	arena->setColour(vec3(1, 0, 0));
 
 	if (!arena->initMesh(objfilename)) {
@@ -472,7 +470,7 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	//arena->addShaders("shaders/phong.vert", "shaders/phong.frag");
 
 	if (!arena->initBuffers()) {
-		cout << "Could not initialize buffers for game object " << arena->getFilename() << endl;
+		cout << "Could not initialize buffers for arena" << endl;
 	}
 	arena->setScale(vec3(100.f));
 	arena->setPosition(vec3(0, 0, 0));

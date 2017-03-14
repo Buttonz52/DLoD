@@ -4,13 +4,11 @@ GEO::GEO()
 {
 	position = vec3(0);
 	radius = 1.f;
-	filename = "";
 	scale = vec3(1.f);
 	xRotation = 0; yRotation = 0; zRotation = 0;
 	hasTexture = 0;
 	isSkybox = 0;
 	colour = vec3(1,1,1);
-	//sfxMap.insert(make_pair("sfx", sfx));
 }
 
 GEO::~GEO()
@@ -40,17 +38,6 @@ double GEO::getRadius()
 {
 	return radius;
 }
-
-string GEO::getFilename()
-{
-	return filename;
-}
-
-void GEO::setFilename(const string &fname)
-{
-	filename = fname;
-}
-
 
 vec3 &GEO::getScale()
 {
