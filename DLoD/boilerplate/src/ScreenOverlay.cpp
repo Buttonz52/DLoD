@@ -8,21 +8,24 @@
 
 ScreenOverlay::ScreenOverlay()
 {
-	transparency = 1.f;
-	updateFactor = 5;
-	vertexArray = -1;
-	elementCount = 0;
+	isFontTex = 0;
+	isRedTransparent = 0;
 
+	hasTexture = 0;
+	mixColour = 0;
+	mixAmount = 0.5f;
+
+	rotateZ = 0;
+	transparency = 1.f;
+
+	vertexArray = -1;
 	vertexBuffer = -1;
 	textureBuffer = -1;
-	colour = vec3(0);
-	hasTexture = 0;
-	rotateZ = 0;
-	position = vec3(0);
-	mixColour = 0;
-	isFontTex = 0;
+	elementCount = 0;
+
 	_scale = vec3(1);
-	isRedTransparent = 0;
+	position = vec3(0);
+	colour = vec3(0);
 }
 
 
@@ -234,6 +237,7 @@ void ScreenOverlay::Render(GLuint type, const vec3 &colour)
 	glUniform1i(glGetUniformLocation(shader.program, "isFontTex"), isFontTex);
 	glUniform1i(glGetUniformLocation(shader.program, "isRedTransparent"), isRedTransparent);
 	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
+	glUniform1f(glGetUniformLocation(shader.program, "mixAmount"), mixAmount);
 
 
 
@@ -284,16 +288,32 @@ void ScreenOverlay::setHasTexture(const bool &b) {
 	hasTexture = b;
 }
 
-void ScreenOverlay::setMixColour(const bool &b) {
-	mixColour = b;
-}
-
 int ScreenOverlay::getHasTexture() {
 	return hasTexture;
 }
 
-int ScreenOverlay::getMixColour() {
+
+void ScreenOverlay::setMixFlag(const bool &b) {
+	mixColour = b;
+}
+
+int ScreenOverlay::getMixFlag() {
 	return mixColour;
+}
+
+void ScreenOverlay::setMixAmount(const float &c) {
+	mixAmount = c;
+}
+float ScreenOverlay::getMixAmount() {
+	return mixAmount;
+}
+
+
+void ScreenOverlay::setTransparency(const float &t) {
+	transparency = t;
+}
+float ScreenOverlay::getTransparency() {
+	return transparency;
 }
 void ScreenOverlay::Destroy() {
 	shader.DestroyShaders();

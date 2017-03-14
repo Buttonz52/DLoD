@@ -33,5 +33,4 @@ void main(void)
     vec3 specular = ks * pow(max(dot(R, V), 0.0), ke) * vec3(1.f);
 
     FragmentColour = vec4(ambient + vec3(diffuse) + specular, 1.0);
-
 }

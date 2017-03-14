@@ -8,6 +8,7 @@ LightVehicle::LightVehicle()
 	maxVelocity = 90;
 	health = 120;
 	armour = 10;
+	lowHealth = health / 2;
 }
 
 

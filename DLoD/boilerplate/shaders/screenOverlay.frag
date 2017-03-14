@@ -10,6 +10,7 @@ uniform int hasTexture;
 uniform int mixColour;
 uniform int isFontTex;
 uniform int isRedTransparent;
+uniform float mixAmount;
 uniform float transparency;
 in vec2 UV;
 void main(void)
@@ -38,7 +39,7 @@ void main(void)
 		}
 
 		if (mixColour == 1) {
-			FragmentColour = vec4(mix(texColour, Colour, 0.5),transparency);
+			FragmentColour = vec4(mix(texColour, Colour, mixAmount),transparency);
 		}
 
 		else {

@@ -13,45 +13,47 @@ public:
 	~TitleScreen();
 
 	bool isStartPressed();
-	bool isQuitPressed();
 	bool isRulesPressed();
+	bool isQuitPressed();
 
 	void InitializeTitleScreen();
 	void InitializeMultiplayerScreen();
 	void InitializeCarScreen();
 	void InitializeChooseScreen();
+
 	void Render();
 	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector <int> *humanVehicleChoice, int &numPlayers);
-	void Destroy();
 
 	void newMenuIndex(int &newMenuIndex, const int &newInitIndex, int &initIndex, int &maxIndex, const int &addIndex);
-
 	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
+	void Destroy();
 
 private:
-	bool isQuit, isStart, isRules, isLoadScreen, isChooseArena, isChooseSkybox, isMultiplayerScreen, isCarScreen;
-	int arenaButtonInitIndex, skyboxButtonInitIndex, carButtonInitIndex, multiplayerInitIndex, controllerIndex;
-	int menuIndex;
+	bool isQuit, isStart, 
+		isRules, isLoadScreen, 
+		isChooseArena, isChooseSkybox, 
+		isMultiplayerScreen, isCarScreen;
+
+	int menuIndex,
+		multiplayerInitIndex,
+		arenaButtonInitIndex,
+		skyboxButtonInitIndex,
+		carButtonInitIndex,
+		controllerIndex;
+
 	int numMenuButtons;
-	float buttonWidth;
-	float buttonHeight;
-	float padding;
+
 	string titleMusic = "music/Faded_intro.wav";
-	vec3 selectColour;
-	vec3 pressColour;
+
+	vec3 selectColour, pressColour, prevColour;
+
 	ScreenOverlay background;
 	vector<ScreenOverlay> menuButtons;
 
-	vec3 prevCol;
+	Mix_Chunk *click, *press, *back;
+
 	void pressStart(Audio *audio);
 	void pressQuit();
 	void pressRules();
 	void toggleMenuIndex(const int &s, Audio *audio, const int &initIndex, const int &maxIndex);
-	Mix_Chunk *click;
-	Mix_Chunk *press;
-	Mix_Chunk *back;
-	//string backgroundTexture; //might not need
-	//string startTexture;	//might not need
-	//string rulesTexture;	//might not need
-	//string quitTexture;	//might not need 
 };

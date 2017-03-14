@@ -86,7 +86,7 @@ vector <string> arenaMapFilenames = {
 void PrintDirections();
 
 // Mesh functions
-void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget);
+void InitializeLoadScreen(ScreenOverlay *loadBkgrd);
 
 //PhysX object
 PhysXMain PhysX;

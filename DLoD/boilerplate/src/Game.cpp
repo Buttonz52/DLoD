@@ -20,6 +20,8 @@ GEO* initGroundPlane()
 
 Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers)
 {
+	pause = false;
+	menuIndex = 0;
 	//set cameras so overtop and far-ish away from cars
 	overheadCam.setAlt(-90);
 	overheadCam.setRadius(450);
@@ -79,15 +81,25 @@ void Game::start()
   ///TODO: implmement for all screens -> lose/win for appropriate player
   ScreenOverlay endGameText;
   endGameText.setScale(vec3(4.f));
-  for (int i = 0; i < numPlayerScreens; i++) {
-	  ResizeViewport(i, numPlayerScreens, width, height);
-	  if (players[i]->isDead()) {
-		  endGameText.InitializeGameText("LOSE!", vec3(-0.35, 0, 0), vec3(1, 0, 0), 30);
+  if (!gameOver) {
+	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//  for (int i = 0; i < numPlayerScreens; i++) {
+		  ResizeViewport(0, 1, width, height);
+		  endGameText.InitializeGameText("RETIRE", vec3(-0.4, 0, 0), vec3(1,0.5,0.3), 30);
+		  endGameText.Render(GL_TRIANGLES, endGameText.getColour());
+	//  }
+  }
+  else {
+	  for (int i = 0; i < numPlayerScreens; i++) {
+		  ResizeViewport(i, numPlayerScreens, width, height);
+		  if (players[i]->isDead()) {
+			  endGameText.InitializeGameText("LOSE!", vec3(-0.35, 0, 0), vec3(1, 0, 0), 30);
+		  }
+		  else {
+			  endGameText.InitializeGameText("WIN!", vec3(-0.3, 0, 0), vec3(0, 1, 0), 30);
+		  }
+		  endGameText.Render(GL_TRIANGLES, endGameText.getColour());
 	  }
-	  else {
-		  endGameText.InitializeGameText("WIN!", vec3(-0.3, 0, 0), vec3(0, 1, 0), 30);
-	  }
-	  endGameText.Render(GL_TRIANGLES, endGameText.getColour());
   }
   glfwSwapBuffers(window);
 
@@ -107,6 +119,7 @@ void Game::start()
 
 	  glfwPollEvents();
   }
+  pauseText.Destroy();
   delete skybox;
   delete arena;
   physX.cleanupPhysics(true);
@@ -120,13 +133,60 @@ void Game::gameLoop()
 	}
   //Initialize hud
 	gameHud.InitializeHud(*players[0]->vehicle->getColour(), &positions, arenaMap);
-
+	gameHud.InitializeMenu(vec3(1, 0, 1));
+	pauseText.setScale(vec3(4.f));
+	pauseText.InitializeGameText("PAUSE", vec3(-0.4, 0.5, 0), vec3(1, 0.5, 0.3), 30);
   int frameCtr = 0;
  /* glEnable(GL_CULL_FACE);
 
   glCullFace(GL_FRONT);*/
   while (!glfwWindowShouldClose(window) && !gameOver)
   {
+	//game paused
+	while (pause && !glfwWindowShouldClose(window)) {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		vec3 pauseColour(0);	//colour for pause menu
+		for (Player *p : players) {
+			Human* human = dynamic_cast<Human*> (p);
+			//get pause input for human that pressed pause
+			if (human != nullptr && human->pressedPause()) {
+				pauseColour = *human->getColour();	//set pause menu colour
+				human->menuControls(window, pause, menuIndex);
+				//index check
+				if (menuIndex > 1)
+					menuIndex = 0;
+				if (menuIndex < 0)
+					menuIndex = 1;
+				if (human->MenuItemSelected()) {
+					switch (menuIndex) {
+					case 0:	//pressed "resume"
+						human->menuItemPressed = false;
+						break;
+					case 1:	//pressed "quit"
+						glfwSetWindowShouldClose(window, true);
+						break;
+					default:	//pressed "resume"
+						human->menuItemPressed = false;
+						break;
+					}
+				}
+				//if (human->restartGame()) {
+				//	human->restart = false;
+				//	pause = false;
+				//	start();
+				//	
+				//}
+			}
+		}
+		//resize viewport so renders fullscreen
+		ResizeViewport(0, 1, width, height);
+		pauseText.Render(GL_TRIANGLES, pauseColour);
+		gameHud.RenderMenu(menuIndex, pauseColour);	//render menu
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	  }	 
+
     // Add items to the scene
     vector<pair<Player*, int>>::iterator itr = itemsToAdd.begin();
     while (itr != itemsToAdd.end()) {
@@ -160,12 +220,15 @@ void Game::gameLoop()
 	if (numPlayerScreens >= 3) {
 		viewports = 4;
 	}
+	mat4 projectionMatrix, viewMatrix;
+	string healthStr, armourStr, velocityStr;
+	vec3 vColour;
 	for (int i = 0; i < viewports;i++) {
 		//getviewport
 		ResizeViewport(i, numPlayerScreens, width, height);
-		mat4 projectionMatrix, viewMatrix;
-		string healthStr, armourStr, velocityStr;
-		vec3 vColour;
+		
+
+
 		// Render
 		//make sure rendering a player screen that 
 		//1) exists
@@ -226,39 +289,45 @@ void Game::gameLoop()
 		if (p->vehicle->getModelMatrix()[3].y < -10)
 			p->vehicle->updateHealth(1000);
 
-      AI* ai = dynamic_cast<AI*> (p);
-      if (ai != nullptr && !ai->isDead())
-      {
-        ai->driveTo(players[0]->vehicle->getModelMatrix()[3]);
-        if (abs(ai->vehicle->physXVehicle->computeForwardSpeed()) > 20)
-          ai->layTrap = true;
-      }
+		AI* ai = dynamic_cast<AI*> (p);
+		if (ai != nullptr && !ai->isDead())
+		{
+			ai->driveTo(players[0]->vehicle->getModelMatrix()[3]);
+			if (abs(ai->vehicle->physXVehicle->computeForwardSpeed()) > 20)
+				ai->layTrap = true;
+		}
 
-      Human* human = dynamic_cast<Human*> (p);
-      if (human != nullptr && !human->isDead())
-        human->getInput(window);
+		Human* human = dynamic_cast<Human*> (p);
+		if (human != nullptr && !human->isDead()) {
+			human->getInput(window, pause);
+			if (human->pressedPause()) {
+				menuIndex = 0;
+				pauseIdentifier = human->identifier;
+			}
+		}
 
-      p->playerCam->followVehicle(p->vehicle);
-      
-      if (p->layTrap && p->ableToTrap)
-      {
-        // create a new item at the appropriate location and add it to the items list
-        mat4 M = p->vehicle->getModelMatrix();
-        vec3 vPos = vec3(M[3]);
-        vec3 dis = vec3(0, 8, 0);
+		p->playerCam->followVehicle(p->vehicle);
 
-        Item* item = new Item(p->trap);
-        mat4 m = mat4(1);
-        m[3] = vec4(vPos + dis, 1);
-        item->setModelMatrix(m);
+		if (p->layTrap && p->ableToTrap)
+		{
+			// create a new item at the appropriate location and add it to the items list
+			mat4 M = p->vehicle->getModelMatrix();
+			vec3 vPos = vec3(M[3]);
+			vec3 dis = vec3(0, 8, 0);
 
-        itemsToAdd.push_back(make_pair(p, timer.getTicks() + 5000));
+			Item* item = new Item(p->trap);
+			mat4 m = mat4(1);
+			m[3] = vec4(vPos + dis, 1);
+			item->setModelMatrix(m);
 
-        initItem(item);
+			itemsToAdd.push_back(make_pair(p, timer.getTicks() + 5000));
 
-        p->layTrap = false;
-        p->ableToTrap = false;
-      }
+			initItem(item);
+
+			p->layTrap = false;
+			p->ableToTrap = false;
+		}
+		
     }
 
     // CHECK GAMEOVER

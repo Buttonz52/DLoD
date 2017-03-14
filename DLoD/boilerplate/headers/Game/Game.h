@@ -23,8 +23,10 @@ private:
   string arenaTexFilename;
   string arenaMap;
   int width, height;
-  int numPlayerScreens;
+  int numPlayerScreens, pauseIdentifier, menuIndex;
+  ScreenOverlay pauseText;
   Timer timer;
+  bool pause;
 
   // vector of actors 
   vector<pair<Player*, int>> itemsToAdd;

@@ -8,6 +8,7 @@ Vehicle::Vehicle()
 	armour = 30;
 	health = 100;	
 	lowHealth = health / 2;
+	cout << "Low health:"<< lowHealth << endl;
 	dead = false;
 	canPulseColour = false;
 	//initialize crash sound and place in map

@@ -9,19 +9,6 @@ void clearScreen() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void updateLoadBar(GLFWwindow *window, ScreenOverlay &loadBkgrd, ScreenOverlay &loadWidget, const float &incr) {
-	clearScreen();
-	loadBkgrd.Render(GL_TRIANGLE_STRIP, loadBkgrd.getColour());	//render "loading screen"
-
-											//Well, this is kind of a weird way to implement this, change later.
-											//loadWidget.setPosition(loadWidget.getPosition() + vec3(0.05, 0, 0));
-	loadWidget.setScale(loadWidget.getScale() + vec3(incr, 0, 0));	//makes larger
-	//loadWidget.setPosition(loadWidget.getPosition() + vec3(incr, 0, 0));
-	loadWidget.Render(GL_TRIANGLE_STRIP, loadWidget.getColour());	//render widget; this is just for testing at the moment
-											//Sleep(200); //Just to slow down the animation a bit
-	glfwSwapBuffers(window);	//need this to output to screen
-}
-
 // --------------------------------------------------------------------------
 // GLFW callback functions
 
@@ -76,11 +63,11 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		return;
 
   switch (key) {
-    case GLFW_KEY_ESCAPE:
-	 // insert pause menu here
-		//see line 131 of Game and use Human.cpp input files to figure out how to implement a pause menu
-      glfwSetWindowShouldClose(window, GL_TRUE);
-      break;
+  //  case GLFW_KEY_ESCAPE:
+	 //// insert pause menu here
+		////see line 131 of Game and use Human.cpp input files to figure out how to implement a pause menu
+  //    glfwSetWindowShouldClose(window, GL_TRUE);
+  //    break;
 
     case GLFW_KEY_P:
       audio.PausePlay();
@@ -245,7 +232,7 @@ int main(int argc, char *argv[])
 	//Initialize "Loading screen"
 	TitleScreen ts;
 
-	ScreenOverlay loadBkgrd, loadWidget;
+	ScreenOverlay loadBkgrd;
 	//while (!glfwWindowShouldClose(window)) {
 	int numPlayers;
 		if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex, &humanVehicleChoice, numPlayers)) {
@@ -253,15 +240,11 @@ int main(int argc, char *argv[])
 			audio.FreeMusic();
 
 			cout << "num players: " << numPlayers << endl;
-			InitializeLoadScreen(&loadBkgrd, &loadWidget);
+			InitializeLoadScreen(&loadBkgrd);
 			////init music
 			if (!audio.InitMusic(mainMusic.c_str())) {
 				cout << "Failed to load music." << endl;
 			}
-			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
-
-			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
-
 			glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
@@ -272,9 +255,7 @@ int main(int argc, char *argv[])
 
 			PrintDirections();
 
-			updateLoadBar(window, loadBkgrd, loadWidget, loadWidget.updateFactor);
 			loadBkgrd.Destroy();
-			loadWidget.Destroy();
 			//glfwSetWindowPos(window, 0,0);
 			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers);
 
@@ -307,7 +288,7 @@ void PrintDirections() {
 	cout << "ESC: Exit program" << endl;
 }
 
-void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget) {
+void InitializeLoadScreen(ScreenOverlay *loadBkgrd) {
 	//		ScreenOverlay loadBkgrd;
 	if (!loadBkgrd->initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init loadBkgrnd." << endl;
@@ -318,14 +299,4 @@ void InitializeLoadScreen(ScreenOverlay *loadBkgrd, ScreenOverlay *loadWidget) {
 	if (!loadBkgrd->GenerateSquareVertices(1, 1, vec3(0))) {
 		cout << "Failed to initialize screen overlay." << endl;
 	}
-	
-	//Initialize load widget; this is just a test to see that multiple things render
-
-	loadWidget->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-
-	if (!loadWidget->GenerateSquareVertices(0.1, 0.1, vec3(1, 0, 0))) {
-		cout << "Failed to initialize screen overlay." << endl;
-	}
-	//faaaar left
-	loadWidget->setPosition(vec3(-4, -0.75, 0));
 }

@@ -8,6 +8,7 @@ LargeVehicle::LargeVehicle()
 	maxVelocity = 40;
 	health = 40;
 	armour = 100;
+	lowHealth = health / 2;
 }
 
 

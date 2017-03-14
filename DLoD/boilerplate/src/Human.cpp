@@ -5,6 +5,8 @@
 Human::Human(int i) : Player(i)
 {
   controller = new XboxController(i+1);
+  restart = false;
+  pausePressed = false;
 }
 
 
@@ -15,7 +17,7 @@ Human::~Human()
 
 
 // FIX THIS
-void Human::getInput(GLFWwindow* window)
+void Human::getInput(GLFWwindow* window, bool &pause)
 {
   if (vehicle->stun.first) {
     if (vehicle->timer.getTicks() < vehicle->stun.second)
@@ -26,8 +28,10 @@ void Human::getInput(GLFWwindow* window)
       vehicle->timer.reset();
     }
   }
-
-  vehicleControls(window);
+  if (!pause)
+	  vehicleControls(window, pause);
+  //else
+//	  menuControls(window, pause);
 }
 
 void Human::getGameOverInput(GLFWwindow* window, bool &pause)
@@ -47,7 +51,7 @@ void Human::gameOverControls(GLFWwindow* window, bool &pause)
 }
 
 // handles keyboard input events when we want multiple keys pressed at once
-void Human::vehicleControls(GLFWwindow* window)
+void Human::vehicleControls(GLFWwindow* window, bool &pause)
 {
   int state;
 
@@ -88,6 +92,13 @@ void Human::vehicleControls(GLFWwindow* window)
       layTrap = true;
       trap = EmpTrap;
     }
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+		cout << "Pause" << endl;
+		pausePressed = true;
+		pause = true;
+		Sleep(300);
+
+	}
 
 
   }
@@ -123,7 +134,13 @@ void Human::vehicleControls(GLFWwindow* window)
 		layTrap = true;
 		trap = EmpTrap;
 	  }
+	  if (controller->GetButtonPressed(XBtns.StartBtn)) {
+		  cout << "Pause" << endl;
+		  pausePressed = true;
+		  pause = true;
+		  Sleep(300);
 
+	  }
       vehicle->turn(turn);
     }
     else {	//just stop
@@ -132,7 +149,60 @@ void Human::vehicleControls(GLFWwindow* window)
   }
 }
 
-void Human::menuControls(GLFWwindow* window)
+void Human::menuControls(GLFWwindow* window, bool &pause, int &index)
 {
+	if (!controller->Connected()) {
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+			cout << "Unpause" << endl;
+			pause = false;
+			pausePressed = false;
+			Sleep(300);
+		}
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+			//pause = false;
+			index -= 1;
+			Sleep(200);
+		}
+		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+			//restart = true;
+			index += 1;
+			Sleep(200);
+		}
+		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
+			//restart = true;
+			menuItemPressed = true;
+			pausePressed = false;
+			pause = false;
+		}
+	}
+	else {
+		if (controller->GetButtonPressed(XBtns.StartBtn)) {
+			cout << "Unpause" << endl;
+			pause = false;
+			pausePressed = false;
+			Sleep(300);
+		}
+		if (controller->GetButtonPressed(XBtns.DPad_Up)) {
+			index -= 1;
+			Sleep(200);
+		}
+		if (controller->GetButtonPressed(XBtns.DPad_Down)) {
+			index += 1;
+			Sleep(200);
+		}
+		if (controller->GetButtonPressed(XBtns.A)) {
+			menuItemPressed = true;
+			Sleep(100);
+		}
+	}
+}
 
+bool Human::MenuItemSelected() {
+	return menuItemPressed;
+}
+bool Human::pressedPause() {
+	return pausePressed;
+}
+bool Human::restartGame() {
+	return restart;
 }
