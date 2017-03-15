@@ -1,0 +1,175 @@
+﻿  glad.c
+  AI.cpp
+src\AI.cpp(73): warning C4101: 'behavour': unreferenced local variable
+src\AI.cpp(222): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
+src\AI.cpp(246): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+src\AI.cpp(255): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+  AStarNode.cpp
+src\AStarNode.cpp(16): warning C4018: '<': signed/unsigned mismatch
+src\AStarNode.cpp(99): warning C4018: '<': signed/unsigned mismatch
+  Audio.cpp
+  Camera.cpp
+src\Camera.cpp(23): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(24): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(27): warning C4305: '=': truncation from 'double' to 'float'
+src\Camera.cpp(40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(56): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(77): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(96): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(98): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(136): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
+src\Camera.cpp(139): warning C4305: '-=': truncation from 'double' to 'float'
+src\Camera.cpp(151): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+src\Camera.cpp(153): warning C4305: '+=': truncation from 'double' to 'float'
+src\Camera.cpp(156): warning C4305: '-=': truncation from 'double' to 'float'
+  ContactModifyCallback.cpp
+  Game.cpp
+src\Game.cpp(59): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+src\Game.cpp(239): warning C4018: '<': signed/unsigned mismatch
+src\Game.cpp(258): warning C4018: '<': signed/unsigned mismatch
+src\Game.cpp(260): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+src\Game.cpp(430): warning C4018: '<': signed/unsigned mismatch
+src\Game.cpp(509): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+  GameHud.cpp
+src\GameHud.cpp(33): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\GameHud.cpp(38): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\GameHud.cpp(38): warning C4305: 'argument': truncation from 'double' to 'float'
+src\GameHud.cpp(47): warning C4305: 'argument': truncation from 'double' to 'float'
+src\GameHud.cpp(50): warning C4305: 'argument': truncation from 'double' to 'float'
+src\GameHud.cpp(54): warning C4305: 'argument': truncation from 'double' to 'float'
+src\GameHud.cpp(57): warning C4305: 'argument': truncation from 'double' to 'float'
+src\GameHud.cpp(66): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\GameHud.cpp(71): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\GameHud.cpp(71): warning C4305: 'argument': truncation from 'double' to 'float'
+src\GameHud.cpp(76): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\GameHud.cpp(81): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\GameHud.cpp(81): warning C4305: 'argument': truncation from 'double' to 'float'
+src\GameHud.cpp(95): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\GameHud.cpp(100): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\GameHud.cpp(100): warning C4305: 'argument': truncation from 'double' to 'float'
+src\GameHud.cpp(104): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\GameHud.cpp(114): warning C4018: '<': signed/unsigned mismatch
+  GameState.cpp
+  GEO.cpp
+src\GEO.cpp(69): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(70): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(71): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(72): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(75): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(76): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(77): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(78): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(81): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(82): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(83): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(84): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\GEO.cpp(278): warning C4018: '<': signed/unsigned mismatch
+  Human.cpp
+  Item.cpp
+  LargeVehicle.cpp
+src\LargeVehicle.cpp(11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  Light.cpp
+  LightVehicle.cpp
+src\LightVehicle.cpp(11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  main.cpp
+src\main.cpp(140): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(141): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+src\main.cpp(151): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  MediumVehicle.cpp
+  Mesh.cpp
+src\Mesh.cpp(37): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(81): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(105): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(120): warning C4018: '<': signed/unsigned mismatch
+src\Mesh.cpp(150): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Mesh.cpp(151): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Mesh.cpp(155): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+src\Mesh.cpp(156): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  PhysXMain.cpp
+src\PhysXMain.cpp(120): warning C4305: 'argument': truncation from 'double' to 'physx::PxReal'
+src\PhysXMain.cpp(254): warning C4018: '<': signed/unsigned mismatch
+src\PhysXMain.cpp(258): warning C4018: '<': signed/unsigned mismatch
+src\PhysXMain.cpp(284): warning C4018: '<': signed/unsigned mismatch
+src\PhysXMain.cpp(297): warning C4018: '<': signed/unsigned mismatch
+src\PhysXMain.cpp(318): warning C4101: 'body': unreferenced local variable
+  Player.cpp
+  ScreenOverlay.cpp
+src\ScreenOverlay.cpp(410): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+src\ScreenOverlay.cpp(411): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  Compiling...
+  Shader.cpp
+  Shadow.cpp
+  SnippetVehicleCreate.cpp
+  SnippetVehicleFilterShader.cpp
+  SnippetVehicleNoDriveCreate.cpp
+  SnippetVehicleRaycast.cpp
+  SnippetVehicleTireFriction.cpp
+  Texture.cpp
+src\Texture.cpp(60): warning C4018: '<': signed/unsigned mismatch
+  Timer.cpp
+  TitleScreen.cpp
+src\TitleScreen.cpp(137): warning C4305: 'initializing': truncation from 'double' to 'float'
+src\TitleScreen.cpp(138): warning C4305: 'initializing': truncation from 'double' to 'float'
+src\TitleScreen.cpp(139): warning C4305: 'initializing': truncation from 'double' to 'float'
+src\TitleScreen.cpp(140): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(152): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(181): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(217): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(218): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\TitleScreen.cpp(220): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(276): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(277): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\TitleScreen.cpp(280): warning C4305: 'initializing': truncation from 'double' to 'float'
+src\TitleScreen.cpp(291): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(297): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(417): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(465): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(594): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(612): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(692): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(745): warning C4018: '<': signed/unsigned mismatch
+  Utility.cpp
+  Vehicle.cpp
+src\Vehicle.cpp(10): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+src\Vehicle.cpp(144): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
+src\Vehicle.cpp(188): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+src\Vehicle.cpp(189): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+src\Vehicle.cpp(292): warning C4018: '<': signed/unsigned mismatch
+src\Vehicle.cpp(295): warning C4018: '<': signed/unsigned mismatch
+src\Vehicle.cpp(327): warning C4018: '<': signed/unsigned mismatch
+src\Vehicle.cpp(416): warning C4305: 'argument': truncation from 'double' to 'float'
+src\Vehicle.cpp(464): warning C4018: '<': signed/unsigned mismatch
+  XboxController.cpp
+  Generating code
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\titlescreen.cpp(378): warning C4715: 'TitleScreen::KeyCallback': not all control paths return a value
+  2880 of 2887 functions (99.8%) were compiled, the rest were copied from previous compilation.
+    41 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+PhysX3Extensions.lib(ExtCpuWorkerThread.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtCpuWorkerThread.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtDefaultCpuDispatcher.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtDefaultCpuDispatcher.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtDefaultErrorCallback.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtDefaultErrorCallback.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtDefaultStreams.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtDefaultStreams.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtPvdClientImpl.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtPvdClientImpl.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtRigidBodyExt.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtRigidBodyExt.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtSimpleFactory.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtSimpleFactory.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleComponents.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleComponents.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleDrive.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleDrive.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleDrive4W.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleDrive4W.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleDriveNW.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleDriveNW.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleDriveTank.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleDriveTank.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleMetaData.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleMetaData.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleNoDrive.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleNoDrive.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleSDK.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleSDK.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleSerialization.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleSerialization.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleSuspWheelTire4.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleSuspWheelTire4.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleTireFriction.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleTireFriction.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleUpdate.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleUpdate.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleWheels.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleWheels.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(VehicleUtilSetup.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(VehicleUtilSetup.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(VehicleUtilTelemetry.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(VehicleUtilTelemetry.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleAutoGeneratedMetaDataObjects.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleAutoGeneratedMetaDataObjects.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleMetaDataObjects.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleMetaDataObjects.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysXProfileSDK.lib(PxProfileEventImpl.obj) : warning LNK4099: PDB 'PhysXProfileSDK.pdb' was not found with 'PhysXProfileSDK.lib(PxProfileEventImpl.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysXProfileSDK.pdb'; linking object as if no debug info
+  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\boilerplate.exe
+  boilerplate.vcxproj -> \\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)
