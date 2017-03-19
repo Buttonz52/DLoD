@@ -54,7 +54,7 @@ void TitleScreen::readRules(GLFWwindow *window, XboxController *ctrller, Audio *
 	}
 	rulesScreen.isRedTransparent = 1;
 
-	rulesScreen.GenerateSquareVertices(1, 1, menuButtons[i].getColour());
+	rulesScreen.GenerateSquareVertices(1, 1, vec3(0,0,0));
 
 	rulesScreen.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 

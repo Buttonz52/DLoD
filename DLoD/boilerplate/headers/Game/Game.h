@@ -44,7 +44,7 @@ private:
   void initSkyBox(const string &pathname);
   GEO * initArena(const string &texfilename, const string &objfilename);
   void ResizeViewport(const int index, const int numHumans, const int width, const int height);
-  void initVehicle(Vehicle * v);
+  void initVehicle(Vehicle * v, int type);
 
   void initItem(Item * item);
 
@@ -61,7 +61,7 @@ private:
 
 public:
 
-  Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers);
+  Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers);
 
   bool start();
 };

@@ -276,7 +276,7 @@
       <Filter>Header Files\Game</Filter>
     </ClInclude>
     <ClInclude Include="headers\Physics\PhysXMain.h">
-      <Filter>Resource Files</Filter>
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

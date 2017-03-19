@@ -5,12 +5,12 @@
 LightVehicle::LightVehicle()
 {
 	filename = "cars/lightCarBody.obj";
+	maxVelocity = 80;
+	health = 100;
+	armour = 20;
+	torqueSpeed = 14000.0;
 	armourFilename = "armour/LightArmour.obj";
-	maxVelocity = 90;
-	health = 120;
-	initArmour = 10;
-	armour = 10;
-	lowHealth = health / 2;
+	initArmour = 20;
 }
 
 

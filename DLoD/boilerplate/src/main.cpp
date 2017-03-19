@@ -258,7 +258,7 @@ int main(int argc, char *argv[])
 
 			loadBkgrd.Destroy();
 			//glfwSetWindowPos(window, 0,0);
-			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers);
+			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[0], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers);
 
 			if (!audio.PlayMusic()) {
 				cout << "Failed to play music" << endl;

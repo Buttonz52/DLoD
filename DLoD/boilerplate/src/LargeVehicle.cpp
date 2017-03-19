@@ -5,12 +5,12 @@
 LargeVehicle::LargeVehicle()
 {
 	filename = "cars/largeCarBody.obj";
-	armourFilename = "armour/HeavyArmour.obj";
-	maxVelocity = 40;
-	health = 40;
-	initArmour = 100;
-	armour = 100;
-	lowHealth = health / 2;
+	maxVelocity = 60;
+	health = 120;
+	armour = 40;
+	torqueSpeed = 12000.0;
+	armourFilename = "armour/LargeArmour.obj";
+	initArmour = 40;
 }
 
 

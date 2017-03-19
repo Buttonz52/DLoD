@@ -41,10 +41,8 @@ void Vehicle::setColour(const vec3 &col) {
 
 void Vehicle::updateArmour() {
 	children[4]->transparency = (armour / initArmour);
-	mat4 model;
 
 	PxTransform m = this->physXVehicle->getRigidDynamicActor()->getGlobalPose();
-	PxQuat rotate = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().q;
 	PxVec3 vCenter = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().p;
 	mat4 mm = convertMat(m.q.getBasisVector0(), m.q.getBasisVector1(), m.q.getBasisVector2(), vCenter);
 	children[4]->setModelMatrix(mm * glm::scale(scale));

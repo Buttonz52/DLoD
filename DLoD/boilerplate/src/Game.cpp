@@ -18,7 +18,7 @@ GEO* initGroundPlane()
   return plane;
 }
 
-Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers)
+Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers)
 {
 	pause = false, restart = false;
 	menuIndex = 0;
@@ -38,6 +38,8 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 
   initSkyBox(skyboxFilepath);
   //skybox->children.push_back(initArena());
+  //create the starnode
+  vector<vec3> starNodes;
   arena = initArena(arenaTexFilename, arenaFilepath);
   arenaMap = arenaMapFile;
   //skybox->children.push_back(initGroundPlane());
@@ -45,8 +47,8 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   for (int i = 0; i < numPlayers; i++) {
 	  Human* human = new Human(i);
 	  human->ChooseVehicle(humanVehicleChoice->at(i));
-	  human->vehicle->setPosition(vec3(0, 50, -20 * i));
-	  initVehicle(human->vehicle);
+	  human->vehicle->setPosition(vec3(0, 200, 100 * i));
+	  initVehicle(human->vehicle, humanVehicleChoice->at(i));
 	  skybox->children.push_back(human->vehicle);
 	  players.push_back(human);
   }
@@ -57,12 +59,12 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   //NOTE: This gets pretty slow, might want to think about multi-threading or trying to run in release mode (but need to link those libraries)
 
   srand(time(NULL));
-  for (int i = numPlayers; i < 8; i++) {
+  for (int i = numPlayers; i < 4; i++) {
 	  AI* ai = new AI(i);
 	  int aiRNGChoose = rand() % 3;
 	  ai->ChooseVehicle(aiRNGChoose);
-	  ai->vehicle->setPosition(vec3(10*i, 50, 10*i));
-	  initVehicle(ai->vehicle);
+	  ai->vehicle->setPosition(vec3(20*i, 50, 20*i));
+	  initVehicle(ai->vehicle, aiRNGChoose);
 	  skybox->children.push_back(ai->vehicle);
 	  players.push_back(ai);
   }
@@ -394,7 +396,7 @@ void Game::initSkyBox(const string &pathname)
   skybox->addShaders("shaders/skybox.vert", "shaders/skybox.frag");
 }
 
-void Game::initVehicle(Vehicle* v)
+void Game::initVehicle(Vehicle* v, int type)
 {
   v->setScale(vec3(1.5));
  
@@ -408,7 +410,7 @@ void Game::initVehicle(Vehicle* v)
     cout << "Could not initialize buffers for game object " << v->getAliveCarMesh() << endl;
   }
 
-  physX.initVehicle(v);
+  physX.initVehicle(v, type);
 
   physXObjects.push_back(v);
 }
@@ -477,7 +479,7 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	if (!arena->initBuffers()) {
 		cout << "Could not initialize buffers for arena" << endl;
 	}
-	arena->setScale(vec3(100.f));
+	arena->setScale(vec3(30.f));
 	arena->setPosition(vec3(0, 0, 0));
 	arena->updateModelMatrix();
 
