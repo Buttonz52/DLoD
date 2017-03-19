@@ -239,8 +239,6 @@ void ScreenOverlay::Render(GLuint type, const vec3 &colour)
 	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
 	glUniform1f(glGetUniformLocation(shader.program, "mixAmount"), mixAmount);
 
-
-
 	glDrawArrays(type, 0, elementCount);
 	// reset state to default (no shader or geometry bound)
 	glBindVertexArray(0);

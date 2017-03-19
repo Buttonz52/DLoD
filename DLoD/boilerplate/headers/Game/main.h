@@ -63,7 +63,7 @@ int skyboxIndex, arenaIndex;
 //skybox file paths
 vector<string> skyboxFilePathnames = {
 	"textures/ame_ash/",
-	"textures/jf_nuke/",
+	"textures/nec_hell/",
 	"textures/mp_deviltooth/",
 	"textures/mp_emerald/"
 };

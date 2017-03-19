@@ -8,6 +8,7 @@ GEO::GEO()
 	xRotation = 0; yRotation = 0; zRotation = 0;
 	hasTexture = 0;
 	isSkybox = 0;
+	mixColour = 0;
 	colour = vec3(1,1,1);
 	transparency = 1.f;
 }
@@ -256,6 +257,7 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;
 
+	glUniform1i(glGetUniformLocation(shader.program, "mixColour"), mixColour);
 	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));

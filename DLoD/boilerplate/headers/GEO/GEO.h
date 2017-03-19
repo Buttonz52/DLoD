@@ -27,7 +27,8 @@ public:
 	bool hasTexture;
 	bool isSkybox;
 	bool isPlane;
-
+	bool mixColour; 
+	 
 	float transparency;
 
 	double getRadius();

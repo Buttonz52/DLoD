@@ -53,6 +53,7 @@ private:
 	Mix_Chunk *click, *press, *back;
 
 	void pressStart(Audio *audio);
+	void readRules(GLFWwindow * window, XboxController * ctrller, Audio * audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers);
 	void pressQuit();
 	void pressRules();
 	void toggleMenuIndex(const int &s, Audio *audio, const int &initIndex, const int &maxIndex);

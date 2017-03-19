@@ -45,9 +45,33 @@ void TitleScreen::pressStart(Audio *audio) {
 }
 
 //read rules (not implemented yet)
-void TitleScreen::pressRules()
+void TitleScreen::readRules(GLFWwindow *window, XboxController *ctrller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers)
 {
-	isRules = !isRules;
+	ScreenOverlay rulesScreen;
+
+	if (!rulesScreen.initTexture("textures/rulesScreen.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init rules screen." << endl;
+	}
+	rulesScreen.isRedTransparent = 1;
+
+	rulesScreen.GenerateSquareVertices(1, 1, menuButtons[i].getColour());
+
+	rulesScreen.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	while (!glfwWindowShouldClose(window)) {
+
+		int key = KeyCallback(window, ctrller, audio);
+		if (key ==5) {
+			rulesScreen.Destroy();
+			return;
+		}
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		background.Render(GL_TRIANGLE_STRIP, background.getColour());	//render "loading screen"
+		rulesScreen.Render(GL_TRIANGLE_STRIP, rulesScreen.getColour());	//render text, as it uses triangles, not triangle strip
+		glfwSwapBuffers(window);	//need this to output to screen
+		Sleep(100);		//slow down input so not crazy fast
+		glfwPollEvents();
+	}
 }
 
 //quit game
@@ -61,11 +85,6 @@ bool TitleScreen::isStartPressed() {
 	return isStart;
 }
 
-//returns isRules flag
-bool TitleScreen::isRulesPressed()
-{
-	return isRules;
-}
 
 //resturns isQuit
 bool TitleScreen::isQuitPressed() {
@@ -262,7 +281,7 @@ void TitleScreen::InitializeChooseScreen() {
 	if (!menuButtons[skyboxButtonInitIndex].initTexture("textures/ame_ash/ashcanyon_lf.tga", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
-	if (!menuButtons[skyboxButtonInitIndex + 1].initTexture("textures/jf_nuke/nuke_lf.tga", GL_TEXTURE_2D)) {
+	if (!menuButtons[skyboxButtonInitIndex + 1].initTexture("textures/nec_hell/hell_lf.tga", GL_TEXTURE_2D)) {
 		cout << "Failed to init bpArena2 texture." << endl;
 	}
 	if (!menuButtons[skyboxButtonInitIndex + 2].initTexture("textures/mp_deviltooth/devils-tooth_lf.tga", GL_TEXTURE_2D)) {
@@ -425,7 +444,8 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					Sleep(150);		//slow down input so not crazy fast
 					break;
 				case 1:
-					pressRules();	//read rules (not implemented yet)
+					readRules(window, controller, audio,skyboxIndex, arenaIndex, humanVehicleChoice, numPlayers);	//read rules (not implemented yet)
+
 					break;
 				case 2:
 					pressQuit();	//quit game
@@ -744,7 +764,6 @@ void TitleScreen::Destroy() {
 	background.Destroy();
 	for (int i = 0; i < menuButtons.size(); i++)
 		menuButtons[i].Destroy();
-
 	//delete click;
 	//delete press;
 	//delete back;

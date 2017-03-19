@@ -18,6 +18,7 @@ uniform sampler2D bump;
 // first output is mapped to the framebuffer's colour index by default
 out vec4 FragmentColour;
 uniform int hasBumpTexture;
+uniform int mixColour;
 
 void main(void)
 {
@@ -25,8 +26,12 @@ void main(void)
 	float diffuse;
 
 	diffuse = max(0.0, dot(N, normalize(L-P)));
-
-	FragmentColour = imageColour + vec4(vec3(diffuse*0.5),1.0);
+	if (mixColour ==1) {
+		FragmentColour = vec4(mix(imageColour.xyz,Colour,0.7),1.f) + vec4(vec3(diffuse*0.5),1.0);
+	}
+	else {
+		FragmentColour = imageColour + vec4(vec3(diffuse*0.5),1.0);
+	}
 	//FragmentColour= imageColour;
 }
 

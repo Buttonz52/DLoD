@@ -1,4 +1,4 @@
-#include "..\headers\Game\GameHud.h"
+#include "Game\GameHud.h"
 
 //Game Hud class.
 
@@ -26,7 +26,6 @@ void GameHud::InitializeMenu(const vec3 &colour) {
 	}
 
 	pauseBkgrd.GenerateSquareVertices(1, 1, vec3(0.6, 0.5, 1));
-	//pauseBkgrd.setPosition(vec3(0.8, 0.8, 0));
 	pauseBkgrd.setMixFlag(1);
 	pauseBkgrd.setMixAmount(0.5);
 	pauseBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
@@ -105,8 +104,41 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	//screen border
 	screenBorder.GenerateBorder(1, 1, 0.01, vec3(0, 0, 0), vec3(0, 0, 0));
 	screenBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-}
 
+	//arena map background
+	if (!dpadTexture.initTexture("textures/XboxControllerDPad.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init arena map." << endl;
+	}
+	dpadTexture.isRedTransparent = 1;
+	dpadTexture.GenerateSquareVertices(0.15, 0.18, vec3(0.6, 0.5, 0.1));
+	dpadTexture.setPosition(vec3(-0.83,-0.8,0));
+	dpadTexture.setTransparency(0.4f);
+	dpadTexture.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	dpadBorder.GenerateBorder(0.17, 0.2, 0.1, vec3(0), vec3(-0.83,-0.8,0));
+	dpadBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	if (!weaponUpD.initTexture("textures/itemImgs/bearTrap.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init arena map." << endl;
+	}
+	weaponUpD.isRedTransparent = 1;
+	weaponUpD.setMixFlag(1);
+	weaponUpD.GenerateSquareVertices(0.06, 0.07, vec3(1,1,0));
+	weaponUpD.setPosition(vec3(-0.83, -0.66, 0));
+	weaponUpD.setTransparency(0.8f);
+	weaponUpD.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	if (!weaponLeftD.initTexture("textures/itemImgs/bearTrap.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init arena map." << endl;
+	}
+
+	weaponLeftD.isRedTransparent = 1;
+	weaponLeftD.setMixFlag(1);
+	weaponLeftD.GenerateSquareVertices(0.06, 0.07, vec3(0, 0, 1));
+	weaponLeftD.setPosition(vec3(-0.93, -0.79, 0));
+	weaponLeftD.setTransparency(0.8f);
+	weaponLeftD.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+}
 
 //Updates radar point values (i.e., the cars)
 ///TODO: Fix scale of position points in comparison to map, add colours?
@@ -126,7 +158,7 @@ void GameHud::UpdateRadar(const vector<vec3> *positions) {
 }
 
 //render hud
-void GameHud::Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour) {
+void GameHud::Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour, const bool &canLayTrap) {
 	//update values
 	healthTex.UpdateGameText(health);
 	armourTex.UpdateGameText(armour);
@@ -149,6 +181,21 @@ void GameHud::Render(const string &health, const string &armour, const string &v
 	radarBorder.Render(GL_TRIANGLES, colour);
 	radarPoints.Render(GL_POINTS, colour);
 	radarBkgrd.Render(GL_TRIANGLE_STRIP, radarBkgrd.getColour());
+
+	dpadBorder.Render(GL_TRIANGLES, colour);
+	if (canLayTrap) {
+		weaponUpD.setMixAmount(0.5);
+		weaponUpD.Render(GL_TRIANGLE_STRIP, weaponUpD.getColour());
+		weaponLeftD.setMixAmount(0.5);
+		weaponLeftD.Render(GL_TRIANGLE_STRIP, weaponLeftD.getColour());
+	}
+	else {
+		weaponUpD.setMixAmount(1.f);
+		weaponUpD.Render(GL_TRIANGLE_STRIP, vec3(0));
+		weaponLeftD.setMixAmount(1.f);
+		weaponLeftD.Render(GL_TRIANGLE_STRIP, vec3(0));
+	}
+	dpadTexture.Render(GL_TRIANGLE_STRIP, dpadTexture.getColour());
 
 	screenBorder.Render(GL_TRIANGLES, colour);
 }
@@ -199,4 +246,8 @@ void GameHud::Destroy() {
 	pauseBox.Destroy(); 
 	pauseBorder.Destroy();
 	restartText.Destroy();
+	dpadBorder.Destroy();
+	dpadTexture.Destroy();
+	weaponUpD.Destroy();
+	weaponLeftD.Destroy();
 }

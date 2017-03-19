@@ -226,6 +226,7 @@ void Game::gameLoop()
 	}
 	mat4 projectionMatrix, viewMatrix;
 	string healthStr, armourStr, velocityStr;
+	bool canLayTrap;
 	vec3 vColour;
 	for (int i = 0; i < viewports;i++) {
 		//getviewport
@@ -245,6 +246,7 @@ void Game::gameLoop()
 			armourStr = players[i]->vehicle->getArmourString();
 			velocityStr = players[i]->vehicle->getVelocityString();
 			vColour = *players[i]->getColour();
+			canLayTrap = players[i]->ableToTrap;
 		}
 
 		//otherwise, render either overhead camera or current win camera
@@ -278,7 +280,7 @@ void Game::gameLoop()
 		arena->Render(viewMatrix, projectionMatrix, lightSource);
 		glDisable(GL_CULL_FACE);
 		skybox->Render(viewMatrix, projectionMatrix, lightSource);
-		gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour);
+		gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, canLayTrap);
 	}
 	glfwSwapBuffers(window);
 	
@@ -459,6 +461,7 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 		cout << "Failed to initialize arena ground texture." << endl;
 	}
+	arena->mixColour = 1;
 
 	//bump map initialization
 //	if (!arena->initTexture(arenaBumpmap, GL_TEXTURE_2D)) {
