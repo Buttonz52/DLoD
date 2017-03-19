@@ -5,6 +5,7 @@
 Vehicle::Vehicle()
 {
 	timer.start();
+	initArmour = 30;
 	armour = 30;
 	health = 100;	
 	lowHealth = health / 2;
@@ -13,8 +14,12 @@ Vehicle::Vehicle()
 	canPulseColour = false;
 	//initialize crash sound and place in map
 	crash = Mix_LoadWAV("sfx/carCrash.wav");
+	explosion = Mix_LoadWAV("sfx/explosion.wav");
 	sfxMap.insert(make_pair("crash", crash));
+	sfxMap.insert(make_pair("explosion", explosion));
+
 	filename = "cars/mediumCarBody.obj";
+	armourFilename = "armour/MediumArmour.obj";
 	torqueSpeed = 12000.0;
 	maxVelocity = 70;
 	colour = vec3(1,0, 0);
@@ -33,6 +38,17 @@ void Vehicle::setColour(const vec3 &col) {
 	GEO::setColour(col);
 	initColour = col;
 }
+
+void Vehicle::updateArmour() {
+	children[4]->transparency = (armour / initArmour);
+	mat4 model;
+
+	PxTransform m = this->physXVehicle->getRigidDynamicActor()->getGlobalPose();
+	PxQuat rotate = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().q;
+	PxVec3 vCenter = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().p;
+	mat4 mm = convertMat(m.q.getBasisVector0(), m.q.getBasisVector1(), m.q.getBasisVector2(), vCenter);
+	children[4]->setModelMatrix(mm * glm::scale(scale));
+}
 void Vehicle::updateWheelPosition()
 {
 	float xoff = 1.5;
@@ -47,26 +63,37 @@ void Vehicle::updateWheelPosition()
 	
 	//front right
 	model = children[0]->getModelMatrix();
-	model[3] = vec4(vCenter.x + xoff, 1.0, vCenter.z + zoff, 1.0);
-	model = mm * mRotate;
+	model = mm;
+	//model = mm * mRotate;
+	//model[3] = vec4(vCenter.x + xoff, vCenter.y, vCenter.z + zoff, 1.0);
+	model *= mRotate;
 	children[0]->setModelMatrix(model);
 
 	//front left
 	model = children[1]->getModelMatrix();
-	model[3] = vec4(vCenter.x - xoff, 1.0, vCenter.z + zoff, 1.0);
-	model = mm * mRotate;
+	model = mm;
+	//model = mm * mRotate;
+	//model[3] = vec4(vCenter.x - xoff, vCenter.y, vCenter.z + zoff, 1.0);
+	model *= mRotate;
+
 	children[1]->setModelMatrix(model);
 
 	//back left
 	model = children[2]->getModelMatrix();
-	model[3] = vec4(vCenter.x - xoff, 1.0, vCenter.z - zoff, 1.0);
-	model = mm * mRotate;
+	//model = mm * mRotate;
+	model = mm;
+	//model[3] = vec4(vCenter.x - xoff, vCenter.y, vCenter.z - zoff, 1.0);
+	model *= mRotate;
+
 	children[2]->setModelMatrix(model);
 
 	//back right
 	model = children[3]->getModelMatrix();
-	model[3] = vec4(vCenter.x + xoff, 1.0, vCenter.z - zoff, 1.0);
-	model = mm * mRotate;
+	//model = mm * mRotate;
+	model = mm;
+
+	//model[3] = vec4(vCenter.x + xoff, vCenter.y, vCenter.z - zoff, 1.0);
+	model *=mRotate;
 	children[3]->setModelMatrix(model);
 }
 
@@ -211,15 +238,15 @@ float Vehicle::getArmour() {
 
 void Vehicle::checkDead() {
 	if (health <= 0) {
-		health = 0;
-		if (!dead) {
-			if (!timer.isStopped())
-				timer.stop();
-			mesh.UpdateColour(&(colour = initColour * 0.2f));
-			changeMeshDead();
-		}
-		canPulseColour = false;
-		dead = true;
+	health = 0;
+	if (!dead) {
+		if (!timer.isStopped())
+			timer.stop();
+		mesh.UpdateColour(&(colour = initColour * 0.2f));
+		changeMeshDead();
+	}
+	canPulseColour = false;
+	dead = true;
 	}
 	else if (health >= lowHealth) {
 		canPulseColour = false;
@@ -230,21 +257,21 @@ void Vehicle::checkDead() {
 }
 //regenerates armour for vehicle
 void Vehicle::regenArmour() {
-	if (armour >= 20.f) {
+	if (armour >= initArmour) {
 		//mesh.UpdateColour(&(colour = initColour));
-		armour = 20.f;
+		armour = initArmour;
 	}
 	else {
 		armour++;
 	}
-			
+
 	//armour >= 20 ? armour = 20: armour++;
 }
 
 void Vehicle::updateHealth(const float &damage)
 {
 	float damageToHealth = 0;
-	
+
 	if (armour == 0) {
 		//mesh.UpdateColour(&(colour = initColour * 0.5f));
 		damageToHealth = damage;
@@ -262,10 +289,7 @@ void Vehicle::updateHealth(const float &damage)
 
 	health -= damageToHealth;
 	checkDead();
-	
 }
-
-
 
 bool Vehicle::initMesh(const string &file) {
 	aliveCar.AddColour(colour);
@@ -281,24 +305,51 @@ bool Vehicle::initMesh(const string &file) {
 		return 0;
 	}
 
+
 	//init wheels mesh
 	giveMeWheels();
-
+	giveMeArmour(colour);
 	mat3 scaleM = mat3(1);
 	scaleM[0][0] = scale.x;
 	scaleM[1][1] = scale.y;
 	scaleM[2][2] = scale.z;
 
-  for (int i = 0; i < aliveCar.vertices.size(); ++i)
-    aliveCar.vertices[i] = scaleM * aliveCar.vertices[i];
+	for (int i = 0; i < aliveCar.vertices.size(); ++i)
+		aliveCar.vertices[i] = scaleM * aliveCar.vertices[i];
 
-  for (int i = 0; i < deadCar.vertices.size(); ++i)
-    deadCar.vertices[i] = scaleM * deadCar.vertices[i];
+	for (int i = 0; i < deadCar.vertices.size(); ++i)
+		deadCar.vertices[i] = scaleM * deadCar.vertices[i];
 
 
 	return 1;
 }
 
+void Vehicle::giveMeArmour(const vec3 &colour) {
+	GEO *armourGEO = new GEO();
+
+	mat3 scaleM = mat3(1);
+	scaleM[0][0] = scale.x;
+	scaleM[1][1] = scale.y;
+	scaleM[2][2] = scale.z;
+	armourGEO->setColour(colour);
+
+	if (!armourGEO->initMesh(armourFilename)) {
+		cout << "Error reading armour mesh." << endl;
+		return;
+	}
+	armourGEO->addShaders("shaders/toon.vert", "shaders/toon.frag");
+
+	if (!armourGEO->initBuffers()) {
+		cout << "Could not initialize buffers for game object " << filename << endl;
+	}
+
+
+	for (int i = 0; i <armourGEO->getMesh().vertices.size(); ++i) {
+		armourGEO->getMesh().vertices[i] = scaleM * armourGEO->getMesh().vertices[i];
+
+	}
+	children.push_back(armourGEO);
+}
 void Vehicle::giveMeWheels()
 {
 	mat3 scaleM = mat3(1);
@@ -443,7 +494,7 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 	lightSpaceMatrix = lightProjection * lightView;
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
-
+	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
 	//uniform variables
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE, value_ptr(M));
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "modelview"), 1, GL_FALSE, value_ptr(_view));
@@ -461,8 +512,13 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 
-	for (int i = 0; i < children.size(); i++)		//GEO* child : children)
+	for (int i = 0; i < children.size(); i++) {	//GEO* child : children)
+		if (i == 4 && dead) {
+			continue;
+		}
 		children[i]->Render(_view, _projection, _lightSource);
+
+	}
 }
 mat4 Vehicle::convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w)
 {

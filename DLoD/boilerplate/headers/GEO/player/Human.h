@@ -9,13 +9,15 @@ public:
 	Human(int);
 	~Human();
 	bool pausePressed,restart, menuItemPressed;
+	Mix_Chunk *click, *back;
   XboxController* controller;
 
   void getInput(GLFWwindow * window, bool & pause);
   void getGameOverInput(GLFWwindow*, bool&);
   //void vehicleControls(GLFWwindow*);
   void vehicleControls(GLFWwindow * window, bool & pause);
-  void menuControls(GLFWwindow * window, bool & pause, int & index);
+  void menuControls(GLFWwindow * window, bool & pause, int & index, Audio * audio);
+ // void menuControls(GLFWwindow * window, bool & pause, int & index);
   //void menuControls(GLFWwindow * window, bool & pause);
   void gameOverControls(GLFWwindow*, bool&);
   bool MenuItemSelected();

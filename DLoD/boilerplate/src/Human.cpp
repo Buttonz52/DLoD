@@ -7,12 +7,15 @@ Human::Human(int i) : Player(i)
   controller = new XboxController(i+1);
   restart = false;
   pausePressed = false;
+  click = Mix_LoadWAV("sfx/bubblePop.wav");
+  back = Mix_LoadWAV("sfx/backSfx.wav");
 }
 
 
 Human::~Human()
 {
   delete controller;
+  delete click;
 }
 
 
@@ -149,30 +152,36 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
   }
 }
 
-void Human::menuControls(GLFWwindow* window, bool &pause, int &index)
+void Human::menuControls(GLFWwindow* window, bool &pause, int &index, Audio *audio)
 {
 	if (!controller->Connected()) {
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 			cout << "Unpause" << endl;
 			pause = false;
 			pausePressed = false;
+			audio->PlaySfx(back, MIX_MAX_VOLUME,1);
 			Sleep(300);
 		}
 		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
 			//pause = false;
 			index -= 1;
-			Sleep(200);
+			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			Sleep(150);
 		}
 		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 			//restart = true;
 			index += 1;
-			Sleep(200);
+			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			Sleep(150);
 		}
 		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
 			//restart = true;
 			menuItemPressed = true;
 			pausePressed = false;
 			pause = false;
+			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			Sleep(300);
+
 		}
 	}
 	else {
@@ -180,19 +189,25 @@ void Human::menuControls(GLFWwindow* window, bool &pause, int &index)
 			cout << "Unpause" << endl;
 			pause = false;
 			pausePressed = false;
+			audio->PlaySfx(back, MIX_MAX_VOLUME,1);
 			Sleep(300);
 		}
 		if (controller->GetButtonPressed(XBtns.DPad_Up)) {
 			index -= 1;
-			Sleep(200);
+			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			Sleep(150);
 		}
 		if (controller->GetButtonPressed(XBtns.DPad_Down)) {
 			index += 1;
-			Sleep(200);
+			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			Sleep(150);
 		}
 		if (controller->GetButtonPressed(XBtns.A)) {
 			menuItemPressed = true;
-			Sleep(100);
+			pausePressed = false;
+			pause = false;
+			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			Sleep(300);
 		}
 	}
 }

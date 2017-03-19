@@ -28,6 +28,8 @@ public:
 	bool isSkybox;
 	bool isPlane;
 
+	float transparency;
+
 	double getRadius();
 
 	//Scale
@@ -69,7 +71,7 @@ public:
 	vec3 * getColour();
 
 	void shutdown();		//destroy shader, texture, mesh
-	void playSFX(const string &name);
+	void playSFX(const string & name, const int & volume, const int & channel);
 	//void calculateMeshTangent();
 	Mesh mesh;
 
@@ -82,8 +84,8 @@ protected:
     double xRotation, yRotation, zRotation;
 
 	mat4 modelMatrix;
-	physx::PxShape* shape;
-	physx::PxRigidDynamic* body;
+	physx::PxShape *shape;
+	physx::PxRigidDynamic *body;
 
 	Shader shader;
 	Texture texture;

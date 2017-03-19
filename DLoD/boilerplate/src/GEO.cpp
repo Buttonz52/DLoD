@@ -9,12 +9,12 @@ GEO::GEO()
 	hasTexture = 0;
 	isSkybox = 0;
 	colour = vec3(1,1,1);
+	transparency = 1.f;
 }
 
 GEO::~GEO()
 {
   shutdown();
-
   for (GEO* child : children)
     delete child;
 }
@@ -228,6 +228,7 @@ void GEO::setColour(const vec3 &col) {
 vec3 *GEO::getColour() {
 	return &colour;
 }
+
 // Rendering function that draws our scene to the frame buffer
 //TODO: Make specific to different types of GEOs, use inheritance
 void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
@@ -254,6 +255,8 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 	//lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
 	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;
+
+	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
 
@@ -289,8 +292,8 @@ void GEO::shutdown()
     child->shutdown();
 }
 
-void GEO::playSFX(const string &name)
+void GEO::playSFX(const string &name, const int &volume, const int &channel)
 {
 	//audio.PlaySfx(sfx);
-	audio.PlaySfx(sfxMap[name]);
+	audio.PlaySfx(sfxMap[name], volume, channel);
 }

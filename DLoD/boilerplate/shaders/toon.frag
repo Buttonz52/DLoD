@@ -14,6 +14,7 @@ in vec3 P;
 in vec3 V;
 in vec3 uv;
 
+uniform float transparency;
 uniform sampler2D sampler;
 
 // first output is mapped to the framebuffer's colour index by default
@@ -45,6 +46,6 @@ void main(void)
 	//FragmentColour = vec4(1.0, 0.0, 0.0, 1.0);
 	//FragmentColour = vec4(uv.xy, 0.0, 1.0);
 	//FragmentColour = texture(sampler, uv.xy);
-    FragmentColour = vec4(Colour*vec3(diffuse), 1.0);
+    FragmentColour = vec4(Colour*vec3(diffuse), transparency);
 
 }

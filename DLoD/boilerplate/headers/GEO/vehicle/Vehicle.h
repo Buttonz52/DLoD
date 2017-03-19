@@ -14,14 +14,16 @@ protected:
   // Stores the Vehicle Health
   float health;
   float armour;
+  float initArmour;
   int lowHealth;
   vec3 initColour;
   string filename;
+  string armourFilename;
   //double armourLeft;
   //double armourRight;
   //double armourFront;
   //double armourBack;
-
+ 
   // Stores the rate of acceleration and maxVelocity
   double acceleration;
   double maxVelocity;
@@ -41,7 +43,10 @@ public:
 
 
   string wheelFileName;
+  //void updateArmourPosition();
+  void updateArmour();
   void updateWheelPosition();
+  //void giveMeArmour();
   void giveMeWheels();
 
   void Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
@@ -61,7 +66,9 @@ public:
   bool isDead();
   bool initMesh(const string &);
 
-	Mix_Chunk* crash;
+  void giveMeArmour(const vec3 & colour);
+
+	Mix_Chunk *crash, *explosion;
 
 	float getHealth();
 	float calculateDamage(const double &, const double &, const double &, const double &);

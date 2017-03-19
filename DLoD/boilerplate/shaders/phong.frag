@@ -15,6 +15,7 @@ in vec3 V;
 
 // first output is mapped to the framebuffer's colour index by default
 out vec4 FragmentColour;
+uniform float transparency;
 uniform sampler2D sampler;
 void main(void)
 {
@@ -32,5 +33,5 @@ void main(void)
 
     vec3 specular = ks * pow(max(dot(R, V), 0.0), ke) * vec3(1.f);
 
-    FragmentColour = vec4(ambient + vec3(diffuse) + specular, 1.0);
+    FragmentColour = vec4(ambient + vec3(diffuse) + specular, transparency);
 }

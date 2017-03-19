@@ -15,7 +15,9 @@ GameHud::~GameHud()
 void GameHud::InitializeMenu(const vec3 &colour) {
 	resumeText.InitializeGameText("RESUME", vec3(-0.27, 0.0, 0), colour, 30);
 	resumeText.setScale(vec3(2));
-	quitText.InitializeGameText("QUIT", vec3(-0.2, -0.2, 0), colour, 30);
+	restartText.InitializeGameText("RESTART", vec3(-0.3, -0.2, 0), colour, 30);
+	restartText.setScale(vec3(2));
+	quitText.InitializeGameText("QUIT", vec3(-0.2, -0.4, 0), colour, 30);
 	quitText.setScale(vec3(2));
 
 	//arena map background
@@ -30,12 +32,12 @@ void GameHud::InitializeMenu(const vec3 &colour) {
 	pauseBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 	
 	//border for health and armour
-	pauseBox.GenerateSquareVertices(0.23, 0.3, vec3(0.6, 0.7, 1));
-	pauseBox.setPosition(vec3(-0.06, 0, 0));
+	pauseBox.GenerateSquareVertices(0.25, 0.32, vec3(0.6, 0.7, 1));
+	pauseBox.setPosition(vec3(-0.055, -0.07, 0));
 	pauseBox.setTransparency(0.2f);
 	pauseBox.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
-	pauseBorder.GenerateBorder(0.23, 0.3, 0.01, vec3(0, 0, 0), vec3(-0.06, 0, 0));
+	pauseBorder.GenerateBorder(0.25, 0.32, 0.01, vec3(0, 0, 0), vec3(-0.055, -0.07, 0));
 	pauseBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 }
@@ -153,15 +155,23 @@ void GameHud::Render(const string &health, const string &armour, const string &v
 
 void GameHud::RenderMenu(const int &menuIndex, const vec3 &colour) {
 	if (menuIndex == 0) {
+		restartText.setColour(colour*0.3f);
 		quitText.setColour(colour * 0.3f);
 		resumeText.setColour(colour);
 	}
+	else if (menuIndex == 1) {
+		quitText.setColour(colour * 0.3f);
+		restartText.setColour(colour);
+		resumeText.setColour(colour * 0.3f);
+	}
 	else {
 		quitText.setColour(colour);
+		restartText.setColour(colour*0.3f);
 		resumeText.setColour(colour*0.3f);
 	}
 	quitText.Render(GL_TRIANGLES, quitText.getColour());
 	resumeText.Render(GL_TRIANGLES, resumeText.getColour());
+	restartText.Render(GL_TRIANGLES, restartText.getColour());
 	pauseBorder.Render(GL_TRIANGLES, colour);
 	pauseBox.Render(GL_TRIANGLE_STRIP, pauseBox.getColour());
 	pauseBkgrd.Render(GL_TRIANGLE_STRIP, vec3(1.f-colour) * 0.3f);
@@ -188,4 +198,5 @@ void GameHud::Destroy() {
 	pauseBkgrd.Destroy(); 
 	pauseBox.Destroy(); 
 	pauseBorder.Destroy();
+	restartText.Destroy();
 }

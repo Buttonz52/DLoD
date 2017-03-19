@@ -74,11 +74,11 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
       break;
 
     case GLFW_KEY_SPACE:
-      audio.PlaySfx(audio.horn);
+      audio.PlaySfx(audio.horn, MIX_MAX_VOLUME,3);
       break;
 
 	case GLFW_KEY_N:
-		audio.PlaySfx(audio.chicken);
+		audio.PlaySfx(audio.chicken, MIX_MAX_VOLUME,3);
     default:
       break;
   }
@@ -229,12 +229,13 @@ int main(int argc, char *argv[])
 		cout << "Failed to init audio." << endl;
 	}
 
-	//Initialize "Loading screen"
-	TitleScreen ts;
 
-	ScreenOverlay loadBkgrd;
 	//while (!glfwWindowShouldClose(window)) {
 	int numPlayers;
+	while (!glfwWindowShouldClose(window)) {
+		//Initialize "Loading screen"
+		TitleScreen ts;
+		ScreenOverlay loadBkgrd;
 		if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex, &humanVehicleChoice, numPlayers)) {
 			ts.Destroy();
 			audio.FreeMusic();
@@ -263,13 +264,16 @@ int main(int argc, char *argv[])
 				cout << "Failed to play music" << endl;
 			}
 
-			game.start();
+			if (game.start() == 1) {
+				humanVehicleChoice.clear();
+				continue;
+			}
 		}
 		else {
 			glfwSetWindowShouldClose(window, true);
 			ts.Destroy();
 		}
-//	}
+	}
 	audio.CleanUp();
 
 	glfwDestroyWindow(window);

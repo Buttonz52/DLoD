@@ -62,9 +62,12 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
 		      if (forceApplied > (10.0 / (double)nbPoints))
 		      {
 			      cout << "Damage: " << forceApplied << endl;
-			      v1->playSFX("crash");
 			      v1->calculateDamage(point.x, point.y, point.z, forceApplied);
 			      v2->calculateDamage(point.x, point.y, point.z, forceApplied);
+				  v1->playSFX("crash", MIX_MAX_VOLUME, 1);
+				  if (v1->isDead() && v2->isDead()) {
+					  v1->playSFX("explosion", MIX_MAX_VOLUME, 2);
+				  }
 		      }
         }
       }
