@@ -238,7 +238,7 @@ void AI::driveTo(vec3 destination)
 
   if (oD.z > 0)
   {
-    vehicle->accelerate(5);
+    vehicle->accelerate(1);
 
     double turn = min(max(-oD.x / oD.z, -1), 1);
     turn = ((vehicle->physXVehicle->computeForwardSpeed() > 0)) ? turn : -turn;
@@ -247,7 +247,7 @@ void AI::driveTo(vec3 destination)
   }
   else
   {
-    vehicle->decelerate(5);
+    vehicle->decelerate(1);
     
     double turn = (oD.x < 0) ? -1.0 : 1.0;
     turn = ((vehicle->physXVehicle->computeForwardSpeed() < 0)) ? turn : -turn;

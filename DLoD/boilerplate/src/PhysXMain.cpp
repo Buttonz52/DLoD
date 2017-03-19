@@ -31,7 +31,7 @@ PhysXMain::~PhysXMain()
 {
 }
 
-VehicleDesc PhysXMain::initVehicleDesc()
+VehicleDesc PhysXMain::initMediumVehicleDesc()
 {
 	const PxF32 chassisMass = 1000.0;
 	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
@@ -46,7 +46,75 @@ VehicleDesc PhysXMain::initVehicleDesc()
 	const PxF32 wheelMass = 20;
 	const PxF32 wheelRadius = 0.5f;
 	const PxF32 wheelWidth = 0.45f;
-	const PxF32 wheelMOI = 0.000001f*wheelMass*wheelRadius*wheelRadius;
+	const PxF32 wheelMOI = 40.f*wheelMass*wheelRadius*wheelRadius;
+	const PxU32 nbWheels = 4;
+
+	VehicleDesc vehicleDesc;
+	vehicleDesc.chassisMass = chassisMass;
+	vehicleDesc.chassisDims = chassisDims;
+	vehicleDesc.chassisMOI = chassisMOI;
+	vehicleDesc.chassisCMOffset = chassisCMOffset;
+	vehicleDesc.chassisMaterial = gMaterial;
+	vehicleDesc.wheelMass = wheelMass;
+	vehicleDesc.wheelRadius = wheelRadius;
+	vehicleDesc.wheelWidth = wheelWidth;
+	vehicleDesc.wheelMOI = wheelMOI;
+	vehicleDesc.numWheels = nbWheels;
+	vehicleDesc.wheelMaterial = gMaterial;
+	return vehicleDesc;
+}
+
+
+VehicleDesc PhysXMain::initLightVehicleDesc()
+{
+	const PxF32 chassisMass = 1000.0;
+	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
+	const PxVec3 chassisMOI
+	((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
+		(chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
+		(chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / 12.0f);
+	const PxVec3 chassisCMOffset(0.0f, -chassisDims.y*0.5f + 0.65f, 0.25f);
+
+	//Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
+	//Moment of inertia is just the moment of inertia of a cylinder.
+	const PxF32 wheelMass = 20;
+	const PxF32 wheelRadius = 0.5f;
+	const PxF32 wheelWidth = 0.45f;
+	const PxF32 wheelMOI = 30.f*wheelMass*wheelRadius*wheelRadius;
+	const PxU32 nbWheels = 4;
+
+	VehicleDesc vehicleDesc;
+	vehicleDesc.chassisMass = chassisMass;
+	vehicleDesc.chassisDims = chassisDims;
+	vehicleDesc.chassisMOI = chassisMOI;
+	vehicleDesc.chassisCMOffset = chassisCMOffset;
+	vehicleDesc.chassisMaterial = gMaterial;
+	vehicleDesc.wheelMass = wheelMass;
+	vehicleDesc.wheelRadius = wheelRadius;
+	vehicleDesc.wheelWidth = wheelWidth;
+	vehicleDesc.wheelMOI = wheelMOI;
+	vehicleDesc.numWheels = nbWheels;
+	vehicleDesc.wheelMaterial = gMaterial;
+	return vehicleDesc;
+}
+
+
+VehicleDesc PhysXMain::initLargeVehicleDesc()
+{
+	const PxF32 chassisMass = 1000.0;
+	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
+	const PxVec3 chassisMOI
+	((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
+		(chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
+		(chassisDims.x*chassisDims.x + chassisDims.y*chassisDims.y)*chassisMass / 12.0f);
+	const PxVec3 chassisCMOffset(0.0f, -chassisDims.y*0.5f + 0.65f, 0.25f);
+
+	//Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
+	//Moment of inertia is just the moment of inertia of a cylinder.
+	const PxF32 wheelMass = 20;
+	const PxF32 wheelRadius = 0.5f;
+	const PxF32 wheelWidth = 0.45f;
+	const PxF32 wheelMOI = 50.f*wheelMass*wheelRadius*wheelRadius;
 	const PxU32 nbWheels = 4;
 
 	VehicleDesc vehicleDesc;
@@ -79,7 +147,7 @@ void PhysXMain::init(const int numVehicles)
 	}
 
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, -9.81f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, 3*-9.81f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;	//this will give us heck later
@@ -109,10 +177,24 @@ void PhysXMain::init(const int numVehicles)
 	//gScene->addActor(*gGroundPlane);
 }
 
-void PhysXMain::initVehicle(Vehicle* v)
+void PhysXMain::initVehicle(Vehicle* v, int type)
 {
 	//Create a vehicle that will drive on the plane.
-	VehicleDesc vehicleDesc = initVehicleDesc();
+	VehicleDesc vehicleDesc;
+	switch (type) {
+	case 0:
+		vehicleDesc = initLightVehicleDesc();
+		break;
+	case 1:
+		vehicleDesc = initMediumVehicleDesc();
+		break;
+	case 2:
+		vehicleDesc = initLargeVehicleDesc();
+		break;
+	default:
+		vehicleDesc = initMediumVehicleDesc();
+	}
+
 	v->physXVehicle = createVehicleNoDrive(vehicleDesc, gPhysics, gCooking);
 
 	//change Center of Mass

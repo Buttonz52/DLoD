@@ -44,7 +44,7 @@ private:
   void initSkyBox(const string &pathname);
   GEO * initArena(const string &texfilename, const string &objfilename);
   void ResizeViewport(const int index, const int numHumans, const int width, const int height);
-  void initVehicle(Vehicle * v);
+  void initVehicle(Vehicle * v, int type);
 
   void initItem(Item * item);
 

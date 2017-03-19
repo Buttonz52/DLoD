@@ -46,7 +46,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 	  Human* human = new Human(i);
 	  human->ChooseVehicle(humanVehicleChoice->at(i));
 	  human->vehicle->setPosition(vec3(0, 50, -20 * i));
-	  initVehicle(human->vehicle);
+	  initVehicle(human->vehicle, humanVehicleChoice->at(i));
 	  skybox->children.push_back(human->vehicle);
 	  players.push_back(human);
   }
@@ -62,7 +62,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 	  int aiRNGChoose = rand() % 3;
 	  ai->ChooseVehicle(aiRNGChoose);
 	  ai->vehicle->setPosition(vec3(10*i, 50, 10*i));
-	  initVehicle(ai->vehicle);
+	  initVehicle(ai->vehicle, aiRNGChoose);
 	  skybox->children.push_back(ai->vehicle);
 	  players.push_back(ai);
   }
@@ -390,7 +390,7 @@ void Game::initSkyBox(const string &pathname)
   skybox->addShaders("shaders/skybox.vert", "shaders/skybox.frag");
 }
 
-void Game::initVehicle(Vehicle* v)
+void Game::initVehicle(Vehicle* v, int type)
 {
   v->setScale(vec3(1.5));
  
@@ -404,7 +404,7 @@ void Game::initVehicle(Vehicle* v)
     cout << "Could not initialize buffers for game object " << v->getAliveCarMesh() << endl;
   }
 
-  physX.initVehicle(v);
+  physX.initVehicle(v, type);
 
   physXObjects.push_back(v);
 }

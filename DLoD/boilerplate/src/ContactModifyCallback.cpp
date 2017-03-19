@@ -44,6 +44,8 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
       if (v1 != nullptr && v2 != nullptr)
       {
 		 
+
+
         for (PxU32 j = 0; j < nbPoints; ++j)
         {
           PxVec3 point = pairs[i].contacts.getPoint(j);
@@ -56,12 +58,11 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
           v1Impulse = (normal * (normal.dot(v1Impulse))) * v1->physXVehicle->getRigidDynamicActor()->getMass();
           v2Impluse = (normal * (normal.dot(v2Impluse))) * v2->physXVehicle->getRigidDynamicActor()->getMass();
 
-          double forceApplied = (v1Impulse - v2Impluse).magnitude() * 0.00060;
+          double forceApplied = (v1Impulse - v2Impluse).magnitude() * 0.00042;
 		      forceApplied /= (double) nbPoints;
 
 		      if (forceApplied > (10.0 / (double)nbPoints))
 		      {
-			      cout << "Damage: " << forceApplied << endl;
 			      v1->playSFX("crash");
 			      v1->calculateDamage(point.x, point.y, point.z, forceApplied);
 			      v2->calculateDamage(point.x, point.y, point.z, forceApplied);
