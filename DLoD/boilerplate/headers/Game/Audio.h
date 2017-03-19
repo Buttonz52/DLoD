@@ -17,7 +17,8 @@ public:
 	void CleanUp();
 	bool PlayMusic();
 	void PauseMusic();
-	void PlaySfx(Mix_Chunk *sfx);
+	void ChangeMusicVolume(const int &volume);
+	void PlaySfx(Mix_Chunk *sfx, const int &volume, const int &channel);
 	void ResumeMusic();
 	void PausePlay();
 	bool Init();

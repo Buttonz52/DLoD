@@ -26,7 +26,7 @@ private:
   int numPlayerScreens, pauseIdentifier, menuIndex;
   ScreenOverlay pauseText;
   Timer timer;
-  bool pause;
+  bool pause, restart;
 
   // vector of actors 
   vector<pair<Player*, int>> itemsToAdd;
@@ -61,9 +61,9 @@ private:
 
 public:
 
-  Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers);
+  Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers);
 
-  void start();
+  bool start();
 };
 
 #endif

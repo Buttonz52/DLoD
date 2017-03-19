@@ -133,6 +133,7 @@ VehicleDesc PhysXMain::initLargeVehicleDesc()
 }
 
 void PhysXMain::init(const int numVehicles)
+
 {
 	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 	PxProfileZoneManager* profileZoneManager = &PxProfileZoneManager::createProfileZoneManager(gFoundation);
@@ -414,6 +415,7 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 	for (Vehicle* v : vehiclesVec)
 	{
 		v->updateWheelPosition();
+		//v->updateArmour();
 		v->releaseAllControls();
 	}
 }

@@ -56,9 +56,12 @@ void Audio::PauseMusic() {
 	Mix_PauseMusic();
 }
 
-void Audio::PlaySfx(Mix_Chunk *sfx) {
-	Mix_VolumeChunk(sfx, 45);
-	Mix_PlayChannel(1, sfx, 0);
+void Audio::ChangeMusicVolume(const int &volume) {
+	Mix_VolumeMusic(volume);
+}
+void Audio::PlaySfx(Mix_Chunk *sfx, const int &volume, const int &channel) {
+	Mix_VolumeChunk(sfx, volume);
+	Mix_PlayChannel(channel, sfx, 0);
 }
 
 void Audio::ResumeMusic() {

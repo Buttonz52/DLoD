@@ -9,7 +9,8 @@ LargeVehicle::LargeVehicle()
 	health = 120;
 	armour = 40;
 	torqueSpeed = 12000.0;
-	lowHealth = health / 2;
+	armourFilename = "armour/LargeArmour.obj";
+	initArmour = 40;
 }
 
 

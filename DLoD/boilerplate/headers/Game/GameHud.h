@@ -37,7 +37,8 @@ private:
 					radarBkgrd,	radarBorder,
 					radarPoints, screenBorder,
 					resumeText, quitText, 
-					pauseBkgrd, pauseBox, pauseBorder;
+					pauseBkgrd, pauseBox, 
+					pauseBorder, restartText;
 	;
 };
 

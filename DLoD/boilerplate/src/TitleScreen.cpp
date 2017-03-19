@@ -41,7 +41,7 @@ TitleScreen::~TitleScreen()
 //toggle startt boolean
 void TitleScreen::pressStart(Audio *audio) {
 	isStart = true;
-	audio->PlaySfx(press);
+	audio->PlaySfx(press, MIX_MAX_VOLUME,1);
 }
 
 //read rules (not implemented yet)
@@ -90,7 +90,7 @@ void TitleScreen::toggleMenuIndex(const int &s, Audio *audio, const int &initInd
 	menuButtons[menuIndex].setColour(vec3(0, 1, 0));
 	//sex mixColour flag
 	menuButtons[menuIndex].setMixFlag(1);
-	audio->PlaySfx(click);
+	audio->PlaySfx(click, MIX_MAX_VOLUME,1);
 }
 
 //Initializes main screen
@@ -411,7 +411,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				switch (menuIndex)
 				{
 				case 0:
-					audio->PlaySfx(press);
+					audio->PlaySfx(press, MIX_MAX_VOLUME,1);
 					//isLoadScreen = true;
 					//destroy menu buttons
 					for (int i = 0; i < menuButtons.size(); i++)
@@ -433,7 +433,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				}
 				break;
 			case 6:
-				audio->PlaySfx(press);
+				audio->PlaySfx(press, MIX_MAX_VOLUME,1);
 				break;
 			}
 		}
@@ -448,7 +448,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 				//press "select"
 			case 4:
-				audio->PlaySfx(press);
+				audio->PlaySfx(press, MIX_MAX_VOLUME,1);
 				//set flag to false
 				isMultiplayerScreen = false;
 				isCarScreen = true;
@@ -488,12 +488,12 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 				//press "back"
 			case 5:
-				audio->PlaySfx(back);
+				audio->PlaySfx(back, MIX_MAX_VOLUME,1);
 				DisplayTitle(window, controller, audio, skyboxIndex, arenaIndex, humanVehicleChoice, numPlayers);
 				break;
 
 			case 6:
-				audio->PlaySfx(press);
+				audio->PlaySfx(press, MIX_MAX_VOLUME,1);
 				break;
 
 			}
@@ -573,7 +573,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 				//press "select"
 			case 4:
-				audio->PlaySfx(press);
+				audio->PlaySfx(press, MIX_MAX_VOLUME,1);
 				//set flag to false
 				humanVehicleChoice->at(controllerIndex) = (menuIndex - carButtonInitIndex);
 				menuButtons[menuIndex].setColour(pressColour);	//indicate choice
@@ -608,7 +608,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				//press "back"
 			case 5:
 				if (controllers[controllerIndex].GetIndex() == 0) {
-				audio->PlaySfx(back);
+				audio->PlaySfx(back, MIX_MAX_VOLUME,1);
 				for (int i = 0; i < menuButtons.size(); i++)
 					menuButtons[i].Destroy();
 
@@ -621,7 +621,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 
 			case 6:
-				audio->PlaySfx(press);
+				audio->PlaySfx(press, MIX_MAX_VOLUME,1);
 				break;
 			}
 		}
@@ -637,7 +637,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 				//press "select"
 			case 4:
-				audio->PlaySfx(press);
+				audio->PlaySfx(press, MIX_MAX_VOLUME,1);
 				//if you choose arena
 				if (isChooseArena) {
 					//set flag to false
@@ -663,7 +663,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 				//press "back"
 			case 5:
-				audio->PlaySfx(back);
+				audio->PlaySfx(back, MIX_MAX_VOLUME,1);
 				//reset to choose arena if choosing skybox
 				if (!isChooseSkybox && !isChooseArena) {
 					//reset flag
@@ -704,7 +704,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 
 			case 6:
-				audio->PlaySfx(press);
+				audio->PlaySfx(press, MIX_MAX_VOLUME,1);
 				break;
 
 			}

@@ -9,7 +9,8 @@ LightVehicle::LightVehicle()
 	health = 100;
 	armour = 20;
 	torqueSpeed = 14000.0;
-	lowHealth = health / 2;
+	armourFilename = "armour/LightArmour.obj";
+	initArmour = 20;
 }
 
 

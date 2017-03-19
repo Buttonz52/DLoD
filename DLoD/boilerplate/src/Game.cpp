@@ -18,9 +18,9 @@ GEO* initGroundPlane()
   return plane;
 }
 
-Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers)
+Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers)
 {
-	pause = false;
+	pause = false, restart = false;
 	menuIndex = 0;
 	//set cameras so overtop and far-ish away from cars
 	overheadCam.setAlt(-90);
@@ -38,6 +38,8 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 
   initSkyBox(skyboxFilepath);
   //skybox->children.push_back(initArena());
+  //create the starnode
+  vector<vec3> starNodes;
   arena = initArena(arenaTexFilename, arenaFilepath);
   arenaMap = arenaMapFile;
   //skybox->children.push_back(initGroundPlane());
@@ -45,7 +47,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   for (int i = 0; i < numPlayers; i++) {
 	  Human* human = new Human(i);
 	  human->ChooseVehicle(humanVehicleChoice->at(i));
-	  human->vehicle->setPosition(vec3(0, 50, -20 * i));
+	  human->vehicle->setPosition(vec3(0, 200, 100 * i));
 	  initVehicle(human->vehicle, humanVehicleChoice->at(i));
 	  skybox->children.push_back(human->vehicle);
 	  players.push_back(human);
@@ -57,11 +59,11 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   //NOTE: This gets pretty slow, might want to think about multi-threading or trying to run in release mode (but need to link those libraries)
 
   srand(time(NULL));
-  for (int i = numPlayers; i < 8; i++) {
+  for (int i = numPlayers; i < 4; i++) {
 	  AI* ai = new AI(i);
 	  int aiRNGChoose = rand() % 3;
 	  ai->ChooseVehicle(aiRNGChoose);
-	  ai->vehicle->setPosition(vec3(10*i, 50, 10*i));
+	  ai->vehicle->setPosition(vec3(20*i, 50, 20*i));
 	  initVehicle(ai->vehicle, aiRNGChoose);
 	  skybox->children.push_back(ai->vehicle);
 	  players.push_back(ai);
@@ -69,7 +71,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 }
 
 
-void Game::start()
+bool Game::start()
 {
 
   // start the game loop
@@ -125,6 +127,7 @@ void Game::start()
   delete skybox;
   delete arena;
   physX.cleanupPhysics(true);
+  return restart;
 }
 
 void Game::gameLoop()
@@ -142,10 +145,11 @@ void Game::gameLoop()
  /* glEnable(GL_CULL_FACE);
 
   glCullFace(GL_FRONT);*/
-  while (!glfwWindowShouldClose(window) && !gameOver)
+  while (!glfwWindowShouldClose(window) && !gameOver && !restart)
   {
 	//game paused
 	while (pause && !glfwWindowShouldClose(window)) {
+		audio.ChangeMusicVolume(MIX_MAX_VOLUME / 4);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		vec3 pauseColour(0);	//colour for pause menu
 		for (Player *p : players) {
@@ -153,31 +157,30 @@ void Game::gameLoop()
 			//get pause input for human that pressed pause
 			if (human != nullptr && human->pressedPause()) {
 				pauseColour = *human->getColour();	//set pause menu colour
-				human->menuControls(window, pause, menuIndex);
+				human->menuControls(window, pause, menuIndex, &audio);
 				//index check
-				if (menuIndex > 1)
+				if (menuIndex > 2)
 					menuIndex = 0;
 				if (menuIndex < 0)
-					menuIndex = 1;
+					menuIndex = 2;
 				if (human->MenuItemSelected()) {
 					switch (menuIndex) {
 					case 0:	//pressed "resume"
 						human->menuItemPressed = false;
+						audio.ChangeMusicVolume(MIX_MAX_VOLUME);
 						break;
-					case 1:	//pressed "quit"
+					case 1:
+						restart = true;
+						break;
+					case 2:	//pressed "quit"
 						glfwSetWindowShouldClose(window, true);
 						break;
 					default:	//pressed "resume"
 						human->menuItemPressed = false;
+						audio.ChangeMusicVolume(MIX_MAX_VOLUME);
 						break;
 					}
 				}
-				//if (human->restartGame()) {
-				//	human->restart = false;
-				//	pause = false;
-				//	start();
-				//	
-				//}
 			}
 		}
 		//resize viewport so renders fullscreen
@@ -187,6 +190,7 @@ void Game::gameLoop()
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+		audio.ChangeMusicVolume(MIX_MAX_VOLUME);
 	  }	 
 
     // Add items to the scene
@@ -472,7 +476,7 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	if (!arena->initBuffers()) {
 		cout << "Could not initialize buffers for arena" << endl;
 	}
-	arena->setScale(vec3(100.f));
+	arena->setScale(vec3(30.f));
 	arena->setPosition(vec3(0, 0, 0));
 	arena->updateModelMatrix();
 
