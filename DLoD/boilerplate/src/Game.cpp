@@ -47,7 +47,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   for (int i = 0; i < numPlayers; i++) {
 	  Human* human = new Human(i);
 	  human->ChooseVehicle(humanVehicleChoice->at(i));
-	  human->vehicle->setPosition(vec3(0, 200, 100 * i));
+	  human->vehicle->setPosition(vec3(-100, 50, 100 * i));
 	  initVehicle(human->vehicle, humanVehicleChoice->at(i));
 	  skybox->children.push_back(human->vehicle);
 	  players.push_back(human);
@@ -142,9 +142,7 @@ void Game::gameLoop()
 	pauseText.setScale(vec3(4.f));
 	pauseText.InitializeGameText("PAUSE", vec3(-0.4, 0.5, 0), vec3(1, 0.5, 0.3), 30);
   int frameCtr = 0;
- /* glEnable(GL_CULL_FACE);
 
-  glCullFace(GL_FRONT);*/
   while (!glfwWindowShouldClose(window) && !gameOver && !restart)
   {
 	//game paused

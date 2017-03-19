@@ -70,12 +70,12 @@ vector<string> skyboxFilePathnames = {
 
 //arena obj files
 vector <string> arenaObjFilenames = {
-	"arenas/bowl.obj",
+	"arenas/bowl2.obj",
 	"arenas/test.obj",
 	"arenas/plain.obj"
 };
 
-vector<string> arenaStarNodes = {
+vector<string> starObjFilename = {
 	"starNodes/testnodes2.obj"
 };
 
