@@ -289,28 +289,14 @@ void PhysXMain::initArena(GEO *arena) {
 	if (tMesh != NULL) {
 		PX_ASSERT(tMesh);
 		PxMeshScale meshScale = PxMeshScale(PxVec3(arena->getScale().x, arena->getScale().y, arena->getScale().z), PxQuat(PxIdentity));
-		//gArena= gPhysics->createRigidDynamic(PxTransform(PxIdentity));
 		gArena = gPhysics->createRigidStatic(PxTransform(PxIdentity));
 
-		//PxShape *shape = actor->createShape(PxTriangleMeshGeometry(tMesh), *gMaterial);
-		////arena->setShape(*shape);
-		//actor->setAngularDamping(13);
-		//actor->attachShape(*shape);
-		//PxRigidBodyExt::updateMassAndInertia(*actor, 20.0f);
-		////arena->setBody(*actor);
-		//gScene->addActor(*actor);
 		PX_ASSERT(actor);
-		//gArena->setRigidDynamicFlag(PxRigidDynamicFlag::eKINEMATIC, true);
-		//PxShape * shape = gArena->createShape(PxTriangleMeshGeometry(tMesh, meshScale), *gMaterial);
 		PxShape * shape[1];
 		shape[0] = gArena->createShape(PxTriangleMeshGeometry(tMesh, meshScale), *gMaterial);
 		gArena->getShapes(shape, 1);
 
 		PX_ASSERT(shape);
-		////gScene->addActor(*actor);
-		//shape[0]->setFlag(PxShapeFlag::eSIMULATION_SHAPE, false);
-		/*gArena->setRigidDynamicFlag(PxRigidDynamicFlag::eKINEMATIC, false);
-		shape->setFlag(PxShapeFlag::eVISUALIZATION, false);*/
 		//Set the query filter data of the ground plane so that the vehicle raycasts can hit the ground.
 		physx::PxFilterData qryFilterData;
 		setupDrivableSurface(qryFilterData);
@@ -415,7 +401,7 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 	for (Vehicle* v : vehiclesVec)
 	{
 		v->updateWheelPosition();
-		//v->updateArmour();
+		v->updateArmour();
 		v->releaseAllControls();
 	}
 }

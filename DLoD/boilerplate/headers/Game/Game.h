@@ -2,14 +2,14 @@
 #define GAME_H
 
 
-#include "../GEO/Player/AI.h"
-#include "../GEO/player/Human.h"
-#include "../Physics/PhysXMain.h"
-#include "..\headers\Game\ScreenOverlay.h"
-#include "..\headers\Game\Audio.h"
-#include "..\headers\Game\Timer.h"
-
-#include "../Game/GameHud.h"
+#include "GEO/Player/AI.h"
+#include "GEO/player/Human.h"
+#include "Physics/PhysXMain.h"
+#include "Game\ScreenOverlay.h"
+#include "Game\Audio.h"
+#include "Game\Timer.h"
+#include "GEO/Shadow.h"
+#include "Game/GameHud.h"
 
 class Game
 {
@@ -44,6 +44,7 @@ private:
   void initSkyBox(const string &pathname);
   GEO * initArena(const string &texfilename, const string &objfilename);
   void ResizeViewport(const int index, const int numHumans, const int width, const int height);
+  void goToGamePausedState();
   void initVehicle(Vehicle * v, int type);
 
   void initItem(Item * item);
@@ -56,8 +57,8 @@ private:
 
   //void GenerateTextUVs(vector<vec2>& uvs, const char &c);
 
-  Mix_Chunk *winSFX = Mix_LoadWAV("sfx/win.wav");
-  Mix_Chunk *loseSFX = Mix_LoadWAV("sfx/lose.wav");
+  //Mix_Chunk *winSFX = Mix_LoadWAV("sfx/win.wav");
+  //Mix_Chunk *loseSFX = Mix_LoadWAV("sfx/lose.wav");
 
 public:
 

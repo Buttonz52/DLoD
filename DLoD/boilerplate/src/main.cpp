@@ -224,17 +224,19 @@ int main(int argc, char *argv[])
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
 	camera = &testCams[camIndex];
-
+	// Enable blending (for transparency)
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	if (!audio.Init()) {
 		cout << "Failed to init audio." << endl;
 	}
-
 
 	//while (!glfwWindowShouldClose(window)) {
 	int numPlayers;
 	while (!glfwWindowShouldClose(window)) {
 		//Initialize "Loading screen"
 		TitleScreen ts;
+
 		ScreenOverlay loadBkgrd;
 		if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex, &humanVehicleChoice, numPlayers)) {
 			ts.Destroy();
@@ -250,9 +252,7 @@ int main(int argc, char *argv[])
 			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
 
-			// Enable blending (for transparency)
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 
 			PrintDirections();
 
@@ -264,16 +264,21 @@ int main(int argc, char *argv[])
 				cout << "Failed to play music" << endl;
 			}
 
-			if (game.start() == 1) {
-				humanVehicleChoice.clear();
-				continue;
+			if (!game.start()) {
+				glfwSetWindowShouldClose(window, true);
 			}
+			humanVehicleChoice.clear();
+			audio.FreeMusic();
+			ts.Destroy();
+
 		}
+
 		else {
 			glfwSetWindowShouldClose(window, true);
 			ts.Destroy();
 		}
 	}
+
 	audio.CleanUp();
 
 	glfwDestroyWindow(window);

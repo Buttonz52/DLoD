@@ -28,6 +28,8 @@ public:
 	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
 	void Destroy();
 
+	//void titleScreenLoop(int key);
+
 private:
 	bool isQuit, isStart, 
 		isRules, isLoadScreen, 
@@ -42,7 +44,7 @@ private:
 		controllerIndex;
 
 	int numMenuButtons;
-
+	int initIndex, maxIndex;
 	string titleMusic = "music/Faded_intro.wav";
 
 	vec3 selectColour, pressColour, prevColour;

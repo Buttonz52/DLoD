@@ -63,19 +63,27 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 	  AI* ai = new AI(i);
 	  int aiRNGChoose = rand() % 3;
 	  ai->ChooseVehicle(aiRNGChoose);
-	  ai->vehicle->setPosition(vec3(20*i, 50, 20*i));
+	  ai->vehicle->setPosition(vec3(20 * i, 50, 20 * i));
 	  initVehicle(ai->vehicle, aiRNGChoose);
 	  skybox->children.push_back(ai->vehicle);
 	  players.push_back(ai);
   }
+  vector<vec3> positions;
+  for (int i = 0; i < 4; i++) {
+	  positions.emplace_back();
+  }
+	gameHud.InitializeHud(*players[0]->vehicle->getColour(), &positions, arenaMap);
+	gameHud.InitializeMenu(vec3(1, 0, 1));
 }
-
 
 bool Game::start()
 {
 
   // start the game loop
   timer.start();
+
+  pauseText.setScale(vec3(4.f));
+  pauseText.InitializeGameText("PAUSE", vec3(-0.4, 0.5, 0), vec3(1, 0.5, 0.3), 30);
   gameLoop();
 
   // Clean up and Display the win screen
@@ -110,7 +118,7 @@ bool Game::start()
 
   bool pause = true;
 
-  while (pause && !glfwWindowShouldClose(window))
+  while (!restart && pause && !glfwWindowShouldClose(window))
   {
 	  for (Player* p : players)
 	  {
@@ -137,59 +145,15 @@ void Game::gameLoop()
 			positions.push_back(p->vehicle->getModelMatrix()[3]);
 	}
   //Initialize hud
-	gameHud.InitializeHud(*players[0]->vehicle->getColour(), &positions, arenaMap);
-	gameHud.InitializeMenu(vec3(1, 0, 1));
-	pauseText.setScale(vec3(4.f));
-	pauseText.InitializeGameText("PAUSE", vec3(-0.4, 0.5, 0), vec3(1, 0.5, 0.3), 30);
+
   int frameCtr = 0;
 
   while (!glfwWindowShouldClose(window) && !gameOver && !restart)
   {
 	//game paused
 	while (pause && !glfwWindowShouldClose(window)) {
-		audio.ChangeMusicVolume(MIX_MAX_VOLUME / 4);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		vec3 pauseColour(0);	//colour for pause menu
-		for (Player *p : players) {
-			Human* human = dynamic_cast<Human*> (p);
-			//get pause input for human that pressed pause
-			if (human != nullptr && human->pressedPause()) {
-				pauseColour = *human->getColour();	//set pause menu colour
-				human->menuControls(window, pause, menuIndex, &audio);
-				//index check
-				if (menuIndex > 2)
-					menuIndex = 0;
-				if (menuIndex < 0)
-					menuIndex = 2;
-				if (human->MenuItemSelected()) {
-					switch (menuIndex) {
-					case 0:	//pressed "resume"
-						human->menuItemPressed = false;
-						audio.ChangeMusicVolume(MIX_MAX_VOLUME);
-						break;
-					case 1:
-						restart = true;
-						break;
-					case 2:	//pressed "quit"
-						glfwSetWindowShouldClose(window, true);
-						break;
-					default:	//pressed "resume"
-						human->menuItemPressed = false;
-						audio.ChangeMusicVolume(MIX_MAX_VOLUME);
-						break;
-					}
-				}
-			}
-		}
-		//resize viewport so renders fullscreen
-		ResizeViewport(0, 1, width, height);
-		pauseText.Render(GL_TRIANGLES, pauseColour);
-		gameHud.RenderMenu(menuIndex, pauseColour);	//render menu
-
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-		audio.ChangeMusicVolume(MIX_MAX_VOLUME);
-	  }	 
+		goToGamePausedState();
+	}	 
 
     // Add items to the scene
     vector<pair<Player*, int>>::iterator itr = itemsToAdd.begin();
@@ -461,7 +425,7 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 		cout << "Failed to initialize arena ground texture." << endl;
 	}
-	arena->mixColour = 1;
+	//arena->mixColour = 1; //
 
 	//bump map initialization
 //	if (!arena->initTexture(arenaBumpmap, GL_TEXTURE_2D)) {
@@ -512,4 +476,51 @@ void Game::ResizeViewport(const int index, const int numPlayerScreens, const int
 
 	//resixe viewport
 	glViewport((index % 2)*float(width) / 2, vHeight, width / wSplit, height / hSplit);
+}
+
+//State when the game is paused (start button/esc pressed) in game
+void Game::goToGamePausedState() {
+	audio.ChangeMusicVolume(MIX_MAX_VOLUME / 4);	//volume decreased
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	vec3 pauseColour(0);	//colour for pause menu
+	for (Player *p : players) {
+		Human* human = dynamic_cast<Human*> (p);
+		//get pause input for human that pressed pause
+		if (human != nullptr && human->pressedPause()) {
+			pauseColour = *human->getColour();	//set pause menu colour
+			human->menuControls(window, pause, menuIndex, &audio);
+			//index check
+			if (menuIndex > 2)
+				menuIndex = 0;
+			if (menuIndex < 0)
+				menuIndex = 2;
+			if (human->MenuItemSelected()) {
+				switch (menuIndex) {
+				case 0:	//pressed "resume"
+					human->menuItemPressed = false;
+					audio.ChangeMusicVolume(MIX_MAX_VOLUME);
+					break;
+				case 1:
+					restart = true;
+					break;
+				case 2:	//pressed "quit"
+					glfwSetWindowShouldClose(window, true);
+					break;
+				default:	//pressed "resume"
+					human->menuItemPressed = false;
+					audio.ChangeMusicVolume(MIX_MAX_VOLUME);
+					break;
+				}
+			}
+		}
+	}
+	//resize viewport so renders fullscreen
+	ResizeViewport(0, 1, width, height);
+	pauseText.Render(GL_TRIANGLES, pauseColour);
+	gameHud.RenderMenu(menuIndex, pauseColour);	//render menu
+
+	glfwSwapBuffers(window);
+	glfwPollEvents();
+	//volume back to max volume
+	audio.ChangeMusicVolume(MIX_MAX_VOLUME);
 }

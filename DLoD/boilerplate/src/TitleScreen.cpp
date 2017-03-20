@@ -23,7 +23,7 @@ TitleScreen::TitleScreen()
 
 	numMenuButtons = 3;
 
-	selectColour = vec3(0, 1, 0);
+	selectColour = vec3(0,1,0);
 	pressColour = vec3(1, 0, 1);
 	prevColour = vec3(0);
 
@@ -48,29 +48,35 @@ void TitleScreen::pressStart(Audio *audio) {
 void TitleScreen::readRules(GLFWwindow *window, XboxController *ctrller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers)
 {
 	ScreenOverlay rulesScreen;
+	ScreenOverlay rulesBackText;
 
+	rulesBackText.InitializeGameText("Press B to go back", vec3(-0.15,0.1,0), vec3(0,0,1), 30);
+	rulesBackText.setScale(vec3(0.5));
 	if (!rulesScreen.initTexture("textures/rulesScreen.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init rules screen." << endl;
 	}
 	rulesScreen.isRedTransparent = 1;
-
 	rulesScreen.GenerateSquareVertices(1, 1, vec3(0,0,0));
 
 	rulesScreen.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-
+	rulesBackText.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	int t = 0;
 	while (!glfwWindowShouldClose(window)) {
 
 		int key = KeyCallback(window, ctrller, audio);
 		if (key ==5) {
 			rulesScreen.Destroy();
+			rulesBackText.Destroy();
 			return;
-		}
+		}rulesBackText.setTransparency(float(t % 20)*0.1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		background.Render(GL_TRIANGLE_STRIP, background.getColour());	//render "loading screen"
 		rulesScreen.Render(GL_TRIANGLE_STRIP, rulesScreen.getColour());	//render text, as it uses triangles, not triangle strip
+		rulesBackText.Render(GL_TRIANGLES, rulesBackText.getColour());
 		glfwSwapBuffers(window);	//need this to output to screen
 		Sleep(100);		//slow down input so not crazy fast
 		glfwPollEvents();
+		t++;
 	}
 }
 
@@ -106,7 +112,7 @@ void TitleScreen::toggleMenuIndex(const int &s, Audio *audio, const int &initInd
 	//set the previous colour
 	prevColour = menuButtons[menuIndex].getColour();
 	//new colour (green for the moment); used to mix with texture for current button (we can change this)
-	menuButtons[menuIndex].setColour(vec3(0, 1, 0));
+	menuButtons[menuIndex].setColour(selectColour);
 	//sex mixColour flag
 	menuButtons[menuIndex].setMixFlag(1);
 	audio->PlaySfx(click, MIX_MAX_VOLUME,1);
@@ -151,7 +157,7 @@ void TitleScreen::InitializeTitleScreen() {
 	prevColour = vec3(1, 1, 0);	//colour for first button
 
 	//generate vertices/scale
-	background.GenerateSquareVertices(1, 1, vec3(0, 0, 1));	//invalid_enum occurs here
+	background.GenerateSquareVertices(1, 1, vec3(1, 0, 0));	//invalid_enum occurs here
 
 	float buttonWidth = 0.2;
 	float buttonHeight = 0.1;
@@ -185,7 +191,7 @@ void TitleScreen::InitializeMultiplayerScreen() {
 	}
 
 	//screen overlays for number of players
-	menuButtons[0].InitializeGameText("How many players?", vec3(-0.6, 0.4, 0), vec3(0, 1, 0), 30);
+	menuButtons[0].InitializeGameText("How many players?", vec3(-0.6, 0.4, 0), vec3(0), 30);
 	menuButtons[0].setScale(vec3(2.f));
 	for (int i = 1; i < 5; i++) {
 		menuButtons[i].InitializeGameText(to_string(i), vec3(-0.6 + (2 * i*0.1), -0.2, 0), vec3(0, 0, 0), 20);
@@ -212,7 +218,7 @@ void TitleScreen::InitializeCarScreen() {
 	for (int i = 0; i <4; i++) {
 		menuButtons.push_back(button);
 	}
-	menuButtons[0].InitializeGameText("Player 1, choose your vehicle:", vec3(-0.5, 0.3, 0), vec3(0, 1, 0), 30);
+	menuButtons[0].InitializeGameText("Player 1, choose your vehicle:", vec3(-0.5, 0.3, 0), vec3(0), 30);
 
 	//vehicle choice buttons
 	if (!menuButtons[carButtonInitIndex].initTexture("textures/carImgs/lightCar.png", GL_TEXTURE_2D)) {
@@ -254,8 +260,8 @@ void TitleScreen::InitializeChooseScreen() {
 	}
 
 	//screen overlays for arena and location
-	menuButtons[0].InitializeGameText("Choose your arena", vec3(-0.4, 0.7, 0), vec3(0, 1, 0), 20);
-	menuButtons[1].InitializeGameText("Choose your location", vec3(-0.5, 0.0, 0), vec3(0, 1, 0), 20);
+	menuButtons[0].InitializeGameText("Choose your arena", vec3(-0.4, 0.7, 0), vec3(0), 20);
+	menuButtons[1].InitializeGameText("Choose your location", vec3(-0.5, 0.0, 0), vec3(0), 20);
 
 	//init transparent arena textures
 	if (!menuButtons[arenaButtonInitIndex].initTexture("textures/arenaImgs/arena9.png", GL_TEXTURE_2D)) {
@@ -355,7 +361,7 @@ int TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio 
 	}
 
 	//keyboard input for player 1 only
-	else if (ctrller->GetIndex() == 0) {
+	//else if (ctrller->GetIndex() == 0) {
 		int state;
 		// up menu
 		state = glfwGetKey(window, GLFW_KEY_UP);
@@ -393,7 +399,7 @@ int TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio 
 			return 6;
 
 		return -1;
-	}
+	//}
 }
 
 //displays title screen
@@ -598,7 +604,6 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				humanVehicleChoice->at(controllerIndex) = (menuIndex - carButtonInitIndex);
 				menuButtons[menuIndex].setColour(pressColour);	//indicate choice
 				menuButtons[menuIndex].setMixFlag(1);
-				Sleep(150);
 
 				controllerIndex++;
 				if (controllerIndex >= numPlayers) {
@@ -618,8 +623,10 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					newMenuIndex(arenaButtonInitIndex, arenaButtonInitIndex, initIndex, maxIndex, 2);
 				}
 				else {
+					Sleep(400);
 					std::stringstream fmt;
 					fmt << "Player " << controllerIndex + 1 << ", choose your vehicle:";
+					menuButtons[menuIndex].setColour(selectColour);	//indicate choice
 					menuButtons[0].UpdateGameText(fmt.str());
 					//controllerTimeoutCounter = 10;
 				}
@@ -627,7 +634,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 				//press "back"
 			case 5:
-				if (controllers[controllerIndex].GetIndex() == 0) {
+				//if (controllers[controllerIndex].GetIndex() == 0) {
 				audio->PlaySfx(back, MIX_MAX_VOLUME,1);
 				for (int i = 0; i < menuButtons.size(); i++)
 					menuButtons[i].Destroy();
@@ -637,7 +644,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				isMultiplayerScreen = true;
 				isCarScreen = false;
 				newMenuIndex(multiplayerInitIndex, multiplayerInitIndex, initIndex, maxIndex, 3);
-				}
+			//	}
 				break;
 
 			case 6:
