@@ -19,10 +19,6 @@ protected:
   vec3 initColour;
   string filename;
   string armourFilename;
-  //double armourLeft;
-  //double armourRight;
-  //double armourFront;
-  //double armourBack;
  
   // Stores the rate of acceleration and maxVelocity
   double acceleration;
@@ -43,10 +39,9 @@ public:
 
 
   string wheelFileName;
-  //void updateArmourPosition();
   void updateArmour();
+  double getInitialArmour();
   void updateWheelPosition();
-  //void giveMeArmour();
   void giveMeWheels();
 
   void Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);

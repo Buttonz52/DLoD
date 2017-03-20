@@ -47,6 +47,10 @@ void Vehicle::updateArmour() {
 	mat4 mm = convertMat(m.q.getBasisVector0(), m.q.getBasisVector1(), m.q.getBasisVector2(), vCenter);
 	children[4]->setModelMatrix(mm * glm::scale(scale));
 }
+double Vehicle::getInitialArmour()
+{
+  return initArmour;
+}
 void Vehicle::updateWheelPosition()
 {
 	float xoff = 1.5;
