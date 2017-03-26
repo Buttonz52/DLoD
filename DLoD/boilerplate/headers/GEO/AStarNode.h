@@ -15,7 +15,7 @@ public:
 
   bool obstructed = false;
 
-  double neighbourRadius = 9.0;
+  double neighbourRadius = 20.0;
 
   double dist;
 };

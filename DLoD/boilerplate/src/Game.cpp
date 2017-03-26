@@ -20,6 +20,8 @@ GEO* initGroundPlane()
 
 Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers)
 {
+  gameState = new GameState();
+
 	pause = false, restart = false;
 	menuIndex = 0;
 	//set cameras so overtop and far-ish away from cars
@@ -43,7 +45,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   glfwGetWindowSize(window, &width, &height);
 
 	//windows = w;
-  physX.init(8);
+  physX.init(4);
 
   initSkyBox(skyboxFilepath);
   //skybox->children.push_back(initArena());
@@ -60,6 +62,9 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 	  initVehicle(human->vehicle, humanVehicleChoice->at(i));
 	  skybox->children.push_back(human->vehicle);
 	  players.push_back(human);
+
+    // Eventually this should be the only list of the players
+    gameState->players.push_back(human);
   }
 
   //Adding a few AIs for the time being
@@ -76,6 +81,9 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 	  initVehicle(ai->vehicle, aiRNGChoose);
 	  skybox->children.push_back(ai->vehicle);
 	  players.push_back(ai);
+
+    // Eventually this should be the only list of the players
+    gameState->players.push_back(ai);
   }
   vector<vec3> positions;
   for (int i = 0; i < 4; i++) {
@@ -89,7 +97,7 @@ bool Game::start()
 {
 
   // start the game loop
-  timer.start();
+  gameState->timer.start();
 
   pauseText.setScale(vec3(4.f));
   pauseText.InitializeGameText("PAUSE", vec3(-0.4, 0.5, 0), vec3(1, 0.5, 0.3), 30);
@@ -159,15 +167,15 @@ void Game::gameLoop()
 
   while (!glfwWindowShouldClose(window) && !gameOver && !restart)
   {
-	//game paused
-	while (pause && !glfwWindowShouldClose(window)) {
-		goToGamePausedState();
-	}	 
+    //game paused
+    while (pause && !glfwWindowShouldClose(window)) {
+	    goToGamePausedState();
+    }	 
 
     // Add items to the scene
     vector<pair<Player*, int>>::iterator itr = itemsToAdd.begin();
     while (itr != itemsToAdd.end()) {
-      if (itr->second < timer.getTicks()) {
+      if (itr->second < gameState->timer.getTicks()) {
         itr->first->ableToTrap = true;
         itr->first->layTrap = false;
         itr = itemsToAdd.erase(itr);
@@ -180,130 +188,119 @@ void Game::gameLoop()
 
     // remove the deleted geometry
     for (GEO* g : physX.deletedGeos)
-    {
       skybox->removeChild(g);
-    }
+
     physX.deletedGeos.clear();
 
     // Step Physx
     physX.stepPhysics(true, physXObjects);
 
-	//clear buffers
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    //clear buffers
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	//render screens
-	//TODO: Make less.. ugly and long
-	int viewports = numPlayerScreens;
-	if (numPlayerScreens >= 3) {
-		viewports = 4;
-	}
-	mat4 projectionMatrix, viewMatrix;
-	string healthStr, armourStr, velocityStr;
-	bool canLayTrap;
-	vec3 vColour;
-	for (int i = 0; i < viewports;i++) {
-		//getviewport
-		ResizeViewport(i, numPlayerScreens, width, height);
-		
-
-
-		// Render
-		//make sure rendering a player screen that 
-		//1) exists
-		//2) is not dead
-		//3) is defined as a human
-		if (i < players.size() && !players[i]->isDead() && i < numPlayerScreens) {
-			UpdateHudInfo(players[i], projectionMatrix, viewMatrix, healthStr, armourStr, velocityStr, vColour, canLayTrap);
-		}
-		else {
-			UpdateHudInfoEmpty(players, i, projectionMatrix, viewMatrix, winningCam, overheadCam, healthStr, armourStr, velocityStr, vColour);
-		}
-		
-		//render the game hud
-		glEnable(GL_CULL_FACE);
-		glCullFace(GL_BACK);
-
-		arena->Render(viewMatrix, projectionMatrix, lightSource);
-		glDisable(GL_CULL_FACE);
-		skybox->Render(viewMatrix, projectionMatrix, lightSource);
-		//billboard.modelMatrix = players[i]->vehicle->getModelMatrix();
-		//billboard.modelMatrix[0][0] *= 0.05f;
-		//billboard.modelMatrix[1][1] *= 0.05f;
-		//billboard.modelMatrix[2][2] *= 0.05f;
-
-		//billboard.modelMatrix[3][1] += 5.f;
-		//billboard.viewMatrix = viewMatrix;
-		//billboard.Render(GL_TRIANGLE_STRIP, projectionMatrix, vec3(0, 1, 0), players[i]->playerCam->position);
-		gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, canLayTrap);
-
-
-	}
-	glfwSwapBuffers(window);
+    //render screens
+    //TODO: Make less.. ugly and long
+    int viewports = numPlayerScreens;
+    if (numPlayerScreens >= 3) {
+	    viewports = 4;
+    }
+    mat4 projectionMatrix, viewMatrix;
+    string healthStr, armourStr, velocityStr;
+    bool canLayTrap;
+    vec3 vColour;
+    for (int i = 0; i < viewports;i++) {
+	    //getviewport
+	    ResizeViewport(i, numPlayerScreens, width, height);
 	
-	positions.clear();
+		  // Render
+		  //make sure rendering a player screen that 
+		  //1) exists
+		  //2) is not dead
+		  //3) is defined as a human
+		  if (i < players.size() && !players[i]->isDead() && i < numPlayerScreens) {
+			  UpdateHudInfo(players[i], projectionMatrix, viewMatrix, healthStr, armourStr, velocityStr, vColour, canLayTrap);
+		  }
+		  else {
+			  UpdateHudInfoEmpty(players, i, projectionMatrix, viewMatrix, winningCam, overheadCam, healthStr, armourStr, velocityStr, vColour);
+		  }
+		
+		  //render the game hud
+		  glEnable(GL_CULL_FACE);
+		  glCullFace(GL_BACK);
+
+		  arena->Render(viewMatrix, projectionMatrix, lightSource);
+		  glDisable(GL_CULL_FACE);
+		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
+		  gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, canLayTrap);
+	  }
+
+	  glfwSwapBuffers(window);
+	
+    positions.clear();
     // For all players get input
     for (Player* p : players)
     {
-		//get radar points for radar map
-		if (!p->isDead())
-			positions.push_back(p->vehicle->getModelMatrix()[3]);
-		//kill player if out of bounds
-		if (p->vehicle->getModelMatrix()[3].y < -10)
-			p->vehicle->updateHealth(1000);
+    //get radar points for radar map
+    if (!p->isDead())
+	    positions.push_back(p->vehicle->getModelMatrix()[3]);
+    //kill player if out of bounds
+    if (p->vehicle->getModelMatrix()[3].y < -10)
+	    p->vehicle->updateHealth(1000);
 
-		AI* ai = dynamic_cast<AI*> (p);
-		if (ai != nullptr && !ai->isDead())
-		{
-			ai->driveTo(players[0]->vehicle->getModelMatrix()[3]);
-			if (abs(ai->vehicle->physXVehicle->computeForwardSpeed()) > 20)
-				ai->layTrap = true;
-		}
-
-		Human* human = dynamic_cast<Human*> (p);
-		if (human != nullptr && !human->isDead()) {
-			human->getInput(window, pause);
-			if (human->pressedPause()) {
-				menuIndex = 0;
-				pauseIdentifier = human->identifier;
-			}
-		}
-
-		p->playerCam->followVehicle(p->vehicle);
-
-		if (p->layTrap && p->ableToTrap)
-		{
-			// create a new item at the appropriate location and add it to the items list
-			mat4 M = p->vehicle->getModelMatrix();
-			vec3 vPos = vec3(M[3]);
-			vec3 dis = vec3(0, 8, 0);
-
-			Item* item = new Item(p->trap);
-			mat4 m = mat4(1);
-			m[3] = vec4(vPos + dis, 1);
-			item->setModelMatrix(m);
-
-			itemsToAdd.push_back(make_pair(p, timer.getTicks() + 5000));
-
-			initItem(item);
-
-			p->layTrap = false;
-			p->ableToTrap = false;
-		}
-		
+    AI* ai = dynamic_cast<AI*> (p);
+    if (ai != nullptr && !ai->isDead())
+    {
+      ai->getInput(gameState);
+	    //ai->driveTo(players[0]->vehicle->getModelMatrix()[3]);
+	    if (abs(ai->vehicle->physXVehicle->computeForwardSpeed()) > 20)
+		    ai->layTrap = true;
     }
+
+    Human* human = dynamic_cast<Human*> (p);
+    if (human != nullptr && !human->isDead()) {
+	    human->getInput(window, pause);
+	    if (human->pressedPause()) {
+		    menuIndex = 0;
+		    pauseIdentifier = human->identifier;
+	    }
+    }
+
+    p->playerCam->followVehicle(p->vehicle);
+
+    if (p->layTrap && p->ableToTrap)
+    {
+	    // create a new item at the appropriate location and add it to the items list
+	    mat4 M = p->vehicle->getModelMatrix();
+	    vec3 vPos = vec3(M[3]);
+	    vec3 dis = vec3(0, 8, 0);
+
+	    Item* item = new Item(p->trap);
+	    mat4 m = mat4(1);
+	    m[3] = vec4(vPos + dis, 1);
+	    item->setModelMatrix(m);
+
+	    itemsToAdd.push_back(make_pair(p, gameState->timer.getTicks() + 5000));
+
+	    initItem(item);
+
+	    p->layTrap = false;
+	    p->ableToTrap = false;
+    }
+		
+  }
 
     // CHECK GAMEOVER
     int aliveCount = 0;
     for (Player* p : players)
       aliveCount += p->isDead() ? 0 : 1;
 
-	//regenerate armour
-	if (frameCtr % 60*8 == 0)
-	{
-		for (Player* p : players) 
-			p->vehicle->regenArmour();
-	}
-	frameCtr >= 60*8 ? frameCtr = 1: frameCtr++;
+	  //regenerate armour
+	  if (frameCtr % 60*8 == 0)
+	  {
+		  for (Player* p : players) 
+			  p->vehicle->regenArmour();
+	  }
+	  frameCtr >= 60*8 ? frameCtr = 1: frameCtr++;
     gameOver = aliveCount < 2;
 
     glfwPollEvents();

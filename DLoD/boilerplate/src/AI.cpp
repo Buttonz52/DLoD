@@ -30,7 +30,7 @@ bool vecContains(vector<AStarNode*> vec, AStarNode* node)
 
 AI::AI(int i) : Player(i)
 {
-  ///*
+  //
   //for (int i = -10; i < 10; ++i)
   //{
   //  for (int j = -10; j < 10; ++j)
@@ -41,7 +41,7 @@ AI::AI(int i) : Player(i)
   //    AStarNodes.push_back(node);
   //  }
   //  
-  //} */
+  //} 
 
   //nodeTree = new OctTree(AStarNodes, vec3(0, 0, 0), 50.0, 50.0, 50.0);
 
@@ -88,7 +88,11 @@ void AI::getInput(GameState* state)
 
     if (nearestPlayer != nullptr)
     {
-      double l2 = length(vec3(p->vehicle->getModelMatrix()[3] - vehicle->getModelMatrix()[3]));
+      vec3 dist = vec3(p->vehicle->getModelMatrix()[3] - vehicle->getModelMatrix()[3]);
+      double l2 = length(dist);
+
+      if (length(dist * vec3(0, 1, 0)) > 0.75 * l2)
+        continue;
 
       nearestPlayer = (distNP < l2) ? nearestPlayer : p;
       distNP = (distNP < l2) ? distNP : l2;
@@ -108,7 +112,11 @@ void AI::getInput(GameState* state)
 
     if (nearestPickUp != nullptr)
     {
-      double l2 = length(vec3(item->getModelMatrix()[3] - vehicle->getModelMatrix()[3]));
+      vec3 dist = vec3(item->getModelMatrix()[3] - vehicle->getModelMatrix()[3]);
+      double l2 = length(dist);
+
+      if (length(dist * vec3(0, 1, 0)) > 0.75 * l2)
+        continue;
 
       nearestPickUp = (distNPU < l2) ? nearestPickUp : item;
       distNPU = (distNPU < l2) ? distNPU : l2;
@@ -120,7 +128,7 @@ void AI::getInput(GameState* state)
     }
   }
 
-  if (min(distNP, distNPU) < 20.0)
+  if (min(distNP, distNPU) < 100.0)
     behaviour = (distNP < distNPU) ? attacking : pickup;
 
   double health = vehicle->getHealth();
@@ -133,6 +141,8 @@ void AI::getInput(GameState* state)
 
 
   vec3 target;
+  vec3 cp;
+  vec3 ray;
   vector<AStarNode*> nodes;
   bool safe = false;
 
@@ -143,8 +153,8 @@ void AI::getInput(GameState* state)
     if (nearestPlayer == nullptr)
       break;
       
-    vec3 cp = vec3(vehicle->getModelMatrix()[3]);
-    vec3 ray = cp - vec3(nearestPlayer->vehicle->getModelMatrix()[3]);
+    cp = vec3(vehicle->getModelMatrix()[3]);
+    ray = cp - vec3(nearestPlayer->vehicle->getModelMatrix()[3]);
     state->nodes->getNodesForArc(nodes, cp, ray);
 
     if (nodes.size() == 0)
@@ -177,7 +187,7 @@ void AI::getInput(GameState* state)
     break;
 
   case patrolling:
-    vec3 cp = vec3(vehicle->getModelMatrix()[3]);
+    cp = vec3(vehicle->getModelMatrix()[3]);
     state->nodes->getNodesForSphere(nodes, cp, 20);
 
     if (nodes.size() != 0)
