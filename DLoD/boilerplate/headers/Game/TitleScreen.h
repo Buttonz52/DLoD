@@ -13,7 +13,6 @@ public:
 	~TitleScreen();
 
 	bool isStartPressed();
-	bool isRulesPressed();
 	bool isQuitPressed();
 
 	void InitializeTitleScreen();
@@ -57,6 +56,5 @@ private:
 	void pressStart(Audio *audio);
 	void readRules(GLFWwindow * window, XboxController * ctrller, Audio * audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers);
 	void pressQuit();
-	void pressRules();
 	void toggleMenuIndex(const int &s, Audio *audio, const int &initIndex, const int &maxIndex);
 };

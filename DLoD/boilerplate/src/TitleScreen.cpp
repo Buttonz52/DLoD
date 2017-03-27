@@ -23,7 +23,7 @@ TitleScreen::TitleScreen()
 
 	numMenuButtons = 3;
 
-	selectColour = vec3(0,1,0);
+	selectColour = vec3(1,0.5,0.5);
 	pressColour = vec3(1, 0, 1);
 	prevColour = vec3(0);
 
@@ -155,7 +155,7 @@ void TitleScreen::InitializeTitleScreen() {
 	prevColour = vec3(1, 1, 0);	//colour for first button
 
 	//generate vertices/scale
-	background.GenerateSquareVertices(1, 1, vec3(1, 0, 0));	//invalid_enum occurs here
+	background.GenerateSquareVertices(1, 1, vec3(51.f/255.f, 1.f, 153.f/255.f));	//invalid_enum occurs here
 
 	float buttonWidth = 0.2;
 	float buttonHeight = 0.1;
@@ -438,7 +438,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					isMultiplayerScreen = true;
 
 					newMenuIndex(multiplayerInitIndex, multiplayerInitIndex, initIndex, maxIndex, 3);
-					Sleep(150);		//slow down input so not crazy fast
+					Sleep(400);		//slow down input so not crazy fast
 					break;
 				case 1:
 					readRules(window, controller, audio,skyboxIndex, arenaIndex, humanVehicleChoice, numPlayers);	//read rules (not implemented yet)
@@ -571,6 +571,8 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				isMultiplayerScreen = true;
 				isCarScreen = false;
 				newMenuIndex(multiplayerInitIndex, multiplayerInitIndex, initIndex, maxIndex, 3);
+				Sleep(400);		//slow down input so not crazy fast				}
+
 			//	}
 				break;
 
@@ -602,6 +604,8 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					//set to colour to indicate choice
 					menuButtons[menuIndex].setColour(pressColour);
 					newMenuIndex(skyboxButtonInitIndex, skyboxButtonInitIndex, initIndex, maxIndex, 3);
+					Sleep(400);		//slow down input so not crazy fast				}
+
 
 				}
 				//choosing skybox
@@ -628,6 +632,8 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					//reset menu index for arenas
 					int newMenInd = skyboxIndex + skyboxButtonInitIndex;
 					newMenuIndex(newMenInd, skyboxButtonInitIndex, initIndex, maxIndex, 3);
+					Sleep(400);		//slow down input so not crazy fast				}
+
 
 				}
 				//reset to choosing arena
@@ -640,6 +646,8 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					//reset menu index for arenas
 					int newMenInd = arenaIndex + arenaButtonInitIndex;
 					newMenuIndex(newMenInd, arenaButtonInitIndex, initIndex, maxIndex, 2);
+					Sleep(400);		//slow down input so not crazy fast				}
+
 				}
 				//otherwise, go back to title page
 				else {
@@ -652,7 +660,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					isLoadScreen = false;
 
 					newMenuIndex(carButtonInitIndex, carButtonInitIndex, initIndex, maxIndex, 2);
-					Sleep(150);		//slow down input so not crazy fast				}
+					Sleep(400);		//slow down input so not crazy fast				}
 				}
 				break;
 
@@ -672,7 +680,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 		if (isQuitPressed() || glfwWindowShouldClose(window)) {
 			return 0;
 		}
-		Sleep(100);		//slow down input so not crazy fast
+		Sleep(150);		//slow down input so not crazy fast
 		glfwPollEvents();
 	}
 	Sleep(600);

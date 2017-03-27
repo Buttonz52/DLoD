@@ -30,15 +30,6 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 
 	winningCam.setAlt(-90);
 	winningCam.setRadius(50);
-	//if (!billboard.initTexture("textures/fire.png", GL_TEXTURE_2D)) {
-
-	//if (!billboard.initTexture("textures/fire.png", GL_TEXTURE_2D)) {
-	//	cout << "Failed to init billboard" << endl;
-	//}
-
-	//billboard.GenerateSquareVertices(10, 10, vec3(0));
-	//billboard.InitializeShaders("shaders/billboard.vert", "shaders/billboard.frag");
-	//billboard.setPosition(vec3(0, 0, 0));
 
   window = w;
   numPlayerScreens = numPlayers;
@@ -402,29 +393,12 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	if (!arena->initMesh(objfilename)) {
 		cout << "Failed to init arena" << endl;
 	}
-	//vector<string> arenaTexture;
-	//for (int i = 0; i < 6; i++) {
-	//	arenaTexture.push_back(texfilename);
-	//}
-	//if (!arena->initSkybox(arenaTexture)) {
-	//	cout << "Failed to initialize arena texture." << endl;
-	//}
-	//arena->addShaders("shaders/skybox.vert", "shaders/skybox.frag");
+
 	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 		cout << "Failed to initialize arena ground texture." << endl;
 	}
-	//arena->mixColour = 1; //
-
-	//bump map initialization
-//	if (!arena->initTexture(arenaBumpmap, GL_TEXTURE_2D)) {
-//		cout << "Failed to initialize arena bump map." << endl;
-//	}
-	//cout << "Calc arena mesh tangents" << endl;
-	//calculate tangent for bump map
-//	arena->calculateMeshTangent();
 
 	arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
-	//arena->addShaders("shaders/phong.vert", "shaders/phong.frag");
 
 	if (!arena->initBuffers()) {
 		cout << "Could not initialize buffers for arena" << endl;
@@ -434,7 +408,6 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	arena->updateModelMatrix();
 
 	physX.initArena(arena);
-	//physXObjects.push_back(arena);
 	return arena;
 }
 
