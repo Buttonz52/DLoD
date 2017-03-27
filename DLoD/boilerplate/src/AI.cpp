@@ -9,8 +9,8 @@ struct sortClass
     double dista = a->distanceTo + 5.0 * length(destination - a->position);
     double distb = b->distanceTo + 5.0 * length(destination - b->position);
 
-    a->dist = dista;
-    b->dist = distb;
+    //a->dist = dista;
+    //b->dist = distb;
 
     return dista > distb;
   }

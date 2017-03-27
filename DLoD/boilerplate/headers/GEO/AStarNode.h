@@ -15,9 +15,7 @@ public:
 
   bool obstructed = false;
 
-  double neighbourRadius = 20.0;
-
-  double dist;
+  double neighbourRadius = 25.0;
 };
 
 class OctTree
@@ -31,10 +29,12 @@ class OctTree
 
 public:
 
+  OctTree();
   OctTree(vector<AStarNode*> ps, vec3 cp, double x, double y, double z);
   ~OctTree();
 
-  void addNode(AStarNode * node);
+  void addNode(AStarNode* node);
+  void split();
 
   // Takes a vector to fill a centerpoint and a radius. Will treat the cp and radius as a cube
   void getNodesForSphere(vector<AStarNode *> &nodesInArea, vec3 cp, double r);
