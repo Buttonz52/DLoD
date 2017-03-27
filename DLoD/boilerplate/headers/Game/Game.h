@@ -47,17 +47,12 @@ private:
 
   void ResizeViewport(const int index, const int numHumans, const int width, const int height);
   void goToGamePausedState();
-<<<<<<< HEAD
-  void initVehicle(Vehicle * v, int type);
   void UpdateHudInfo(Player * player, mat4 & projectionMatrix, mat4 & viewMatrix, string & healthStr, string & armourStr, string & velocityStr, vec3 & vColour, bool & canLayTrap);
   void UpdateHudInfoEmpty(const vector <Player*> players, const int &i, mat4 &projectionMatrix, mat4 &viewMatrix, Camera &winningCam, Camera &overheadCam, string &healthStr, string &armourStr, string &velocityStr, vec3 &vColour);
-=======
-
 
   void initSkyBox(const string &pathname);
-  GEO * initArena(const string &texfilename, const string &objfilename);
+  GEO* initArena(const string &texfilename, const string &objfilename);
   void initVehicle(Vehicle * v, int type);
->>>>>>> Now using a gamestate with faked A* nodes
   void initItem(Item * item);
 
   void gameLoop();
