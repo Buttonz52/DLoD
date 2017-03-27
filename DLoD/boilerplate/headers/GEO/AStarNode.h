@@ -1,7 +1,7 @@
 #ifndef ASTARNODE
 #define ASTARNODE
 
-#include "../Game/Utility.h"
+#include "Game/Utility.h"
 
 class AStarNode
 {

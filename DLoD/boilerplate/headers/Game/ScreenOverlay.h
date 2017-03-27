@@ -1,7 +1,7 @@
 #pragma once
 #include "Utility.h"
-#include "../GameEngine/Texture.h"
-#include "../GameEngine/Shader.h"
+#include "GameEngine/Texture.h"
+#include "GameEngine/Shader.h"
 
 class ScreenOverlay
 {

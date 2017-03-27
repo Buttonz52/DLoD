@@ -8,6 +8,7 @@ Player::Player(int i)
   SetPlayerColour();	//Colours initialized here based on your player ID (what player you are)
   playerCam = new Camera();
   ableToTrap = true;
+  ableToFlip = true;
 }
 
 Player::~Player()

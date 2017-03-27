@@ -2,19 +2,19 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#include "../GameEngine/Mesh.h"
-#include "../GameEngine/Shader.h"
+#include "GameEngine/Mesh.h"
+#include "GameEngine/Shader.h"
 #include "Utility.h"
-#include "../GameEngine/Texture.h"
-#include "../GEO/Camera.h"
-#include "../GEO/Player/AI.h"
-#include "../GEO/player/Human.h"
+#include "GameEngine/Texture.h"
+#include "GEO/Camera.h"
+#include "GEO/Player/AI.h"
+#include "GEO/player/Human.h"
 #include "Audio.h"
-#include "../Physics/PhysXMain.h"
+#include "Physics/PhysXMain.h"
 #include "Controller/XboxController.h"
 #include "ScreenOverlay.h"
 #include "TitleScreen.h"
-#include "../GEO/Shadow.h"
+//#include "GEO/Shadow.h"
 #include "Game.h"
 
 using namespace std;

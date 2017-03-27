@@ -141,6 +141,7 @@
     <ClCompile Include="src\AI.cpp" />
     <ClCompile Include="src\AStarNode.cpp" />
     <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\Billboard.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ContactModifyCallback.cpp" />
     <ClCompile Include="src\Game.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="headers\GameEngine\Shader.h" />
     <ClInclude Include="headers\GameState.h" />
     <ClInclude Include="headers\Game\Audio.h" />
+    <ClInclude Include="headers\Game\Billboard.h" />
     <ClInclude Include="headers\Game\Game.h" />
     <ClInclude Include="headers\Game\GameHud.h" />
     <ClInclude Include="headers\Game\main.h" />
@@ -207,8 +209,8 @@
     <ClInclude Include="headers\Physics\SnippetVehicleTireFriction.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\hud.frag" />
-    <None Include="shaders\hud.vert" />
+    <None Include="shaders\billboard.frag" />
+    <None Include="shaders\billboard.vert" />
     <None Include="shaders\screenOverlay.frag" />
     <None Include="shaders\screenOverlay.vert" />
     <None Include="shaders\shadow.frag" />

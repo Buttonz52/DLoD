@@ -1,7 +1,7 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include "../Game/Utility.h"
+#include "Game/Utility.h"
 #include "Texture.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>

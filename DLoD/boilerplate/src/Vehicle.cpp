@@ -530,4 +530,18 @@ mat4 Vehicle::convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w)
 	return M;
 }
 
+//Flips vehicle over
+void Vehicle::FlipVehicle() {
+	float force = 1000;
+	float torque = 1000;
 
+	int flipside = timer.getTicks() % 2;
+	
+	// Get the rotation of the object
+	float mass = physXVehicle->getRigidDynamicActor()->getMass();
+	PxVec3 axis(0, 0, flipside == 0 ?-1 : 1);
+	axis = physXVehicle->getRigidDynamicActor()->getGlobalPose().rotate(axis);
+	cout << axis.x << " " <<axis.y << " " <<axis.z << endl;
+	physXVehicle->getRigidDynamicActor()->addForce(PxVec3(0, force*mass, 0));
+	physXVehicle->getRigidDynamicActor()->addTorque(axis*torque*mass);
+}

@@ -5,7 +5,7 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "../Game/Utility.h"
+#include "Game/Utility.h"
 
 class Texture {
 public:

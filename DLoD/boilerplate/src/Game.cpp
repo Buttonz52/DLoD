@@ -28,6 +28,15 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 
 	winningCam.setAlt(-90);
 	winningCam.setRadius(50);
+	//if (!billboard.initTexture("textures/fire.png", GL_TEXTURE_2D)) {
+
+	//if (!billboard.initTexture("textures/fire.png", GL_TEXTURE_2D)) {
+	//	cout << "Failed to init billboard" << endl;
+	//}
+
+	//billboard.GenerateSquareVertices(10, 10, vec3(0));
+	//billboard.InitializeShaders("shaders/billboard.vert", "shaders/billboard.frag");
+	//billboard.setPosition(vec3(0, 0, 0));
 
   window = w;
   numPlayerScreens = numPlayers;
@@ -203,48 +212,31 @@ void Game::gameLoop()
 		//1) exists
 		//2) is not dead
 		//3) is defined as a human
-		if (i < players.size() &&!players[i]->isDead() && i < numPlayerScreens) {
-			projectionMatrix = players[i]->playerCam->calculateProjectionMatrix();
-			viewMatrix = players[i]->playerCam->calculateViewMatrix();
-			healthStr = players[i]->vehicle->getHealthString();
-			armourStr = players[i]->vehicle->getArmourString();
-			velocityStr = players[i]->vehicle->getVelocityString();
-			vColour = *players[i]->getColour();
-			canLayTrap = players[i]->ableToTrap;
+		if (i < players.size() && !players[i]->isDead() && i < numPlayerScreens) {
+			UpdateHudInfo(players[i], projectionMatrix, viewMatrix, healthStr, armourStr, velocityStr, vColour, canLayTrap);
 		}
-
-		//otherwise, render either overhead camera or current win camera
-		else{
-			if (i == 0 || i ==3) {	//overhead cameras for bottom right or top left
-				//overhead cam
-				projectionMatrix = overheadCam.calculateProjectionMatrix();
-				viewMatrix = overheadCam.calculateViewMatrix();
-			}
-			//overhead cam for player with highest health
-			else {
-				int health =0, playerIndex =0;
-				for (int j = 0; j < players.size(); j++) {
-					if (players[j]->vehicle->getHealth() > health) {
-						health = players[j]->vehicle->getHealth();
-						playerIndex = j;
-					}
-				}
-				winningCam.followVehicle(players[playerIndex]->vehicle);
-				projectionMatrix = winningCam.calculateProjectionMatrix();
-				viewMatrix = winningCam.calculateViewMatrix();
-			}
-			healthStr = "000";
-			armourStr = "000";
-			velocityStr = "00";
-			vColour = vec3(0);
+		else {
+			UpdateHudInfoEmpty(players, i, projectionMatrix, viewMatrix, winningCam, overheadCam, healthStr, armourStr, velocityStr, vColour);
 		}
+		
 		//render the game hud
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
+
 		arena->Render(viewMatrix, projectionMatrix, lightSource);
 		glDisable(GL_CULL_FACE);
 		skybox->Render(viewMatrix, projectionMatrix, lightSource);
+		//billboard.modelMatrix = players[i]->vehicle->getModelMatrix();
+		//billboard.modelMatrix[0][0] *= 0.05f;
+		//billboard.modelMatrix[1][1] *= 0.05f;
+		//billboard.modelMatrix[2][2] *= 0.05f;
+
+		//billboard.modelMatrix[3][1] += 5.f;
+		//billboard.viewMatrix = viewMatrix;
+		//billboard.Render(GL_TRIANGLE_STRIP, projectionMatrix, vec3(0, 1, 0), players[i]->playerCam->position);
 		gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, canLayTrap);
+
+
 	}
 	glfwSwapBuffers(window);
 	
@@ -376,7 +368,6 @@ void Game::initVehicle(Vehicle* v, int type)
 
   physXObjects.push_back(v);
 }
-
 
 //
 void Game::initItem(Item* item)
@@ -524,3 +515,44 @@ void Game::goToGamePausedState() {
 	//volume back to max volume
 	audio.ChangeMusicVolume(MIX_MAX_VOLUME);
 }
+
+//updates information for the game hud if it is a player
+void Game::UpdateHudInfo(Player * player, mat4 &projectionMatrix, mat4 &viewMatrix, string &healthStr, string &armourStr, string &velocityStr, vec3 &vColour, bool &canLayTrap) {
+		projectionMatrix = player->playerCam->calculateProjectionMatrix();
+		viewMatrix = player->playerCam->calculateViewMatrix();
+		healthStr = player->vehicle->getHealthString();
+		armourStr = player->vehicle->getArmourString();
+		velocityStr = player->vehicle->getVelocityString();
+		vColour = *player->getColour();
+		canLayTrap = player->ableToTrap;
+}
+
+//updates hud if there is no player in current screen
+void Game::UpdateHudInfoEmpty(const vector <Player*> players, const int &i, mat4 &projectionMatrix, mat4 &viewMatrix, Camera &winningCam, Camera &overheadCam, string &healthStr, string &armourStr, string &velocityStr, vec3 &vColour) {
+
+	//otherwise, render either overhead camera or current win camera
+		if (i == 0 || i == 3) {	//overhead cameras for bottom right or top left
+								//overhead cam
+			projectionMatrix = overheadCam.calculateProjectionMatrix();
+			viewMatrix = overheadCam.calculateViewMatrix();
+		}
+		//overhead cam for player with highest health
+		else {
+			int health = 0, playerIndex = 0;
+			for (int j = 0; j < players.size(); j++) {
+				if (players[j]->vehicle->getHealth() > health) {
+					health = players[j]->vehicle->getHealth();
+					playerIndex = j;
+				}
+			}
+			winningCam.followVehicle(players[playerIndex]->vehicle);
+			projectionMatrix = winningCam.calculateProjectionMatrix();
+			viewMatrix = winningCam.calculateViewMatrix();
+		}
+		healthStr = "000";
+		armourStr = "000";
+		velocityStr = "00";
+		vColour = vec3(0);
+}
+
+

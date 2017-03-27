@@ -95,8 +95,14 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
       layTrap = true;
       trap = EmpTrap;
     }
+
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+		if (ableToFlip)
+			vehicle->FlipVehicle();
+		ableToFlip = false;
+	}
+
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		cout << "Pause" << endl;
 		pausePressed = true;
 		pause = true;
 		Sleep(300);
@@ -142,7 +148,6 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 		trap = EmpTrap;
 	  }
 	  if (controller->GetButtonPressed(XBtns.StartBtn)) {
-		  cout << "Pause" << endl;
 		  pausePressed = true;
 		  pause = true;
 		  Sleep(300);
@@ -160,7 +165,6 @@ void Human::menuControls(GLFWwindow* window, bool &pause, int &index, Audio *aud
 {
 	if (!controller->Connected()) {
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-			cout << "Unpause" << endl;
 			pause = false;
 			pausePressed = false;
 			audio->PlaySfx(back, MIX_MAX_VOLUME,1);
@@ -190,7 +194,6 @@ void Human::menuControls(GLFWwindow* window, bool &pause, int &index, Audio *aud
 	}
 	else {
 		if (controller->GetButtonPressed(XBtns.StartBtn)) {
-			cout << "Unpause" << endl;
 			pause = false;
 			pausePressed = false;
 			audio->PlaySfx(back, MIX_MAX_VOLUME,1);

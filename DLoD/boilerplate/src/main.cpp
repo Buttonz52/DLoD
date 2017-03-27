@@ -248,7 +248,7 @@ int main(int argc, char *argv[])
 			if (!audio.InitMusic(mainMusic.c_str())) {
 				cout << "Failed to load music." << endl;
 			}
-			glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+			glClearColor(0.0f, 51.f/255.f, 102.f/255.f, 1.0f);
 			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
 

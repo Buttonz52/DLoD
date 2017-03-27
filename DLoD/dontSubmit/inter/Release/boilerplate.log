@@ -1,0 +1,61 @@
+﻿  Game.cpp
+src\Game.cpp(70): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+src\Game.cpp(215): warning C4018: '<': signed/unsigned mismatch
+src\Game.cpp(389): warning C4018: '<': signed/unsigned mismatch
+src\Game.cpp(469): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+src\Game.cpp(542): warning C4018: '<': signed/unsigned mismatch
+src\Game.cpp(544): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  TitleScreen.cpp
+src\TitleScreen.cpp(71): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+src\TitleScreen.cpp(162): warning C4305: 'initializing': truncation from 'double' to 'float'
+src\TitleScreen.cpp(163): warning C4305: 'initializing': truncation from 'double' to 'float'
+src\TitleScreen.cpp(164): warning C4305: 'initializing': truncation from 'double' to 'float'
+src\TitleScreen.cpp(165): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(177): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(206): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(242): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(243): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\TitleScreen.cpp(245): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(301): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(302): warning C4305: 'argument': truncation from 'double' to 'const float'
+src\TitleScreen.cpp(305): warning C4305: 'initializing': truncation from 'double' to 'float'
+src\TitleScreen.cpp(316): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(322): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(442): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(491): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(555): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(575): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(655): warning C4018: '<': signed/unsigned mismatch
+src\TitleScreen.cpp(707): warning C4018: '<': signed/unsigned mismatch
+  Generating code
+  2 of 2955 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    26 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+PhysX3Extensions.lib(ExtCpuWorkerThread.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtCpuWorkerThread.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtDefaultCpuDispatcher.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtDefaultCpuDispatcher.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtDefaultErrorCallback.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtDefaultErrorCallback.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtDefaultStreams.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtDefaultStreams.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtPvdClientImpl.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtPvdClientImpl.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtRigidBodyExt.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtRigidBodyExt.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Extensions.lib(ExtSimpleFactory.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtSimpleFactory.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleComponents.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleComponents.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleDrive.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleDrive.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleDrive4W.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleDrive4W.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleDriveNW.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleDriveNW.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleDriveTank.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleDriveTank.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleMetaData.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleMetaData.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleNoDrive.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleNoDrive.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleSDK.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleSDK.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleSerialization.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleSerialization.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleSuspWheelTire4.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleSuspWheelTire4.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleTireFriction.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleTireFriction.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleUpdate.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleUpdate.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleWheels.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleWheels.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(VehicleUtilSetup.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(VehicleUtilSetup.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(VehicleUtilTelemetry.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(VehicleUtilTelemetry.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleAutoGeneratedMetaDataObjects.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleAutoGeneratedMetaDataObjects.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysX3Vehicle.lib(PxVehicleMetaDataObjects.obj) : warning LNK4099: PDB 'PhysX3Vehicle.pdb' was not found with 'PhysX3Vehicle.lib(PxVehicleMetaDataObjects.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysX3Vehicle.pdb'; linking object as if no debug info
+PhysXProfileSDK.lib(PxProfileEventImpl.obj) : warning LNK4099: PDB 'PhysXProfileSDK.pdb' was not found with 'PhysXProfileSDK.lib(PxProfileEventImpl.obj)' or at 'C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\PhysXProfileSDK.pdb'; linking object as if no debug info
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\boilerplate.exe
+  boilerplate.vcxproj -> C:\Users\Kiersten\Desktop\git mat 11\DLoD\dontSubmit\bin\Release\boilerplate.pdb (Full PDB)

@@ -4,7 +4,7 @@
 #ifndef MYSHADER_H
 #define MYSHADER_H
 
-#include "../Game/Utility.h"
+#include "Game/Utility.h"
 
 class Shader
 {

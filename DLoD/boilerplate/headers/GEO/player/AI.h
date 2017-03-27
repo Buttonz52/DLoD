@@ -1,7 +1,7 @@
 #ifndef AI_H
 #define AI_H
 #include "Player.h"
-#include "..\AStarNode.h"
+#include "GEO\AStarNode.h"
 
 class AI :
 	public Player

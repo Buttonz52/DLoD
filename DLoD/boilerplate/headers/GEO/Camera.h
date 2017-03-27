@@ -18,6 +18,7 @@ private:
   float asp;
 	
 	vec3 center;
+	
 public:
 	Camera();
 	Camera(vec3 &center);
@@ -37,6 +38,7 @@ public:
   void setAsp(float);
  
 	vec3 focalPoint;
+	vec3 position;
 	mat4 calculateProjectionMatrix();
 	mat4 calculateViewMatrix();
 
