@@ -4,9 +4,9 @@
 OctTree::OctTree()
 {
   centerPoint = vec3(0, 0, 0);
-  distx = 2 << 20;
-  disty = 2 << 20;
-  distz = 2 << 20;
+  distx = 128000;
+  disty = 128000;
+  distz = 128000;
 }
 
 OctTree::OctTree(vector<AStarNode *> aStarNodes, vec3 cp, double x, double y, double z)

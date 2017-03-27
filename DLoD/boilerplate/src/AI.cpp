@@ -9,9 +9,6 @@ struct sortClass
     double dista = a->distanceTo + 5.0 * length(destination - a->position);
     double distb = b->distanceTo + 5.0 * length(destination - b->position);
 
-    //a->dist = dista;
-    //b->dist = distb;
-
     return dista > distb;
   }
 };
@@ -50,6 +47,17 @@ vec3 AI::determineTarget(GameState * state)
 
 void AI::getInput(GameState* state)
 {
+  if (vehicle->stun.first) {
+    if (vehicle->timer.getTicks() < vehicle->stun.second)
+      return;
+    else {
+      vehicle->stun = make_pair(false, 0);
+      vehicle->timer.stop();
+      vehicle->timer.reset();
+    }
+  }
+
+
   // determine a target
   Player* nearestPlayer = nullptr;
   Item* nearestPickUp = nullptr;
@@ -104,7 +112,7 @@ void AI::getInput(GameState* state)
     }
   }
 
-  if (min(distNP, distNPU) < 100.0)
+  if (min(distNP, distNPU) < 500.0)
     behaviour = (distNP < distNPU) ? attacking : pickup;
 
   double health = vehicle->getHealth();
@@ -122,21 +130,13 @@ void AI::getInput(GameState* state)
   vector<AStarNode*> nodes;
   bool safe = false;
 
-
   switch (behaviour)
   {
   case retreating:
     if (nearestPlayer == nullptr)
       break;
       
-    cp = vec3(vehicle->getModelMatrix()[3]);
-    ray = cp - vec3(nearestPlayer->vehicle->getModelMatrix()[3]);
-    state->nodes->getNodesForArc(nodes, cp, ray);
-
-    if (nodes.size() == 0)
-    {
-      state->nodes->getNodesForSphere(nodes, cp, 20);
-    }
+    state->nodes->getNodesForSphere(nodes, cp, 200);
 
     if (nodes.size() != 0)
     {
@@ -164,7 +164,7 @@ void AI::getInput(GameState* state)
 
   case patrolling:
     cp = vec3(vehicle->getModelMatrix()[3]);
-    state->nodes->getNodesForSphere(nodes, cp, 20);
+    state->nodes->getNodesForSphere(nodes, cp, 200);
 
     if (nodes.size() != 0)
     {
@@ -179,7 +179,7 @@ void AI::getInput(GameState* state)
   }
 
   if (safe)
-    driveTo(pathTo(state, target));
+    driveTo(target);
 }
 
 /*

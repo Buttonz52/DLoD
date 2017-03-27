@@ -18,6 +18,8 @@ class AI :
 {
 
   Behaviour behaviour;
+  Behaviour oldBehaviour;
+  vec3 oldTarget;
 
 public:
 	AI(int);
