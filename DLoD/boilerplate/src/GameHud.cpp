@@ -86,6 +86,7 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	//initialize radar
 	radarPoints.GenerateVertices(positions, colour, &vector<vec2>(0));
 	radarPoints.setPosition(vec3(0.8, 0.8, 0));
+	radarPoints.setScale(vec3(0.1f, 0.15f, 1));
 	radarPoints.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	//arena map background
@@ -148,7 +149,7 @@ void GameHud::UpdateRadar(const vector<vec3> *positions) {
 		//Since 2D and y vec is useless for radar map, want x and z coordinates instead
 		///TODO: Fix radar scaling and stuff
 		//newPositions.push_back(vec3(-newVec.x/newVec.y, newVec.z/newVec.y,0) * 0.003f);
-		newPositions.push_back(vec3(-newVec.x, newVec.z, 0)*0.1f);
+		newPositions.push_back(vec3(-newVec.x, newVec.z, 0));
 
 	}
 	radarPoints.UpdateVertices(&newPositions);

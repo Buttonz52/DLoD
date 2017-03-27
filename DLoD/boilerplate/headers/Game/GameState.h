@@ -17,7 +17,7 @@ public:
 
   Timer timer;
 
-	GameState();
+	GameState(const vector<vec3> &vertices);
 	~GameState();
 
 	bool GameFinished();

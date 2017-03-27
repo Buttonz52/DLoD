@@ -178,11 +178,11 @@
     <ClInclude Include="headers\GameEngine\Mesh.h" />
     <ClInclude Include="headers\GameEngine\Texture.h" />
     <ClInclude Include="headers\GameEngine\Shader.h" />
-    <ClInclude Include="headers\GameState.h" />
     <ClInclude Include="headers\Game\Audio.h" />
     <ClInclude Include="headers\Game\Billboard.h" />
     <ClInclude Include="headers\Game\Game.h" />
     <ClInclude Include="headers\Game\GameHud.h" />
+    <ClInclude Include="headers\Game\GameState.h" />
     <ClInclude Include="headers\Game\main.h" />
     <ClInclude Include="headers\Game\ScreenOverlay.h" />
     <ClInclude Include="headers\Game\Timer.h" />

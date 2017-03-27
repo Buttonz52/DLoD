@@ -24,7 +24,8 @@ protected:
   double acceleration;
   double maxVelocity;
   float torqueSpeed;
-  
+  float xoff;
+  float zoff;
   Mesh aliveCar, deadCar;
 
 public:

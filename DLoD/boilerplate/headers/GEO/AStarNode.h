@@ -34,6 +34,8 @@ public:
   OctTree(vector<AStarNode*> ps, vec3 cp, double x, double y, double z);
   ~OctTree();
 
+  void addNode(AStarNode * node);
+
   // Takes a vector to fill a centerpoint and a radius. Will treat the cp and radius as a cube
   void getNodesForSphere(vector<AStarNode *> &nodesInArea, vec3 cp, double r);
   void getNodesForArc(vector<AStarNode *> &nodesInArea, vec3 cp, vec3 ray);

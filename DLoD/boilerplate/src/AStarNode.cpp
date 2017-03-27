@@ -64,6 +64,12 @@ OctTree::~OctTree()
 {
 }
 
+void OctTree::addNode(AStarNode* node)
+{
+
+}
+
+
 void OctTree::getNodesForSphere(vector<AStarNode*> &nodesInArea, vec3 cp, double r)
 {
   if (abs(cp.x - centerPoint.x) < distx + r && abs(cp.y - centerPoint.y) < disty + r && abs(cp.z - centerPoint.z) < distz + r)

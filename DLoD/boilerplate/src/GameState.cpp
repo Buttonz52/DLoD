@@ -3,8 +3,10 @@
 
 
 
-GameState::GameState()
+GameState::GameState(const vector<vec3> &vertices)
 {
+
+  
   vector<AStarNode*> starNodes;
 
   for (int i = -10; i < 10; ++i)

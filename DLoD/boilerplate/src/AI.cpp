@@ -30,31 +30,7 @@ bool vecContains(vector<AStarNode*> vec, AStarNode* node)
 
 AI::AI(int i) : Player(i)
 {
-  //
-  //for (int i = -10; i < 10; ++i)
-  //{
-  //  for (int j = -10; j < 10; ++j)
-  //  {
-
-  //    AStarNode* node = new AStarNode();
-  //    node->position = vec3(i * 5, 0, j * 5);
-  //    AStarNodes.push_back(node);
-  //  }
-  //  
-  //} 
-
-  //nodeTree = new OctTree(AStarNodes, vec3(0, 0, 0), 50.0, 50.0, 50.0);
-
-  //for (AStarNode* n : AStarNodes)
-  //{
-  //  vector<AStarNode*> neighbours;
-  //  nodeTree->getNodesForSphere(neighbours, n->position, n->neighbourRadius);
-  //  for (AStarNode* m : neighbours)
-  //  {
-  //    if (m != n)
-  //      n->neighbours.push_back(m);
-  //  }
-  //}
+  
 }
 
 
@@ -298,9 +274,12 @@ vec3 AI::pathTo(GameState* state, vec3 dest)
     vector<AStarNode*> temp;
     for (AStarNode* n : node->neighbours)
     {
-      if (vecContains(investigatedNodes, n))
+      if (vecContains(investigatedNodes, n) && !vecContains(path, n))	//temporary fix
         temp.push_back(n);
     }
+
+	if (temp.empty())
+		break;
 
     // sort the temp
     sort(temp.begin(), temp.end(), sortFunc);

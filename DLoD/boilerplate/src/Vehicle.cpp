@@ -4,6 +4,8 @@
 
 Vehicle::Vehicle()
 {
+	xoff = 2.1f;
+	zoff = 5;
 	timer.start();
 	initArmour = 30;
 	armour = 30;
@@ -53,49 +55,59 @@ double Vehicle::getInitialArmour()
 }
 void Vehicle::updateWheelPosition()
 {
-	float xoff = 1.5;
-	float zoff = 4.5;
+
 	mat4 model;
 	PxTransform m = this->physXVehicle->getRigidDynamicActor()->getGlobalPose();
 	PxQuat rotate = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().q;
 	PxVec3 vCenter = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().p;
 	
-	mat4 mm = convertMat(m.q.getBasisVector0(), m.q.getBasisVector1(), m.q.getBasisVector2(), vCenter);
 	mat4 mRotate = convertMat(rotate.getBasisVector0(), rotate.getBasisVector1(), rotate.getBasisVector2(),PxVec3(0,0,0));
-	
-	//front right
-	model = children[0]->getModelMatrix();
-	model = mm;
-	//model = mm * mRotate;
-	//model[3] = vec4(vCenter.x + xoff, vCenter.y, vCenter.z + zoff, 1.0);
-	model *= mRotate;
+	mat4 mm = convertMat(m.q.getBasisVector0(), m.q.getBasisVector1(), m.q.getBasisVector2(), vCenter);
+
+	PxVec3 displacement(xoff, 0, zoff);
+	PxTransform name = m;
+
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, 1.0));
+	name.p += displacement;
+	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
+	//model[3] = vec4(vCenter.x - xoff, vCenter.y, vCenter.z + zoff, 1.f);
 	children[0]->setModelMatrix(model);
 
-	//front left
-	model = children[1]->getModelMatrix();
-	model = mm;
-	//model = mm * mRotate;
-	//model[3] = vec4(vCenter.x - xoff, vCenter.y, vCenter.z + zoff, 1.0);
-	model *= mRotate;
 
+	displacement = PxVec3(-xoff, 0, zoff);
+
+	name = m;
+	//displacement = rotate.rotate(displacement);
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, 1.0));
+
+	name.p += displacement;
+
+	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
+//	model[3] = vec4(vCenter.x - xoff, vCenter.y, vCenter.z - zoff,1.f);
 	children[1]->setModelMatrix(model);
 
-	//back left
-	model = children[2]->getModelMatrix();
-	//model = mm * mRotate;
-	model = mm;
-	//model[3] = vec4(vCenter.x - xoff, vCenter.y, vCenter.z - zoff, 1.0);
-	model *= mRotate;
 
+	displacement = PxVec3(xoff, 0, -zoff);
+	name = m;
+	//displacement = rotate.rotate(displacement);
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, 1.0));
+
+	name.p += displacement;
+
+	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
+//	model[3] = vec4(vCenter.x + xoff, vCenter.y, vCenter.z - zoff, 1.f);
 	children[2]->setModelMatrix(model);
 
-	//back right
-	model = children[3]->getModelMatrix();
-	//model = mm * mRotate;
-	model = mm;
 
-	//model[3] = vec4(vCenter.x + xoff, vCenter.y, vCenter.z - zoff, 1.0);
-	model *=mRotate;
+	displacement = PxVec3(-xoff, 0, -zoff);
+	name = m;
+	//displacement = rotate.rotate(displacement);
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0,1.0));
+
+	name.p += displacement;
+
+	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
+//	model[3] = vec4(vCenter.x + xoff, vCenter.y, vCenter.z + zoff, 1.f);
 	children[3]->setModelMatrix(model);
 }
 
@@ -245,7 +257,7 @@ void Vehicle::checkDead() {
 		if (!timer.isStopped())
 			timer.stop();
 		mesh.UpdateColour(&(colour = initColour * 0.2f));
-		changeMeshDead();
+		//changeMeshDead();
 	}
 	canPulseColour = false;
 	dead = true;
@@ -354,17 +366,18 @@ void Vehicle::giveMeArmour(const vec3 &colour) {
 }
 void Vehicle::giveMeWheels()
 {
+	float wScale = 2.f;
 	mat3 scaleM = mat3(1);
-	scaleM[0][0] = scale.x;
-	scaleM[1][1] = scale.y;
-	scaleM[2][2] = scale.z;
+	scaleM[0][0] = wScale;
+	scaleM[1][1] = wScale;
+	scaleM[2][2] = wScale;
 
 	for (int i = 0; i < 4; i++)
 	{
 		//init wheels mesh
 		GEO* wheel = new GEO();
 		//wheel->setFilename("wheels/mediumCarTire.obj");
-		wheel->setColour(vec3(1, 0, 0));
+		wheel->setColour(vec3(0, 0, 0));
 		string filename = "wheels/mediumCarTire.obj";
 		if (!wheel->initMesh(filename)) {
 			cout << "Error reading wheel mesh" << endl;
@@ -372,13 +385,12 @@ void Vehicle::giveMeWheels()
 
 		wheel->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
+		for (int i = 0; i < wheel->getMesh().vertices.size(); ++i)
+			wheel->getMesh().vertices[i] = scaleM * wheel->getMesh().vertices[i];
 
 		if (!wheel->initBuffers()) {
 			cout << "Could not initialize buffers for game object " << filename << endl;
 		}
-
-		for (int i = 0; i < wheel->getMesh().vertices.size(); ++i)
-			wheel->getMesh().vertices[i] = scaleM * wheel->getMesh().vertices[i];
 
 		children.push_back(wheel);
 	}

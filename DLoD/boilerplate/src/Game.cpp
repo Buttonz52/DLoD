@@ -20,7 +20,6 @@ GEO* initGroundPlane()
 
 Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers)
 {
-  gameState = new GameState();
 
 	pause = false, restart = false;
 	menuIndex = 0;
@@ -42,6 +41,11 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   //skybox->children.push_back(initArena());
   //create the starnode
   vector<vec3> starNodes;
+  GEO aStarGEO;
+  aStarGEO.initMesh(starObjFilename);	//load vertices
+  gameState = new GameState(aStarGEO.getMesh().vertices);
+
+
   arena = initArena(arenaTexFilename, arenaFilepath);
   arenaMap = arenaMapFile;
   //skybox->children.push_back(initGroundPlane());

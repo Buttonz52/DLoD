@@ -11,6 +11,8 @@ LightVehicle::LightVehicle()
 	torqueSpeed = 14000.0;
 	armourFilename = "armour/LightArmour.obj";
 	initArmour = 20;
+	xoff = 2.f;
+	zoff = 3.9;
 }
 
 

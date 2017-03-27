@@ -99,7 +99,7 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
 		if (ableToFlip)
 			vehicle->FlipVehicle();
-		ableToFlip = false;
+	//	ableToFlip = false;
 	}
 
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
