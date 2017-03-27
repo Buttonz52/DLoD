@@ -12,6 +12,9 @@ MediumVehicle::MediumVehicle()
 	armour = 30;
 	armourFilename = "armour/MediumArmour.obj";
 	initArmour = 30;
+	xoff = 2.1f;
+	zoff = 3.4;
+	centeroff = 0.0;
 }
 
 

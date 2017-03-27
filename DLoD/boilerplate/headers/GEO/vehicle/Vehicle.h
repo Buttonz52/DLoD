@@ -26,6 +26,7 @@ protected:
   float torqueSpeed;
   float xoff;
   float zoff;
+  float centeroff;
   Mesh aliveCar, deadCar;
 
 public:

@@ -18,7 +18,7 @@ GEO* initGroundPlane()
   return plane;
 }
 
-Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers)
+Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers, const vector<vec3> spawnPoints)
 {
 
 	pause = false, restart = false;
@@ -53,7 +53,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   for (int i = 0; i < numPlayers; i++) {
 	  Human* human = new Human(i);
 	  human->ChooseVehicle(humanVehicleChoice->at(i));
-	  human->vehicle->setPosition(vec3(-100, 50, 100 * i));
+	  human->vehicle->setPosition(spawnPoints[i]);
 	  initVehicle(human->vehicle, humanVehicleChoice->at(i));
 	  skybox->children.push_back(human->vehicle);
 	  players.push_back(human);
@@ -72,7 +72,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 	  AI* ai = new AI(i);
 	  int aiRNGChoose = rand() % 3;
 	  ai->ChooseVehicle(aiRNGChoose);
-	  ai->vehicle->setPosition(vec3(20 * i, 50, 20 * i));
+	  ai->vehicle->setPosition(spawnPoints[i]);
 	  initVehicle(ai->vehicle, aiRNGChoose);
 	  skybox->children.push_back(ai->vehicle);
 	  players.push_back(ai);
@@ -404,9 +404,6 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 
 	arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
 
-	if (!arena->initBuffers()) {
-		cout << "Could not initialize buffers for arena" << endl;
-	}
 	arena->setScale(vec3(30.f));
 	arena->setPosition(vec3(0, 0, 0));
 	arena->updateModelMatrix();

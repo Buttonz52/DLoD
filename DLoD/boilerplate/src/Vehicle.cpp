@@ -4,8 +4,6 @@
 
 Vehicle::Vehicle()
 {
-	xoff = 2.1f;
-	zoff = 5;
 	timer.start();
 	initArmour = 30;
 	armour = 30;
@@ -23,7 +21,6 @@ Vehicle::Vehicle()
 	filename = "cars/mediumCarBody.obj";
 	armourFilename = "armour/MediumArmour.obj";
 	torqueSpeed = 18000.0;
-	maxVelocity = 70;
 	colour = vec3(1,0, 0);
 	initColour = colour;
 }
@@ -60,14 +57,11 @@ void Vehicle::updateWheelPosition()
 	PxTransform m = this->physXVehicle->getRigidDynamicActor()->getGlobalPose();
 	PxQuat rotate = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().q;
 	PxVec3 vCenter = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().p;
-	
-	mat4 mRotate = convertMat(rotate.getBasisVector0(), rotate.getBasisVector1(), rotate.getBasisVector2(),PxVec3(0,0,0));
-	mat4 mm = convertMat(m.q.getBasisVector0(), m.q.getBasisVector1(), m.q.getBasisVector2(), vCenter);
 
 	PxVec3 displacement(xoff, 0, zoff);
 	PxTransform name = m;
 
-	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, 1.0));
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 	name.p += displacement;
 	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
 	//model[3] = vec4(vCenter.x - xoff, vCenter.y, vCenter.z + zoff, 1.f);
@@ -78,7 +72,7 @@ void Vehicle::updateWheelPosition()
 
 	name = m;
 	//displacement = rotate.rotate(displacement);
-	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, 1.0));
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 
 	name.p += displacement;
 
@@ -90,7 +84,7 @@ void Vehicle::updateWheelPosition()
 	displacement = PxVec3(xoff, 0, -zoff);
 	name = m;
 	//displacement = rotate.rotate(displacement);
-	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, 1.0));
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 
 	name.p += displacement;
 
@@ -102,7 +96,7 @@ void Vehicle::updateWheelPosition()
 	displacement = PxVec3(-xoff, 0, -zoff);
 	name = m;
 	//displacement = rotate.rotate(displacement);
-	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0,1.0));
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 
 	name.p += displacement;
 
@@ -134,8 +128,8 @@ void Vehicle::decelerate(const float &m)
 
 void Vehicle::turn(const float &dir)
 {
-  physXVehicle->setSteerAngle(0, dir / 3.5);
-  physXVehicle->setSteerAngle(1, dir / 3.5);
+  physXVehicle->setSteerAngle(0, dir / 4);
+  physXVehicle->setSteerAngle(1, dir / 4);
 }
 
 void Vehicle::brake(const float &brake)
@@ -201,12 +195,12 @@ float Vehicle::calculateDamage(const double &x, const double &y, const double &z
     // damage to the front
     if (oD.z > 0)
     {
-      damage = force * 0.3;
+      damage = force * 0.2;
     }
     // damage to the back
     else
     {
-      damage = force;
+      damage = force*4;
     }
   }
   // damage to the sides
@@ -215,12 +209,12 @@ float Vehicle::calculateDamage(const double &x, const double &y, const double &z
     // damage to the right
     if (oD.x > 0)
     {
-      damage = force * 0.6;
+      damage = force * 0.3;
     }
     // damage to the left
     else
     {
-      damage = force * 0.6;
+      damage = force * 0.3;
     }
   }
 
@@ -546,8 +540,8 @@ mat4 Vehicle::convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w)
 
 //Flips vehicle over
 void Vehicle::FlipVehicle() {
-	float force = 1000;
-	float torque = 1000;
+	float force = 100;
+	float torque = 100;
 
 	int flipside = timer.getTicks() % 2;
 	

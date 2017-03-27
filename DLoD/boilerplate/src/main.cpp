@@ -170,13 +170,13 @@ int main(int argc, char *argv[])
 			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
 
-
+			getSpawnPoints();
 
 			PrintDirections();
 
 			loadBkgrd.Destroy();
 			//glfwSetWindowPos(window, 0,0);
-			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers);
+			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers, spawnPoints);
 
 			if (!audio.PlayMusic()) {
 				cout << "Failed to play music" << endl;
@@ -226,4 +226,22 @@ void InitializeLoadScreen(ScreenOverlay *loadBkgrd) {
 	if (!loadBkgrd->GenerateSquareVertices(1, 1, vec3(0))) {
 		cout << "Failed to initialize screen overlay." << endl;
 	}
+}
+
+void getSpawnPoints()
+{
+	string meshname = starObjFilenames[arenaIndex];
+	GEO *spawnGEO = new GEO();
+
+	if (!spawnGEO->initMesh(meshname)) {
+		cout << "Failed to init arena" << endl;
+	}
+
+	spawnPoints = spawnGEO->getMesh().vertices;
+
+	for (int i = 0; i < spawnPoints.size(); i++)
+	{
+		spawnPoints[i] *= 30.f;
+	}
+
 }

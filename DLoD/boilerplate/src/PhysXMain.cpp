@@ -328,8 +328,6 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 	const PxVec3 grav = gScene->getGravity();
 	PxVehicleUpdates(timestep, grav, *gFrictionPairs, vehicles.size(), &vehicles[0], &vehicleQueryResults[0]);
 
-	cout << "drive torque: " <<  vehiclesVec[0]->physXVehicle->mWheelsDynData.getWheelRotationSpeed(0) << endl;
-
 	//Scene update.
 	gScene->simulate(timestep);
 	gScene->fetchResults(true);
