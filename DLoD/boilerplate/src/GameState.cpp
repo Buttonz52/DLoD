@@ -3,31 +3,22 @@
 
 
 
-GameState::GameState()
+GameState::GameState(vector<vec3> vertices)
 {
-  vector<AStarNode*> starNodes;
+  nodes = new OctTree();
 
-  for (int i = -10; i < 10; ++i)
-  {
-    for (int j = -10; j < 10; ++j)
-    {
-      if (abs(i) < 2 || abs(j) < 2)
-        continue;
-
-
-      AStarNode* node = new AStarNode();
-      node->position = vec3(i * 15, 0, j * 15);
-      starNodes.push_back(node);
-    }
-    
-  } 
-
-  nodes = new OctTree(starNodes, vec3(0, 0, 0), 50.0, 50.0, 50.0);
-
-  for (AStarNode* n : starNodes)
+  for (vec3 v : vertices)
   {
     vector<AStarNode*> neighbours;
-    nodes->getNodesForSphere(neighbours, n->position, n->neighbourRadius);
+    nodes->getNodesForSphere(neighbours, v, 0.5);
+
+    if (!neighbours.empty())
+      continue;
+
+    AStarNode* n = new AStarNode();
+    n->position = v;
+
+    nodes->getNodesForSphere(neighbours, v, n->neighbourRadius);
     for (AStarNode* m : neighbours)
     {
       vec3 dist = n->position - m->position;
@@ -36,6 +27,8 @@ GameState::GameState()
       if (m != n && length(dist * vec3(0, 1, 0)) < 0.75 * l2)
         n->neighbours.push_back(m);
     }
+
+    nodes->addNode(n);
   }
 
 }

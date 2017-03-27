@@ -1,5 +1,14 @@
 #include "GEO\AStarNode.h"
 
+
+OctTree::OctTree()
+{
+  centerPoint = vec3(0, 0, 0);
+  distx = 2 << 20;
+  disty = 2 << 20;
+  distz = 2 << 20;
+}
+
 OctTree::OctTree(vector<AStarNode *> aStarNodes, vec3 cp, double x, double y, double z)
 {
 
@@ -53,7 +62,6 @@ OctTree::OctTree(vector<AStarNode *> aStarNodes, vec3 cp, double x, double y, do
     children.push_back(new OctTree(glg, cp + vec3(x / 2, -y / 2, z / 2), x / 2, y / 2, z / 2));
     children.push_back(new OctTree(ggl, cp + vec3(x / 2, y / 2, -z / 2), x / 2, y / 2, z / 2));
     children.push_back(new OctTree(ggg, cp + vec3(x / 2, y / 2, z / 2), x / 2, y / 2, z / 2));
-
   }
   else {
     nodes = aStarNodes;
@@ -62,6 +70,99 @@ OctTree::OctTree(vector<AStarNode *> aStarNodes, vec3 cp, double x, double y, do
 
 OctTree::~OctTree()
 {
+  for (AStarNode* n : nodes)
+    delete n;
+
+  for (OctTree* c : children)
+    delete c;
+}
+
+void OctTree::addNode(AStarNode * node)
+{
+  if (children.empty()) {
+    nodes.push_back(node);
+
+    if (nodes.size() > 10)
+      split();
+  }
+  else
+  {
+    if (node->position.x < centerPoint.x && node->position.y < centerPoint.y && node->position.z < centerPoint.z) {
+      children[0]->addNode(node);
+    }
+    else if (node->position.x < centerPoint.x && node->position.y < centerPoint.y && node->position.z > centerPoint.z) {
+      children[1]->addNode(node);
+    }
+    else if (node->position.x < centerPoint.x && node->position.y > centerPoint.y && node->position.z < centerPoint.z) {
+      children[2]->addNode(node);
+    }
+    else if (node->position.x < centerPoint.x && node->position.y > centerPoint.y && node->position.z > centerPoint.z) {
+      children[3]->addNode(node);
+    }
+    else if (node->position.x > centerPoint.x && node->position.y < centerPoint.y && node->position.z < centerPoint.z) {
+      children[4]->addNode(node);
+    }
+    else if (node->position.x > centerPoint.x && node->position.y < centerPoint.y && node->position.z > centerPoint.z) {
+      children[5]->addNode(node);
+    }
+    else if (node->position.x > centerPoint.x && node->position.y > centerPoint.y && node->position.z < centerPoint.z) {
+      children[6]->addNode(node);
+    }
+    else if (node->position.x > centerPoint.x && node->position.y > centerPoint.y && node->position.z > centerPoint.z) {
+      children[7]->addNode(node);
+    }
+    else {
+      nodes.push_back(node);
+    }
+  }
+}
+
+void OctTree::split()
+{
+  vector<AStarNode*> lll, llg, lgl, lgg, gll, glg, ggl, ggg, newNodes;
+
+  for (int i = 0; i < nodes.size(); ++i) {
+    AStarNode* node = nodes[i];
+
+    if (node->position.x < centerPoint.x && node->position.y < centerPoint.y && node->position.z < centerPoint.z) {
+      lll.push_back(node);
+    }
+    else if (node->position.x < centerPoint.x && node->position.y < centerPoint.y && node->position.z > centerPoint.z) {
+      llg.push_back(node);
+    }
+    else if (node->position.x < centerPoint.x && node->position.y > centerPoint.y && node->position.z < centerPoint.z) {
+      lgl.push_back(node);
+    }
+    else if (node->position.x < centerPoint.x && node->position.y > centerPoint.y && node->position.z > centerPoint.z) {
+      lgg.push_back(node);
+    }
+    else if (node->position.x > centerPoint.x && node->position.y < centerPoint.y && node->position.z < centerPoint.z) {
+      gll.push_back(node);
+    }
+    else if (node->position.x > centerPoint.x && node->position.y < centerPoint.y && node->position.z > centerPoint.z) {
+      glg.push_back(node);
+    }
+    else if (node->position.x > centerPoint.x && node->position.y > centerPoint.y && node->position.z < centerPoint.z) {
+      ggl.push_back(node);
+    }
+    else if (node->position.x > centerPoint.x && node->position.y > centerPoint.y && node->position.z > centerPoint.z) {
+      ggg.push_back(node);
+    }
+    else {
+      newNodes.push_back(node);
+    }
+  }
+
+  nodes = newNodes;
+
+  children.push_back(new OctTree(lll, centerPoint + vec3(-distx / 2, -disty / 2, -distz / 2), distx / 2, disty / 2, distz / 2));
+  children.push_back(new OctTree(llg, centerPoint + vec3(-distx / 2, -disty / 2,  distz / 2), distx / 2, disty / 2, distz / 2));
+  children.push_back(new OctTree(lgl, centerPoint + vec3(-distx / 2,  disty / 2, -distz / 2), distx / 2, disty / 2, distz / 2));
+  children.push_back(new OctTree(lgg, centerPoint + vec3(-distx / 2,  disty / 2,  distz / 2), distx / 2, disty / 2, distz / 2));
+  children.push_back(new OctTree(gll, centerPoint + vec3( distx / 2, -disty / 2, -distz / 2), distx / 2, disty / 2, distz / 2));
+  children.push_back(new OctTree(glg, centerPoint + vec3( distx / 2, -disty / 2,  distz / 2), distx / 2, disty / 2, distz / 2));
+  children.push_back(new OctTree(ggl, centerPoint + vec3( distx / 2,  disty / 2, -distz / 2), distx / 2, disty / 2, distz / 2));
+  children.push_back(new OctTree(ggg, centerPoint + vec3( distx / 2,  disty / 2,  distz / 2), distx / 2, disty / 2, distz / 2));
 }
 
 void OctTree::getNodesForSphere(vector<AStarNode*> &nodesInArea, vec3 cp, double r)
