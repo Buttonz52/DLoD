@@ -15,43 +15,6 @@ void ErrorCallback(int error, const char* description)
 	cout << description << endl;
 }
 
-// handles keyboard input events when we want multiple keys pressed at once
-void AlternKeyCallback(GLFWwindow* window)
-{
-  int state;
-  //Movement of the GEOs with keyboard if controller not connected
-  if (!testController.Connected())
-  {
-	  if (!currentVehicle->isDead()) {
-		  if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		  {
-			  currentVehicle->accelerate(1);
-		  }
-		  else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		  {
-			  currentVehicle->decelerate(1);
-		  }
-		  else {
-			  currentVehicle->brake(8000.f);
-		  }
-		  state = glfwGetKey(window, GLFW_KEY_LEFT);
-		  if (state == GLFW_PRESS)
-		  {
-			  currentVehicle->turn(-1);
-		  }
-		  state = glfwGetKey(window, GLFW_KEY_RIGHT);
-		  if (state == GLFW_PRESS)
-		  {
-			  currentVehicle->turn(1);
-		  }
-	  }
-	  else {
-		  currentVehicle->brake(8000.f);
-	  }
-  }
-}
-
-
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -72,36 +35,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     default:
       break;
   }
-}
-
-void GetControllerInput()
-{
-	testController.Update();
-	float turn;
-	if (!currentVehicle->isDead()) {
-		if (testController.RightTrigger() != 0)
-		{
-			currentVehicle->accelerate(testController.RightTrigger());
-		}
-
-		else if (testController.LeftTrigger() != 0)
-		{
-			currentVehicle->decelerate(testController.LeftTrigger());
-		}
-		else
-		{
-			currentVehicle->brake(1000.f);
-		}
-		if (testController.LeftStick_X() > -0.25 && testController.LeftStick_X() < 0.25)
-			turn = 0.0;
-		else
-			turn = testController.LeftStick_X();
-
-		currentVehicle->turn(turn);
-	}
-	else {	//just stop
-		currentVehicle->brake(1000.0);
-	}
 }
 
 // handles mouse click

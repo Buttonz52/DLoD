@@ -22,7 +22,7 @@ Vehicle::Vehicle()
 
 	filename = "cars/mediumCarBody.obj";
 	armourFilename = "armour/MediumArmour.obj";
-	torqueSpeed = 12000.0;
+	torqueSpeed = 18000.0;
 	maxVelocity = 70;
 	colour = vec3(1,0, 0);
 	initColour = colour;
@@ -113,31 +113,29 @@ void Vehicle::updateWheelPosition()
 
 void Vehicle::accelerate(const float &m)
 {
-	if (physXVehicle->computeForwardSpeed() < maxVelocity)
-	{
-		physXVehicle->setDriveTorque(0, m*torqueSpeed);
-		physXVehicle->setDriveTorque(1, m*torqueSpeed);
-		physXVehicle->setDriveTorque(2, m*torqueSpeed);
-		physXVehicle->setDriveTorque(3, m*torqueSpeed);
-	}
+
+	physXVehicle->setDriveTorque(0, m*torqueSpeed);
+	physXVehicle->setDriveTorque(1, m*torqueSpeed);
+	physXVehicle->setDriveTorque(2, m*torqueSpeed);
+	physXVehicle->setDriveTorque(3, m*torqueSpeed);
+	
 }
 
 
 void Vehicle::decelerate(const float &m)
 {
-	if (physXVehicle->computeForwardSpeed() > -maxVelocity)
-	{
-		physXVehicle->setDriveTorque(0, m*-torqueSpeed);
-		physXVehicle->setDriveTorque(1, m*-torqueSpeed);
-		physXVehicle->setDriveTorque(2, m*-torqueSpeed);
-		physXVehicle->setDriveTorque(3, m*-torqueSpeed);
-	}
+
+	physXVehicle->setDriveTorque(0, m*-torqueSpeed);
+	physXVehicle->setDriveTorque(1, m*-torqueSpeed);
+	physXVehicle->setDriveTorque(2, m*-torqueSpeed);
+	physXVehicle->setDriveTorque(3, m*-torqueSpeed);
+	
 }
 
 void Vehicle::turn(const float &dir)
 {
-  physXVehicle->setSteerAngle(0, dir / 4);
-  physXVehicle->setSteerAngle(1, dir / 4);
+  physXVehicle->setSteerAngle(0, dir / 3.5);
+  physXVehicle->setSteerAngle(1, dir / 3.5);
 }
 
 void Vehicle::brake(const float &brake)
