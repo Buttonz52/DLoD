@@ -2,7 +2,7 @@
 */
 
 
-#include "..\headers\Game\ScreenOverlay.h"
+#include "Game\ScreenOverlay.h"
 
 
 
@@ -225,11 +225,10 @@ void ScreenOverlay::Render(GLuint type, const vec3 &colour)
 	}
 		//Create the model matrix
 	mat4 mscale = scale(mat4(), _scale);
-		mat4 translate = glm::translate(mat4(), position);//Normalize(position));
+	mat4 translate = glm::translate(mat4(), position);//Normalize(position));
 	mat4 rotate = glm::rotate(mat4(), rotateZ, vec3(0,0,1));
 
 	mat4 model = translate*rotate*mscale*mat4();	//translations/rotations
-	vec3 fp = vec3(0, 0, 0);		//focal point
 	glUniform3fv(glGetUniformLocation(shader.program, "colour"), 1, value_ptr(colour));
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE,value_ptr(model));
 	glUniform1i(glGetUniformLocation(shader.program, "hasTexture"), hasTexture);

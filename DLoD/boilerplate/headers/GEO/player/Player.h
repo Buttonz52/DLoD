@@ -1,16 +1,16 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "..\vehicle\Vehicle.h"
-#include "../vehicle/LargeVehicle.h"
-#include "../vehicle/MediumVehicle.h"
-#include "../vehicle/LightVehicle.h"
-#include "..\Camera.h"
-#include "..\item\Item.h"
+#include "GEO\vehicle\Vehicle.h"
+#include "GEO\vehicle\LargeVehicle.h"
+#include "GEO\vehicle\MediumVehicle.h"
+#include "GEO\vehicle\LightVehicle.h"
+#include "GEO\Camera.h"
+#include "GEO\item\Item.h"
 class Player
 {
 public:
 	Player(int);
-	~Player();
+	virtual ~Player();
 
   int identifier;
 	
@@ -24,6 +24,7 @@ public:
 
   bool layTrap = false;
   bool ableToTrap = true;
+  bool ableToFlip = false;
   ItemType trap;
 private: 
 	void SetPlayerColour();

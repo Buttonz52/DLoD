@@ -1,11 +1,11 @@
-#include "..\headers\GEO\vehicle\LargeVehicle.h"
+#include "GEO\vehicle\LargeVehicle.h"
 
 
 
 LargeVehicle::LargeVehicle()
 {
 	filename = "cars/largeCarBody.obj";
-	maxVelocity = 60;
+	maxVelocity = 80;
 	health = 120;
 	armour = 40;
 	torqueSpeed = 12000.0;

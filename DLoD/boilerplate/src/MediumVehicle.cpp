@@ -1,11 +1,11 @@
-#include "..\headers\GEO\vehicle\MediumVehicle.h"
+#include "GEO\vehicle\MediumVehicle.h"
 
 
 
 MediumVehicle::MediumVehicle()
 {
 	filename = "cars/mediumCarBody.obj";
-	maxVelocity = 70;
+	maxVelocity = 90;
 	health = 110;
 	armour = 30;
 	torqueSpeed = 13000.0;

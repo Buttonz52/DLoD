@@ -18,6 +18,17 @@ void QueryGLVersion()
 		<< "on renderer [ " << renderer << " ]" << endl;
 }
 
+
+//Normalizes a vec3
+vec3 Normalize(const vec3 &v) {
+	float magn = v.x*v.x + v.y*v.y + v.z*v.z;
+	if (magn <= 0) {
+		return vec3(0);
+	}
+
+	return (v / sqrt(magn));
+}
+
 bool CheckGLErrors()
 {
 	bool error = false;
@@ -34,7 +45,7 @@ bool CheckGLErrors()
 			cout << "GL_INVALID_VALUE" << endl; 
 			break;
 		case GL_INVALID_OPERATION:
-		//	cout << "GL_INVALID_OPERATION" << endl; 
+			cout << "GL_INVALID_OPERATION" << endl; 
 			break;
 		case GL_INVALID_FRAMEBUFFER_OPERATION:
 			cout << "GL_INVALID_FRAMEBUFFER_OPERATION" << endl; break;

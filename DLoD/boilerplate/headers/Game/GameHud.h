@@ -1,8 +1,8 @@
 #pragma once
 #include "Utility.h"
-#include "../GameEngine/Mesh.h"
+#include "GameEngine/Mesh.h"
 #include "ScreenOverlay.h"
-#include "../Controller/XboxController.h"
+#include "Controller/XboxController.h"
 #include "Audio.h"
 #include "GEO/GEO.h"
 class GameHud

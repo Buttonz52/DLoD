@@ -1,10 +1,8 @@
-﻿  LargeVehicle.cpp
-  LightVehicle.cpp
-  MediumVehicle.cpp
+﻿  LightVehicle.cpp
   Generating code
-  4 of 2902 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
+  2 of 2991 functions ( 0.1%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    6 functions had inline decision re-evaluated but remain unchanged
+    81 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 PhysX3Extensions.lib(ExtCpuWorkerThread.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtCpuWorkerThread.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info
 PhysX3Extensions.lib(ExtDefaultCpuDispatcher.obj) : warning LNK4099: PDB 'PhysX3Extensions.pdb' was not found with 'PhysX3Extensions.lib(ExtDefaultCpuDispatcher.obj)' or at '\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Release\PhysX3Extensions.pdb'; linking object as if no debug info

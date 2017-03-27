@@ -5,12 +5,8 @@ using namespace std;
 
 
 void clearScreen() {
-	// clear screen to a dark grey colour;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
-
-// --------------------------------------------------------------------------
-// GLFW callback functions
 
 // reports GLFW errors
 void ErrorCallback(int error, const char* description)
@@ -63,12 +59,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		return;
 
   switch (key) {
-  //  case GLFW_KEY_ESCAPE:
-	 //// insert pause menu here
-		////see line 131 of Game and use Human.cpp input files to figure out how to implement a pause menu
-  //    glfwSetWindowShouldClose(window, GL_TRUE);
-  //    break;
-
     case GLFW_KEY_P:
       audio.PausePlay();
       break;
@@ -86,7 +76,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 void GetControllerInput()
 {
-
 	testController.Update();
 	float turn;
 	if (!currentVehicle->isDead()) {
@@ -173,7 +162,6 @@ int main(int argc, char *argv[])
 {
 	skyboxIndex = 0;
 	arenaIndex = 0;
-	//humanVehicleChoice = 0;
 	// initialize the GLFW windowing system
 	if (!glfwInit()) {
 		cout << "ERROR: GLFW failed to initialize, TERMINATING" << endl;
@@ -189,12 +177,9 @@ int main(int argc, char *argv[])
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	// Get the desktop resolution.
-	//const GLFWvidmode* desktop;
 
-	//desktop = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	window = glfwCreateWindow(width, height, "Derby League of Destruction",0,0);
 
-	//window = glfwCreateWindow(desktop->width, desktop->height, "Derby League of Destruction",glfwGetPrimaryMonitor(), window);
 	if (!window) {
 		cout << "Program failed to create GLFW window, TERMINATING" << endl;
 		glfwTerminate();
@@ -248,7 +233,7 @@ int main(int argc, char *argv[])
 			if (!audio.InitMusic(mainMusic.c_str())) {
 				cout << "Failed to load music." << endl;
 			}
-			glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+			glClearColor(0.0f, 51.f/255.f, 102.f/255.f, 1.0f);
 			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
 

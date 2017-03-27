@@ -33,7 +33,7 @@ void GameHud::InitializeMenu(const vec3 &colour) {
 	//border for health and armour
 	pauseBox.GenerateSquareVertices(0.25, 0.32, vec3(0.6, 0.7, 1));
 	pauseBox.setPosition(vec3(-0.055, -0.07, 0));
-	pauseBox.setTransparency(0.2f);
+	pauseBox.setTransparency(0.5f);
 	pauseBox.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	pauseBorder.GenerateBorder(0.25, 0.32, 0.01, vec3(0, 0, 0), vec3(-0.055, -0.07, 0));
@@ -221,7 +221,7 @@ void GameHud::RenderMenu(const int &menuIndex, const vec3 &colour) {
 	restartText.Render(GL_TRIANGLES, restartText.getColour());
 	pauseBorder.Render(GL_TRIANGLES, colour);
 	pauseBox.Render(GL_TRIANGLE_STRIP, pauseBox.getColour());
-	pauseBkgrd.Render(GL_TRIANGLE_STRIP, vec3(1.f-colour) * 0.3f);
+	pauseBkgrd.Render(GL_TRIANGLE_STRIP, vec3(0));// vec3(1.f - colour) * 0.3f);
 }
 
 void GameHud::Destroy() {

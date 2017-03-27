@@ -1,11 +1,11 @@
-#include "..\headers\GEO\vehicle\LightVehicle.h"
+#include "GEO\vehicle\LightVehicle.h"
 
 
 
 LightVehicle::LightVehicle()
 {
 	filename = "cars/lightCarBody.obj";
-	maxVelocity = 80;
+	maxVelocity = 100;
 	health = 100;
 	armour = 20;
 	torqueSpeed = 14000.0;

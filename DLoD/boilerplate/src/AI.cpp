@@ -6,8 +6,8 @@ struct sortClass
 
   bool operator()(AStarNode* a, AStarNode* b)
   {
-    double dista = a->distanceTo + length(destination - a->position);
-    double distb = b->distanceTo + length(destination - b->position);
+    double dista = a->distanceTo + 5.0 * length(destination - a->position);
+    double distb = b->distanceTo + 5.0 * length(destination - b->position);
 
     a->dist = dista;
     b->dist = distb;
@@ -30,31 +30,31 @@ bool vecContains(vector<AStarNode*> vec, AStarNode* node)
 
 AI::AI(int i) : Player(i)
 {
-  /*
-  for (int i = -10; i < 10; ++i)
-  {
-    for (int j = -10; j < 10; ++j)
-    {
+  //
+  //for (int i = -10; i < 10; ++i)
+  //{
+  //  for (int j = -10; j < 10; ++j)
+  //  {
 
-      AStarNode* node = new AStarNode();
-      node->position = vec3(i * 5, 0, j * 5);
-      AStarNodes.push_back(node);
-    }
-    
-  } */
+  //    AStarNode* node = new AStarNode();
+  //    node->position = vec3(i * 5, 0, j * 5);
+  //    AStarNodes.push_back(node);
+  //  }
+  //  
+  //} 
 
-  nodeTree = new OctTree(AStarNodes, vec3(0, 0, 0), 50.0, 50.0, 50.0);
+  //nodeTree = new OctTree(AStarNodes, vec3(0, 0, 0), 50.0, 50.0, 50.0);
 
-  for (AStarNode* n : AStarNodes)
-  {
-    vector<AStarNode*> neighbours;
-    nodeTree->getNodesForSphere(neighbours, n->position, n->neighbourRadius);
-    for (AStarNode* m : neighbours)
-    {
-      if (m != n)
-        n->neighbours.push_back(m);
-    }
-  }
+  //for (AStarNode* n : AStarNodes)
+  //{
+  //  vector<AStarNode*> neighbours;
+  //  nodeTree->getNodesForSphere(neighbours, n->position, n->neighbourRadius);
+  //  for (AStarNode* m : neighbours)
+  //  {
+  //    if (m != n)
+  //      n->neighbours.push_back(m);
+  //  }
+  //}
 }
 
 
@@ -62,43 +62,167 @@ AI::~AI()
 {
 }
 
-int AI::DetermineBehaviour()
+void AI::determineBehaviour(GameState* state)
 {
-	return 0;
+
 }
 
-void AI::getInput()
+vec3 AI::determineTarget(GameState * state)
 {
-  // determine the behaviour
-  int behavour;
+  return vec3();
+}
 
+void AI::getInput(GameState* state)
+{
   // determine a target
+  Player* nearestPlayer = nullptr;
+  Item* nearestPickUp = nullptr;
+
+  behaviour = patrolling;
+
+  double distNP = 999999999;
+  for (Player* p : state->players)
+  {
+    if (p == this || p->isDead())
+      continue;
+
+    if (nearestPlayer != nullptr)
+    {
+      vec3 dist = vec3(p->vehicle->getModelMatrix()[3] - vehicle->getModelMatrix()[3]);
+      double l2 = length(dist);
+
+      if (length(dist * vec3(0, 1, 0)) > 0.75 * l2)
+        continue;
+
+      nearestPlayer = (distNP < l2) ? nearestPlayer : p;
+      distNP = (distNP < l2) ? distNP : l2;
+    }
+    else
+    {
+      nearestPlayer = p;
+      distNP = length(vec3(nearestPlayer->vehicle->getModelMatrix()[3] - vehicle->getModelMatrix()[3]));
+    }
+  }
+
+  double distNPU = 999999999;
+  for (Item* item : state->items)
+  {
+    if (item->isTrap)
+      continue;
+
+    if (nearestPickUp != nullptr)
+    {
+      vec3 dist = vec3(item->getModelMatrix()[3] - vehicle->getModelMatrix()[3]);
+      double l2 = length(dist);
+
+      if (length(dist * vec3(0, 1, 0)) > 0.75 * l2)
+        continue;
+
+      nearestPickUp = (distNPU < l2) ? nearestPickUp : item;
+      distNPU = (distNPU < l2) ? distNPU : l2;
+    }
+    else
+    {
+      nearestPickUp = item;
+      distNPU = length(vec3(nearestPickUp->getModelMatrix()[3] - vehicle->getModelMatrix()[3]));
+    }
+  }
+
+  if (min(distNP, distNPU) < 100.0)
+    behaviour = (distNP < distNPU) ? attacking : pickup;
+
+  double health = vehicle->getHealth();
+  double armour = vehicle->getArmour();
+
+  if (armour / vehicle->getInitialArmour() < 0.25)
+  {
+    behaviour = retreating;
+  }
+
+
   vec3 target;
+  vec3 cp;
+  vec3 ray;
+  vector<AStarNode*> nodes;
+  bool safe = false;
 
-  // path to the target
-  vec3 dest = pathTo(target);
 
-  // drive to target
-  driveTo(target);
+  switch (behaviour)
+  {
+  case retreating:
+    if (nearestPlayer == nullptr)
+      break;
+      
+    cp = vec3(vehicle->getModelMatrix()[3]);
+    ray = cp - vec3(nearestPlayer->vehicle->getModelMatrix()[3]);
+    state->nodes->getNodesForArc(nodes, cp, ray);
+
+    if (nodes.size() == 0)
+    {
+      state->nodes->getNodesForSphere(nodes, cp, 20);
+    }
+
+    if (nodes.size() != 0)
+    {
+      safe = true;
+      int i = state->timer.getTicks();
+      target = nodes[i % nodes.size()]->position;
+    }
+    break;
+
+  case attacking:
+    if (nearestPlayer != nullptr)
+    {
+      target = vec3(nearestPlayer->vehicle->getModelMatrix()[3]);
+      safe = true;
+    }
+    break;
+
+  case pickup:
+    if (nearestPickUp != nullptr)
+    {
+      target = vec3(nearestPickUp->getModelMatrix()[3]);
+      safe = true;
+    }
+    break;
+
+  case patrolling:
+    cp = vec3(vehicle->getModelMatrix()[3]);
+    state->nodes->getNodesForSphere(nodes, cp, 20);
+
+    if (nodes.size() != 0)
+    {
+      safe = true;
+      int i = state->timer.getTicks();
+      target = nodes[i % nodes.size()]->position;
+    }
+    break;
+
+  default:
+    break;
+  }
+
+  if (safe)
+    driveTo(pathTo(state, target));
 }
 
 /*
 This function does not work dont use it yet
 wont currently support multithreading
 */
-vec3 AI::pathTo(vec3 dest)
+vec3 AI::pathTo(GameState* state, vec3 dest)
 {
   // Get all the AStar Nodes and set their distance to value to be big
-  nodeTree->resetNodes();
+  state->nodes->resetNodes();
 
   // Find all the closest AStarNodes to the destination
   AStarNode* start = new AStarNode();
   start->position = vec3(vehicle->getModelMatrix()[3]);
-  nodeTree->getNodesForSphere(start->neighbours, start->position, start->neighbourRadius);
+  state->nodes->getNodesForSphere(start->neighbours, start->position, start->neighbourRadius);
 
   AStarNode* destination = new AStarNode();
   destination->position = dest;
-  nodeTree->getNodesForSphere(destination->neighbours, destination->position, destination->neighbourRadius);
+  state->nodes->getNodesForSphere(destination->neighbours, destination->position, destination->neighbourRadius);
 
   start->distanceTo = 0;
   destination->distanceTo = 50000;
@@ -111,20 +235,14 @@ vec3 AI::pathTo(vec3 dest)
   for (AStarNode* n : destination->neighbours)
     n->neighbours.push_back(destination);
 
-  if (length(start->position - destination->position) < 1.8)
+  
+  if (length(start->position - destination->position) < start->neighbourRadius)
   {
     start->neighbours.push_back(destination);
     destination->neighbours.push_back(start);
   }
 
-  if (destination->neighbours.size() == 0)
-  {
-    delete start;
-    delete destination;
-    return dest;
-  }
-
-  if (start->neighbours.size() == 0)
+  if (destination->neighbours.size() == 0 || start->neighbours.size() == 0)
   {
     delete start;
     delete destination;

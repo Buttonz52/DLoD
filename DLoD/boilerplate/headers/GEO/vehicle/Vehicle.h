@@ -19,10 +19,6 @@ protected:
   vec3 initColour;
   string filename;
   string armourFilename;
-  //double armourLeft;
-  //double armourRight;
-  //double armourFront;
-  //double armourBack;
  
   // Stores the rate of acceleration and maxVelocity
   double acceleration;
@@ -33,7 +29,7 @@ protected:
 
 public:
 	Vehicle();
-	~Vehicle();
+	virtual ~Vehicle();
 
   PxVehicleNoDrive* physXVehicle;
   pair<bool, double> stun = make_pair(false, 0);
@@ -43,15 +39,16 @@ public:
 
 
   string wheelFileName;
-  //void updateArmourPosition();
   void updateArmour();
+  double getInitialArmour();
   void updateWheelPosition();
-  //void giveMeArmour();
   void giveMeWheels();
 
   void Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
 
   mat4 convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w);
+
+  void FlipVehicle();
 
   // Methods to control driving the vehicle
   void accelerate(const float &m);

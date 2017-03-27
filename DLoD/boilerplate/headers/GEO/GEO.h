@@ -1,14 +1,14 @@
 #ifndef GEO_H
 #define GEO_H
-#include "..\Game\Utility.h"
-#include "..\GameEngine\Mesh.h"
-#include "..\GameEngine\Shader.h"
-#include "..\GameEngine\Texture.h"
-#include "../GEO/GEO.h"
+#include "Game\Utility.h"
+#include "GameEngine\Mesh.h"
+#include "GameEngine\Shader.h"
+#include "GameEngine\Texture.h"
+#include "GEO/GEO.h"
 #include "PxPhysicsAPI.h"
 #include "PxPhysics.h"
 #include "PxScene.h"
-#include "..\Game\Audio.h"
+#include "Game\Audio.h"
 #include <map>
 
 
@@ -19,7 +19,7 @@ class GEO
 {
 public:
 	GEO();
-	~GEO();
+	virtual ~GEO();
 
   vector<GEO*> children;
   void removeChild(GEO*);

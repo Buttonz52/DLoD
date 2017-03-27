@@ -1,4 +1,4 @@
-#include "..\headers\Game\TitleScreen.h"
+#include "Game\TitleScreen.h"
 
 //TitleScreen cpp file.  Can definitely change around.
 
@@ -526,70 +526,6 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 		}
 		//choose cars
 		else if (isCarScreen) {
-			//This code is meant to have a timeout for if a controller is not connected, but it isn't 100% working 
-			//if (numPlayers > 1 &&!controllers[controllerIndex].Connected()) {
-			//	cout << "not connected" << endl;
-			//	std::stringstream fmt;
-			//	if (controllerTimeout.getTicks() % 1000 == 0) {
-			//		controllerTimeoutCounter--;
-			//	}
-			//	//tineout
-			//	if (controllerTimeoutCounter < 0) {
-			//		fmt << "PLAYER " << controllerIndex + 1 << " TIMEOUT. Not added.";
-			//		menuButtons[0].UpdateGameText(fmt.str());
-			//		//display colour
-			//		Render();		//render titlescreen
-			//		glfwSwapBuffers(window);	//need this to output to screen
-			//		Sleep(400);		//slow down input so not crazy fast
-			//		controllerIndex++;
-			//		controllerTimeoutCounter = 10;
-			//		playersNotAdded++;
-			//		//go to next player if no controller
-			//		if (controllerIndex < numPlayers) {
-			//			fmt << "Player " << controllerIndex + 1 << ", choose your vehicle:";
-			//			menuButtons[0].UpdateGameText(fmt.str());
-			//		}
-			//		//start game
-			//		else {
-			//			numPlayers - playersNotAdded;
-			//			if (!controllerTimeout.isStopped())
-			//				controllerTimeout.stop();
-			//			isCarScreen = false;
-			//			isLoadScreen = true;
-
-			//			isChooseArena = true;
-
-			//			////humanVehicleChoice->clear();
-			//			//for (int i = 0; i < numPlayers; i++)
-			//			//	humanVehicleChoice->at(controller->GetIndex()) = (menuIndex - carButtonInitIndex);
-			//			//menuButtons[menuIndex].setColour(pressColour);	//indicate choice
-			//			//menuButtons[menuIndex].setMixFlag(1);
-
-			//			//display colour
-			//			Render();		//render titlescreen
-			//			glfwSwapBuffers(window);	//need this to output to screen
-			//			Sleep(400);		//slow down input so not crazy fast
-
-			//			for (int i = 0; i < menuButtons.size(); i++)
-			//				menuButtons[i].Destroy();
-			//			InitializeChooseScreen();
-
-			//			newMenuIndex(arenaButtonInitIndex, arenaButtonInitIndex, initIndex, maxIndex, 2);
-			//		}
-			//	}
-			//	else {
-			//		fmt << "Please insert a controller for player " << controllerIndex + 1 << ": " << controllerTimeoutCounter;
-			//		menuButtons[0].UpdateGameText(fmt.str());
-			//		if (controllerTimeout.isStarted()) {
-			//			controllerTimeout.reset();
-			//		}
-			//		else {
-			//			controllerTimeout.start();
-			//		}
-			//	}
-
-			//}
-			//else 
 			switch (KeyCallback(window, &controllers[controllerIndex], audio)) {	//check key callback 
 			case 2:
 				toggleMenuIndex(1, audio, initIndex, maxIndex);
@@ -723,7 +659,6 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					InitializeCarScreen();
 					isCarScreen = true;
 					isLoadScreen = false;
-					//controllerTimeoutCounter = 10, playersNotAdded = 0;
 
 					newMenuIndex(carButtonInitIndex, carButtonInitIndex, initIndex, maxIndex, 2);
 					Sleep(150);		//slow down input so not crazy fast				}

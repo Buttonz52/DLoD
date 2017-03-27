@@ -1,10 +1,10 @@
 #pragma once
 #include "Utility.h"
-#include "../GameEngine/Mesh.h"
+#include "GameEngine/Mesh.h"
 #include "ScreenOverlay.h"
-#include "../Controller/XboxController.h"
+#include "Controller/XboxController.h"
 #include "Audio.h"
-#include "..\Game\timer.h"
+#include "Game\timer.h"
 
 class TitleScreen
 {

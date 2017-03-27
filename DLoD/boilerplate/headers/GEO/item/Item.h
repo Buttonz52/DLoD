@@ -20,7 +20,7 @@ public:
 	Item(ItemType);
 	~Item();
 
-
+  bool isTrap;
   bool isActive;
 
   void (*onPickUp)(Vehicle* v);

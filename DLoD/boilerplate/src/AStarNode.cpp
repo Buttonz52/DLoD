@@ -80,6 +80,18 @@ void OctTree::getNodesForSphere(vector<AStarNode*> &nodesInArea, vec3 cp, double
   }
 }
 
+void OctTree::getNodesForArc(vector<AStarNode*>& nodesInArea, vec3 cp, vec3 ray)
+{
+  vector<AStarNode *> nodes;
+  getNodesForSphere(nodes, cp, length(ray));
+
+  for (AStarNode* node : nodes)
+  {
+    if (dot((node->position - cp), ray) > 1.0 / sqrt(2.0))
+      nodesInArea.push_back(node);
+  }
+}
+
 void OctTree::resetNodes()
 {
   // just needs to be a big number
