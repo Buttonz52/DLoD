@@ -264,14 +264,14 @@ void TitleScreen::InitializeChooseScreen() {
 	menuButtons[1].InitializeGameText("Choose your location", vec3(-0.5, 0.0, 0), vec3(0), 20);
 
 	//init transparent arena textures
-	if (!menuButtons[arenaButtonInitIndex].initTexture("textures/arenaImgs/arena9.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init arena9 texture." << endl;
+	if (!menuButtons[arenaButtonInitIndex].initTexture("textures/arenaImgs/bowl.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init bowl texture." << endl;
 	}
-	if (!menuButtons[arenaButtonInitIndex + 1].initTexture("textures/arenaImgs/bpArena2.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init bpArena2 texture." << endl;
+	if (!menuButtons[arenaButtonInitIndex + 1].initTexture("textures/arenaImgs/devil.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init devil texture." << endl;
 	}
-	if (!menuButtons[arenaButtonInitIndex + 2].initTexture("textures/arenaImgs/bumpyArena.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init bpArena2 texture." << endl;
+	if (!menuButtons[arenaButtonInitIndex + 2].initTexture("textures/arenaImgs/wrap.png", GL_TEXTURE_2D)) {
+		cout << "Failed to init wrap texture." << endl;
 	}
 	menuButtons[arenaButtonInitIndex].isRedTransparent = 1;
 	menuButtons[arenaButtonInitIndex + 1].isRedTransparent = 1;
