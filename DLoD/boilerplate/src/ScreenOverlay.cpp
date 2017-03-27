@@ -9,7 +9,6 @@
 ScreenOverlay::ScreenOverlay()
 {
 	isFontTex = 0;
-	isRedTransparent = 0;
 
 	hasTexture = 0;
 	mixColour = 0;
@@ -234,7 +233,6 @@ void ScreenOverlay::Render(GLuint type, const vec3 &colour)
 	glUniform1i(glGetUniformLocation(shader.program, "hasTexture"), hasTexture);
 	glUniform1i(glGetUniformLocation(shader.program, "mixColour"), mixColour);
 	glUniform1i(glGetUniformLocation(shader.program, "isFontTex"), isFontTex);
-	glUniform1i(glGetUniformLocation(shader.program, "isRedTransparent"), isRedTransparent);
 	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
 	glUniform1f(glGetUniformLocation(shader.program, "mixAmount"), mixAmount);
 

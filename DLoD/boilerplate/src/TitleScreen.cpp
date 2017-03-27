@@ -55,7 +55,6 @@ void TitleScreen::readRules(GLFWwindow *window, XboxController *ctrller, Audio *
 	if (!rulesScreen.initTexture("textures/rulesScreen.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init rules screen." << endl;
 	}
-	rulesScreen.isRedTransparent = 1;
 	rulesScreen.GenerateSquareVertices(1, 1, vec3(0,0,0));
 
 	rulesScreen.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
@@ -126,7 +125,6 @@ void TitleScreen::InitializeTitleScreen() {
 
 	//generic button with transparent background
 	ScreenOverlay button;
-	button.isRedTransparent = 1;
 
 	//vector of buttons
 	for (int i = 0; i < 5; i++)
@@ -230,9 +228,6 @@ void TitleScreen::InitializeCarScreen() {
 	if (!menuButtons[carButtonInitIndex + 2].initTexture("textures/carImgs/heavyCar.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init heavy car texture." << endl;
 	}
-	menuButtons[carButtonInitIndex].isRedTransparent = 1;
-	menuButtons[carButtonInitIndex + 1].isRedTransparent = 1;
-	menuButtons[carButtonInitIndex + 2].isRedTransparent = 1;
 
 	menuButtons[carButtonInitIndex].setPosition(vec3(-0.4, 0, 0));
 	menuButtons[carButtonInitIndex + 1].setPosition(vec3(0, 0, 0));
@@ -273,10 +268,6 @@ void TitleScreen::InitializeChooseScreen() {
 	if (!menuButtons[arenaButtonInitIndex + 2].initTexture("textures/arenaImgs/wrap.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init wrap texture." << endl;
 	}
-	menuButtons[arenaButtonInitIndex].isRedTransparent = 1;
-	menuButtons[arenaButtonInitIndex + 1].isRedTransparent = 1;
-	menuButtons[arenaButtonInitIndex + 2].isRedTransparent = 1;
-
 
 	//initialize which button cursor will be on upon starting
 	menuButtons[arenaButtonInitIndex].setColour(selectColour);	//is set to green initially

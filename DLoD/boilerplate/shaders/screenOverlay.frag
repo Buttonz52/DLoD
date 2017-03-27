@@ -9,7 +9,6 @@ uniform sampler2D sampler;
 uniform int hasTexture;
 uniform int mixColour;
 uniform int isFontTex;
-uniform int isRedTransparent;
 uniform float mixAmount;
 uniform float transparency;
 in vec2 UV;
@@ -18,32 +17,36 @@ void main(void)
 //if texture exists, render that. Otherwise, render colour.
 	if (hasTexture==1) {
 		//Mix with colour and texture
-		vec3 texColour = texture(sampler, UV).xyz;
-		if (isRedTransparent ==1) {
-			if (texColour.x >0.7 && texColour.y < 0.2 && texColour.z < 0.2) {
-				discard;
+		vec4 texColour = texture(sampler, UV);
+		if (texColour.w > 0.f) {
+
+			//is a font
+			if (isFontTex ==1) {
+				//make transparent background
+				if (texColour.x < 0.5) {
+					//we don't want to draw to screen if it is bitmap background 
+					discard;
+				}
+				//else set it to colour of text
+				else {
+					//FragmentColour = vec4(Colour, 1.f);
+					texColour = vec4(Colour, transparency);
+				}
 			}
-		}
-		//is a font
-		if (isFontTex ==1) {
-			//make transparent background
-			if (texColour.x < 0.5) {
-				//we don't want to draw to screen if it is bitmap background 
-				discard;
+
+			if (mixColour == 1) {
+				if (texColour.w > 0.f)
+					FragmentColour = vec4(mix(texColour.xyz, Colour, mixAmount),transparency);
+				else
+					discard;
 			}
-			//else set it to colour of text
+
 			else {
-				//FragmentColour = vec4(Colour, 1.f);
-				texColour = Colour;
+				FragmentColour = vec4(texColour.xyz,transparency);
 			}
 		}
-
-		if (mixColour == 1) {
-			FragmentColour = vec4(mix(texColour, Colour, mixAmount),transparency);
-		}
-
 		else {
-			FragmentColour = vec4(texColour,transparency);
+			discard;
 		}
 
 	}

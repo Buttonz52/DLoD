@@ -109,7 +109,6 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	if (!dpadTexture.initTexture("textures/XboxControllerDPad.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init arena map." << endl;
 	}
-	dpadTexture.isRedTransparent = 1;
 	dpadTexture.GenerateSquareVertices(0.15, 0.18, vec3(0.6, 0.5, 0.1));
 	dpadTexture.setPosition(vec3(-0.83,-0.8,0));
 	dpadTexture.setTransparency(0.4f);
@@ -121,7 +120,6 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	if (!weaponUpD.initTexture("textures/itemImgs/bearTrap.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init arena map." << endl;
 	}
-	weaponUpD.isRedTransparent = 1;
 	weaponUpD.setMixFlag(1);
 	weaponUpD.GenerateSquareVertices(0.06, 0.07, vec3(1,1,0));
 	weaponUpD.setPosition(vec3(-0.83, -0.66, 0));
@@ -132,7 +130,6 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 		cout << "Failed to init arena map." << endl;
 	}
 
-	weaponLeftD.isRedTransparent = 1;
 	weaponLeftD.setMixFlag(1);
 	weaponLeftD.GenerateSquareVertices(0.06, 0.07, vec3(0, 0, 1));
 	weaponLeftD.setPosition(vec3(-0.93, -0.79, 0));

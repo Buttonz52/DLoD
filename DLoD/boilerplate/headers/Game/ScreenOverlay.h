@@ -9,7 +9,7 @@ public:
 	ScreenOverlay();
 	~ScreenOverlay();
 
-	int isFontTex, isRedTransparent;
+	int isFontTex;
 
 	void InitializeShaders(const string &vert, const string &frag);
 	bool initTexture(const string &filename, GLuint target);
