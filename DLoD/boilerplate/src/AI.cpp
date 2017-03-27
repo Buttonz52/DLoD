@@ -47,6 +47,8 @@ vec3 AI::determineTarget(GameState * state)
 
 void AI::getInput(GameState* state)
 {
+  trap = EmpTrap;
+
   if (vehicle->stun.first) {
     if (vehicle->timer.getTicks() < vehicle->stun.second)
       return;
