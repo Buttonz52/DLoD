@@ -543,11 +543,11 @@ void Vehicle::FlipVehicle() {
 	float force = 100;
 	float torque = 100;
 
-	int flipside = timer.getTicks() % 2;
+	//int flipside = timer.getTicks() % 2;
 	
 	// Get the rotation of the object
 	float mass = physXVehicle->getRigidDynamicActor()->getMass();
-	PxVec3 axis(0, 0, flipside == 0 ?-1 : 1);
+	PxVec3 axis(0,0,1);
 	axis = physXVehicle->getRigidDynamicActor()->getGlobalPose().rotate(axis);
 	cout << axis.x << " " <<axis.y << " " <<axis.z << endl;
 	physXVehicle->getRigidDynamicActor()->addForce(PxVec3(0, force*mass, 0));
