@@ -57,7 +57,6 @@ Audio audio;
 Vehicle *currentVehicle;
 vec3 _lightSource = vec3(0.f, 50.f, 0.f);
 
-//string mainMusic= "music/TimeLapse.wav";	//theme
 string mainMusic = "music/TimeLapse.wav";
 
 int skyboxIndex, arenaIndex;

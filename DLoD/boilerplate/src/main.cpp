@@ -26,7 +26,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
       audio.PausePlay();
       break;
 
-    case GLFW_KEY_SPACE:
+    case GLFW_KEY_E:
       audio.PlaySfx(audio.horn, MIX_MAX_VOLUME,3);
       break;
 
