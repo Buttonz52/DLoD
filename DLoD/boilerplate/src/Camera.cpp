@@ -5,17 +5,20 @@ Camera::Camera()
 	setInitValues();
 	center = vec3(0);
 	focalPoint = glm::vec3(0, 0, 0);
+	//exposure = 1.f;
 }
 
 Camera::Camera(vec3 &c) {
 	setInitValues();
 	focalPoint = glm::vec3(0, 0, 0);
 	center = c;
+	//exposure = 1.f;
 }
 Camera::Camera(vec3 &c, vec3 &f) {
 	setInitValues();
 	center = c;
 	focalPoint = f;
+	//exposure = 1.f;
 }
 Camera::~Camera() {}
 

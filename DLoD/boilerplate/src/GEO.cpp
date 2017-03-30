@@ -9,8 +9,11 @@ GEO::GEO()
 	hasTexture = 0;
 	isSkybox = 0;
 	mixColour = 0;
+	hasEnvMap = 0;
 	colour = vec3(1,1,1);
 	transparency = 1.f;
+	exposure = 1.f;
+	reflectance = 0.04f;
 }
 
 GEO::~GEO()
@@ -211,6 +214,26 @@ void GEO::setTexture(const Texture &tex) {
 	texture = tex;
 }
 
+void GEO::setExposure(const float &e) {
+	exposure = e;
+}
+
+float GEO::getExposure() {
+	return exposure;
+}
+
+void GEO::setReflectance(const float &r) {
+	reflectance = r;
+}
+
+float GEO::getReflectance() {
+	return reflectance;
+}
+
+void GEO::setEnvironmentMap(const Texture &em) {
+	hasEnvMap = 1;
+	environmentMap = em;
+}
 Mesh& GEO::getMesh()
 {
 	return mesh;
@@ -244,7 +267,9 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 		texture.BindTexture(shader.program, "sampler");
 	}
 
-	vec3 fp = vec3(0, 0, 0);		//focal point
+	if (hasEnvMap) {
+		environmentMap.BindTexture(shader.program, "radiancemap");
+	}
 
 	mat4 M = getModelMatrix();
 	glm::mat4 lightProjection, lightView;
@@ -259,6 +284,9 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 
 	glUniform1i(glGetUniformLocation(shader.program, "mixColour"), mixColour);
 	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
+	glUniform1f(glGetUniformLocation(shader.program, "exposure"), exposure);
+	glUniform1f(glGetUniformLocation(shader.program, "reflectance"), reflectance);
+
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
 
@@ -276,7 +304,8 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 	if (hasTexture) {
 		texture.UnbindTexture();
 	}
-
+	if (hasEnvMap)
+		environmentMap.UnbindTexture();
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 

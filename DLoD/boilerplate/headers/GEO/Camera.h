@@ -15,6 +15,7 @@ private:
 	float _near;
 	float _far;
 
+	//float exposure;
   float asp;
 	
 	vec3 center;
@@ -34,6 +35,10 @@ public:
 	void incrementAzu(float);
 	void incrementAlt(float);
 	void incrementRadius(float);
+
+	//void increaseExposure(){exposure *= 1.5f;}
+	//void decreaseExposure(){exposure/=1.5f;}
+	//float exposure() { return exposure;}
 
   void setAsp(float);
  

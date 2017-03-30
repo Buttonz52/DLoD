@@ -15,43 +15,6 @@ void ErrorCallback(int error, const char* description)
 	cout << description << endl;
 }
 
-// handles keyboard input events when we want multiple keys pressed at once
-void AlternKeyCallback(GLFWwindow* window)
-{
-  int state;
-  //Movement of the GEOs with keyboard if controller not connected
-  if (!testController.Connected())
-  {
-	  if (!currentVehicle->isDead()) {
-		  if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-		  {
-			  currentVehicle->accelerate(1);
-		  }
-		  else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-		  {
-			  currentVehicle->decelerate(1);
-		  }
-		  else {
-			  currentVehicle->brake(8000.f);
-		  }
-		  state = glfwGetKey(window, GLFW_KEY_LEFT);
-		  if (state == GLFW_PRESS)
-		  {
-			  currentVehicle->turn(-1);
-		  }
-		  state = glfwGetKey(window, GLFW_KEY_RIGHT);
-		  if (state == GLFW_PRESS)
-		  {
-			  currentVehicle->turn(1);
-		  }
-	  }
-	  else {
-		  currentVehicle->brake(8000.f);
-	  }
-  }
-}
-
-
 // handles keyboard input events
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
@@ -72,36 +35,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     default:
       break;
   }
-}
-
-void GetControllerInput()
-{
-	testController.Update();
-	float turn;
-	if (!currentVehicle->isDead()) {
-		if (testController.RightTrigger() != 0)
-		{
-			currentVehicle->accelerate(testController.RightTrigger());
-		}
-
-		else if (testController.LeftTrigger() != 0)
-		{
-			currentVehicle->decelerate(testController.LeftTrigger());
-		}
-		else
-		{
-			currentVehicle->brake(1000.f);
-		}
-		if (testController.LeftStick_X() > -0.25 && testController.LeftStick_X() < 0.25)
-			turn = 0.0;
-		else
-			turn = testController.LeftStick_X();
-
-		currentVehicle->turn(turn);
-	}
-	else {	//just stop
-		currentVehicle->brake(1000.0);
-	}
 }
 
 // handles mouse click
@@ -212,11 +145,15 @@ int main(int argc, char *argv[])
 	// Enable blending (for transparency)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	//glfwWindowHint(GLFW_SRGB_CAPABLE, GL_TRUE);
+
+
 	if (!audio.Init()) {
 		cout << "Failed to init audio." << endl;
 	}
 
-	//while (!glfwWindowShouldClose(window)) {
 	int numPlayers;
 	while (!glfwWindowShouldClose(window)) {
 		//Initialize "Loading screen"
@@ -237,13 +174,13 @@ int main(int argc, char *argv[])
 			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
 
-
+			getSpawnPoints();
 
 			PrintDirections();
 
 			loadBkgrd.Destroy();
 			//glfwSetWindowPos(window, 0,0);
-			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers);
+			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers, spawnPoints);
 
 			if (!audio.PlayMusic()) {
 				cout << "Failed to play music" << endl;
@@ -293,4 +230,22 @@ void InitializeLoadScreen(ScreenOverlay *loadBkgrd) {
 	if (!loadBkgrd->GenerateSquareVertices(1, 1, vec3(0))) {
 		cout << "Failed to initialize screen overlay." << endl;
 	}
+}
+
+void getSpawnPoints()
+{
+	string meshname = starObjFilenames[arenaIndex];
+	GEO *spawnGEO = new GEO();
+
+	if (!spawnGEO->initMesh(meshname)) {
+		cout << "Failed to init arena" << endl;
+	}
+
+	spawnPoints = spawnGEO->getMesh().vertices;
+
+	for (int i = 0; i < spawnPoints.size(); i++)
+	{
+		spawnPoints[i] *= 30.f;
+	}
+
 }

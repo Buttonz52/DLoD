@@ -18,7 +18,7 @@ GEO* initGroundPlane()
   return plane;
 }
 
-Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers)
+Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers, const vector<vec3> spawnPoints)
 {
 
 	pause = false, restart = false;
@@ -53,7 +53,8 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   for (int i = 0; i < numPlayers; i++) {
 	  Human* human = new Human(i);
 	  human->ChooseVehicle(humanVehicleChoice->at(i));
-	  human->vehicle->setPosition(vec3(-100, 50, 100 * i));
+	  human->vehicle->setPosition(spawnPoints[i]);
+	  human->vehicle->setEnvironmentMap(skybox->getTexture());
 	  initVehicle(human->vehicle, humanVehicleChoice->at(i));
 	  skybox->children.push_back(human->vehicle);
 	  players.push_back(human);
@@ -72,7 +73,8 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 	  AI* ai = new AI(i);
 	  int aiRNGChoose = rand() % 3;
 	  ai->ChooseVehicle(aiRNGChoose);
-	  ai->vehicle->setPosition(vec3(20 * i, 50, 20 * i));
+	  ai->vehicle->setPosition(spawnPoints[i]);
+	  ai->vehicle->setEnvironmentMap(skybox->getTexture());
 	  initVehicle(ai->vehicle, aiRNGChoose);
 	  skybox->children.push_back(ai->vehicle);
 	  players.push_back(ai);
@@ -222,8 +224,10 @@ void Game::gameLoop()
 		  //render the game hud
 		  glEnable(GL_CULL_FACE);
 		  glCullFace(GL_BACK);
-
+	//  glEnable(GL_FRAMEBUFFER_SRGB);
 		  arena->Render(viewMatrix, projectionMatrix, lightSource);
+	//	  glDisable(GL_FRAMEBUFFER_SRGB);
+
 		  glDisable(GL_CULL_FACE);
 		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
 		  gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, canLayTrap);
@@ -385,6 +389,7 @@ void Game::initItem(Item* item)
 	  cout << "Could not initialize buffers for initialized item." << endl;
   }
   physX.initItem(item);
+  item->setEnvironmentMap(skybox->getTexture());
   skybox->children.push_back(item);
 }
 
@@ -397,16 +402,17 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	if (!arena->initMesh(objfilename)) {
 		cout << "Failed to init arena" << endl;
 	}
-
+	arena->setEnvironmentMap(skybox->getTexture());
+	arena->setReflectance(0.1);
 	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
+	//if (!arena->initTexture("textures/lightmaps/pisa.hdr", GL_TEXTURE_2D)) {	//NOTE: have to fix this for cube map; this doesn't work
+//	if (!arena->initTexture("textures/lightmaps/pisa_cube_radiance.hdr", GL_TEXTURE_CUBE_MAP)) {	//NOTE: have to fix this for cube map; this doesn't work
 		cout << "Failed to initialize arena ground texture." << endl;
 	}
 
-	arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+	//arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
+	arena->addShaders("shaders/hdr.vert", "shaders/hdr.frag");
 
-	if (!arena->initBuffers()) {
-		cout << "Could not initialize buffers for arena" << endl;
-	}
 	arena->setScale(vec3(30.f));
 	arena->setPosition(vec3(0, 0, 0));
 	arena->updateModelMatrix();

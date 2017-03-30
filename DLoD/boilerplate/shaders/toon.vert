@@ -26,6 +26,7 @@ out vec3 L;
 out vec3 P;
 out vec3 V;
 out vec3 uv;
+out vec3 vertexPosition;
 void main()
 {
 	//very arbitrary scale for the moment; testing purposes.
@@ -46,5 +47,6 @@ void main()
 	V = normalize(-P);
     //Pass uv coordinates and position.	
 	uv = UV;
+	vertexPosition = VertexPosition;
     gl_Position = projection * vertexCameraSpace;    
 }

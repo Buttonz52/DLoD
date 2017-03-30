@@ -29,6 +29,7 @@ vector<vec3> _normals;
 vector<GEO *> gameObjects;
 vector<Player*> players;
 vector<int> humanVehicleChoice;
+vector<vec3> spawnPoints;
 Player * currentPlayer;
 //test cameras
 vector<Camera> testCams = {	//just objects for now, make pointers or smth later
@@ -62,7 +63,7 @@ string mainMusic = "music/TimeLapse.wav";
 int skyboxIndex, arenaIndex;
 //skybox file paths
 vector<string> skyboxFilePathnames = {
-	"textures/ame_ash/",
+	"textures/ely_cloudtop/",
 	"textures/nec_hell/",
 	"textures/mp_deviltooth/",
 	"textures/mp_emerald/"
@@ -70,29 +71,29 @@ vector<string> skyboxFilePathnames = {
 
 //arena obj files
 vector <string> arenaObjFilenames = {
-	"arenas/bowl.obj",
+	"arenas/test.obj",
 	"arenas/devil.obj",
 	"arenas/wrap.obj"
 };
 
 vector<string> starObjFilenames = {
 
-	"starNodes/bowl.obj",
-	"starNodes/devil.obj",
-	"starNodes/wrap.obj"
+	"spawns/spawn.obj",
+	"spawns/spawn.obj",
+	"spawns/spawn.obj"
 };
 
 //arena radar
 vector <string> arenaMapFilenames = {
-	"textures/arenaImgs/map/arena9Map.png",
-	"textures/arenaImgs/map/bpArena2Map.png",
-	"textures/arenaImgs/map/bumpyArena3Map.png"
+	"textures/arenaImgs/radar/circle.png",
+	"textures/arenaImgs/radar/circle.png",
+	"textures/arenaImgs/radar/circle.png"
 };
 //Audio music;
 
 // OpenGL utility and support function prototypes
 void PrintDirections();
-
+void getSpawnPoints();
 // Mesh functions
 void InitializeLoadScreen(ScreenOverlay *loadBkgrd);
 

@@ -33,7 +33,7 @@ PhysXMain::~PhysXMain()
 
 VehicleDesc PhysXMain::initMediumVehicleDesc()
 {
-	const PxF32 chassisMass = 1000.0;
+	const PxF32 chassisMass = 1500.0;
 	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
 	const PxVec3 chassisMOI
 		((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass /12.0f,
@@ -44,7 +44,7 @@ VehicleDesc PhysXMain::initMediumVehicleDesc()
 	//Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
 	//Moment of inertia is just the moment of inertia of a cylinder.
 	const PxF32 wheelMass = 20;
-	const PxF32 wheelRadius = 0.5f;
+	const PxF32 wheelRadius = 0.25f;
 	const PxF32 wheelWidth = 0.45f;
 	const PxF32 wheelMOI = 40.f*wheelMass*wheelRadius*wheelRadius;
 	const PxU32 nbWheels = 4;
@@ -67,7 +67,7 @@ VehicleDesc PhysXMain::initMediumVehicleDesc()
 
 VehicleDesc PhysXMain::initLightVehicleDesc()
 {
-	const PxF32 chassisMass = 500.0;
+	const PxF32 chassisMass = 1000.0;
 	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
 	const PxVec3 chassisMOI
 	((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
@@ -78,7 +78,7 @@ VehicleDesc PhysXMain::initLightVehicleDesc()
 	//Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
 	//Moment of inertia is just the moment of inertia of a cylinder.
 	const PxF32 wheelMass = 20;
-	const PxF32 wheelRadius = 0.5f;
+	const PxF32 wheelRadius = 0.25f;
 	const PxF32 wheelWidth = 0.15f;
 	const PxF32 wheelMOI = 30.f*wheelMass*wheelRadius*wheelRadius;
 	const PxU32 nbWheels = 4;
@@ -101,7 +101,7 @@ VehicleDesc PhysXMain::initLightVehicleDesc()
 
 VehicleDesc PhysXMain::initLargeVehicleDesc()
 {
-	const PxF32 chassisMass = 1000.0;
+	const PxF32 chassisMass = 2000.0;
 	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
 	const PxVec3 chassisMOI
 	((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
@@ -112,7 +112,7 @@ VehicleDesc PhysXMain::initLargeVehicleDesc()
 	//Set up the wheel mass, radius, width, moment of inertia, and number of wheels.
 	//Moment of inertia is just the moment of inertia of a cylinder.
 	const PxF32 wheelMass = 20;
-	const PxF32 wheelRadius = 0.5f;
+	const PxF32 wheelRadius = 0.25f;
 	const PxF32 wheelWidth = 0.45f;
 	const PxF32 wheelMOI = 50.f*wheelMass*wheelRadius*wheelRadius;
 	const PxU32 nbWheels = 4;
@@ -148,7 +148,7 @@ void PhysXMain::init(const int numVehicles)
 	}
 
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, 6*-9.81f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, 3*-9.81f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;	//this will give us heck later
@@ -157,7 +157,7 @@ void PhysXMain::init(const int numVehicles)
 	sceneDesc.contactModifyCallback = new ContactModifyCallback(this);
 	gScene = gPhysics->createScene(sceneDesc);
 
-	gMaterial = gPhysics->createMaterial(1.0f, 0.5f, 0.0f);	//static friction, dynamic friction, restitution
+	gMaterial = gPhysics->createMaterial(0.5f, 0.4f, 0.0f);	//static friction, dynamic friction, restitution
 
 	gCooking = PxCreateCooking(PX_PHYSICS_VERSION, *gFoundation, PxCookingParams(PxTolerancesScale()));
 
@@ -299,6 +299,12 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 	{
 		if (Vehicle* v = static_cast<Vehicle*>(g[i])) {
 			vehiclesVec.push_back(v);
+
+			if (v->physXVehicle->mWheelsDynData.getWheelRotationSpeed(0) > 550)
+			{
+				for (int j = 0; j < v->physXVehicle->mWheelsDynData.getNbWheelRotationSpeed(); ++j)
+					v->physXVehicle->mWheelsDynData.setWheelRotationSpeed(j, 550);
+			}
 		}
 		else {
 			geosVec.push_back(g[i]);
@@ -321,8 +327,6 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 	//Vehicle update.
 	const PxVec3 grav = gScene->getGravity();
 	PxVehicleUpdates(timestep, grav, *gFrictionPairs, vehicles.size(), &vehicles[0], &vehicleQueryResults[0]);
-
-	cout << "drive torque: " <<  vehiclesVec[0]->physXVehicle->computeForwardSpeed() << endl;
 
 	//Scene update.
 	gScene->simulate(timestep);

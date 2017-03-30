@@ -13,13 +13,19 @@ in vec3 L;
 in vec3 P;
 in vec3 V;
 in vec3 uv;
-
+in vec3 vertexPosition;
 uniform float transparency;
-uniform sampler2D sampler;
+uniform samplerCube radiancemap;
+uniform float exposure;
+uniform float reflectance;
 
 // first output is mapped to the framebuffer's colour index by default
 out vec4 FragmentColour;
 
+vec3 FresnelReflectance(vec3 R0, float cosine) {
+	return R0 + (vec3(1.f)-R0) * pow(1.0-cos(cosine),5.f);
+
+}
 void main(void)
 {
 	//Simple Phong/toon shading
@@ -43,9 +49,23 @@ void main(void)
 	else {
 		diffuse = 0.3f;
 	}
-	//FragmentColour = vec4(1.0, 0.0, 0.0, 1.0);
-	//FragmentColour = vec4(uv.xy, 0.0, 1.0);
-	//FragmentColour = texture(sampler, uv.xy);
-    FragmentColour = vec4(Colour*vec3(diffuse), transparency);
 
+   // FragmentColour = vec4(Colour*vec3(diffuse), transparency);
+      
+	vec3 toonColour = Colour*vec3(diffuse);
+
+	vec3 v = normalize(V); 
+	vec3 r = reflect(-v, N);
+	vec4 nits = texture(radiancemap, r); //vec3 for uv, vertex position
+
+	//vec4 lux = texture(irradiancemap, normal);
+
+	float NdotV = dot(N,v);
+
+	//vec3 shaded =  (lux * fresnelReflectance(vec3(0.04), NdotV ) * nits +  vec3(ambient + vec3(diffuse) + specular));
+
+	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits + toonColour);
+	
+	//FragmentColour = nits;
+	FragmentColour = vec4(shaded *exposure, 1.f);	//don't mess with the alphas, that is bad news
 }

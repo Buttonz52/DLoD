@@ -4,8 +4,6 @@
 
 Vehicle::Vehicle()
 {
-	xoff = 2.1f;
-	zoff = 5;
 	timer.start();
 	initArmour = 30;
 	armour = 30;
@@ -22,10 +20,10 @@ Vehicle::Vehicle()
 
 	filename = "cars/mediumCarBody.obj";
 	armourFilename = "armour/MediumArmour.obj";
-	torqueSpeed = 12000.0;
-	maxVelocity = 70;
+	torqueSpeed = 18000.0;
 	colour = vec3(1,0, 0);
 	initColour = colour;
+	reflectance = 0.3f;
 }
 
 
@@ -60,14 +58,11 @@ void Vehicle::updateWheelPosition()
 	PxTransform m = this->physXVehicle->getRigidDynamicActor()->getGlobalPose();
 	PxQuat rotate = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().q;
 	PxVec3 vCenter = this->physXVehicle->getRigidDynamicActor()->getGlobalPose().p;
-	
-	mat4 mRotate = convertMat(rotate.getBasisVector0(), rotate.getBasisVector1(), rotate.getBasisVector2(),PxVec3(0,0,0));
-	mat4 mm = convertMat(m.q.getBasisVector0(), m.q.getBasisVector1(), m.q.getBasisVector2(), vCenter);
 
 	PxVec3 displacement(xoff, 0, zoff);
 	PxTransform name = m;
 
-	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, 1.0));
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 	name.p += displacement;
 	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
 	//model[3] = vec4(vCenter.x - xoff, vCenter.y, vCenter.z + zoff, 1.f);
@@ -78,7 +73,7 @@ void Vehicle::updateWheelPosition()
 
 	name = m;
 	//displacement = rotate.rotate(displacement);
-	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, 1.0));
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 
 	name.p += displacement;
 
@@ -90,7 +85,7 @@ void Vehicle::updateWheelPosition()
 	displacement = PxVec3(xoff, 0, -zoff);
 	name = m;
 	//displacement = rotate.rotate(displacement);
-	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, 1.0));
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 
 	name.p += displacement;
 
@@ -102,7 +97,7 @@ void Vehicle::updateWheelPosition()
 	displacement = PxVec3(-xoff, 0, -zoff);
 	name = m;
 	//displacement = rotate.rotate(displacement);
-	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0,1.0));
+	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 
 	name.p += displacement;
 
@@ -113,25 +108,23 @@ void Vehicle::updateWheelPosition()
 
 void Vehicle::accelerate(const float &m)
 {
-	if (physXVehicle->computeForwardSpeed() < maxVelocity)
-	{
-		physXVehicle->setDriveTorque(0, m*torqueSpeed);
-		physXVehicle->setDriveTorque(1, m*torqueSpeed);
-		physXVehicle->setDriveTorque(2, m*torqueSpeed);
-		physXVehicle->setDriveTorque(3, m*torqueSpeed);
-	}
+
+	physXVehicle->setDriveTorque(0, m*torqueSpeed);
+	physXVehicle->setDriveTorque(1, m*torqueSpeed);
+	physXVehicle->setDriveTorque(2, m*torqueSpeed);
+	physXVehicle->setDriveTorque(3, m*torqueSpeed);
+	
 }
 
 
 void Vehicle::decelerate(const float &m)
 {
-	if (physXVehicle->computeForwardSpeed() > -maxVelocity)
-	{
-		physXVehicle->setDriveTorque(0, m*-torqueSpeed);
-		physXVehicle->setDriveTorque(1, m*-torqueSpeed);
-		physXVehicle->setDriveTorque(2, m*-torqueSpeed);
-		physXVehicle->setDriveTorque(3, m*-torqueSpeed);
-	}
+
+	physXVehicle->setDriveTorque(0, m*-torqueSpeed);
+	physXVehicle->setDriveTorque(1, m*-torqueSpeed);
+	physXVehicle->setDriveTorque(2, m*-torqueSpeed);
+	physXVehicle->setDriveTorque(3, m*-torqueSpeed);
+	
 }
 
 void Vehicle::turn(const float &dir)
@@ -203,12 +196,12 @@ float Vehicle::calculateDamage(const double &x, const double &y, const double &z
     // damage to the front
     if (oD.z > 0)
     {
-      damage = force * 0.3;
+      damage = force * 0.2;
     }
     // damage to the back
     else
     {
-      damage = force;
+      damage = force*4;
     }
   }
   // damage to the sides
@@ -217,12 +210,12 @@ float Vehicle::calculateDamage(const double &x, const double &y, const double &z
     // damage to the right
     if (oD.x > 0)
     {
-      damage = force * 0.6;
+      damage = force * 0.3;
     }
     // damage to the left
     else
     {
-      damage = force * 0.6;
+      damage = force * 0.3;
     }
   }
 
@@ -345,7 +338,10 @@ void Vehicle::giveMeArmour(const vec3 &colour) {
 	scaleM[0][0] = scale.x;
 	scaleM[1][1] = scale.y;
 	scaleM[2][2] = scale.z;
-	armourGEO->setColour(colour);
+
+	float greyscale = 0.299 * colour.x + 0.587 * colour.y + 0.114 * colour.z;
+	//armourGEO->setColour(colour);
+	armourGEO->setColour(vec3(greyscale));
 
 	if (!armourGEO->initMesh(armourFilename)) {
 		cout << "Error reading armour mesh." << endl;
@@ -362,6 +358,9 @@ void Vehicle::giveMeArmour(const vec3 &colour) {
 		armourGEO->getMesh().vertices[i] = scaleM * armourGEO->getMesh().vertices[i];
 
 	}
+	armourGEO->setEnvironmentMap(environmentMap);
+	armourGEO->setExposure(1.f);
+	armourGEO->setReflectance(1.f);
 	children.push_back(armourGEO);
 }
 void Vehicle::giveMeWheels()
@@ -494,6 +493,9 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 		texture.BindTexture(shader.program, "sampler");
 	}
 
+	if (hasEnvMap) {
+		environmentMap.BindTexture(shader.program, "radiancemap");
+	}
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
 	mat4 M = getModelMatrix();
@@ -506,6 +508,10 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 	//lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
 	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;
+
+	glUniform1f(glGetUniformLocation(shader.program, "exposure"), exposure);
+	glUniform1f(glGetUniformLocation(shader.program, "reflectance"), reflectance);
+
 
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
 	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
@@ -523,6 +529,8 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 	if (hasTexture)
 		texture.UnbindTexture();
 
+	if (hasEnvMap)
+		environmentMap.UnbindTexture();
 	// check for an report any OpenGL errors
 	CheckGLErrors();
 
@@ -548,14 +556,14 @@ mat4 Vehicle::convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w)
 
 //Flips vehicle over
 void Vehicle::FlipVehicle() {
-	float force = 1000;
-	float torque = 1000;
+	float force = 100;
+	float torque = 100;
 
-	int flipside = timer.getTicks() % 2;
+	//int flipside = timer.getTicks() % 2;
 	
 	// Get the rotation of the object
 	float mass = physXVehicle->getRigidDynamicActor()->getMass();
-	PxVec3 axis(0, 0, flipside == 0 ?-1 : 1);
+	PxVec3 axis(0,0,1);
 	axis = physXVehicle->getRigidDynamicActor()->getGlobalPose().rotate(axis);
 	cout << axis.x << " " <<axis.y << " " <<axis.z << endl;
 	physXVehicle->getRigidDynamicActor()->addForce(PxVec3(0, force*mass, 0));

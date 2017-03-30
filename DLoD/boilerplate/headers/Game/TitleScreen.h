@@ -33,7 +33,8 @@ private:
 	bool isQuit, isStart, 
 		isRules, isLoadScreen, 
 		isChooseArena, isChooseSkybox, 
-		isMultiplayerScreen, isCarScreen;
+		isMultiplayerScreen, isCarScreen,
+		isArenaSkyboxScreen;
 
 	int menuIndex,
 		multiplayerInitIndex,
@@ -44,6 +45,7 @@ private:
 
 	int numMenuButtons;
 	int initIndex, maxIndex;
+	int pauseTime;
 	string titleMusic = "music/Faded_intro.wav";
 
 	vec3 selectColour, pressColour, prevColour;

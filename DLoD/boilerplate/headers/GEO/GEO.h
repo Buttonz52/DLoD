@@ -28,7 +28,8 @@ public:
 	bool isSkybox;
 	bool isPlane;
 	bool mixColour; 
-	 
+	bool hasEnvMap;
+
 	float transparency;
 
 	double getRadius();
@@ -65,6 +66,11 @@ public:
 	void setShader(const Shader &s);
 	Texture &getTexture();
 	void setTexture(const Texture &texture);
+	void setExposure(const float & e);
+	float getExposure();
+	void setReflectance(const float & r);
+	float getReflectance();
+	void setEnvironmentMap(const Texture & em);
 	Mesh& getMesh();
 	void setMesh(const Mesh &m);
 	virtual void setColour(const vec3 &col);
@@ -79,7 +85,7 @@ public:
 protected:
 	double radius;
 	vec3 colour;
-
+	float exposure, reflectance;
 	vec3 position;
 	vec3 scale;  
     double xRotation, yRotation, zRotation;
@@ -89,7 +95,7 @@ protected:
 	physx::PxRigidDynamic *body;
 
 	Shader shader;
-	Texture texture;
+	Texture texture, environmentMap;
 	vector<vec3> tangentMesh;
 	Audio audio;
 	map<string, Mix_Chunk*> sfxMap;	//map of sounds

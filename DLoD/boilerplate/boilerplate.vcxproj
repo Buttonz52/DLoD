@@ -211,6 +211,8 @@
   <ItemGroup>
     <None Include="shaders\billboard.frag" />
     <None Include="shaders\billboard.vert" />
+    <None Include="shaders\hdr.frag" />
+    <None Include="shaders\hdr.vert" />
     <None Include="shaders\screenOverlay.frag" />
     <None Include="shaders\screenOverlay.vert" />
     <None Include="shaders\shadow.frag" />
