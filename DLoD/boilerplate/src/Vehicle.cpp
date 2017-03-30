@@ -196,12 +196,12 @@ float Vehicle::calculateDamage(const double &x, const double &y, const double &z
     // damage to the front
     if (oD.z > 0)
     {
-      damage = force * 0.2;
+      damage = force * 0.15;
     }
     // damage to the back
     else
     {
-      damage = force*4;
+      damage = force*0.4;
     }
   }
   // damage to the sides

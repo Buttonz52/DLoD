@@ -104,7 +104,7 @@ void AI::getInput(GameState* state)
 		}
 	}
 
-	if (min(distNP, distNPU) < 100.0)
+	if (min(distNP, distNPU) < 800.0)
 		behaviour = (distNP < distNPU) ? attacking : pickup;
 
 	double health = vehicle->getHealth();

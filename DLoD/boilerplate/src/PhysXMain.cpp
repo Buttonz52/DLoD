@@ -305,6 +305,12 @@ void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 				for (int j = 0; j < v->physXVehicle->mWheelsDynData.getNbWheelRotationSpeed(); ++j)
 					v->physXVehicle->mWheelsDynData.setWheelRotationSpeed(j, 550);
 			}
+
+			if (v->physXVehicle->mWheelsDynData.getWheelRotationSpeed(0) < -550)
+			{
+				for (int j = 0; j < v->physXVehicle->mWheelsDynData.getNbWheelRotationSpeed(); ++j)
+					v->physXVehicle->mWheelsDynData.setWheelRotationSpeed(j, -550);
+			}
 		}
 		else {
 			geosVec.push_back(g[i]);
