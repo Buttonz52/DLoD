@@ -45,7 +45,7 @@ private:
 
 	int numMenuButtons;
 	int initIndex, maxIndex;
-	int pauseTime;
+	int pauseTime, timeout;
 	string titleMusic = "music/Faded_intro.wav";
 
 	vec3 selectColour, pressColour, prevColour;
@@ -53,10 +53,14 @@ private:
 	ScreenOverlay background;
 	vector<ScreenOverlay> menuButtons;
 
+	Timer timer; 
+
 	Mix_Chunk *click, *press, *back;
 
 	void pressStart(Audio *audio);
 	void readRules(GLFWwindow * window, XboxController * ctrller, Audio * audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers);
+	void DisplayVideo(Audio *audio);
+	void CheckTimeout(Audio *audio);
 	void pressQuit();
 	void toggleMenuIndex(const int &s, Audio *audio, const int &initIndex, const int &maxIndex);
 };

@@ -94,7 +94,6 @@ vector <string> arenaMapFilenames = {
 void PrintDirections();
 void getSpawnPoints();
 // Mesh functions
-void InitializeLoadScreen(ScreenOverlay *loadBkgrd);
 
 //PhysX object
 PhysXMain PhysX;

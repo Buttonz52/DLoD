@@ -18,8 +18,8 @@ in vec3 uv;
 out vec4 FragmentColour;
 uniform sampler2D sampler;
 uniform samplerCube radiancemap;
-uniform float exposure = 1.f;
-uniform float reflectance = 1.f;
+uniform float exposure;
+uniform float reflectance;
 
 
 vec3 FresnelReflectance(vec3 R0, float cosine) {

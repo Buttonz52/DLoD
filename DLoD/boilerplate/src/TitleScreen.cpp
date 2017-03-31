@@ -24,6 +24,7 @@ TitleScreen::TitleScreen()
 	numMenuButtons = 3;
 
 	pauseTime = 100;
+	timeout = 5000;
 
 	selectColour = vec3(1,0.5,0.5);
 	pressColour = vec3(1, 0, 1);
@@ -81,6 +82,22 @@ void TitleScreen::readRules(GLFWwindow *window, XboxController *ctrller, Audio *
 	}
 }
 
+void TitleScreen::DisplayVideo(Audio *audio) {
+	cout << "Play video!" << endl;
+}
+
+void TitleScreen::CheckTimeout(Audio *audio) {
+	if (timer.isStarted()) {
+		if (timer.getTicks() >= timeout) {
+			//display video/set a flag or smth
+			DisplayVideo(audio);
+			timer.reset();
+		}
+	}
+	else {
+		timer.start();
+	}
+}
 //quit game
 void TitleScreen::pressQuit() {
 	isQuit = true;
@@ -121,16 +138,17 @@ void TitleScreen::toggleMenuIndex(const int &s, Audio *audio, const int &initInd
 
 //Initializes main screen
 void TitleScreen::InitializeTitleScreen() {
-
+	if (!timer.isStarted())
+		timer.start();
+	else
+		timer.reset();
+	
 	//clear vector of menu buttons
 	menuButtons.clear();
 
-	//generic button with transparent background
-	ScreenOverlay button;
-
 	//vector of buttons
 	for (int i = 0; i < 5; i++)
-		menuButtons.push_back(button);
+		menuButtons.emplace_back();
 
 	//set colours of buttons for now
 	menuButtons[0].setColour(selectColour);	//is set to green initially
@@ -182,12 +200,9 @@ void TitleScreen::InitializeMultiplayerScreen() {
 	//clear vector of menu buttons
 	menuButtons.clear();
 
-	//generic button
-	ScreenOverlay button;
-
 	//vector of buttons
 	for (int i = 0; i <5; i++) {
-		menuButtons.push_back(button);
+		menuButtons.emplace_back();
 	}
 
 	//screen overlays for number of players
@@ -211,12 +226,9 @@ void TitleScreen::InitializeCarScreen() {
 	//clear vector of menu buttons
 	menuButtons.clear();
 
-	//generic button
-	ScreenOverlay button;
-
 	//vector of buttons
 	for (int i = 0; i <4; i++) {
-		menuButtons.push_back(button);
+		menuButtons.emplace_back();
 	}
 	menuButtons[0].InitializeGameText("Player 1, choose your vehicle:", vec3(-0.5, 0.3, 0), vec3(0), 30);
 
@@ -248,12 +260,9 @@ void TitleScreen::InitializeChooseScreen() {
 	//clear vector of menu buttons
 	menuButtons.clear();
 
-	//generic button
-	ScreenOverlay button;
-
 	//vector of buttons
 	for (int i = 0; i <9; i++) {
-		menuButtons.push_back(button);
+		menuButtons.emplace_back();
 	}
 
 	//screen overlays for arena and location
@@ -311,6 +320,8 @@ void TitleScreen::InitializeChooseScreen() {
 }
 //render all components
 void TitleScreen::Render() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	background.Render(GL_TRIANGLE_STRIP, background.getColour());	//render "loading screen"
 	for (int i = 0; i < menuButtons.size(); i++)
 		if (!menuButtons[i].isFontTex) {
@@ -415,6 +426,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 	while (!isStartPressed()) {
 		//title screen
 		if (!isArenaSkyboxScreen && !isMultiplayerScreen && !isCarScreen) {
+			CheckTimeout(audio);
 			switch (KeyCallback(window, controller, audio)) {	//check key callback 
 			case 0:
 				toggleMenuIndex(-1, audio, initIndex, maxIndex);
@@ -423,6 +435,9 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				toggleMenuIndex(1, audio, initIndex, maxIndex);
 				break;
 			case 4:
+				if (!timer.isStopped()) {
+					timer.stop();
+				}
 				switch (menuIndex)
 				{
 				case 0:
@@ -472,6 +487,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				menuButtons[menuIndex].setMixFlag(1);
 
 				//display colour
+				//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				Render();		//render titlescreen
 				glfwSwapBuffers(window);	//need this to output to screen
 				Sleep(pauseTime*2.5);		//slow down input so not crazy fast
@@ -522,10 +538,8 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 				break;
 				//press "select"
 			case 4:
-				cout << menuIndex << endl;
 				audio->PlaySfx(press, MIX_MAX_VOLUME,1);
 				//set flag to false
-				cout << controllerIndex << endl;
 				humanVehicleChoice->at(controllerIndex) = (menuIndex - carButtonInitIndex);
 				menuButtons[menuIndex].setColour(pressColour);	//indicate choice
 				menuButtons[menuIndex].setMixFlag(1);
@@ -675,8 +689,6 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 			}
 		}
 		// clear screen to a dark grey colour;
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		Render();		//render titlescreen
 		glfwSwapBuffers(window);	//need this to output to screen
 
@@ -709,6 +721,8 @@ void TitleScreen::Destroy() {
 	background.Destroy();
 	for (int i = 0; i < menuButtons.size(); i++)
 		menuButtons[i].Destroy();
+	if (!timer.isStopped())
+		timer.stop();
 	//delete click;
 	//delete press;
 	//delete back;

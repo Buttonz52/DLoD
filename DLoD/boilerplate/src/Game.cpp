@@ -126,19 +126,21 @@ bool Game::start()
 	  }
   }
   glfwSwapBuffers(window);
-
+  Sleep(1000);
 	//	audio.PlaySfx(winSFX);
 	//	audio.PlaySfx(loseSFX);
 
   bool pause = true;
-
-  while (!restart && pause && !glfwWindowShouldClose(window))
+  Human *h = dynamic_cast<Human*> (players[0]);
+  while (!restart && !glfwWindowShouldClose(window))
   {
+	  h->pausePressed = true;
 	  for (Player* p : players)
 	  {
 		  Human* human = dynamic_cast<Human*> (p);
 		  if (human != nullptr)
-			  human->getGameOverInput(window,pause);
+			  goToGamePausedState();
+			 // human->getGameOverInput(window,pause);
 	  }
 
 	  glfwPollEvents();

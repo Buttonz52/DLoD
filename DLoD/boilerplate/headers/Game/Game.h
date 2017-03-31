@@ -10,7 +10,6 @@
 #include "Game\Timer.h"
 #include "GEO/Shadow.h"
 #include "Game/GameHud.h"
-#include "Game/Billboard.h"
 
 class Game
 {
@@ -28,7 +27,6 @@ private:
   ScreenOverlay pauseText;
   Timer timer;
   bool pause, restart;
-  Billboard billboard;
 
   GameState* gameState;
 

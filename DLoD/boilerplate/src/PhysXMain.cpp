@@ -371,8 +371,10 @@ void PhysXMain::cleanupPhysics(bool interactive)
 	PxProfileZoneManager* profileZoneManager = gPhysics->getProfileZoneManager();
 	if (gConnection != NULL)
 		gConnection->release();
-	gPhysics->release();
 	profileZoneManager->release();
+	gCooking->release();
+	gPhysics->release();
+	PxCloseExtensions();
 	gFoundation->release();
 
 	printf("PhysX done.\n");

@@ -148,29 +148,27 @@ int main(int argc, char *argv[])
 
 	//glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	//glfwWindowHint(GLFW_SRGB_CAPABLE, GL_TRUE);
+	glClearColor(0.0f, 51.f / 255.f, 102.f / 255.f, 1.0f);
 
-
-	if (!audio.Init()) {
-		cout << "Failed to init audio." << endl;
-	}
 
 	int numPlayers;
 	while (!glfwWindowShouldClose(window)) {
+		if (!audio.Init()) {
+			cout << "Failed to init audio." << endl;
+		}
 		//Initialize "Loading screen"
 		TitleScreen ts;
-
-		ScreenOverlay loadBkgrd;
+		humanVehicleChoice.clear();
+		glDisable(GL_DEPTH_TEST);
 		if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex, &humanVehicleChoice, numPlayers)) {
 			ts.Destroy();
 			audio.FreeMusic();
 
 			cout << "num players: " << numPlayers << endl;
-			InitializeLoadScreen(&loadBkgrd);
 			////init music
 			if (!audio.InitMusic(mainMusic.c_str())) {
 				cout << "Failed to load music." << endl;
 			}
-			glClearColor(0.0f, 51.f/255.f, 102.f/255.f, 1.0f);
 			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
 
@@ -178,7 +176,6 @@ int main(int argc, char *argv[])
 
 			PrintDirections();
 
-			loadBkgrd.Destroy();
 			//glfwSetWindowPos(window, 0,0);
 			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers, spawnPoints);
 
@@ -189,10 +186,7 @@ int main(int argc, char *argv[])
 			if (!game.start()) {
 				glfwSetWindowShouldClose(window, true);
 			}
-			humanVehicleChoice.clear();
-			audio.FreeMusic();
-			ts.Destroy();
-
+			//audio.FreeMusic();
 		}
 
 		else {
@@ -217,19 +211,6 @@ void PrintDirections() {
 	cout << "Xbox B-Button: decelerate" << endl;
 	cout << "Xbox L-Stick: turning" << endl;
 	cout << "ESC: Exit program" << endl;
-}
-
-void InitializeLoadScreen(ScreenOverlay *loadBkgrd) {
-	//		ScreenOverlay loadBkgrd;
-	if (!loadBkgrd->initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init loadBkgrnd." << endl;
-	}
-
-	loadBkgrd->InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-
-	if (!loadBkgrd->GenerateSquareVertices(1, 1, vec3(0))) {
-		cout << "Failed to initialize screen overlay." << endl;
-	}
 }
 
 void getSpawnPoints()
