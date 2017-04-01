@@ -126,7 +126,7 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
   else {
     controller->Update();
     float turn;
-	if (!vehicle->isDead()) {
+	if (!isDead()) {
 		if (controller->RightTrigger() != 0)
 		{
 			vehicle->accelerate(controller->RightTrigger());
@@ -146,20 +146,30 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 			turn = controller->LeftStick_X();
 
 		//lay damage trap
-		if (controller->GetButtonPressed(XBtns.X) || controller->GetButtonPressed(XBtns.DPad_Up)) {
+		if (controller->GetButtonPressed(XBtns.L_Shoulder) || controller->GetButtonPressed(XBtns.DPad_Up)) {
 
 			layTrap = true;
 			trap = DamageTrap;
 		}
 		//lay empty trap
-		if (controller->GetButtonPressed(XBtns.Y) || controller->GetButtonPressed(XBtns.DPad_Left)) {
+		if (controller->GetButtonPressed(XBtns.R_Shoulder) || controller->GetButtonPressed(XBtns.DPad_Left)) {
 
 			layTrap = true;
 			trap = EmpTrap;
 		}
+
+		//flip car
+		if (controller->GetButtonPressed(XBtns.X)) {
+			if (ableToFlip)
+				vehicle->FlipVehicle();
+			//	ableToFlip = false;
+		}
 		vehicle->turn(turn);
 	}
 	else {
+		//just stop
+		 vehicle->brake(1000.0);
+		
 		//switch between cameras only if dead
 		if (controller->GetButtonPressed(XBtns.BackBtn)) {
 			camIndex >= numCams ? camIndex = 0 : camIndex++;
@@ -172,9 +182,7 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 		  Sleep(300);
 	  }
 
-    else {	//just stop
-      vehicle->brake(1000.0);
-    }
+
   }
 }
 

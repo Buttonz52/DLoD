@@ -14,6 +14,8 @@ public:
 	void Destroy();
 	void endRender();
 	void bindForWriting();
-	void bindForReading(GLenum TexUnit);
+	void bindForReading(Shader * shader);
+	void unbindTexture();
+	//void bindForReading(GLenum TexUnit);
 };
 

@@ -475,15 +475,15 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 	}
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(shader.program);
+	glUseProgram(currentShader->program);
 	glBindVertexArray(mesh.vertexArray);
 
 	if (hasTexture) {
-		texture.BindTexture(shader.program, "sampler");
+		texture.BindTexture(currentShader->program, "sampler");
 	}
 
 	if (hasEnvMap) {
-		environmentMap.BindTexture(shader.program, "radiancemap");
+		environmentMap.BindTexture(currentShader->program, "radiancemap");
 	}
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
@@ -498,18 +498,18 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;
 
-	glUniform1f(glGetUniformLocation(shader.program, "exposure"), exposure);
-	glUniform1f(glGetUniformLocation(shader.program, "reflectance"), reflectance);
+	glUniform1f(glGetUniformLocation(currentShader->program, "exposure"), exposure);
+	glUniform1f(glGetUniformLocation(currentShader->program, "reflectance"), reflectance);
 
 
-	glUniformMatrix4fv(glGetUniformLocation(shader.program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
-	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
+	glUniform1f(glGetUniformLocation(currentShader->program, "transparency"), transparency);
 	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE, value_ptr(M));
-	glUniformMatrix4fv(glGetUniformLocation(shader.program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "model"), 1, GL_FALSE, value_ptr(M));
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "modelview"), 1, GL_FALSE, value_ptr(_view));
 
-	glUniformMatrix4fv(glGetUniformLocation(shader.program, "projection"), 1, GL_FALSE, value_ptr(_projection));
-	glUniform3fv(glGetUniformLocation(shader.program, "lightPosition"), 1, value_ptr(_lightSource));
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "projection"), 1, GL_FALSE, value_ptr(_projection));
+	glUniform3fv(glGetUniformLocation(currentShader->program, "lightPosition"), 1, value_ptr(_lightSource));
 
 	glDrawElements(GL_TRIANGLES, mesh.elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)
@@ -531,6 +531,48 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 
 	}
 }
+
+
+void Vehicle::RenderShadow(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
+{
+	// bind our shader program and the vertex array object containing our
+	// scene geometry, then tell OpenGL to draw our geometry
+	glUseProgram(currentShader->program);
+	glBindVertexArray(mesh.vertexArray);
+
+	mat4 M = getModelMatrix();
+	glm::mat4 lightProjection, lightView;
+	glm::mat4 lightSpaceMatrix;
+	GLfloat near_plane = 0.001f, far_plane = 1000.f;
+	//lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
+	lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, near_plane, far_plane);
+
+	//lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
+	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+	lightSpaceMatrix = lightProjection * lightView;
+
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
+	//uniform variables
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "model"), 1, GL_FALSE, value_ptr(M));
+	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+
+	glDrawElements(GL_TRIANGLES, mesh.elementCount, GL_UNSIGNED_SHORT, 0);
+	// reset state to default (no shader or geometry bound)
+	glBindVertexArray(0);
+	glUseProgram(0);
+
+	// check for an report any OpenGL errors
+	CheckGLErrors();
+
+	for (int i = 0; i < children.size(); i++) {	//GEO* child : children)
+		if (i == 4 && dead) {
+			continue;
+		}
+		children[i]->RenderShadow(_view, _projection, _lightSource);
+
+	}
+}
+
 mat4 Vehicle::convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w)
 {
 	mat4 M = mat4(x.x, y.x, z.x, w.x,

@@ -14,8 +14,11 @@ in vec3 P;
 in vec3 V;
 in vec3 uv;
 in vec3 vertexPosition;
+in vec4 positionLightSpace;
+
 uniform float transparency;
 uniform samplerCube radiancemap;
+
 uniform float exposure;
 uniform float reflectance;
 
@@ -49,7 +52,6 @@ void main(void)
 	else {
 		diffuse = 0.3f;
 	}
-
     vec3 toonColour = Colour*vec3(diffuse);
 
 	vec3 v = normalize(V); 
@@ -60,7 +62,8 @@ void main(void)
 
 	float NdotV = dot(N,v);
 
-	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits + toonColour);
+	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits.xyz + toonColour);
 	
 	FragmentColour = vec4(shaded *exposure, 1.f);	//don't mess with the alphas, that is bad news
+	
 }

@@ -38,7 +38,7 @@ private:
   Audio audio;
 
   GameHud gameHud;
-
+  Shadow shadow;
   vec3 lightSource = vec3(0.f, 100.f, 0.f);
 
   bool gameOver = false;

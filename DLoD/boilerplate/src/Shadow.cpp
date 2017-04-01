@@ -31,13 +31,14 @@ void Shadow::initShadow() {
 
 	glGenFramebuffers(1, &depthMapFBO);
 	glGenTextures(1, &depthMap);
+
 	glBindTexture(GL_TEXTURE_2D, depthMap);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT,
 		SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
@@ -47,12 +48,19 @@ void Shadow::initShadow() {
 }
 
 void Shadow::bindForWriting() {
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, depthMapFBO);
+	glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void Shadow::bindForReading(GLenum TexUnit) {
-	glActiveTexture(TexUnit);
+void Shadow::bindForReading(Shader *shader) {
+	glActiveTexture(GL_TEXTURE0 + depthMap);
 	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glUniform1i(glGetUniformLocation(shader->program, "shadowmap"), depthMap);
+}
+
+void Shadow::unbindTexture() {
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 /*
 void renderShadow(Shader *shader, GLuint depthFBO) {
