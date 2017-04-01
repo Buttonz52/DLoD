@@ -1,6 +1,6 @@
 #include "GEO\Shadow.h"
 
-
+//code mainly from: https://learnopengl.com/#!Advanced-Lighting/Shadows/Shadow-Mapping
 
 Shadow::Shadow()
 {

@@ -48,7 +48,9 @@ void main()
     //Pass uv coordinates and position.	
 	uv = UV;
 
-    gl_Position = projection * vertexCameraSpace;    
-		positionLightSpace = lightSpaceMatrix * vec4( vec3(model * vec4(VertexPosition,1.0)),1.0);
+    gl_Position = projection * vertexCameraSpace; 
+	
+	//for shadow   
+	positionLightSpace = lightSpaceMatrix * vec4( vec3(model * vec4(VertexPosition,1.0)),1.0);
 
 }

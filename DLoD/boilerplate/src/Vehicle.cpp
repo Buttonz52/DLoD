@@ -243,7 +243,7 @@ void Vehicle::checkDead() {
 	if (!dead) {
 		if (!timer.isStopped())
 			timer.stop();
-		mesh.UpdateColour(&(colour = initColour * 0.2f));
+		mesh.UpdateColour(&(colour = initColour * 0.05f));
 		//changeMeshDead();		//if we want a second mesh for "dead", uncomment this
 								//Otherwise, we can delete and delete the  "dead mesh"
 	}
