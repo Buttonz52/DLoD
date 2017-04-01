@@ -1,0 +1,234 @@
+﻿  main.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\main.cpp(184): warning C4018: '<': signed/unsigned mismatch
+  Vehicle.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(11): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(126): warning C4244: 'argument': conversion from 'double' to 'const physx::PxReal', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(127): warning C4244: 'argument': conversion from 'double' to 'const physx::PxReal', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(172): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(216): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(217): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(314): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(317): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(332): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(347): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(376): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(469): warning C4305: 'argument': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(526): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\vehicle.cpp(567): warning C4018: '<': signed/unsigned mismatch
+  SnippetVehicleTireFriction.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  SnippetVehicleRaycast.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  SnippetVehicleNoDriveCreate.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  SnippetVehicleFilterShader.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  SnippetVehicleCreate.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  Shadow.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  Player.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  PhysXMain.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\physxmain.cpp(194): warning C4305: 'argument': truncation from 'double' to 'physx::PxReal'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\physxmain.cpp(264): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\physxmain.cpp(268): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\physxmain.cpp(294): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\physxmain.cpp(301): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\physxmain.cpp(307): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\physxmain.cpp(319): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\physxmain.cpp(340): warning C4101: 'body': unreferenced local variable
+  MediumVehicle.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\mediumvehicle.cpp(14): warning C4305: '=': truncation from 'double' to 'float'
+  LightVehicle.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\lightvehicle.cpp(14): warning C4305: '=': truncation from 'double' to 'float'
+  LargeVehicle.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\largevehicle.cpp(14): warning C4305: '=': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\largevehicle.cpp(15): warning C4305: '=': truncation from 'double' to 'float'
+  Item.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  Human.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  GameState.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  GameHud.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(35): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(40): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(40): warning C4305: 'argument': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(50): warning C4305: 'argument': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(53): warning C4305: 'argument': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(57): warning C4305: 'argument': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(60): warning C4305: 'argument': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(69): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(74): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(74): warning C4305: 'argument': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(79): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(84): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(84): warning C4305: 'argument': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(99): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(104): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(104): warning C4305: 'argument': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(108): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(115): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(120): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(120): warning C4305: 'argument': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(127): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(137): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\gamehud.cpp(148): warning C4018: '<': signed/unsigned mismatch
+  Game.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(71): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(220): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(413): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(434): warning C4305: 'argument': truncation from 'double' to 'const float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(477): warning C4244: 'argument': conversion from 'float' to 'GLint', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(550): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\game.cpp(552): warning C4244: '=': conversion from 'float' to 'int', possible loss of data
+  GEO.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(74): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(75): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(76): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(77): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(80): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(81): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(82): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(83): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(86): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(87): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(88): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(89): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(308): warning C4018: '<': signed/unsigned mismatch
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\geo.cpp(345): warning C4018: '<': signed/unsigned mismatch
+  ContactModifyCallback.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+  Generating Code...
+  Compiling...
+  Camera.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(26): warning C4305: '=': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(27): warning C4305: '=': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(30): warning C4305: '=': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(43): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(59): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(80): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(99): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(101): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(140): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(143): warning C4305: '-=': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(155): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(157): warning C4305: '+=': truncation from 'double' to 'float'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\camera.cpp(160): warning C4305: '-=': truncation from 'double' to 'float'
+  AI.cpp
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): warning C4005: '_DEBUG': macro redefinition
+  \\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\middleware\physx\include\foundation\pxpreprocessor.h(16): note: command-line arguments:  see previous definition of '_DEBUG'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(319): warning C4305: '+=': truncation from 'double' to 'physx::PxReal'
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(343): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+\\cs-fs01\profiles\ug\bzpetras\desktop\dlod\dlod\boilerplate\src\ai.cpp(352): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+  Generating Code...
+PhysX3Extensions.lib(ExtDefaultStreams.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtDefaultStreams.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtDefaultErrorCallback.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtDefaultErrorCallback.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtDefaultCpuDispatcher.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtDefaultCpuDispatcher.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtExtensions.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtExtensions.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtSimpleFactory.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtSimpleFactory.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtCpuWorkerThread.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtCpuWorkerThread.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtDistanceJoint.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtDistanceJoint.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtD6Joint.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtD6Joint.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtFixedJoint.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtFixedJoint.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtPrismaticJoint.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtPrismaticJoint.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtRevoluteJoint.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtRevoluteJoint.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtSphericalJoint.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtSphericalJoint.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(SnRepXCoreSerializer.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(SnRepXCoreSerializer.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(SnJointRepXSerializer.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(SnJointRepXSerializer.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtRigidBodyExt.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtRigidBodyExt.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtDistanceJointSolverPrep.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtDistanceJointSolverPrep.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtJoint.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtJoint.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtD6JointSolverPrep.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtD6JointSolverPrep.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtFixedJointSolverPrep.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtFixedJointSolverPrep.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtPrismaticJointSolverPrep.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtPrismaticJointSolverPrep.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtRevoluteJointSolverPrep.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtRevoluteJointSolverPrep.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Extensions.lib(ExtSphericalJointSolverPrep.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Extensions.lib(ExtSphericalJointSolverPrep.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleWheels.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleWheels.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleSDK.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleSDK.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleUpdate.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleUpdate.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleDrive.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleDrive.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleDrive4W.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleDrive4W.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(VehicleUtilSetup.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(VehicleUtilSetup.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleNoDrive.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleNoDrive.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleTireFriction.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleTireFriction.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleSuspWheelTire4.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleSuspWheelTire4.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleMetaData.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleMetaData.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleSerialization.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleSerialization.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleComponents.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleComponents.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(VehicleUtilTelemetry.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(VehicleUtilTelemetry.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleDriveNW.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleDriveNW.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysX3Vehicle.lib(PxVehicleDriveTank.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysX3Vehicle.lib(PxVehicleDriveTank.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+PhysXProfileSDK.lib(PxProfileEventImpl.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in AI.obj
+PhysXProfileSDK.lib(PxProfileEventImpl.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in AI.obj
+LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+\\cs-fs01\Profiles\ug\bzpetras\Desktop\DLoD\DLoD\dontSubmit\bin\Debug\boilerplate.exe : fatal error LNK1319: 76 mismatches detected

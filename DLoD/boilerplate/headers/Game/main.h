@@ -44,11 +44,16 @@ vector <string> arenaObjFilenames = {
 	"arenas/wrap.obj"
 };
 
-vector<string> starObjFilenames = {
-
+vector<string> spawnObjFilenames = {
 	"spawns/spawn.obj",
 	"spawns/spawn.obj",
 	"spawns/spawn.obj"
+};
+
+vector<string> starObjFilenames = {
+	"starNodes/spawn.obj",
+	"starNodes/spawn.obj",
+	"starNodes/spawn.obj"
 };
 
 //arena radar

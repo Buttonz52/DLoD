@@ -17,10 +17,6 @@ PxBatchQuery*			          gBatchQuery = NULL;
 PxRigidStatic*			        gGroundPlane = NULL;
 PxRigidStatic*					gArena = NULL;
 PxVehicleDrivableSurfaceToTireFrictionPairs* gFrictionPairs = NULL;
-bool					gIsVehicleInAir = true; // unused
-
-
-
 
 PhysXMain::PhysXMain()
 {

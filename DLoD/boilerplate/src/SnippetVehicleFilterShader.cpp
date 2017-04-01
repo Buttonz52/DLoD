@@ -22,22 +22,6 @@ PxFilterFlags VehicleFilterShader
  PxFilterObjectAttributes attributes1, PxFilterData filterData1,
  PxPairFlags& pairFlags, const void* constantBlock, PxU32 constantBlockSize)
 {
-
-	//PX_UNUSED(attributes0);
-	//PX_UNUSED(attributes1);
-	//PX_UNUSED(filterData0);
-	//PX_UNUSED(filterData1);
-	//PX_UNUSED(constantBlockSize);
-	//PX_UNUSED(constantBlock);
-
-	//// all initial and persisting reports for everything, with per-point data
-	//pairFlags = PxPairFlag::eRESOLVE_CONTACTS
-	//	| PxPairFlag::eNOTIFY_TOUCH_FOUND
-	//	| PxPairFlag::eNOTIFY_TOUCH_PERSISTS
-	//	| PxPairFlag::eNOTIFY_CONTACT_POINTS;
-	//return PxFilterFlag::eDEFAULT;
-
-
 	PX_UNUSED(attributes0);
 	PX_UNUSED(attributes1);
 	PX_UNUSED(constantBlock);
@@ -58,8 +42,6 @@ PxFilterFlags VehicleFilterShader
 	{
 		pairFlags = PxPairFlag::eCONTACT_DEFAULT;
 	}
-
-
 	return PxFilterFlags();
 }
 

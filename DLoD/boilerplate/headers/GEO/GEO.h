@@ -11,9 +11,6 @@
 #include "Game\Audio.h"
 #include <map>
 
-
-
-
 //Game Entity Object
 class GEO
 {
@@ -21,8 +18,8 @@ public:
 	GEO();
 	virtual ~GEO();
 
-  vector<GEO*> children;
-  void removeChild(GEO*);
+    vector<GEO*> children;
+    void removeChild(GEO*);
 	
 	bool hasTexture;
 	bool isSkybox;
@@ -31,8 +28,6 @@ public:
 	bool hasEnvMap;
 
 	float transparency;
-
-	double getRadius();
 
 	//Scale
 	vec3 &getScale();
@@ -88,7 +83,6 @@ public:
 	Mesh mesh;
 
 protected:
-	double radius;
 	vec3 colour;
 	float exposure, reflectance;
 	vec3 position;

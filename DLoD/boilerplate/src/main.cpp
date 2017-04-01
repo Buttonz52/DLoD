@@ -172,7 +172,7 @@ void PrintDirections() {
 
 void getSpawnPoints()
 {
-	string meshname = starObjFilenames[arenaIndex];
+	string meshname = spawnObjFilenames[arenaIndex];
 	GEO *spawnGEO = new GEO();
 
 	if (!spawnGEO->initMesh(meshname)) {

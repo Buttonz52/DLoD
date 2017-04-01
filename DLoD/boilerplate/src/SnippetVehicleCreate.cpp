@@ -305,5 +305,3 @@ void customizeVehicleToLengthScale(const PxReal lengthScale, PxRigidDynamic* rig
 		driveSimData->setAckermannGeometryData(ackermannData);
 	}
 }
-
-

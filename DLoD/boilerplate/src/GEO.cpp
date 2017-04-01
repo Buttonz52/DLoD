@@ -3,7 +3,6 @@
 GEO::GEO()
 {
 	position = vec3(0);
-	radius = 1.f;
 	scale = vec3(1.f);
 	xRotation = 0; yRotation = 0; zRotation = 0;
 	hasTexture = 0;
@@ -36,11 +35,6 @@ void GEO::removeChild(GEO * child)
       ++itr;
     }
   }
-}
-
-double GEO::getRadius()
-{
-	return radius;
 }
 
 vec3 &GEO::getScale()
@@ -160,7 +154,7 @@ void GEO::addShaders(const string &vert, const string &frag)
 {
 	shader.InitializeShaders(vert, frag);
 	//hard code because lazy
-	shadowShader.InitializeShaders("shaders/shadow.vert", "shaders/shadow.frag");
+	shadowShader.InitializeShaders("shaders/simpleDepthShader.vert", "shaders/simpleDepthShader.frag");
 	currentShader = &shader;
 }
 
@@ -278,7 +272,7 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 	glm::mat4 lightSpaceMatrix;
 	GLfloat near_plane = 0.001f, far_plane = 1000.f;
 	//lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
-	lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, near_plane, far_plane);
+	lightProjection = glm::ortho(-10.f, 10.f, -10.f, 10.f, near_plane, far_plane);
 
 	//lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
 	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
@@ -315,8 +309,7 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
     children[i]->Render(_view, _projection, _lightSource);
 }
 
-// Rendering function that draws our scene to the frame buffer
-//TODO: Make specific to different types of GEOs, use inheritance
+//This isn't working
 void GEO::RenderShadow(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
 {
 	UseShadowShader();
@@ -328,9 +321,9 @@ void GEO::RenderShadow(const mat4 &_view, const mat4 &_projection, const vec3 &_
 	mat4 M = getModelMatrix();
 	glm::mat4 lightProjection, lightView;
 	glm::mat4 lightSpaceMatrix;
-	GLfloat near_plane = 0.001f, far_plane = 1000.f;
+	GLfloat near_plane = 1.f, far_plane = 7.f;
 	//lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
-	lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, near_plane, far_plane);
+	lightProjection = glm::ortho(-10.f, 10.f, -10.f, 10.f, near_plane, far_plane);
 
 	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;

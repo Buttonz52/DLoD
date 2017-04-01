@@ -230,7 +230,7 @@ void Game::gameLoop()
 			  UpdateHudInfoEmpty(players, i, projectionMatrix, viewMatrix, winningCam, overheadCam, healthStr, armourStr, velocityStr, vColour, camIndex);
 		  }
 		
-		  //render shadows
+		  //render shadows (this isn't working)
 		  shadow.bindForWriting();
 		  glEnable(GL_CULL_FACE);
 		  glCullFace(GL_BACK);
@@ -243,10 +243,13 @@ void Game::gameLoop()
 		  shadow.endRender();
 
 		  //render normally
-		  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+		  //resize the viewport
 		  ResizeViewport(i, numPlayerScreens, width, height);
 		  glEnable(GL_CULL_FACE);
 		  glCullFace(GL_BACK);
+		  //bind shadow map to arena (isn't working, draws black so either framebuffer is
+		  //empty or texture not appearing properly
 		  shadow.bindForReading(&arena->getShader());
 		  arena->Render(viewMatrix, projectionMatrix, lightSource);
 
