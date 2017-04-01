@@ -106,7 +106,6 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 		  if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
 			  if (ableToFlip)
 				  vehicle->FlipVehicle();
-			  //	ableToFlip = false;
 		  }
 	  }
 	  //switch between cameras only if dead
@@ -146,16 +145,20 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 			turn = controller->LeftStick_X();
 
 		//lay damage trap
-		if (controller->GetButtonPressed(XBtns.X) || controller->GetButtonPressed(XBtns.DPad_Up)) {
-
+		if (controller->GetButtonPressed(controller->GetButtonPressed(XBtns.DPad_Up))) {
 			layTrap = true;
 			trap = DamageTrap;
 		}
 		//lay empty trap
-		if (controller->GetButtonPressed(XBtns.Y) || controller->GetButtonPressed(XBtns.DPad_Left)) {
+		if (controller->GetButtonPressed(controller->GetButtonPressed(XBtns.DPad_Left))) {
 
 			layTrap = true;
 			trap = EmpTrap;
+		}
+		//flip car
+		if (controller->GetButtonPressed(XBtns.Y)) {
+			if (ableToFlip)
+				vehicle->FlipVehicle();
 		}
 		vehicle->turn(turn);
 	}

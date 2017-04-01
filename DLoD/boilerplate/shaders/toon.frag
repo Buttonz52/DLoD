@@ -60,7 +60,7 @@ void main(void)
 
 	float NdotV = dot(N,v);
 
-	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits + toonColour);
+	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits.xyz + toonColour);
 	
 	FragmentColour = vec4(shaded *exposure, 1.f);	//don't mess with the alphas, that is bad news
 }

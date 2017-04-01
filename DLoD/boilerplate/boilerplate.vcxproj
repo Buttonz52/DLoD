@@ -81,7 +81,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\PhysX\Include;$(ProjectDir)..\middleware\SDL\SDL2-2.0.5\include;$(ProjectDir)..\middleware\SDL\SDL2_mixer-2.0.1\include;$(ProjectDir)..\boilerplate\headers;$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;$(ProjectDir)..\middleware\Xbox\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\PhysX\Include;$(ProjectDir)..\middleware\SDL\SDL2-2.0.5\include;$(ProjectDir)..\middleware\SDL\SDL2_mixer-2.0.1\include;$(ProjectDir)..\boilerplate\headers;$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;$(ProjectDir)..\middleware\Xbox\include;$(ProjectDir)..\middleware\smpeg\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
@@ -109,7 +109,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\PhysX\Include;$(ProjectDir)..\middleware\SDL\SDL2-2.0.5\include;$(ProjectDir)..\middleware\SDL\SDL2_mixer-2.0.1\include;$(ProjectDir)..\boilerplate\headers;$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;$(ProjectDir)..\middleware\Xbox\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\middleware\PhysX\Include;$(ProjectDir)..\middleware\SDL\SDL2-2.0.5\include;$(ProjectDir)..\middleware\SDL\SDL2_mixer-2.0.1\include;$(ProjectDir)..\boilerplate\headers;$(ProjectDir)..\middleware\dirent;$(ProjectDir)..\middleware\Assimp\include;$(ProjectDir)..\middleware\glfw\include;$(ProjectDir)..\middleware\glad\include;$(ProjectDir)..\middleware\stb;$(ProjectDir)..\middleware\glm-0.9.8.2;$(ProjectDir)..\middleware\Xbox\include;$(ProjectDir)..\middleware\smpeg\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>

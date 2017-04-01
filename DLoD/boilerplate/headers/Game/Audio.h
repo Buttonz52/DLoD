@@ -23,8 +23,6 @@ public:
 	void PausePlay();
 	bool Init();
 
-
-
 private:
 	bool on;
 	Mix_Music *music_file = NULL;

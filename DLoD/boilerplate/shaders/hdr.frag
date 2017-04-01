@@ -39,7 +39,7 @@ void main(void)
 	float NdotV = dot(N,v);
 
 	//incorporate Fresnel effect to the environment map + the image
-	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits +imageColour.xyz);
+	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits.xyz +imageColour.xyz);
 	
 	FragmentColour = vec4(shaded *exposure, 1.f);	//don't mess with the alphas, that is bad news
 }
