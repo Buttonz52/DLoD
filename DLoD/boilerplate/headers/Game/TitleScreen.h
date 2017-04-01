@@ -27,8 +27,6 @@ public:
 	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
 	void Destroy();
 
-	//void titleScreenLoop(int key);
-
 private:
 	bool isQuit, isStart, 
 		isRules, isLoadScreen, 

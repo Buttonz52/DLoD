@@ -37,42 +37,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
   }
 }
 
-// handles mouse click
-void mouse(GLFWwindow* window, int button, int action, int mods)
-{
-	if (action == GLFW_PRESS)
-	{
-		double x, y;
-		glfwGetCursorPos(window, &x, &y);
-		mouse_old_x = x;
-		mouse_old_y = y;
-	}
-}
-
-// handles delta mouse click move
-void motion(GLFWwindow* w, double x, double y)
-{
-
-	double dx, dy;
-	dx = (x - mouse_old_x);
-	dy = (y - mouse_old_y);
-
-	if (glfwGetMouseButton(w, GLFW_MOUSE_BUTTON_1))
-	{
-    camera->incrementAzu(dx * 0.005f);
-    camera->incrementAlt(dy * 0.005f);
-	}
-  
-	mouse_old_x = x;
-	mouse_old_y = y;
-}
-
-//handles mouse scroll
-void scroll_callback(GLFWwindow* window, double x, double y)
-{
-	camera->incrementRadius(y * 2);
-}
-
 //Jeremy Hart, CPSC 587 code, handles resizing glfw window
 void resizeCallback(GLFWwindow* window, int width, int height)
 {
@@ -84,8 +48,6 @@ void resizeCallback(GLFWwindow* window, int width, int height)
 	float minDim = float(min(width, height));
 
 	winRatio[0][0] = minDim / float(width);
-
-  camera->setAsp((float)width / (float)height);
 }
 
 // ==========================================================================
@@ -125,9 +87,6 @@ int main(int argc, char *argv[])
 
 	// set keyboard callback function and make our context current (active)
 	glfwSetKeyCallback(window, KeyCallback);
-	glfwSetMouseButtonCallback(window, mouse);
-	glfwSetCursorPosCallback(window, motion);
-	glfwSetScrollCallback(window, scroll_callback);
 	glfwSetWindowSizeCallback(window, resizeCallback);
 
 	//Intialize GLAD
@@ -141,7 +100,6 @@ int main(int argc, char *argv[])
 
 	// query and print out information about our OpenGL environment
 	QueryGLVersion();
-	camera = &testCams[camIndex];
 	// Enable blending (for transparency)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -186,7 +144,6 @@ int main(int argc, char *argv[])
 			if (!game.start()) {
 				glfwSetWindowShouldClose(window, true);
 			}
-			//audio.FreeMusic();
 		}
 
 		else {

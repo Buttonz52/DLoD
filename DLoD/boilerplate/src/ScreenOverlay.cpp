@@ -40,6 +40,8 @@ void ScreenOverlay::InitializeShaders(const string & vert, const string & frag)
 }
 
 bool ScreenOverlay::GenerateBorder(float scale_x, float scale_y, const float &thicc, const vec3 &col, const vec3 &position) {
+	vertices.clear();
+	uvs.clear();
 	colour = col;
 	this->position = position;
 	vertices = { vec3(-1 * scale_x,1 * scale_y,0),			//top bar
@@ -105,19 +107,15 @@ bool ScreenOverlay::GenerateBorder(float scale_x, float scale_y, const float &th
 }
 //makes a square/rectangle depending on scale
 bool ScreenOverlay::GenerateSquareVertices(float scale_x, float scale_y, const vec3 &col) {
-	//uvs.clear();
-	//vertices.clear();
+	uvs.clear();
+	vertices.clear();
 	colour = col;
 	vertices = {vec3(-1*scale_x,-1 * scale_y,0),
 		vec3(-1 * scale_x,1 * scale_y,0),
 		vec3(1 * scale_x,-1*scale_y,0),
 		vec3(1 * scale_x,1*scale_y,0)
 	};
-	//if (hasTexture ==1) {
-		/*uvs = {vec2(0,0),
-		vec2(0,1),
-		vec2(1,0),
-		vec2(1,1)};*/	
+
 	uvs = { vec2(0,1),
 		vec2(0,0),
 		vec2(1,1),
@@ -154,15 +152,7 @@ vec3 & ScreenOverlay::getColour() {
 //initialize buffers
 void ScreenOverlay::UpdateBuffers(const vector<vec2> *uvs) {
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	//glBufferData(GL_ARRAY_BUFFER, uvs->size() * sizeof(vec2), uvs->data(), GL_DYNAMIC_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, uvs->size() * sizeof(vec2), uvs->data());
-	//const GLuint UV_INDEX = 1;
-
-	//glGenBuffers(1, &textureBuffer);
-	//glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	//glBufferData(GL_ARRAY_BUFFER, uvs->size() * sizeof(vec2), uvs->data(), GL_STATIC_DRAW);
-	//glVertexAttribPointer(UV_INDEX, 2, GL_FLOAT, GL_FALSE, 0, 0);
-	//glEnableVertexAttribArray(UV_INDEX);
 }
 
 void ScreenOverlay::UpdateVertices(const vector<vec3> *vertices) {
@@ -391,24 +381,36 @@ void ScreenOverlay::InitializeGameText(const string &text, const vec3 &position,
 
 	setPosition(position);
 }
-void ScreenOverlay::UpdateGameText(const string &text) {
+void ScreenOverlay::UpdateGameText(const string &text, const int &kerning) {
 	vector<vec2> uvs;
+	vector<vec3> verts;
+	int index = 0;
 	for (char c : text) {
 		GenerateTextUVs(uvs, c);
+
+		verts.push_back(vec3(0 + float(index) / kerning, 0, 0));
+		verts.push_back(vec3(0.05 + float(index) / kerning, 0, 0));
+		verts.push_back(vec3(0 + float(index) / kerning, 0.1, 0));
+		verts.push_back(vec3(0.05 + float(index) / kerning, 0, 0));
+		verts.push_back(vec3(0 + float(index) / kerning, 0.1, 0));
+		verts.push_back(vec3(0.05 + float(index) / kerning, 0.1, 0));
+		index++;
 	}
 	UpdateBuffers(&uvs);
+	UpdateVertices(&verts);
 }
 
 void ScreenOverlay::GenerateTextUVs(vector <vec2> &uvs, const char &ch) {
 	//for letters 
+	int dimension = 16;
 	char c = ch;
-	float horizontalLoc = int(c) % 16;
-	float verticalLoc = int(int(c) / 16);
+	float horizontalLoc = int(c) % dimension;
+	float verticalLoc = int(int(c) / dimension);
 
-	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc + 1.f) / 16.f));	//bottom left
-	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc + 1.f) / 16.f));		//bottom right
-	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc) / 16.f));			//top left
-	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc + 1.f) / 16.f));
-	uvs.push_back(vec2((horizontalLoc) / 16.f, (verticalLoc) / 16.f));
-	uvs.push_back(vec2((horizontalLoc + 1.f) / 16.f, (verticalLoc) / 16.f));
+	uvs.push_back(vec2((horizontalLoc) / dimension, (verticalLoc + 1.f) / dimension));	//bottom left
+	uvs.push_back(vec2((horizontalLoc + 1.f) / dimension, (verticalLoc + 1.f) / dimension));		//bottom right
+	uvs.push_back(vec2((horizontalLoc) / dimension, (verticalLoc) / dimension));			//top left
+	uvs.push_back(vec2((horizontalLoc + 1.f) / dimension, (verticalLoc + 1.f) / dimension));
+	uvs.push_back(vec2((horizontalLoc) / dimension, (verticalLoc) / dimension));
+	uvs.push_back(vec2((horizontalLoc + 1.f) / dimension, (verticalLoc) / dimension));
 }

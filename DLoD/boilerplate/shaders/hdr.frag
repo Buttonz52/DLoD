@@ -28,20 +28,18 @@ vec3 FresnelReflectance(vec3 R0, float cosine) {
 }
 void main(void)
 {
+	//2D texture
 	vec4 imageColour = texture(sampler,uv.xy);
 
-	
-	//FragmentColour= vec4(imageColour.xyz,1.f);
-
-
+	//get "uv" coordinates for skybox using normal and reflection vectors
 	vec3 v = normalize(V); 
 	vec3 r = reflect(-v, N);
 	vec4 nits = texture(radiancemap, r); //vec3 for uv, vertex position
 
 	float NdotV = dot(N,v);
 
+	//incorporate Fresnel effect to the environment map + the image
 	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits +imageColour.xyz);
 	
-	//FragmentColour = nits;
 	FragmentColour = vec4(shaded *exposure, 1.f);	//don't mess with the alphas, that is bad news
 }

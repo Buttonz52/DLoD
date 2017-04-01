@@ -117,9 +117,6 @@
     <ClCompile Include="src\Vehicle.cpp">
       <Filter>Source Files\GEO\vehicle</Filter>
     </ClCompile>
-    <ClCompile Include="src\Light.cpp">
-      <Filter>Source Files\GEO</Filter>
-    </ClCompile>
     <ClCompile Include="src\XboxController.cpp">
       <Filter>Source Files\Controller</Filter>
     </ClCompile>
@@ -183,9 +180,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GEO\GEO.h">
-      <Filter>Header Files\GEO</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\GEO\Light.h">
       <Filter>Header Files\GEO</Filter>
     </ClInclude>
     <ClInclude Include="headers\GEO\player\AI.h">

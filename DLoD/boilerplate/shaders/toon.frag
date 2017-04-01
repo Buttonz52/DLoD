@@ -50,9 +50,7 @@ void main(void)
 		diffuse = 0.3f;
 	}
 
-   // FragmentColour = vec4(Colour*vec3(diffuse), transparency);
-      
-	vec3 toonColour = Colour*vec3(diffuse);
+    vec3 toonColour = Colour*vec3(diffuse);
 
 	vec3 v = normalize(V); 
 	vec3 r = reflect(-v, N);
@@ -62,10 +60,7 @@ void main(void)
 
 	float NdotV = dot(N,v);
 
-	//vec3 shaded =  (lux * fresnelReflectance(vec3(0.04), NdotV ) * nits +  vec3(ambient + vec3(diffuse) + specular));
-
 	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits + toonColour);
 	
-	//FragmentColour = nits;
 	FragmentColour = vec4(shaded *exposure, 1.f);	//don't mess with the alphas, that is bad news
 }

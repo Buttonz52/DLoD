@@ -116,7 +116,6 @@ void GEO::updateRotation(const vec3 &r) {
 
 vec3 &GEO::getPosition()
 {
-	//return vec3(modelMatrix[3].x, modelMatrix[3].y, modelMatrix[3].z);
 	return position;
 }
 
@@ -182,13 +181,6 @@ bool GEO::initTexture(const string &filename, GLuint target) {
 	isPlane = 1;
 	return texture.InitializeTexture(filename, target);
 }
-
-//
-//
-///** Calculates tangent coordinates for mesh. */
-//void GEO::calculateMeshTangent() {
-//	mesh.calculateMeshTangent(); 
-//}
 
 bool GEO::initSkybox(const vector <string> &filenames) {
 	hasTexture = 1;
@@ -317,7 +309,6 @@ void GEO::shutdown()
 {
 	shader.DestroyShaders();
 	texture.DestroyTexture();
-	mesh.DestroyMesh();
 
   for (GEO* child : children)
     child->shutdown();
@@ -325,6 +316,5 @@ void GEO::shutdown()
 
 void GEO::playSFX(const string &name, const int &volume, const int &channel)
 {
-	//audio.PlaySfx(sfx);
 	audio.PlaySfx(sfxMap[name], volume, channel);
 }

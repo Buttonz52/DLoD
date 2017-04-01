@@ -21,6 +21,8 @@ public:
 		const vec3 &col);
 	void InitializeGameText(const string & text, const vec3 & position, const vec3 & colour, int kerning);
 
+	void UpdateGameText(const string & text, const int & kerning);
+
 	bool Initialize();
 
 	bool GenerateSquareVertices(const float scale_x, const float scale_y, const vec3 &col);
@@ -30,7 +32,7 @@ public:
 
 	void UpdateBuffers(const vector<vec2> *uvs);
 	void UpdateVertices(const vector<vec3> *vertices);
-	void UpdateGameText(const string & text);
+	//void UpdateGameText(const string & text);
 
 	void Render(GLuint type, const vec3 &colour);
 
@@ -60,10 +62,6 @@ public:
 	void Destroy();
 
 	vec3 Normalize(const vec3 &v);
-
-
-
-	//Holds glyph data
 
 private:
 	int mixColour, hasTexture;

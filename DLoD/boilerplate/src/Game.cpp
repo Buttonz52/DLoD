@@ -3,7 +3,6 @@
 GEO* initGroundPlane()
 {
   GEO* plane = new GEO();
- // plane->setFilename("plane.obj");
   if (!plane->initMesh("plane.obj")) {
     cout << "Failed to initialize mesh." << endl;
   }
@@ -34,7 +33,6 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   numPlayerScreens = numPlayers;
   glfwGetWindowSize(window, &width, &height);
 
-	//windows = w;
   physX.init(4);
 
   initSkyBox(skyboxFilepath);
@@ -52,6 +50,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 
   for (int i = 0; i < numPlayers; i++) {
 	  Human* human = new Human(i);
+	  human->setNumCams(5);
 	  human->ChooseVehicle(humanVehicleChoice->at(i));
 	  human->vehicle->setPosition(spawnPoints[i]);
 	  human->vehicle->setEnvironmentMap(skybox->getTexture());
@@ -92,12 +91,14 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 
 bool Game::start()
 {
-
   // start the game loop
   gameState->timer.start();
 
   pauseText.setScale(vec3(4.f));
   pauseText.InitializeGameText("PAUSE", vec3(-0.4, 0.5, 0), vec3(1, 0.5, 0.3), 30);
+
+  switchCamText.setScale(vec3(0.5f));
+  switchCamText.InitializeGameText("Press <TAB> or <SELECT> to change between cameras", vec3(-0.4, -0.8, 0), vec3(1, 1, 1), 30);
   gameLoop();
 
   // Clean up and Display the win screen
@@ -132,22 +133,22 @@ bool Game::start()
 
   bool pause = true;
   Human *h = dynamic_cast<Human*> (players[0]);
+  //set pause text to "end game" instead of "pause"
+  pauseText.InitializeGameText("END GAME", vec3(-0.6, 0.5, 0), vec3(1, 0.5, 0.3), 30);
+
   while (!restart && !glfwWindowShouldClose(window))
   {
 	  h->pausePressed = true;
 	  for (Player* p : players)
 	  {
 		  Human* human = dynamic_cast<Human*> (p);
-		  if (human != nullptr)
+		  if (human != nullptr) {
 			  goToGamePausedState();
-			 // human->getGameOverInput(window,pause);
+		  }
 	  }
 
 	  glfwPollEvents();
   }
-  endGameText.Destroy();
-  pauseText.Destroy();
-  gameHud.Destroy();
   delete skybox;
   delete arena;
   physX.cleanupPhysics(true);
@@ -219,8 +220,14 @@ void Game::gameLoop()
 		  if (i < players.size() && !players[i]->isDead() && i < numPlayerScreens) {
 			  UpdateHudInfo(players[i], projectionMatrix, viewMatrix, healthStr, armourStr, velocityStr, vColour, canLayTrap);
 		  }
+		  //player is dead
 		  else {
-			  UpdateHudInfoEmpty(players, i, projectionMatrix, viewMatrix, winningCam, overheadCam, healthStr, armourStr, velocityStr, vColour);
+			  int camIndex = 0;
+			  Human* human = dynamic_cast<Human*> (players[i]);
+			  if (human != nullptr) {
+				  camIndex = human->camIndex;
+			  }
+			  UpdateHudInfoEmpty(players, i, projectionMatrix, viewMatrix, winningCam, overheadCam, healthStr, armourStr, velocityStr, vColour, camIndex);
 		  }
 		
 		  //render the game hud
@@ -232,6 +239,8 @@ void Game::gameLoop()
 
 		  glDisable(GL_CULL_FACE);
 		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
+		  if (players[i]->isDead())
+			 switchCamText.Render(GL_TRIANGLES, vColour);
 		  gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, canLayTrap);
 	  }
 
@@ -252,13 +261,12 @@ void Game::gameLoop()
     if (ai != nullptr && !ai->isDead())
     {
       ai->getInput(gameState);
-	    //ai->driveTo(players[0]->vehicle->getModelMatrix()[3]);
 	    if (abs(ai->vehicle->physXVehicle->computeForwardSpeed()) > 20)
 		    ai->layTrap = true;
     }
 
     Human* human = dynamic_cast<Human*> (p);
-    if (human != nullptr && !human->isDead()) {
+    if (human != nullptr) {
 	    human->getInput(window, pause);
 	    if (human->pressedPause()) {
 		    menuIndex = 0;
@@ -510,27 +518,34 @@ void Game::UpdateHudInfo(Player * player, mat4 &projectionMatrix, mat4 &viewMatr
 }
 
 //updates hud if there is no player in current screen
-void Game::UpdateHudInfoEmpty(const vector <Player*> players, const int &i, mat4 &projectionMatrix, mat4 &viewMatrix, Camera &winningCam, Camera &overheadCam, string &healthStr, string &armourStr, string &velocityStr, vec3 &vColour) {
+void Game::UpdateHudInfoEmpty(const vector <Player*> players, const int &i, mat4 &projectionMatrix, mat4 &viewMatrix, Camera &winningCam, Camera &overheadCam, string &healthStr, string &armourStr, string &velocityStr, vec3 &vColour, const int &camIndex) {
+	//overhead view
+	if (camIndex ==0) {
+		projectionMatrix = overheadCam.calculateProjectionMatrix();
+		viewMatrix = overheadCam.calculateViewMatrix();
 
-	//otherwise, render either overhead camera or current win camera
-		if (i == 0 || i == 3) {	//overhead cameras for bottom right or top left
-								//overhead cam
-			projectionMatrix = overheadCam.calculateProjectionMatrix();
-			viewMatrix = overheadCam.calculateViewMatrix();
-		}
+	}
+	//camera of winning vehicle
+	else if (camIndex == 1) {
 		//overhead cam for player with highest health
-		else {
-			int health = 0, playerIndex = 0;
-			for (int j = 0; j < players.size(); j++) {
-				if (players[j]->vehicle->getHealth() > health) {
-					health = players[j]->vehicle->getHealth();
-					playerIndex = j;
-				}
+		int health = 0, playerIndex = 0;
+		for (int j = 0; j < players.size(); j++) {
+			if (players[j]->vehicle->getHealth() > health) {
+				health = players[j]->vehicle->getHealth();
+				playerIndex = j;
 			}
-			winningCam.followVehicle(players[playerIndex]->vehicle);
-			projectionMatrix = winningCam.calculateProjectionMatrix();
-			viewMatrix = winningCam.calculateViewMatrix();
 		}
+		winningCam.followVehicle(players[playerIndex]->vehicle);
+		projectionMatrix = winningCam.calculateProjectionMatrix();
+		viewMatrix = winningCam.calculateViewMatrix();
+	
+	}
+
+	//player cams
+	else {
+		projectionMatrix = players[camIndex-2]->playerCam->calculateProjectionMatrix();
+		viewMatrix = players[camIndex-2]->playerCam->calculateViewMatrix();
+	}
 		healthStr = "000";
 		armourStr = "000";
 		velocityStr = "00";

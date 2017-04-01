@@ -24,7 +24,7 @@ private:
   string arenaMap;
   int width, height;
   int numPlayerScreens, pauseIdentifier, menuIndex;
-  ScreenOverlay pauseText;
+  ScreenOverlay pauseText, switchCamText;
   Timer timer;
   bool pause, restart;
 
@@ -45,8 +45,10 @@ private:
 
   void ResizeViewport(const int index, const int numHumans, const int width, const int height);
   void goToGamePausedState();
+
+  //TODO: Update these two functions so that they take in a vector of strings insted of 3 strings (make the thing look nicer)
   void UpdateHudInfo(Player * player, mat4 & projectionMatrix, mat4 & viewMatrix, string & healthStr, string & armourStr, string & velocityStr, vec3 & vColour, bool & canLayTrap);
-  void UpdateHudInfoEmpty(const vector <Player*> players, const int &i, mat4 &projectionMatrix, mat4 &viewMatrix, Camera &winningCam, Camera &overheadCam, string &healthStr, string &armourStr, string &velocityStr, vec3 &vColour);
+  void UpdateHudInfoEmpty(const vector <Player*> players, const int &i, mat4 &projectionMatrix, mat4 &viewMatrix, Camera &winningCam, Camera &overheadCam, string &healthStr, string &armourStr, string &velocityStr, vec3 &vColour, const int &camIndex);
 
   void initSkyBox(const string &pathname);
   GEO* initArena(const string &texfilename, const string &objfilename);
@@ -56,7 +58,7 @@ private:
   void gameLoop();
 
 public:
-
+	//TODO: Turn all those strings into a vector and then reference them that way
   Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers, const vector<vec3> spawnPoints);
 
   bool start();

@@ -29,8 +29,6 @@ out vec3 uv;
 out vec3 vertexPosition;
 void main()
 {
-	//very arbitrary scale for the moment; testing purposes.
-	float scale = 0.05f;
     // assign vertex position without modification
 
 	vec4 vertexCameraSpace = modelview * model * vec4(VertexPosition,1.0);
@@ -39,12 +37,14 @@ void main()
 
 	mat3 normalMatrix = mat3(transpose(inverse(modelview)));
     N = normalize(normalMatrix*Normal);
+
     // assign output colour to be interpolated
     Colour = VertexColour;
 
 	vec4 L4 = modelview * vec4(lightPosition, 1.0);
 	L = normalize(L4.xyz - P);
 	V = normalize(-P);
+
     //Pass uv coordinates and position.	
 	uv = UV;
 	vertexPosition = VertexPosition;

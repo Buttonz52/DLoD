@@ -12,6 +12,7 @@ Vehicle::Vehicle()
 	cout << "Low health:"<< lowHealth << endl;
 	dead = false;
 	canPulseColour = false;
+
 	//initialize crash sound and place in map
 	crash = Mix_LoadWAV("sfx/carCrash.wav");
 	explosion = Mix_LoadWAV("sfx/explosion.wav");
@@ -65,44 +66,37 @@ void Vehicle::updateWheelPosition()
 	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 	name.p += displacement;
 	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
-	//model[3] = vec4(vCenter.x - xoff, vCenter.y, vCenter.z + zoff, 1.f);
 	children[0]->setModelMatrix(model);
 
 
 	displacement = PxVec3(-xoff, 0, zoff);
 
 	name = m;
-	//displacement = rotate.rotate(displacement);
 	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 
 	name.p += displacement;
 
 	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
-//	model[3] = vec4(vCenter.x - xoff, vCenter.y, vCenter.z - zoff,1.f);
 	children[1]->setModelMatrix(model);
 
 
 	displacement = PxVec3(xoff, 0, -zoff);
 	name = m;
-	//displacement = rotate.rotate(displacement);
 	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 
 	name.p += displacement;
 
 	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
-//	model[3] = vec4(vCenter.x + xoff, vCenter.y, vCenter.z - zoff, 1.f);
 	children[2]->setModelMatrix(model);
 
 
 	displacement = PxVec3(-xoff, 0, -zoff);
 	name = m;
-	//displacement = rotate.rotate(displacement);
 	displacement = rotate.rotate(displacement) + rotate.rotate(PxVec3(0.0, 0.0, centeroff));
 
 	name.p += displacement;
 
 	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
-//	model[3] = vec4(vCenter.x + xoff, vCenter.y, vCenter.z + zoff, 1.f);
 	children[3]->setModelMatrix(model);
 }
 
@@ -250,7 +244,8 @@ void Vehicle::checkDead() {
 		if (!timer.isStopped())
 			timer.stop();
 		mesh.UpdateColour(&(colour = initColour * 0.2f));
-		//changeMeshDead();
+		//changeMeshDead();		//if we want a second mesh for "dead", uncomment this
+								//Otherwise, we can delete and delete the  "dead mesh"
 	}
 	canPulseColour = false;
 	dead = true;
@@ -265,14 +260,11 @@ void Vehicle::checkDead() {
 //regenerates armour for vehicle
 void Vehicle::regenArmour() {
 	if (armour >= initArmour) {
-		//mesh.UpdateColour(&(colour = initColour));
 		armour = initArmour;
 	}
 	else {
 		armour++;
 	}
-
-	//armour >= 20 ? armour = 20: armour++;
 }
 
 void Vehicle::updateHealth(const float &damage)
@@ -280,13 +272,11 @@ void Vehicle::updateHealth(const float &damage)
 	float damageToHealth = 0;
 
 	if (armour == 0) {
-		//mesh.UpdateColour(&(colour = initColour * 0.5f));
 		damageToHealth = damage;
 	}
 	else {
 		//armour takes damage
 		armour -= damage;
-		//UpdateColour(&(colour = initColour -vec3(0.2f-(armour*0.1f))));
 		//check if there is leftover damage for player
 		if (armour < 0) {
 			damageToHealth = abs(armour);
@@ -375,7 +365,6 @@ void Vehicle::giveMeWheels()
 	{
 		//init wheels mesh
 		GEO* wheel = new GEO();
-		//wheel->setFilename("wheels/mediumCarTire.obj");
 		wheel->setColour(vec3(0, 0, 0));
 		string filename = "wheels/mediumCarTire.obj";
 		if (!wheel->initMesh(filename)) {
@@ -565,7 +554,7 @@ void Vehicle::FlipVehicle() {
 	float mass = physXVehicle->getRigidDynamicActor()->getMass();
 	PxVec3 axis(0,0,1);
 	axis = physXVehicle->getRigidDynamicActor()->getGlobalPose().rotate(axis);
-	cout << axis.x << " " <<axis.y << " " <<axis.z << endl;
+	//cout << axis.x << " " <<axis.y << " " <<axis.z << endl;
 	physXVehicle->getRigidDynamicActor()->addForce(PxVec3(0, force*mass, 0));
 	physXVehicle->getRigidDynamicActor()->addTorque(axis*torque*mass);
 }

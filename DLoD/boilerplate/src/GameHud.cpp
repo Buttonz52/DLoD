@@ -13,11 +13,12 @@ GameHud::~GameHud()
 
 
 void GameHud::InitializeMenu(const vec3 &colour) {
-	resumeText.InitializeGameText("RESUME", vec3(-0.27, 0.0, 0), colour, 30);
+	int kerning = 30;
+	resumeText.InitializeGameText("RESUME", vec3(-0.27, 0.0, 0), colour, kerning);
 	resumeText.setScale(vec3(2));
-	restartText.InitializeGameText("RESTART", vec3(-0.3, -0.2, 0), colour, 30);
+	restartText.InitializeGameText("RESTART", vec3(-0.3, -0.2, 0), colour, kerning);
 	restartText.setScale(vec3(2));
-	quitText.InitializeGameText("QUIT", vec3(-0.2, -0.4, 0), colour, 30);
+	quitText.InitializeGameText("QUIT", vec3(-0.2, -0.4, 0), colour, kerning);
 	quitText.setScale(vec3(2));
 
 	//arena map background
@@ -42,25 +43,26 @@ void GameHud::InitializeMenu(const vec3 &colour) {
 }
 //initialize hud
 void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, const string &arenaFilename) {
+	int kerning = 30;
 	cout << "Initializing hud. " << endl;
 	//health
-	healthTitle.InitializeGameText("Health:", vec3(-0.98, 0.88, 0), colour, 30);
+	healthTitle.InitializeGameText("Health:", vec3(-0.98, 0.88, 0), colour, kerning);
 	healthTitle.setScale(vec3(0.8));
 
-	healthTex.InitializeGameText("000", vec3(-0.73, 0.88, 0), colour, 30);
+	healthTex.InitializeGameText("000", vec3(-0.73, 0.88, 0), colour, kerning);
 	healthTex.setScale(vec3(0.8));
 
 	//armour
-	armourTitle.InitializeGameText("Armour:", vec3(-0.98, 0.78, 0), colour, 30);
+	armourTitle.InitializeGameText("Armour:", vec3(-0.98, 0.78, 0), colour, kerning);
 	armourTitle.setScale(vec3(0.8));
 
-	armourTex.InitializeGameText("000", vec3(-0.73, 0.78, 0), colour, 30);
+	armourTex.InitializeGameText("000", vec3(-0.73, 0.78, 0), colour, kerning);
 	armourTex.setScale(vec3(0.8));
 
 	//velocity
-	velocityTitle.InitializeGameText("mph", vec3(0.86, -0.85, 0), colour, 30);
+	velocityTitle.InitializeGameText("mph", vec3(0.86, -0.85, 0), colour, kerning);
 
-	velocityTex.InitializeGameText("00", vec3(0.62, -0.95, 0), colour, 30);
+	velocityTex.InitializeGameText("00", vec3(0.62, -0.95, 0), colour, kerning);
 	velocityTex.setScale(vec3(3.f));
 
 	//border for health and armour
@@ -158,9 +160,10 @@ void GameHud::UpdateRadar(const vector<vec3> *positions) {
 //render hud
 void GameHud::Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour, const bool &canLayTrap) {
 	//update values
-	healthTex.UpdateGameText(health);
-	armourTex.UpdateGameText(armour);
-	velocityTex.UpdateGameText(velocity);
+	int kerning = 30;
+	healthTex.UpdateGameText(health, kerning);
+	armourTex.UpdateGameText(armour, kerning);
+	velocityTex.UpdateGameText(velocity, kerning);
 	UpdateRadar(positions);
 
 	//render widgets.  Render in order widget -> border ->background in order to show properly
@@ -199,20 +202,21 @@ void GameHud::Render(const string &health, const string &armour, const string &v
 }
 
 void GameHud::RenderMenu(const int &menuIndex, const vec3 &colour) {
+	float multiplyColour = 0.3f;
 	if (menuIndex == 0) {
-		restartText.setColour(colour*0.3f);
-		quitText.setColour(colour * 0.3f);
+		restartText.setColour(colour*multiplyColour);
+		quitText.setColour(colour * multiplyColour);
 		resumeText.setColour(colour);
 	}
 	else if (menuIndex == 1) {
-		quitText.setColour(colour * 0.3f);
+		quitText.setColour(colour * multiplyColour);
 		restartText.setColour(colour);
-		resumeText.setColour(colour * 0.3f);
+		resumeText.setColour(colour * multiplyColour);
 	}
 	else {
 		quitText.setColour(colour);
-		restartText.setColour(colour*0.3f);
-		resumeText.setColour(colour*0.3f);
+		restartText.setColour(colour*multiplyColour);
+		resumeText.setColour(colour*multiplyColour);
 	}
 	quitText.Render(GL_TRIANGLES, quitText.getColour());
 	resumeText.Render(GL_TRIANGLES, resumeText.getColour());
@@ -220,32 +224,4 @@ void GameHud::RenderMenu(const int &menuIndex, const vec3 &colour) {
 	pauseBorder.Render(GL_TRIANGLES, colour);
 	pauseBox.Render(GL_TRIANGLE_STRIP, pauseBox.getColour());
 	pauseBkgrd.Render(GL_TRIANGLE_STRIP, vec3(0));// vec3(1.f - colour) * 0.3f);
-}
-
-void GameHud::Destroy() {
-	//kill all the ScreenOverlays
-	healthTex.Destroy();
-	armourTex.Destroy();
-	healthTitle.Destroy();
-	armourTitle.Destroy();
-	topLeftBkgrd.Destroy(); 
-	topLeftBorder.Destroy();
-	botRightBorder.Destroy(); 
-	botRightBkgrd.Destroy();
-	velocityTitle.Destroy(); 
-	velocityTex.Destroy();
-	radarBkgrd.Destroy(); 
-	radarBorder.Destroy();
-	radarPoints.Destroy(); 
-	screenBorder.Destroy();
-	resumeText.Destroy(); 
-	quitText.Destroy();
-	pauseBkgrd.Destroy(); 
-	pauseBox.Destroy(); 
-	pauseBorder.Destroy();
-	restartText.Destroy();
-	dpadBorder.Destroy();
-	dpadTexture.Destroy();
-	weaponUpD.Destroy();
-	weaponLeftD.Destroy();
 }

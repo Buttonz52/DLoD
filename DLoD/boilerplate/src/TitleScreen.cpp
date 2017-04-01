@@ -572,7 +572,7 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 					std::stringstream fmt;
 					fmt << "Player " << controllerIndex + 1 << ", choose your vehicle:";
 					menuButtons[menuIndex].setColour(selectColour);	//indicate choice
-					menuButtons[0].UpdateGameText(fmt.str());
+					menuButtons[0].UpdateGameText(fmt.str(), 30);
 				}
 
 				break;

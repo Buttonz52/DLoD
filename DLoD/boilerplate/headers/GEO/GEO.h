@@ -77,9 +77,8 @@ public:
 
 	vec3 * getColour();
 
-	void shutdown();		//destroy shader, texture, mesh
+	virtual void shutdown();		//destroy shader, texture, mesh
 	void playSFX(const string & name, const int & volume, const int & channel);
-	//void calculateMeshTangent();
 	Mesh mesh;
 
 protected:
@@ -99,7 +98,6 @@ protected:
 	vector<vec3> tangentMesh;
 	Audio audio;
 	map<string, Mix_Chunk*> sfxMap;	//map of sounds
-	//Mix_Chunk* sfx = Mix_LoadWAV("sfx/carCrash.wav");
 
 };
 #endif
