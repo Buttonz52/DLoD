@@ -17,6 +17,8 @@ layout(location = 3) in vec3 UV;
 uniform mat4 modelview;
 uniform mat4 projection;
 uniform mat4 model;
+uniform mat4 lightSpaceMatrix;
+
 uniform vec3 lightPosition;
 
 out vec3 Colour;
@@ -25,6 +27,8 @@ out vec3 L;
 out vec3 P;
 out vec3 V;
 out vec3 uv;
+out vec4 positionLightSpace;
+
 void main()
 {
 	//very arbitrary scale for the moment; testing purposes.
@@ -45,5 +49,6 @@ void main()
 	uv = UV;
 
     gl_Position = projection * vertexCameraSpace;    
+		positionLightSpace = lightSpaceMatrix * vec4( vec3(model * vec4(VertexPosition,1.0)),1.0);
 
 }

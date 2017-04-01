@@ -16,7 +16,7 @@ bool Texture::InitializeTexture(const string &filename, GLuint target)
 	unsigned char *data = stbi_load(filename.c_str(), &width, &height, &numComponents, 0);
 	if (data != nullptr)
 	{
-		this ->target = target;
+		this->target = target;
 		glGenTextures(1, &textureID);
 		glBindTexture(target, textureID);
 		GLuint format = GL_RGB;

@@ -33,7 +33,7 @@ PhysXMain::~PhysXMain()
 
 VehicleDesc PhysXMain::initMediumVehicleDesc()
 {
-	const PxF32 chassisMass = 1500.0;
+	const PxF32 chassisMass = 1300.0;
 	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
 	const PxVec3 chassisMOI
 		((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass /12.0f,
@@ -101,7 +101,7 @@ VehicleDesc PhysXMain::initLightVehicleDesc()
 
 VehicleDesc PhysXMain::initLargeVehicleDesc()
 {
-	const PxF32 chassisMass = 2000.0;
+	const PxF32 chassisMass = 1600.0;
 	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
 	const PxVec3 chassisMOI
 	((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
@@ -148,7 +148,7 @@ void PhysXMain::init(const int numVehicles)
 	}
 
 	PxSceneDesc sceneDesc(gPhysics->getTolerancesScale());
-	sceneDesc.gravity = PxVec3(0.0f, 3*-9.81f, 0.0f);
+	sceneDesc.gravity = PxVec3(0.0f, 5*-9.81f, 0.0f);
 	gDispatcher = PxDefaultCpuDispatcherCreate(2);
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;	//this will give us heck later

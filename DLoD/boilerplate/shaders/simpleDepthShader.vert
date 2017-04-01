@@ -1,9 +1,11 @@
 #version 410
-// Input vertex data, different for all executions of this shader.
-layout(location = 0) in vec3 vertexPosition_modelspace;
+layout (location = 0) in vec3 position;
 
-// Values that stay constant for the whole mesh.
-uniform mat4 depthMVP;
+uniform mat4 model;
+uniform mat4 modelview;
+uniform mat4 lightSpaceMatrix;
 
-void main(){
- gl_Position =  depthMVP * vec4(vertexPosition_modelspace,1);
+void main()
+{
+    FragPosLightSpace = lightSpaceMatrix * modelview * model *  vec4(position, 1.0);
+}

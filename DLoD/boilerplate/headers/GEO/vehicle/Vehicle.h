@@ -47,7 +47,7 @@ public:
   void giveMeWheels();
 
   void Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
-
+  void RenderShadow(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
   mat4 convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w);
 
   void FlipVehicle();

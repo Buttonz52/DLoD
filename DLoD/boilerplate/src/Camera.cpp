@@ -29,7 +29,7 @@ void Camera::setInitValues() {
 
 	fov = M_PI / 3;
 	_near = 1;
-	_far = 1000;
+	_far = 3000;
 
   asp = (float)1920 / (float)1080;
 }

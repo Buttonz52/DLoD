@@ -13,14 +13,21 @@ in vec3 L;
 in vec3 P;
 in vec3 V;
 in vec3 uv;
+in vec4 positionLightSpace;
 
 // first output is mapped to the framebuffer's colour index by default
 out vec4 FragmentColour;
 uniform sampler2D sampler;
 uniform samplerCube radiancemap;
+uniform sampler2D shadowmap;
+
 uniform float exposure;
 uniform float reflectance;
 
+
+float ShadowCalculation(vec4 posLightSpace) {
+	return 0;
+}
 
 vec3 FresnelReflectance(vec3 R0, float cosine) {
 	return R0 + (vec3(1.f)-R0) * pow(1.0-cos(cosine),5.f);
@@ -39,7 +46,7 @@ void main(void)
 	float NdotV = dot(N,v);
 
 	//incorporate Fresnel effect to the environment map + the image
-	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits.xyz +imageColour.xyz);
+	vec3 shaded =  vec3(FresnelReflectance(vec3(reflectance), NdotV ) * nits.xyz + imageColour.xyz);
 	
 	FragmentColour = vec4(shaded *exposure, 1.f);	//don't mess with the alphas, that is bad news
 }

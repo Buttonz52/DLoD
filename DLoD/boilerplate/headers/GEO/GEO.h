@@ -39,6 +39,10 @@ public:
 	void setScale(const vec3 &scale);
 	void updateScale(const vec3 &scale);
 
+	void UseRegularShader();
+
+	void UseShadowShader();
+
 	//Rotation
 	mat4 getRotation();
 	void setRotation(const vec3 &rotation);
@@ -77,6 +81,8 @@ public:
 
 	vec3 * getColour();
 
+	virtual void RenderShadow(const mat4 & _view, const mat4 & _projection, const vec3 & _lightSource);
+
 	virtual void shutdown();		//destroy shader, texture, mesh
 	void playSFX(const string & name, const int & volume, const int & channel);
 	Mesh mesh;
@@ -92,8 +98,10 @@ protected:
 	mat4 modelMatrix;
 	physx::PxShape *shape;
 	physx::PxRigidDynamic *body;
-
+	
+	Shader *currentShader;
 	Shader shader;
+	Shader shadowShader;
 	Texture texture, environmentMap;
 	vector<vec3> tangentMesh;
 	Audio audio;

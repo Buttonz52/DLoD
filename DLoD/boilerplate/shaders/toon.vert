@@ -49,4 +49,5 @@ void main()
 	uv = UV;
 	vertexPosition = VertexPosition;
     gl_Position = projection * vertexCameraSpace;    
+
 }

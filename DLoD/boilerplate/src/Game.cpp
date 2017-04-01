@@ -33,6 +33,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   numPlayerScreens = numPlayers;
   glfwGetWindowSize(window, &width, &height);
 
+  shadow.initShadow();
   physX.init(4);
 
   initSkyBox(skyboxFilepath);
@@ -98,7 +99,7 @@ bool Game::start()
   pauseText.InitializeGameText("PAUSE", vec3(-0.4, 0.5, 0), vec3(1, 0.5, 0.3), 30);
 
   switchCamText.setScale(vec3(0.5f));
-  switchCamText.InitializeGameText("Press <TAB> or <SELECT> to change between cameras", vec3(-0.4, -0.8, 0), vec3(1, 1, 1), 30);
+  switchCamText.InitializeGameText("Press <TAB> or <BACK> to change between cameras", vec3(-0.4, -0.8, 0), vec3(1, 1, 1), 30);
   gameLoop();
 
   // Clean up and Display the win screen
@@ -210,7 +211,6 @@ void Game::gameLoop()
     vec3 vColour;
     for (int i = 0; i < viewports;i++) {
 	    //getviewport
-	    ResizeViewport(i, numPlayerScreens, width, height);
 	
 		  // Render
 		  //make sure rendering a player screen that 
@@ -230,14 +230,29 @@ void Game::gameLoop()
 			  UpdateHudInfoEmpty(players, i, projectionMatrix, viewMatrix, winningCam, overheadCam, healthStr, armourStr, velocityStr, vColour, camIndex);
 		  }
 		
-		  //render the game hud
+		  //render shadows
+		  shadow.bindForWriting();
 		  glEnable(GL_CULL_FACE);
 		  glCullFace(GL_BACK);
-	//  glEnable(GL_FRAMEBUFFER_SRGB);
-		  arena->Render(viewMatrix, projectionMatrix, lightSource);
-	//	  glDisable(GL_FRAMEBUFFER_SRGB);
+		  //  glEnable(GL_FRAMEBUFFER_SRGB);
+		  arena->RenderShadow(viewMatrix, projectionMatrix, lightSource);
+		  //	  glDisable(GL_FRAMEBUFFER_SRGB);
 
 		  glDisable(GL_CULL_FACE);
+		  skybox->RenderShadow(viewMatrix, projectionMatrix, lightSource);
+		  shadow.endRender();
+
+		  //render normally
+		  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		  ResizeViewport(i, numPlayerScreens, width, height);
+		  glEnable(GL_CULL_FACE);
+		  glCullFace(GL_BACK);
+		  shadow.bindForReading(&arena->getShader());
+		  arena->Render(viewMatrix, projectionMatrix, lightSource);
+
+		  glDisable(GL_CULL_FACE);
+		  shadow.unbindTexture();
+		 // shadow.bindForReading(&skybox->getShader());
 		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
 		  if (players[i]->isDead())
 			 switchCamText.Render(GL_TRIANGLES, vColour);
@@ -348,7 +363,7 @@ void Game::initSkyBox(const string &pathname)
     cout << "Failed to initialize skybox mesh." << endl;
   }
   //scale cube large
-  skybox->setScale(vec3(500.0));
+  skybox->setScale(vec3(1500.0));
   skybox->updateModelMatrix();
   if (!skybox->initSkybox(skyboxFiles)) {
     cout << "Failed to initialize skybox texture." << endl;
