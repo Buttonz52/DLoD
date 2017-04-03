@@ -9,9 +9,6 @@ struct sortClass
 		double dista = a->distanceTo + 5.0 * length(destination - a->position);
 		double distb = b->distanceTo + 5.0 * length(destination - b->position);
 
-		//a->dist = dista;
-		//b->dist = distb;
-
 		return dista > distb;
 	}
 };
@@ -104,7 +101,7 @@ void AI::getInput(GameState* state)
 		}
 	}
 
-	if (min(distNP, distNPU) < 800.0)
+	if (min(distNP, distNPU) < 200.0)
 		behaviour = (distNP < distNPU) ? attacking : pickup;
 
 	double health = vehicle->getHealth();
@@ -131,11 +128,13 @@ void AI::getInput(GameState* state)
 
 		cp = vec3(vehicle->getModelMatrix()[3]);
 		ray = cp - vec3(nearestPlayer->vehicle->getModelMatrix()[3]);
-		state->nodes->getNodesForArc(nodes, cp, ray);
+    normalize(ray);
+    ray *= 75.0;
+		state->nodes->getNodesForArc(nodes, cp, (ray));
 
 		if (nodes.size() == 0)
 		{
-			state->nodes->getNodesForSphere(nodes, cp, 20);
+			state->nodes->getNodesForSphere(nodes, cp, 75);
 		}
 
 		if (nodes.size() != 0)
@@ -164,7 +163,7 @@ void AI::getInput(GameState* state)
 
 	case patrolling:
 		cp = vec3(vehicle->getModelMatrix()[3]);
-		state->nodes->getNodesForSphere(nodes, cp, 20);
+		state->nodes->getNodesForSphere(nodes, cp, 75);
 
 		if (nodes.size() != 0)
 		{
@@ -259,7 +258,7 @@ vec3 AI::pathTo(GameState* state, vec3 dest)
 		else {
 			delete start;
 			delete destination;
-			return vec3(0, 0, 0);
+			return dest;
 		}
 	}
 

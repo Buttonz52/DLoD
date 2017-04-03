@@ -165,6 +165,15 @@ void OctTree::split()
   children.push_back(new OctTree(ggg, centerPoint + vec3( distx / 2,  disty / 2,  distz / 2), distx / 2, disty / 2, distz / 2));
 }
 
+int OctTree::numberOfNodes()
+{
+  int n = nodes.size();
+  for (OctTree* child : children)
+    n += child->numberOfNodes();
+
+  return n;
+}
+
 
 void OctTree::getNodesForSphere(vector<AStarNode*> &nodesInArea, vec3 cp, double r)
 {
