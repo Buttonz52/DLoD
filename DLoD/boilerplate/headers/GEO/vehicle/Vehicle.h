@@ -39,6 +39,8 @@ public:
   Timer timer;
   void setColour(const vec3 &col);
 
+  vec3 getOrientationVector();
+
 
   string wheelFileName;
   void updateArmour();

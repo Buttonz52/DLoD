@@ -130,7 +130,7 @@ void AI::getInput(GameState* state)
 		ray = cp - vec3(nearestPlayer->vehicle->getModelMatrix()[3]);
     normalize(ray);
     ray *= 75.0;
-		state->nodes->getNodesForArc(nodes, cp, (ray));
+		state->nodes->getNodesForArc(nodes, cp, ray);
 
 		if (nodes.size() == 0)
 		{
@@ -163,19 +163,34 @@ void AI::getInput(GameState* state)
 
 	case patrolling:
 		cp = vec3(vehicle->getModelMatrix()[3]);
-		state->nodes->getNodesForSphere(nodes, cp, 75);
+    ray = vehicle->getOrientationVector();
+    ray *= 150;
+
+    state->nodes->getNodesForArc(nodes, cp, ray);
+
+    if (nodes.size() < 2)
+    {
+      state->nodes->getNodesForSphere(nodes, cp, 150);
+    }
 
 		if (nodes.size() != 0)
 		{
 			safe = true;
 			int i = state->timer.getTicks();
-			target = nodes[i % nodes.size()]->position;
+      cp.y = oldTarget.y;
+      if (oldBehaviour == patrolling && length(cp - oldTarget) > 10.0)
+        target = oldTarget;
+      else
+        target = nodes[i % nodes.size()]->position;
 		}
 		break;
 
 	default:
 		break;
 	}
+
+  oldTarget = target;
+  oldBehaviour = behaviour;
 
 	if (safe)
 		driveTo(pathTo(state, target));

@@ -175,8 +175,8 @@ bool GEO::initMesh(const string &filename) {
 		return 0;
 	}
 
-	cout << "number of verts: " << mesh.vertices.size() << endl;
-	cout << "Loaded " << filename << endl;
+	//cout << "number of verts: " << mesh.vertices.size() << endl;
+	//cout << "Loaded " << filename << endl;
 	return 1;
 }
 

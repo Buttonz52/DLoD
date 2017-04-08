@@ -51,9 +51,9 @@ vector<string> spawnObjFilenames = {
 };
 
 vector<string> starObjFilenames = {
-	"starNodes/spawn.obj",
-	"starNodes/spawn.obj",
-	"starNodes/spawn.obj"
+	"starNodes/bowl.obj",
+	"starNodes/devil.obj",
+	"starNodes/wrap.obj"
 };
 
 //arena radar

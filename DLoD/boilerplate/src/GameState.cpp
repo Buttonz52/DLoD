@@ -29,11 +29,8 @@ GameState::GameState(vector<vec3> vertices)
         m->neighbours.push_back(n);
       }
     }
-
     nodes->addNode(n);
-    cout << nodes->numberOfNodes() << endl;
   }
-
 }
 
 

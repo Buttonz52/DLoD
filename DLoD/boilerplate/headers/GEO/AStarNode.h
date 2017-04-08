@@ -15,7 +15,7 @@ public:
 
   bool obstructed = false;
 
-  double neighbourRadius = 50.0;
+  double neighbourRadius = 75.0;
 };
 
 class OctTree
