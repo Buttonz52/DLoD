@@ -59,6 +59,7 @@ void Player::getInput()
 {
 
 }
+
 void Player::ChooseVehicle(int choice) {
 	//random choice between vehicle classes
 	switch (choice) {

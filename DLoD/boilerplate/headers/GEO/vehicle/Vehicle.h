@@ -35,6 +35,7 @@ public:
 
   PxVehicleNoDrive* physXVehicle;
   pair<bool, double> stun = make_pair(false, 0);
+  pair<bool, double> recentlyHit = make_pair(false, 0);
   bool canPulseColour;
   Timer timer;
   void setColour(const vec3 &col);
