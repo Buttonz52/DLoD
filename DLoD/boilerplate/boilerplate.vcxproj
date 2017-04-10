@@ -169,7 +169,6 @@
     <ClCompile Include="src\TitleScreen.cpp" />
     <ClCompile Include="src\Utility.cpp" />
     <ClCompile Include="src\Vehicle.cpp" />
-    <ClCompile Include="src\Video.cpp" />
     <ClCompile Include="src\XboxController.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -186,7 +185,6 @@
     <ClInclude Include="headers\Game\Timer.h" />
     <ClInclude Include="headers\Game\TitleScreen.h" />
     <ClInclude Include="headers\Game\Utility.h" />
-    <ClInclude Include="headers\Game\Video.h" />
     <ClInclude Include="headers\GEO\AStarNode.h" />
     <ClInclude Include="headers\GEO\Camera.h" />
     <ClInclude Include="headers\GEO\GEO.h" />

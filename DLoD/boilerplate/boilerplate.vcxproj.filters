@@ -177,9 +177,6 @@
     <ClCompile Include="src\AI.cpp">
       <Filter>Source Files\GEO\player</Filter>
     </ClCompile>
-    <ClCompile Include="src\Video.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GEO\GEO.h">
@@ -274,9 +271,6 @@
     </ClInclude>
     <ClInclude Include="headers\Game\GameState.h">
       <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Game\Video.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

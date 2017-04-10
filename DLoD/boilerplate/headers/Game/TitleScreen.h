@@ -5,7 +5,6 @@
 #include "Controller/XboxController.h"
 #include "Audio.h"
 #include "Game\timer.h"
-#include "Game/Video.h"
 
 class TitleScreen
 {

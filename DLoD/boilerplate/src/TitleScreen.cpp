@@ -82,24 +82,6 @@ void TitleScreen::readRules(GLFWwindow *window, XboxController *ctrller, Audio *
 	}
 }
 
-void TitleScreen::DisplayVideo(Audio *audio) {
-	cout << "Play video!" << endl;
-	//Video video;
-	//video.InitializeVideo();
-}
-
-void TitleScreen::CheckTimeout(Audio *audio) {
-	if (timer.isStarted()) {
-		if (timer.getTicks() >= timeout) {
-			//display video/set a flag or smth
-			DisplayVideo(audio);
-			timer.reset();
-		}
-	}
-	else {
-		timer.start();
-	}
-}
 //quit game
 void TitleScreen::pressQuit() {
 	isQuit = true;
@@ -428,7 +410,6 @@ bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, A
 	while (!isStartPressed()) {
 		//title screen
 		if (!isArenaSkyboxScreen && !isMultiplayerScreen && !isCarScreen) {
-			CheckTimeout(audio);
 			switch (KeyCallback(window, controller, audio)) {	//check key callback 
 			case 0:
 				toggleMenuIndex(-1, audio, initIndex, maxIndex);
