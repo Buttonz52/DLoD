@@ -44,6 +44,7 @@ private:
   bool gameOver = false;
 
   void ResizeViewport(const int index, const int numHumans, const int width, const int height);
+  void goToEndGameState();
   void goToGamePausedState();
 
   //TODO: Update these two functions so that they take in a vector of strings insted of 3 strings (make the thing look nicer)

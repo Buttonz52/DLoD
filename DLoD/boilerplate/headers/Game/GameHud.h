@@ -15,6 +15,8 @@ public:
 	void UpdateRadar(const vector<vec3>* positions);
 
 	void InitializeMenu(const vec3 & colour);
+
+	void InitializeEndGame(const vector<string>& playerNames, const vector<vec3>& colours);
 	
 	//initializes hud
 	void InitializeHud(const vec3 &colour, const vector<vec3>*positions, const string &reanaFilename);
@@ -23,6 +25,8 @@ public:
 	//void Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour);
 
 	void Render(const string & health, const string & armour, const string & velocity, const vector<vec3>* positions, const vec3 & colour, const bool & canLayTrap);
+
+	void RenderEndGame(const int & menuIndex, const vec3 & colour);
 
 	void RenderMenu(const int & menuIndex, const vec3 & colour);
 
@@ -41,7 +45,10 @@ private:
 		pauseBkgrd, pauseBox,
 		pauseBorder, restartText,
 		dpadTexture, dpadBorder,
-		weaponUpD, weaponLeftD;
+		weaponUpD, weaponLeftD,
+		firstPlace, secondPlace,
+		thirdPlace, fourthPlace,
+		endGameOverlay;
 	;
 };
 

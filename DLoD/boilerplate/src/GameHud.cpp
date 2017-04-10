@@ -41,6 +41,31 @@ void GameHud::InitializeMenu(const vec3 &colour) {
 	pauseBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 }
+void GameHud::InitializeEndGame(const vector<string> &playerNames, const vector <vec3> &colours) {
+	quitText.setPosition(vec3(-0.19, -0.9, 0));
+	restartText.setPosition(vec3(-0.29, -0.7, 0));
+	std::stringstream fmt1;
+	int kerning = 30;
+	fmt1 << "1st place: " << playerNames[0];
+	firstPlace.InitializeGameText(fmt1.str(), vec3(-0.35, 0.3, 0), colours[0], kerning);
+	std::stringstream fmt2;
+	fmt2 << "2nd place: " << playerNames[1];
+	secondPlace.InitializeGameText(fmt2.str(), vec3(-0.35, 0.1, 0), colours[1], kerning);
+	std::stringstream fmt3;
+	fmt3 << "3rd place: " << playerNames[2];
+	thirdPlace.InitializeGameText(fmt3.str(), vec3(-0.35, -0.1, 0), colours[2], kerning);
+	std::stringstream fmt4;
+	fmt4 << "4th place: " << playerNames[3];
+	fourthPlace.InitializeGameText(fmt4.str(), vec3(-0.35, -0.3, 0), colours[3], kerning);
+	endGameOverlay.GenerateSquareVertices(0.5, 0.5, vec3(1));
+	endGameOverlay.setTransparency(0.5f);
+
+	endGameOverlay.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	firstPlace.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	secondPlace.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	thirdPlace.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	fourthPlace.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+}
 //initialize hud
 void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, const string &arenaFilename) {
 	int kerning = 30;
@@ -201,6 +226,26 @@ void GameHud::Render(const string &health, const string &armour, const string &v
 	screenBorder.Render(GL_TRIANGLES, colour);
 }
 
+void GameHud::RenderEndGame(const int &menuIndex, const vec3 &colour) {
+	float multiplyColour = 0.3f;
+
+	if (menuIndex == 0) {
+		quitText.setColour(colour * multiplyColour);
+		restartText.setColour(colour);
+	}
+	else {
+		quitText.setColour(colour);
+		restartText.setColour(colour*multiplyColour);
+	}
+
+	quitText.Render(GL_TRIANGLES, quitText.getColour());
+	restartText.Render(GL_TRIANGLES, restartText.getColour());
+	firstPlace.Render(GL_TRIANGLES, firstPlace.getColour());
+	secondPlace.Render(GL_TRIANGLES, secondPlace.getColour());
+	thirdPlace.Render(GL_TRIANGLES, thirdPlace.getColour());
+	fourthPlace.Render(GL_TRIANGLES, fourthPlace.getColour());
+	endGameOverlay.Render(GL_TRIANGLE_STRIP, endGameOverlay.getColour());
+}
 void GameHud::RenderMenu(const int &menuIndex, const vec3 &colour) {
 	float multiplyColour = 0.3f;
 	if (menuIndex == 0) {

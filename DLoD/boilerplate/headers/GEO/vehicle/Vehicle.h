@@ -27,7 +27,9 @@ protected:
   float xoff;
   float zoff;
   float centeroff;
-  Mesh aliveCar, deadCar;
+  Mesh aliveCar, deadCar;  
+  clock_t timeOfDeath;
+  clock_t flipTime;
 
 public:
 	Vehicle();
@@ -36,7 +38,7 @@ public:
   PxVehicleNoDrive* physXVehicle;
   pair<bool, double> stun = make_pair(false, 0);
   pair<bool, double> recentlyHit = make_pair(false, 0);
-  bool canPulseColour;
+  bool canPulseColour, ableToFlip;
   Timer timer;
   void setColour(const vec3 &col);
 
@@ -52,6 +54,8 @@ public:
   void Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
   void RenderShadow(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource);
   mat4 convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w);
+
+  void checkEnableFlip();
 
   void FlipVehicle();
 
@@ -82,7 +86,7 @@ public:
 	string getArmourString();
 
 	string getVelocityString();
-
+	int getTimeOfDeath();
 };
 
 #endif

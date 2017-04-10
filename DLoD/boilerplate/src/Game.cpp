@@ -123,8 +123,53 @@ bool Game::start()
 
   bool pause = true;
   Human *h = dynamic_cast<Human*> (players[0]);
-  //set pause text to "end game" instead of "pause"
-  pauseText.InitializeGameText("END GAME", vec3(-0.6, 0.5, 0), vec3(1, 0.5, 0.3), 30);
+
+  vector <string> loserVectorNames;
+  vector<vec3> loserVectorColours;
+  vector<clock_t> ToDs;
+  
+  //Adds players in rank based on when they died
+  for (int i = 0; i < players.size(); i++) {
+	  std::stringstream fmt;
+	  Human* human = dynamic_cast<Human*> (players[i]);
+	  //Player 
+	  if (human != nullptr)
+		  fmt << "Player " << i + 1;
+	  //Otherwise, is an AI
+	  else
+		  fmt << "AI " << i -(numPlayerScreens-1);
+	 
+	  //If not dead, then automatically goes to front of list
+	  if (!players[i]->isDead()) {
+		  loserVectorNames.insert(loserVectorNames.begin(), fmt.str());	//first place
+		  loserVectorColours.insert(loserVectorColours.begin(), *players[i]->getColour());
+		  ToDs.insert(ToDs.begin(),0);
+	  }
+	  //Else, iterate over list and find proper location
+	  else {
+		  bool inList = false;
+		  for (int j = 0; i < ToDs.size(); j++) {
+			  if (!inList) {
+				  //died earlier than person
+				  if (players[i]->getTimeOfDeath() > ToDs[j]) {
+					  loserVectorNames.insert(loserVectorNames.begin() + j-1, fmt.str());	
+					  loserVectorColours.insert(loserVectorColours.begin() + j-1, *players[i]->getColour());
+					  ToDs.insert(ToDs.begin() + j-1, players[i]->getTimeOfDeath());
+					  inList = true;
+				  }
+			  }
+		  }
+		  //If not in list, then push to back of list (last place)
+		  if (!inList)
+		  {
+			  loserVectorNames.push_back( fmt.str());
+			  loserVectorColours.push_back(*players[i]->getColour());
+			  ToDs.push_back(players[i]->getTimeOfDeath());
+		  }
+	  }
+  }
+  gameHud.InitializeEndGame(loserVectorNames, loserVectorColours);
+  pauseText.InitializeGameText("END GAME", vec3(-0.57, 0.5, 0), vec3(1, 0.5, 0.3), 30);
 
   while (!restart && !glfwWindowShouldClose(window))
   {
@@ -133,7 +178,7 @@ bool Game::start()
 	  {
 		  Human* human = dynamic_cast<Human*> (p);
 		  if (human != nullptr) {
-			  goToGamePausedState();
+			  goToEndGameState();
 		  }
 	  }
 
@@ -423,12 +468,9 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	arena->setEnvironmentMap(skybox->getTexture());
 	arena->setReflectance(0.1);
 	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
-	//if (!arena->initTexture("textures/lightmaps/pisa.hdr", GL_TEXTURE_2D)) {	//NOTE: have to fix this for cube map; this doesn't work
-//	if (!arena->initTexture("textures/lightmaps/pisa_cube_radiance.hdr", GL_TEXTURE_CUBE_MAP)) {	//NOTE: have to fix this for cube map; this doesn't work
 		cout << "Failed to initialize arena ground texture." << endl;
 	}
 
-	//arena->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
 	arena->addShaders("shaders/hdr.vert", "shaders/hdr.frag");
 
 	arena->setScale(vec3(30.f));
@@ -467,9 +509,47 @@ void Game::ResizeViewport(const int index, const int numPlayerScreens, const int
 	glViewport((index % 2)*float(width) / 2, vHeight, width / wSplit, height / hSplit);
 }
 
+void Game::goToEndGameState() {
+	//audio.ChangeMusicVolume(MIX_MAX_VOLUME / 4);	//volume decreased
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	vec3 pauseColour(0);	//colour for pause menu
+	for (Player *p : players) {
+		Human* human = dynamic_cast<Human*> (p);
+		//get pause input for human that pressed pause
+		if (human != nullptr && human->pressedPause()) {
+			pauseColour = *human->getColour();	//set pause menu colour
+			human->menuControls(window, pause, menuIndex, &audio);
+			//index check
+			if (menuIndex > 1)
+				menuIndex = 0;
+			if (menuIndex < 0)
+				menuIndex = 1;
+			if (human->MenuItemSelected()) {
+				switch (menuIndex) {
+				case 0:
+					restart = true;
+					break;
+				case 1:	//pressed "quit"
+					glfwSetWindowShouldClose(window, true);
+					break;
+				}
+			}
+		}
+	}
+	//resize viewport so renders fullscreen
+	ResizeViewport(0, 1, width, height);
+	pauseText.Render(GL_TRIANGLES, pauseColour);
+	gameHud.RenderEndGame(menuIndex, pauseColour);	//render menu
+
+	glfwSwapBuffers(window);
+	glfwPollEvents();
+	//volume back to max volume
+	//audio.ChangeMusicVolume(MIX_MAX_VOLUME);
+
+}
 //State when the game is paused (start button/esc pressed) in game
 void Game::goToGamePausedState() {
-	audio.ChangeMusicVolume(MIX_MAX_VOLUME / 4);	//volume decreased
+//	audio.ChangeMusicVolume(MIX_MAX_VOLUME / 4);	//volume decreased
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	vec3 pauseColour(0);	//colour for pause menu
 	for (Player *p : players) {
@@ -511,7 +591,7 @@ void Game::goToGamePausedState() {
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 	//volume back to max volume
-	audio.ChangeMusicVolume(MIX_MAX_VOLUME);
+	//audio.ChangeMusicVolume(MIX_MAX_VOLUME);
 }
 
 //updates information for the game hud if it is a player

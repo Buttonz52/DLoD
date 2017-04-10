@@ -250,33 +250,33 @@ vec3 AI::pathTo(GameState* state, vec3 dest)
 	//
 	while (!vecContains(investigatedNodes, destination))
 	{
-		for (AStarNode* n : node->neighbours)
-		{
-			// calculate a new distanceTo 
-			n->distanceTo = min(n->distanceTo, node->distanceTo + length(n->position - node->position));
+	for (AStarNode* n : node->neighbours)
+	{
+		// calculate a new distanceTo 
+		n->distanceTo = min(n->distanceTo, node->distanceTo + length(n->position - node->position));
 
-			if (!n->obstructed && !vecContains(investigatedNodes, n) && !vecContains(neighbours, n))
-				neighbours.push_back(n);
-		}
+		if (!n->obstructed && !vecContains(investigatedNodes, n) && !vecContains(neighbours, n))
+			neighbours.push_back(n);
+	}
 
 
-		if (!neighbours.empty())
-		{
-			// Sort the neighbours 
-			sortClass obj;
-			obj.destination = dest;
-			sort(neighbours.begin(), neighbours.end(), obj);
+	if (!neighbours.empty())
+	{
+		// Sort the neighbours 
+		sortClass obj;
+		obj.destination = dest;
+		sort(neighbours.begin(), neighbours.end(), obj);
 
-			node = neighbours.back();
-			neighbours.pop_back();
+		node = neighbours.back();
+		neighbours.pop_back();
 
-			investigatedNodes.push_back(node);
-		}
-		else {
-			delete start;
-			delete destination;
-			return dest;
-		}
+		investigatedNodes.push_back(node);
+	}
+	else {
+		delete start;
+		delete destination;
+		return dest;
+	}
 	}
 
 	// Now need to find the actual path
@@ -348,6 +348,10 @@ void AI::driveTo(vec3 destination)
 	/* If you want to do some fine tuning of the AI change
 	* the code below.
 	*/
+	PxVec3 velocity = vehicle->physXVehicle->getRigidDynamicActor()->getLinearVelocity();
+	if (velocity == PxVec3(0)) {
+		vehicle->FlipVehicle();
+	}
 
 	if (oD.z > 0)
 	{

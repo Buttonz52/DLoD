@@ -25,6 +25,9 @@ Vehicle::Vehicle()
 	colour = vec3(1,0, 0);
 	initColour = colour;
 	reflectance = 0.3f;
+	timeOfDeath = -1;
+	flipTime = 0;
+	ableToFlip = true;
 }
 
 
@@ -33,6 +36,9 @@ Vehicle::~Vehicle()
 	audio.CleanUp();
 	if (!timer.isStopped())
 		timer.stop();
+}
+int Vehicle::getTimeOfDeath() {
+	return timeOfDeath;
 }
 
 void Vehicle::setColour(const vec3 &col) {
@@ -263,16 +269,17 @@ float Vehicle::getArmour() {
 
 void Vehicle::checkDead() {
 	if (health <= 0) {
-	health = 0;
-	if (!dead) {
-		if (!timer.isStopped())
-			timer.stop();
-		mesh.UpdateColour(&(colour = initColour * 0.05f));
-		//changeMeshDead();		//if we want a second mesh for "dead", uncomment this
-								//Otherwise, we can delete and delete the  "dead mesh"
-	}
-	canPulseColour = false;
-	dead = true;
+		health = 0;
+		if (!dead) {
+			timeOfDeath = timer.getTicks();
+			if (!timer.isStopped())
+				timer.stop();
+			mesh.UpdateColour(&(colour = vec3(0)));
+			//changeMeshDead();		//if we want a second mesh for "dead", uncomment this
+									//Otherwise, we can delete and delete the  "dead mesh"
+		}
+		canPulseColour = false;
+		dead = true;
 	}
 	else if (health >= lowHealth) {
 		canPulseColour = false;
@@ -609,18 +616,41 @@ mat4 Vehicle::convertMat(PxVec3 x, PxVec3 y, PxVec3 z, PxVec3 w)
 	return M;
 }
 
+//Resets flip boolean
+void Vehicle::checkEnableFlip() {
+	//if timer is past flip time + value, then flip car over
+	if (!ableToFlip) {
+		if (timer.getTicks() > flipTime + clock_t(1000)) {
+			ableToFlip = true;
+		}
+	}
+}
 //Flips vehicle over
 void Vehicle::FlipVehicle() {
-	float force = 100;
-	float torque = 100;
-
-	//int flipside = timer.getTicks() % 2;
+	float armourPenalty = 5.f;
+	//checks if you are able to flip
+	checkEnableFlip();
+	if (ableToFlip) {
+		ableToFlip = false;
 	
-	// Get the rotation of the object
-	float mass = physXVehicle->getRigidDynamicActor()->getMass();
-	PxVec3 axis(0,0,1);
-	axis = physXVehicle->getRigidDynamicActor()->getGlobalPose().rotate(axis);
-	//cout << axis.x << " " <<axis.y << " " <<axis.z << endl;
-	physXVehicle->getRigidDynamicActor()->addForce(PxVec3(0, force*mass, 0));
-	physXVehicle->getRigidDynamicActor()->addTorque(axis*torque*mass);
+		//get base value for timer to enable flipping again
+		flipTime = timer.getTicks();
+		float force = 1000;
+		float torque = 1000;
+
+		// Get the rotation of the object
+		float mass = physXVehicle->getRigidDynamicActor()->getMass();
+		PxVec3 axis(0, 0, 1);
+		axis = physXVehicle->getRigidDynamicActor()->getGlobalPose().rotate(axis);
+		//cout << axis.x << " " <<axis.y << " " <<axis.z << endl;
+		physXVehicle->getRigidDynamicActor()->addForce(PxVec3(0, force*mass, 0));
+		physXVehicle->getRigidDynamicActor()->addTorque(axis*torque*mass);
+
+		//armour penalty because of flipping
+		//armour takes damage
+		armour -= armourPenalty;
+		if (armour < 0) {
+			armour = 0;
+		}
+	}
 }

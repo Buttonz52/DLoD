@@ -9,6 +9,7 @@ Player::Player(int i)
   playerCam = new Camera();
   ableToTrap = true;
   ableToFlip = true;
+
 }
 
 Player::~Player()
@@ -16,6 +17,9 @@ Player::~Player()
   delete playerCam;
 }
 
+int Player::getTimeOfDeath() {
+	return vehicle->getTimeOfDeath();
+}
 //sets the player colour based on your identifier number.
 void Player::SetPlayerColour() {
 	switch (identifier) {

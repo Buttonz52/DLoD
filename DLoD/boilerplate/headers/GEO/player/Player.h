@@ -26,8 +26,11 @@ public:
   bool ableToTrap = true;
   bool ableToFlip = false;
   ItemType trap;
+  int getTimeOfDeath();
+
 private: 
 	void SetPlayerColour();
 	vec3 colour;
+	int timeOfDeath;
 };
 #endif

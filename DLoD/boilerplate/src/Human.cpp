@@ -154,8 +154,11 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 		}
 		//flip car
 		if (controller->GetButtonPressed(XBtns.Y)) {
-			if (ableToFlip)
+		//	if (vehicle->ableToFlip) {
 				vehicle->FlipVehicle();
+		//		vehicle->ableToFlip = false;
+		//	}
+
 		}
 		vehicle->turn(turn);
 	}
