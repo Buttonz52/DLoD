@@ -232,18 +232,19 @@ void Game::gameLoop()
 		
 		  //render shadows (this isn't working)
 		  shadow.bindForWriting();
-		  glEnable(GL_CULL_FACE);
-		  glCullFace(GL_BACK);
+		  glClear(GL_DEPTH_BUFFER_BIT);
+		//  glEnable(GL_CULL_FACE);
+		//  glCullFace(GL_BACK);
 		  //  glEnable(GL_FRAMEBUFFER_SRGB);
 		  arena->RenderShadow(viewMatrix, projectionMatrix, lightSource);
 		  //	  glDisable(GL_FRAMEBUFFER_SRGB);
 
-		  glDisable(GL_CULL_FACE);
+		//  glDisable(GL_CULL_FACE);
 		  skybox->RenderShadow(viewMatrix, projectionMatrix, lightSource);
 		  shadow.endRender();
 
 		  //render normally
-		  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+		  glClear(GL_DEPTH_BUFFER_BIT);	
 		  //resize the viewport
 		  ResizeViewport(i, numPlayerScreens, width, height);
 		  glEnable(GL_CULL_FACE);
@@ -255,7 +256,7 @@ void Game::gameLoop()
 
 		  glDisable(GL_CULL_FACE);
 		  shadow.unbindTexture();
-		 // shadow.bindForReading(&skybox->getShader());
+		//  shadow.bindForReading(&skybox->getShader());
 		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
 		  if (players[i]->isDead())
 			 switchCamText.Render(GL_TRIANGLES, vColour);

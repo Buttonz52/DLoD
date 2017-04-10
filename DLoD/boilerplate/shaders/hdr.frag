@@ -63,5 +63,6 @@ void main(void)
 
 	//testing purposes
 //	float depth = texture(shadowmap,uv.xy).r;
-//	FragmentColour = vec4(vec3(depth),1.f);
+	//FragmentColour = vec4(vec3(depth),1.f);
+	//FragmentColour = texture(shadowmap, uv.xy);
 }

@@ -414,3 +414,7 @@ void ScreenOverlay::GenerateTextUVs(vector <vec2> &uvs, const char &ch) {
 	uvs.push_back(vec2((horizontalLoc) / dimension, (verticalLoc) / dimension));
 	uvs.push_back(vec2((horizontalLoc + 1.f) / dimension, (verticalLoc) / dimension));
 }
+
+void ScreenOverlay::InitVideo() {
+
+}

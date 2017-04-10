@@ -84,6 +84,8 @@ void TitleScreen::readRules(GLFWwindow *window, XboxController *ctrller, Audio *
 
 void TitleScreen::DisplayVideo(Audio *audio) {
 	cout << "Play video!" << endl;
+	//Video video;
+	//video.InitializeVideo();
 }
 
 void TitleScreen::CheckTimeout(Audio *audio) {

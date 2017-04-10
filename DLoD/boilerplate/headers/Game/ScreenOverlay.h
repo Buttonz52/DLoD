@@ -2,7 +2,6 @@
 #include "Utility.h"
 #include "GameEngine/Texture.h"
 #include "GameEngine/Shader.h"
-
 class ScreenOverlay
 {
 public:
@@ -10,7 +9,6 @@ public:
 	~ScreenOverlay();
 
 	int isFontTex;
-
 	void InitializeShaders(const string &vert, const string &frag);
 	bool initTexture(const string &filename, GLuint target);
 	bool InitQuad(const string &tex,
@@ -29,6 +27,8 @@ public:
 	bool GenerateVertices(const vector<vec3> *verts, const vec3 &colour, const vector<vec2> *uv);
 	bool GenerateBorder(float scale_x, float scale_y, const float & thicc, const vec3 & col, const vec3 & position);
 	void GenerateTextUVs(vector<vec2>& uvs, const char & ch);
+
+	void InitVideo();
 
 	void UpdateBuffers(const vector<vec2> *uvs);
 	void UpdateVertices(const vector<vec3> *vertices);

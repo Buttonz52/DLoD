@@ -5,6 +5,7 @@
 #include "Controller/XboxController.h"
 #include "Audio.h"
 #include "Game\timer.h"
+#include "Game/Video.h"
 
 class TitleScreen
 {
@@ -52,7 +53,7 @@ private:
 	vector<ScreenOverlay> menuButtons;
 
 	Timer timer; 
-
+	
 	Mix_Chunk *click, *press, *back;
 
 	void pressStart(Audio *audio);
