@@ -35,8 +35,6 @@ void Human::getInput(GLFWwindow* window, bool &pause)
       return;
     else {
       vehicle->stun = make_pair(false, 0);
-      vehicle->timer.stop();
-      vehicle->timer.reset();
     }
   }
   if (!pause)

@@ -43,6 +43,9 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
       // If both actors are vehicles
       if (v1 != nullptr && v2 != nullptr)
       {
+        v1->recentlyHit = make_pair(true, 2000 + v1->timer.getTicks());
+        v2->recentlyHit = make_pair(true, 2000 + v1->timer.getTicks());
+
         for (PxU32 j = 0; j < nbPoints; ++j)
         {
           PxVec3 point = pairs[i].contacts.getPoint(j);
@@ -60,13 +63,12 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
 
 		      if (forceApplied > (10.0 / (double)nbPoints))
 		      {
-			      cout << "Damage: " << forceApplied << endl;
 			      v1->calculateDamage(point.x, point.y, point.z, forceApplied);
 			      v2->calculateDamage(point.x, point.y, point.z, forceApplied);
-				  v1->playSFX("crash", MIX_MAX_VOLUME, 1);
-				  if (v1->isDead() && v2->isDead()) {
-					  v1->playSFX("explosion", MIX_MAX_VOLUME, 2);
-				  }
+
+            v1->playSFX("crash", MIX_MAX_VOLUME, 1);
+				    if (v1->isDead() && v2->isDead()) 
+					    v1->playSFX("explosion", MIX_MAX_VOLUME, 2);
 		      }
         }
       }

@@ -9,9 +9,6 @@ struct sortClass
 		double dista = a->distanceTo + 5.0 * length(destination - a->position);
 		double distb = b->distanceTo + 5.0 * length(destination - b->position);
 
-		//a->dist = dista;
-		//b->dist = distb;
-
 		return dista > distb;
 	}
 };
@@ -50,6 +47,16 @@ vec3 AI::determineTarget(GameState * state)
 
 void AI::getInput(GameState* state)
 {
+  if (vehicle->stun.first) {
+    if (vehicle->timer.getTicks() < vehicle->stun.second)
+      return;
+    else 
+      vehicle->stun = make_pair(false, 0);
+  }
+
+  if (vehicle->recentlyHit.first && vehicle->timer.getTicks() < vehicle->recentlyHit.second)
+    vehicle->recentlyHit = make_pair(false, 0);
+
 	// determine a target
 	Player* nearestPlayer = nullptr;
 	Item* nearestPickUp = nullptr;
@@ -104,24 +111,20 @@ void AI::getInput(GameState* state)
 		}
 	}
 
-	if (min(distNP, distNPU) < 800.0)
+	if (min(distNP, distNPU) < 300.0)
 		behaviour = (distNP < distNPU) ? attacking : pickup;
 
 	double health = vehicle->getHealth();
 	double armour = vehicle->getArmour();
 
-	if (armour / vehicle->getInitialArmour() < 0.25)
-	{
+	if (armour / vehicle->getInitialArmour() < 0.25 || vehicle->recentlyHit.first)
 		behaviour = retreating;
-	}
-
 
 	vec3 target;
 	vec3 cp;
 	vec3 ray;
 	vector<AStarNode*> nodes;
 	bool safe = false;
-
 
 	switch (behaviour)
 	{
@@ -131,12 +134,12 @@ void AI::getInput(GameState* state)
 
 		cp = vec3(vehicle->getModelMatrix()[3]);
 		ray = cp - vec3(nearestPlayer->vehicle->getModelMatrix()[3]);
+    normalize(ray);
+    ray *= 75.0;
 		state->nodes->getNodesForArc(nodes, cp, ray);
 
 		if (nodes.size() == 0)
-		{
-			state->nodes->getNodesForSphere(nodes, cp, 20);
-		}
+			state->nodes->getNodesForSphere(nodes, cp, 75);
 
 		if (nodes.size() != 0)
 		{
@@ -164,19 +167,32 @@ void AI::getInput(GameState* state)
 
 	case patrolling:
 		cp = vec3(vehicle->getModelMatrix()[3]);
-		state->nodes->getNodesForSphere(nodes, cp, 20);
+    ray = vehicle->getOrientationVector();
+    ray *= 150;
+
+    state->nodes->getNodesForArc(nodes, cp, ray);
+
+    if (nodes.size() < 2)
+      state->nodes->getNodesForSphere(nodes, cp, 150);
 
 		if (nodes.size() != 0)
 		{
 			safe = true;
 			int i = state->timer.getTicks();
-			target = nodes[i % nodes.size()]->position;
+      cp.y = oldTarget.y;
+      if (oldBehaviour == patrolling && length(cp - oldTarget) > 10.0)
+        target = oldTarget;
+      else
+        target = nodes[i % nodes.size()]->position;
 		}
 		break;
 
 	default:
 		break;
 	}
+
+  oldTarget = target;
+  oldBehaviour = behaviour;
 
 	if (safe)
 		driveTo(pathTo(state, target));
@@ -259,7 +275,7 @@ vec3 AI::pathTo(GameState* state, vec3 dest)
 		else {
 			delete start;
 			delete destination;
-			return vec3(0, 0, 0);
+			return dest;
 		}
 	}
 

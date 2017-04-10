@@ -15,7 +15,7 @@ public:
 
   bool obstructed = false;
 
-  double neighbourRadius = 25.0;
+  double neighbourRadius = 75.0;
 };
 
 class OctTree
@@ -35,6 +35,8 @@ public:
 
   void addNode(AStarNode* node);
   void split();
+
+  int numberOfNodes();
 
   // Takes a vector to fill a centerpoint and a radius. Will treat the cp and radius as a cube
   void getNodesForSphere(vector<AStarNode *> &nodesInArea, vec3 cp, double r);

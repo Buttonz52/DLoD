@@ -194,7 +194,13 @@ void PhysXMain::initVehicle(Vehicle* v, int type)
 	centerOfMass.p = PxVec3(0.0, -0.35, 0.25);		//default = (0.0, -0.35, 0.25)
 	v->physXVehicle->getRigidDynamicActor()->setCMassLocalPose(centerOfMass);
 
-	PxTransform startTransform(PxVec3(v->getPosition().x, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f)+v->getPosition().y, v->getPosition().z), PxQuat(PxIdentity));
+  vec3 pos = v->getPosition();
+  PxVec3 d = PxVec3(0, 0, 0) - PxVec3(pos.x, pos.y, pos.z);
+  d.normalize();
+
+  PxQuat q = PxQuat(acos(d.dot(PxVec3(0.0, 0.0, 1.0))) , PxVec3(0.0, 1.0, 0.0));
+
+	PxTransform startTransform(PxVec3(pos.x, (vehicleDesc.chassisDims.y*0.5f + vehicleDesc.wheelRadius + 1.0f) + pos.y, pos.z), q);
 	v->physXVehicle->getRigidDynamicActor()->setGlobalPose(startTransform);
 	gScene->addActor(*v->physXVehicle->getRigidDynamicActor());
 	geoMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great

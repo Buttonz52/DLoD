@@ -18,7 +18,7 @@ class AI :
 {
 
   Behaviour behaviour;
-  Behaviour oldBehaviour;
+  Behaviour oldBehaviour = attacking;
   vec3 oldTarget;
 
 public:

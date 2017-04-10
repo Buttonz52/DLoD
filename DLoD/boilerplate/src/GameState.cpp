@@ -24,12 +24,13 @@ GameState::GameState(vector<vec3> vertices)
       double l2 = length(dist);
 
       if (m != n && length(dist * vec3(0, 1, 0)) < 0.75 * l2)
+      {
         n->neighbours.push_back(m);
+        m->neighbours.push_back(n);
+      }
     }
-
     nodes->addNode(n);
   }
-
 }
 
 

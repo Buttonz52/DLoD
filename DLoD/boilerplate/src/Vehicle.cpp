@@ -40,6 +40,31 @@ void Vehicle::setColour(const vec3 &col) {
 	initColour = col;
 }
 
+vec3 Vehicle::getOrientationVector()
+{
+  // get the position of the vehicle
+  mat4 M = getModelMatrix();
+  vec3 pos = vec3(M[3]);
+
+  // Get the rotation of the object
+  physx::PxVec3 axis = physx::PxVec3(0, 1, 0);
+  physx::PxReal angle = 0;
+  physXVehicle->getRigidDynamicActor()->getGlobalPose().q.toRadiansAndUnitAxis(angle, axis);
+
+  int fix = (axis.y < 0) ? 1 : -1;
+  angle *= fix;
+  if (angle < 0)
+    angle += M_PI * 2;
+
+  mat3 rotation(1);
+  rotation[0][0] = cos(-angle);
+  rotation[0][2] = sin(-angle);
+  rotation[2][0] = -sin(-angle);
+  rotation[2][2] = cos(-angle);
+
+  return rotation * vec3(0.0, 0.0, 1.0);
+}
+
 void Vehicle::updateArmour() {
 	children[4]->transparency = (armour / initArmour);
 
@@ -67,7 +92,6 @@ void Vehicle::updateWheelPosition()
 	name.p += displacement;
 	model = convertMat(name.q.getBasisVector0(), name.q.getBasisVector1(), name.q.getBasisVector2(), vCenter + displacement);
 	children[0]->setModelMatrix(model);
-
 
 	displacement = PxVec3(-xoff, 0, zoff);
 

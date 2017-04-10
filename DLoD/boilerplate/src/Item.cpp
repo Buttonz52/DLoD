@@ -15,11 +15,8 @@ void damageTrap(Vehicle* v)
 
 void empTrap(Vehicle* v)
 {
-  v->timer.start();
-  v->stun = make_pair(true, 5000);
+  v->stun = make_pair(true, 5000 + v->timer.getTicks());
 }
-
-
 
 
 Item::Item(ItemType type)

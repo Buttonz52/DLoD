@@ -1,22 +1,5 @@
 #include "Game/Game.h"
 
-GEO* initGroundPlane()
-{
-  GEO* plane = new GEO();
-  if (!plane->initMesh("plane.obj")) {
-    cout << "Failed to initialize mesh." << endl;
-  }
-  if (!plane->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
-    cout << "Failed to initialize plane." << endl;
-  }
-  plane->addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
-  plane->setScale(vec3(150.f));
-  plane->setPosition(vec3(0, -0.7, 0));
-  plane->updateModelMatrix();
-
-  return plane;
-}
-
 Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers, const vector<vec3> spawnPoints)
 {
 
@@ -37,17 +20,21 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   physX.init(4);
 
   initSkyBox(skyboxFilepath);
-  //skybox->children.push_back(initArena());
+
   //create the starnode
-  vector<vec3> starNodes;
+  vector<vec3> astarVertices;
   GEO aStarGEO;
   aStarGEO.initMesh(starObjFilename);	//load vertices
-  gameState = new GameState(aStarGEO.getMesh().vertices);
+  for (vec3 v : aStarGEO.getMesh().vertices)
+  {
+    v *= 30;
+    astarVertices.push_back(v);
+  }
 
+  gameState = new GameState(astarVertices);
 
   arena = initArena(arenaTexFilename, arenaFilepath);
   arenaMap = arenaMapFile;
-  //skybox->children.push_back(initGroundPlane());
 
   for (int i = 0; i < numPlayers; i++) {
 	  Human* human = new Human(i);
@@ -93,13 +80,15 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
 bool Game::start()
 {
   // start the game loop
-  gameState->timer.start();
 
   pauseText.setScale(vec3(4.f));
   pauseText.InitializeGameText("PAUSE", vec3(-0.4, 0.5, 0), vec3(1, 0.5, 0.3), 30);
 
   switchCamText.setScale(vec3(0.5f));
   switchCamText.InitializeGameText("Press <TAB> or <BACK> to change between cameras", vec3(-0.4, -0.8, 0), vec3(1, 1, 1), 30);
+  
+  // Enter the game Loop
+  gameState->timer.start();
   gameLoop();
 
   // Clean up and Display the win screen
