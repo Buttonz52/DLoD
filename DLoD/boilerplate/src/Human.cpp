@@ -2,15 +2,17 @@
 
 
 
-Human::Human(int i) : Player(i)
+Human::Human(int i, Audio *audio) : Player(i)
 {
+	this->audio = audio;
   camIndex = 0;
   numCams = 1;
   controller = new XboxController(i+1);
   restart = false;
   pausePressed = false;
-  click = Mix_LoadWAV("sfx/bubblePop.wav");
-  back = Mix_LoadWAV("sfx/backSfx.wav");
+  click = Mix_LoadWAV("sfx/keyClick.wav");
+  back = Mix_LoadWAV("sfx/keyClick.wav");
+  horn = Mix_LoadWAV("sfx/horn.wav");
 }
 
 
@@ -102,9 +104,10 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 		  }
 
 		  if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-			  if (ableToFlip)
-				  vehicle->FlipVehicle();
+			  audio->PlaySfx(horn, MIX_MAX_VOLUME/2, 1);
+			  vehicle->FlipVehicle();
 		  }
+
 	  }
 	  //switch between cameras only if dead
 	  else {
@@ -154,11 +157,8 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 		}
 		//flip car
 		if (controller->GetButtonPressed(XBtns.Y)) {
-		//	if (vehicle->ableToFlip) {
+			audio->PlaySfx(horn, MIX_MAX_VOLUME/2, 1);
 				vehicle->FlipVehicle();
-		//		vehicle->ableToFlip = false;
-		//	}
-
 		}
 		vehicle->turn(turn);
 	}
@@ -182,7 +182,7 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
   }
 }
 
-void Human::menuControls(GLFWwindow* window, bool &pause, int &index, Audio *audio)
+void Human::menuControls(GLFWwindow* window, bool &pause, int &index)
 {
 	if (!controller->Connected()) {
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {

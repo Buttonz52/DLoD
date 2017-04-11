@@ -43,7 +43,8 @@ private:
 
 	int numMenuButtons;
 	int initIndex, maxIndex;
-	int pauseTime, timeout;
+	int pauseTime;
+	int clickChannel, backChannel, revChannel1, revChannel2;
 	string titleMusic = "music/Faded_intro.wav";
 
 	vec3 selectColour, pressColour, prevColour;
@@ -53,7 +54,7 @@ private:
 
 	Timer timer; 
 	
-	Mix_Chunk *click, *press, *back;
+	Mix_Chunk *click, *press, *back, *rev1, *rev2, *rev3, *rev4;
 
 	void pressStart(Audio *audio);
 	void readRules(GLFWwindow * window, XboxController * ctrller, Audio * audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers);

@@ -37,7 +37,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   arenaMap = arenaMapFile;
 
   for (int i = 0; i < numPlayers; i++) {
-	  Human* human = new Human(i);
+	  Human* human = new Human(i, &audio);
 	  human->setNumCams(5);
 	  human->ChooseVehicle(humanVehicleChoice->at(i));
 	  human->vehicle->setPosition(spawnPoints[i]);
@@ -518,7 +518,7 @@ void Game::goToEndGameState() {
 		//get pause input for human that pressed pause
 		if (human != nullptr && human->pressedPause()) {
 			pauseColour = *human->getColour();	//set pause menu colour
-			human->menuControls(window, pause, menuIndex, &audio);
+			human->menuControls(window, pause, menuIndex);
 			//index check
 			if (menuIndex > 1)
 				menuIndex = 0;
@@ -557,7 +557,7 @@ void Game::goToGamePausedState() {
 		//get pause input for human that pressed pause
 		if (human != nullptr && human->pressedPause()) {
 			pauseColour = *human->getColour();	//set pause menu colour
-			human->menuControls(window, pause, menuIndex, &audio);
+			human->menuControls(window, pause, menuIndex);
 			//index check
 			if (menuIndex > 2)
 				menuIndex = 0;
