@@ -56,13 +56,6 @@ void GEO::updateScale(const vec3 &s) {
 	}
 }
 
-void GEO::UseRegularShader() {
-	currentShader = &shader;
-}
-
-void GEO::UseShadowShader() {
-	currentShader = &shadowShader;
-}
 // Get the objects total rotation matrix
 mat4 GEO::getRotation()
 {
@@ -154,8 +147,6 @@ void GEO::addShaders(const string &vert, const string &frag)
 {
 	shader.InitializeShaders(vert, frag);
 	//hard code because lazy
-	shadowShader.InitializeShaders("shaders/simpleDepthShader.vert", "shaders/simpleDepthShader.frag");
-	currentShader = &shader;
 }
 
 bool GEO::initBuffers() {
@@ -253,47 +244,33 @@ vec3 *GEO::getColour() {
 //TODO: Make specific to different types of GEOs, use inheritance
 void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
 {
-	UseRegularShader();
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(currentShader->program);
+	glUseProgram(shader.program);
 	glBindVertexArray(mesh.vertexArray);
 
 	if (hasTexture) {
-		texture.BindTexture(currentShader->program, "sampler");
+		texture.BindTexture(shader.program, "sampler");
 	}
 
 	if (hasEnvMap) {
-		environmentMap.BindTexture(currentShader->program, "radiancemap");
+		environmentMap.BindTexture(shader.program, "radiancemap");
 	}
 
 	mat4 M = getModelMatrix();
-	glm::mat4 lightProjection, lightView;
-	glm::mat4 lightSpaceMatrix;
-	GLfloat near_plane = 0.001f, far_plane = 1000.f;
-	//lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
-	//lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, -1000.f, 1000.f);
 
-	lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
-	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
-	lightSpaceMatrix = lightProjection * lightView;
-	//lightSpaceMatrix = _projection * lightView;
+	glUniform1i(glGetUniformLocation(shader.program, "mixColour"), mixColour);
+	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
+	glUniform1f(glGetUniformLocation(shader.program, "exposure"), exposure);
+	glUniform1f(glGetUniformLocation(shader.program, "reflectance"), reflectance);
 
-
-	glUniform1i(glGetUniformLocation(currentShader->program, "mixColour"), mixColour);
-	glUniform1f(glGetUniformLocation(currentShader->program, "transparency"), transparency);
-	glUniform1f(glGetUniformLocation(currentShader->program, "exposure"), exposure);
-	glUniform1f(glGetUniformLocation(currentShader->program, "reflectance"), reflectance);
-
-
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
 
 	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "model"), 1, GL_FALSE, value_ptr(M));
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE, value_ptr(M));
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "modelview"), 1, GL_FALSE, value_ptr(_view));
 
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "projection"), 1, GL_FALSE, value_ptr(_projection));
-	glUniform3fv(glGetUniformLocation(currentShader->program, "lightPosition"), 1, value_ptr(_lightSource));
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "projection"), 1, GL_FALSE, value_ptr(_projection));
+	glUniform3fv(glGetUniformLocation(shader.program, "lightPosition"), 1, value_ptr(_lightSource));
 
 	glDrawElements(GL_TRIANGLES, mesh.elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)
@@ -311,47 +288,9 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
     children[i]->Render(_view, _projection, _lightSource);
 }
 
-//This isn't working
-void GEO::RenderShadow(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
-{
-	UseShadowShader();
-	// bind our shader program and the vertex array object containing our
-	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(currentShader->program);
-	glBindVertexArray(mesh.vertexArray);
-
-	mat4 M = getModelMatrix();
-	glm::mat4 lightProjection, lightView;
-	glm::mat4 lightSpaceMatrix;
-	GLfloat near_plane = 0.1f, far_plane = 1000.f;
-	lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
-	//lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, near_plane, far_plane);
-
-	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
-	lightSpaceMatrix = lightProjection * lightView;
-
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
-
-	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "model"), 1, GL_FALSE, value_ptr(M));
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "modelview"), 1, GL_FALSE, value_ptr(_view));
-
-	glDrawElements(GL_TRIANGLES, mesh.elementCount, GL_UNSIGNED_SHORT, 0);
-	// reset state to default (no shader or geometry bound)
-	glBindVertexArray(0);
-	glUseProgram(0);
-
-	// check for an report any OpenGL errors
-	CheckGLErrors();
-
-	for (int i = 0; i < children.size(); i++)		//GEO* child : children)
-		children[i]->RenderShadow(_view, _projection, _lightSource);
-}
-
 void GEO::shutdown()
 {
 	shader.DestroyShaders();
-	shadowShader.DestroyShaders();
 	texture.DestroyTexture();
 
   for (GEO* child : children)

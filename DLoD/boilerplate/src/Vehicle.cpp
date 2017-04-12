@@ -248,13 +248,6 @@ float Vehicle::calculateDamage(const double &x, const double &y, const double &z
 
 }
 
-void Vehicle::setAliveCarMesh(const string &file) {
-	filename = file;
-}
-
-string & Vehicle::getAliveCarMesh() {
-	return filename;
-}
 bool Vehicle::isDead() {
 	return dead;
 }
@@ -275,13 +268,14 @@ void Vehicle::repair(const float & armourAdded)
 void Vehicle::checkDead() {
 	if (health <= 0) {
 		health = 0;
+		
 		if (!dead) {
+			cout << "ded" << endl;
 			timeOfDeath = timer.getTicks();
 			if (!timer.isStopped())
 				timer.stop();
-			mesh.UpdateColour(&(colour = vec3(0)));
-			//changeMeshDead();		//if we want a second mesh for "dead", uncomment this
-									//Otherwise, we can delete and delete the  "dead mesh"
+			colour = vec3(0);
+			mesh.UpdateColour(&colour);
 		}
 		canPulseColour = false;
 		dead = true;
@@ -330,19 +324,12 @@ void Vehicle::heal(const float & healthAdded)
 }
 
 bool Vehicle::initMesh(const string &file) {
-	aliveCar.AddColour(colour);
+	mesh.AddColour(colour);
 
-	if (!aliveCar.ReadMesh("models/" + filename)) {
+	if (!mesh.ReadMesh("models/" + filename)) {
 		cout << "Error reading alive car" << endl;
 		return 0;
 	}
-	deadCar.AddColour(vec3(0, 1, 0));
-
-	if (!deadCar.ReadMesh("models/" + file)) {
-		cout << "Error reading destroyed car" << endl;
-		return 0;
-	}
-
 
 	//init wheels mesh
 	giveMeWheels();
@@ -352,12 +339,8 @@ bool Vehicle::initMesh(const string &file) {
 	scaleM[1][1] = scale.y;
 	scaleM[2][2] = scale.z;
 
-	for (int i = 0; i < aliveCar.vertices.size(); ++i)
-		aliveCar.vertices[i] = scaleM * aliveCar.vertices[i];
-
-	for (int i = 0; i < deadCar.vertices.size(); ++i)
-		deadCar.vertices[i] = scaleM * deadCar.vertices[i];
-
+	for (int i = 0; i < mesh.vertices.size(); ++i)
+		mesh.vertices[i] = scaleM * mesh.vertices[i];
 
 	return 1;
 }
@@ -425,16 +408,11 @@ void Vehicle::giveMeWheels()
 	}
 }
 
-void Vehicle::changeMeshDead() 
-{
-	mesh = deadCar;
-}
-
 bool Vehicle::initBuffers() {
-	if (!aliveCar.Initialize() || !deadCar.Initialize()) {
+	if (!mesh.Initialize()) {
 		return false;
 	}
-	mesh = aliveCar;
+	//mesh = aliveCar;
 	return true;
 }
 
@@ -514,43 +492,33 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 			mesh.UpdateColour(&colour);
 		}
 	}
+
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(currentShader->program);
+	glUseProgram(shader.program);
 	glBindVertexArray(mesh.vertexArray);
 
 	if (hasTexture) {
-		texture.BindTexture(currentShader->program, "sampler");
+		texture.BindTexture(shader.program, "sampler");
 	}
 
 	if (hasEnvMap) {
-		environmentMap.BindTexture(currentShader->program, "radiancemap");
+		environmentMap.BindTexture(shader.program, "radiancemap");
 	}
 	vec3 fp = vec3(0, 0, 0);		//focal point
 
 	mat4 M = getModelMatrix();
-	glm::mat4 lightProjection, lightView;
-	glm::mat4 lightSpaceMatrix;
-	GLfloat near_plane = 0.001f, far_plane = 1000.f;
-	//lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
-	lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, near_plane, far_plane);
 
-	//lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
-	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
-	lightSpaceMatrix = lightProjection * lightView;
+	glUniform1f(glGetUniformLocation(shader.program, "exposure"), exposure);
+	glUniform1f(glGetUniformLocation(shader.program, "reflectance"), reflectance);
 
-	glUniform1f(glGetUniformLocation(currentShader->program, "exposure"), exposure);
-	glUniform1f(glGetUniformLocation(currentShader->program, "reflectance"), reflectance);
-
-
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
-	glUniform1f(glGetUniformLocation(currentShader->program, "transparency"), transparency);
+	glUniform1f(glGetUniformLocation(shader.program, "transparency"), transparency);
 	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "model"), 1, GL_FALSE, value_ptr(M));
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "modelview"), 1, GL_FALSE, value_ptr(_view));
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE, value_ptr(M));
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "modelview"), 1, GL_FALSE, value_ptr(_view));
 
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "projection"), 1, GL_FALSE, value_ptr(_projection));
-	glUniform3fv(glGetUniformLocation(currentShader->program, "lightPosition"), 1, value_ptr(_lightSource));
+	glUniformMatrix4fv(glGetUniformLocation(shader.program, "projection"), 1, GL_FALSE, value_ptr(_projection));
+	glUniform3fv(glGetUniformLocation(shader.program, "lightPosition"), 1, value_ptr(_lightSource));
 
 	glDrawElements(GL_TRIANGLES, mesh.elementCount, GL_UNSIGNED_SHORT, 0);
 	// reset state to default (no shader or geometry bound)
@@ -569,47 +537,6 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 			continue;
 		}
 		children[i]->Render(_view, _projection, _lightSource);
-
-	}
-}
-
-
-void Vehicle::RenderShadow(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
-{
-	// bind our shader program and the vertex array object containing our
-	// scene geometry, then tell OpenGL to draw our geometry
-	glUseProgram(currentShader->program);
-	glBindVertexArray(mesh.vertexArray);
-
-	mat4 M = getModelMatrix();
-	glm::mat4 lightProjection, lightView;
-	glm::mat4 lightSpaceMatrix;
-	GLfloat near_plane = 0.001f, far_plane = 1000.f;
-	//lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
-	lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, near_plane, far_plane);
-
-	//lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
-	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
-	lightSpaceMatrix = lightProjection * lightView;
-
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "lightSpaceMatrix"), 1, GL_FALSE, glm::value_ptr(lightSpaceMatrix));
-	//uniform variables
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "model"), 1, GL_FALSE, value_ptr(M));
-	glUniformMatrix4fv(glGetUniformLocation(currentShader->program, "modelview"), 1, GL_FALSE, value_ptr(_view));
-
-	glDrawElements(GL_TRIANGLES, mesh.elementCount, GL_UNSIGNED_SHORT, 0);
-	// reset state to default (no shader or geometry bound)
-	glBindVertexArray(0);
-	glUseProgram(0);
-
-	// check for an report any OpenGL errors
-	CheckGLErrors();
-
-	for (int i = 0; i < children.size(); i++) {	//GEO* child : children)
-		if (i == 4 && dead) {
-			continue;
-		}
-		children[i]->RenderShadow(_view, _projection, _lightSource);
 
 	}
 }

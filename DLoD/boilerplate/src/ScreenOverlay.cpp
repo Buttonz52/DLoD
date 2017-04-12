@@ -258,7 +258,6 @@ void ScreenOverlay::Render(GLuint type, const vec3 &colour)
 	mat4 rotate = glm::rotate(mat4(), rotateZ, vec3(0,0,1));
 
 	mat4 model = translate*rotate*mscale*mat4();	//translations/rotations
-	glUniform3fv(glGetUniformLocation(shader.program, "colour"), 1, value_ptr(colour));
 	glUniformMatrix4fv(glGetUniformLocation(shader.program, "model"), 1, GL_FALSE,value_ptr(model));
 	glUniform1i(glGetUniformLocation(shader.program, "hasTexture"), hasTexture);
 	glUniform1i(glGetUniformLocation(shader.program, "mixColour"), mixColour);

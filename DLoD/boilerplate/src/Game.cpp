@@ -15,7 +15,6 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   numPlayerScreens = numPlayers;
   glfwGetWindowSize(window, &width, &height);
 
-  shadow.initShadow();
   physX.init(4);
 
   srand(time(NULL));
@@ -267,35 +266,15 @@ void Game::gameLoop()
 			  }
 			  UpdateHudInfoEmpty(players, i, projectionMatrix, viewMatrix, winningCam, overheadCam, healthStr, armourStr, velocityStr, vColour, camIndex);
 		  }
-		
-		  //render shadows (this isn't working)
-		  shadow.bindForWriting();
-		//  glEnable(GL_CULL_FACE);
-		//  glCullFace(GL_BACK);
-		  //  glEnable(GL_FRAMEBUFFER_SRGB);
-		  arena->RenderShadow(viewMatrix, projectionMatrix,lightSource);
-		  //	  glDisable(GL_FRAMEBUFFER_SRGB);
-
-		//  glDisable(GL_CULL_FACE);
-		  skybox->RenderShadow(viewMatrix, projectionMatrix, lightSource);
-		  shadow.endRender();
-
+	
 		  //render normally
-		  glClear(GL_DEPTH_BUFFER_BIT);	
 		  //resize the viewport
-		  ResizeViewport(i, numPlayerScreens, width, height);
 		  glEnable(GL_CULL_FACE);
 		  glCullFace(GL_BACK);
-		  //bind shadow map to arena (isn't working, draws black so either framebuffer is
-		  //empty or texture not appearing properly
-		  
-		  //shadow.bindForReading(&arena->getShader());
-		  glEnable(GL_DEPTH_TEST);
+
 		  arena->Render(viewMatrix, projectionMatrix, lightSource);
 
 		  glDisable(GL_CULL_FACE);
-		 // shadow.unbindTexture();
-		//  shadow.bindForReading(&skybox->getShader());
 		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
 		  if (players[i]->isDead())
 			 switchCamText.Render(GL_TRIANGLES, vColour);
@@ -303,8 +282,6 @@ void Game::gameLoop()
 		  for (int i = 0; i < players.size(); i++)
 			  radarColours.push_back(*players[i]->getColour());
 		  gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, &radarColours, canLayTrap);
-		//  shadow.display();
-
 	  }
 
 	  glfwSwapBuffers(window);
@@ -438,7 +415,7 @@ void Game::initVehicle(Vehicle* v, int type)
 
 
   if (!v->initBuffers()) {
-    cout << "Could not initialize buffers for game object " << v->getAliveCarMesh() << endl;
+    cout << "Could not initialize buffers for game object car mesh"<< endl;
   }
 
   physX.initVehicle(v, type);

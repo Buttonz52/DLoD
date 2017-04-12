@@ -13,31 +13,14 @@ in vec3 L;
 in vec3 P;
 in vec3 V;
 in vec3 uv;
-in vec4 positionLightSpace;
 
 // first output is mapped to the framebuffer's colour index by default
 out vec4 FragmentColour;
 uniform sampler2D sampler;
-uniform sampler2D shadowmap;
 uniform samplerCube radiancemap;
 
 uniform float exposure;
 uniform float reflectance;
-
-//shadow calculation
-//from : https://learnopengl.com/#!Advanced-Lighting/Shadows/Shadow-Mapping
-float ShadowCalculation(vec4 posLightSpace) {
-	vec3 projCoords = posLightSpace.xyz/posLightSpace.w;
-
-	projCoords = projCoords * 0.5 + 0.5;
-
-	float closestDepth = texture(shadowmap, projCoords.xy).r;
-	float currentDepth = projCoords.z;
-
-	float shadow = currentDepth > closestDepth ? 1.0 : 0.0;
-
-	return shadow;
-}
 
 vec3 FresnelReflectance(vec3 R0, float cosine) {
 	return R0 + (vec3(1.f)-R0) * pow(1.0-cos(cosine),5.f);
@@ -56,17 +39,8 @@ void main(void)
 
 	float NdotV = dot(N,v);
 
-	float shadow = ShadowCalculation(positionLightSpace);
 	//incorporate Fresnel effect to the environment map + the image
-	vec3 shaded =  vec3((1-shadow) * (FresnelReflectance(vec3(reflectance), NdotV ) * nits.xyz)*exposure + (imageColour.xyz*diffuse));
+	vec3 shaded =  vec3((FresnelReflectance(vec3(reflectance), NdotV ) * nits.xyz)*exposure + (imageColour.xyz*diffuse));
 	
 	FragmentColour = vec4(shaded, 1.f);	//don't mess with the alphas, that is bad news
-
-	//testing purposes
-//	float depth = texture(shadowmap,uv.xy).r;
-	//FragmentColour = vec4(vec3(depth),1.f);
-	//FragmentColour = texture(shadowmap, uv.xy);
-//	float deep = gl_FragCoord.z * 2-1;
-//	float boop = (2.f *100)/(100+1-deep*(99))/100;
-//	FragmentColour = vec4(vec3(boop),1.f);
 }

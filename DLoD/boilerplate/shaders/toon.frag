@@ -13,8 +13,6 @@ in vec3 L;
 in vec3 P;
 in vec3 V;
 in vec3 uv;
-in vec3 vertexPosition;
-in vec4 positionLightSpace;
 
 uniform float transparency;
 uniform samplerCube radiancemap;

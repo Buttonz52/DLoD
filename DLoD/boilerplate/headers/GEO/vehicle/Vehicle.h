@@ -28,7 +28,6 @@ protected:
   float xoff;
   float zoff;
   float centeroff;
-  Mesh aliveCar, deadCar;  
   clock_t timeOfDeath;
   clock_t flipTime;
 
@@ -68,8 +67,7 @@ public:
   void releaseAllControls();
   void checkDead();
   bool initBuffers();
-  void changeMeshDead();
-  string & getAliveCarMesh();
+//  string & getAliveCarMesh();
   bool isDead();
   bool initMesh(const string &);
 
@@ -79,7 +77,7 @@ public:
 
 	float getHealth();
 	float calculateDamage(const double &, const double &, const double &, const double &);
-	void setAliveCarMesh(const string & file);
+//	void setAliveCarMesh(const string & file);
 	void regenArmour();
 	void updateHealth(const float &damage);
   void heal(const float &healthAdded);

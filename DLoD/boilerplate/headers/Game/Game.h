@@ -8,7 +8,6 @@
 #include "Game\ScreenOverlay.h"
 #include "Game\Audio.h"
 #include "Game\Timer.h"
-#include "GEO/Shadow.h"
 #include "Game/GameHud.h"
 
 class Game
@@ -38,7 +37,6 @@ private:
   Audio audio;
 
   GameHud gameHud;
-  Shadow shadow;
   vec3 lightSource = vec3(0.f, 100.f, 0.f);
 
   bool gameOver = false;
