@@ -13,6 +13,7 @@ protected:
   bool dead;
   // Stores the Vehicle Health
   float health;
+  float initHealth;
   float armour;
   float initArmour;
   int lowHealth;
@@ -81,7 +82,9 @@ public:
 	void setAliveCarMesh(const string & file);
 	void regenArmour();
 	void updateHealth(const float &damage);
+  void heal(const float &healthAdded);
 	float getArmour();
+  void repair(const float &armourAdded);
 	string getHealthString();
 	string getArmourString();
 

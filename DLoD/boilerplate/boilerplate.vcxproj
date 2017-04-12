@@ -149,6 +149,7 @@
     <ClCompile Include="src\GEO.cpp" />
     <ClCompile Include="src\Human.cpp" />
     <ClCompile Include="src\Item.cpp" />
+    <ClCompile Include="src\ItemSpawner.cpp" />
     <ClCompile Include="src\LargeVehicle.cpp" />
     <ClCompile Include="src\LightVehicle.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="headers\GEO\Camera.h" />
     <ClInclude Include="headers\GEO\GEO.h" />
     <ClInclude Include="headers\GEO\item\Item.h" />
+    <ClInclude Include="headers\GEO\item\ItemSpawner.h" />
     <ClInclude Include="headers\GEO\player\AI.h" />
     <ClInclude Include="headers\GEO\player\Human.h" />
     <ClInclude Include="headers\GEO\player\Player.h" />

@@ -7,6 +7,7 @@ MediumVehicle::MediumVehicle()
 	filename = "cars/mediumCarBody.obj";
 	maxVelocity = 70;
 	health = 110;
+  initHealth = 110;
 	armour = 30;
 	armourFilename = "armour/MediumArmour.obj";
 	initArmour = 30;

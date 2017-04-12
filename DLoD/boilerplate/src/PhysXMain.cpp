@@ -97,7 +97,7 @@ VehicleDesc PhysXMain::initLightVehicleDesc()
 
 VehicleDesc PhysXMain::initLargeVehicleDesc()
 {
-	const PxF32 chassisMass = 1600.0;
+	const PxF32 chassisMass = 1450.0;
 	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
 	const PxVec3 chassisMOI
 	((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
@@ -225,6 +225,10 @@ void PhysXMain::initItem(Item* item)
   shape->setSimulationFilterData(simFilterData);
 
   body->attachShape(*shape);
+
+  if (item->spawner != nullptr)
+    body->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
+
   gScene->addActor(*body);
   geoMap.insert(make_pair(body, item));
 }

@@ -60,7 +60,7 @@ private:
 
 public:
 	//TODO: Turn all those strings into a vector and then reference them that way
-  Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers, const vector<vec3> spawnPoints);
+  Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers, const vector<vec3> spawnPoints, const vector<vec3> itemSpawnPoints);
 
   bool start();
 };

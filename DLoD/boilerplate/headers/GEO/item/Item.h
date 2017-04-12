@@ -3,25 +3,28 @@
 
 #include "GEO\GEO.h"
 #include "GEO\vehicle\Vehicle.h"
+#include "GEO\item\ItemSpawner.h"
 
 enum ItemType
 {
-  DamageTrap,
-  EmpTrap,
-
+  DamageTrap = 0,
+  EmpTrap = 1,
+  HealthPack = 2,
+  ArmourPack = 3,
 };
 
+class ItemSpawner;
 
 class Item :
 	public GEO
 {
-
 public:
-	Item(ItemType);
+	Item(ItemType, ItemSpawner*);
 	~Item();
 
   bool isTrap;
-  bool isActive;
+
+  ItemSpawner* spawner;
 
   void (*onPickUp)(Vehicle* v);
 

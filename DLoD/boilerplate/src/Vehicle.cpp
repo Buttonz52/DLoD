@@ -267,6 +267,11 @@ float Vehicle::getArmour() {
 	return armour;
 }
 
+void Vehicle::repair(const float & armourAdded)
+{
+  armour += armourAdded;
+}
+
 void Vehicle::checkDead() {
 	if (health <= 0) {
 		health = 0;
@@ -291,7 +296,7 @@ void Vehicle::checkDead() {
 //regenerates armour for vehicle
 void Vehicle::regenArmour() {
 	if (armour >= initArmour) {
-		armour = initArmour;
+		//armour = initArmour;
 	}
 	else {
 		armour++;
@@ -317,6 +322,11 @@ void Vehicle::updateHealth(const float &damage)
 
 	health -= damageToHealth;
 	checkDead();
+}
+
+void Vehicle::heal(const float & healthAdded)
+{
+  health = min(health + healthAdded, initHealth);
 }
 
 bool Vehicle::initMesh(const string &file) {

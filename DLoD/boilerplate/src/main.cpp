@@ -131,11 +131,12 @@ int main(int argc, char *argv[])
 			glEnable(GL_DEPTH_TEST);
 
 			getSpawnPoints();
+			getItemSpawnPoints();
 
 			PrintDirections();
 
 			//glfwSetWindowPos(window, 0,0);
-			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers, spawnPoints);
+			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
 
 			if (!audio.PlayMusic()) {
 				cout << "Failed to play music" << endl;
@@ -186,4 +187,21 @@ void getSpawnPoints()
 		spawnPoints[i] *= 30.f;
 	}
 
+}
+
+void getItemSpawnPoints()
+{
+	string meshname = itemSpawnObjFilenames[arenaIndex];
+	GEO *spawnGEO = new GEO();
+
+	if (!spawnGEO->initMesh(meshname)) {
+		cout << "Failed to init arena" << endl;
+	}
+
+	itemSpawnPoints = spawnGEO->getMesh().vertices;
+
+	for (int i = 0; i < itemSpawnPoints.size(); i++)
+	{
+		itemSpawnPoints[i] *= 30.f;
+	}
 }

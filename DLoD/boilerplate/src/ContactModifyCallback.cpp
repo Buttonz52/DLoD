@@ -61,6 +61,9 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
           double forceApplied = (v1Impulse - v2Impluse).magnitude() * 0.00042;				//magic number for damage
 		      forceApplied /= (double) nbPoints;
 
+          if (v1->isDead() || v2->isDead()) 
+            forceApplied *= 0.25;
+
 		      if (forceApplied > (10.0 / (double)nbPoints))
 		      {
 			      v1->calculateDamage(point.x, point.y, point.z, forceApplied);
@@ -87,6 +90,9 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
         }
 
         item->onPickUp(car);
+
+        if (item->spawner != nullptr)
+          item->spawner->timer.start();
 
         // remove the item
         map<PxRigidActor*, GEO*>::iterator itr = geoMap.begin();
