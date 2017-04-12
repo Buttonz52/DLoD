@@ -1,6 +1,10 @@
 #include "GEO\item\ItemSpawner.h"
 
-
+vector<string> itempickModels =
+{
+  "/ObjModels/healthPack.obj",
+  "/ObjModels/armourPack.obj"
+};
 
 ItemSpawner::ItemSpawner(vector<int> types, vec3 pos)
 {
@@ -30,7 +34,7 @@ void ItemSpawner::spawnItem(GEO * skybox)
   item->setScale(vec3(2));
   item->setColour(vec3(0, 1, 0));
 
-  if (!item->initMesh("/ObjModels/bearTrap.obj"))
+  if (!item->initMesh(itempickModels[i]))
     cout << "Failed to initialize item mesh. " << endl;
 
   item->addShaders("shaders/toon.vert", "shaders/toon.frag");
