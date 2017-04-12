@@ -15,6 +15,7 @@ using namespace std;
 // Variables
 vector<int> humanVehicleChoice;
 vector<vec3> spawnPoints;
+vector<vec3> itemSpawnPoints;
 //test cameras
 
 int camIndex = 0, geoIndex = 0;	//index of test cameras
@@ -50,6 +51,12 @@ vector<string> spawnObjFilenames = {
 	"spawns/spawn.obj"
 };
 
+vector<string> itemSpawnObjFilenames = {
+	"itemspawns/bowlitemspawn.obj",
+	"itemspawns/devilitemspawn.obj",
+	"itemspawns/wrapitemspawn.obj"
+};
+
 vector<string> starObjFilenames = {
 	"starNodes/bowl.obj",
 	"starNodes/devil.obj",
@@ -67,6 +74,7 @@ vector <string> arenaMapFilenames = {
 // OpenGL utility and support function prototypes
 void PrintDirections();
 void getSpawnPoints();
+void getItemSpawnPoints();
 // Mesh functions
 
 //PhysX object
