@@ -226,7 +226,10 @@ void Game::gameLoop()
 
     // remove the deleted geometry
     for (GEO* g : physX.deletedGeos)
+    {
       skybox->removeChild(g);
+      delete g;
+    }
 
     physX.deletedGeos.clear();
 
@@ -295,7 +298,7 @@ void Game::gameLoop()
 	    positions.push_back(p->vehicle->getModelMatrix()[3]);
     //kill player if out of bounds
     if (p->vehicle->getModelMatrix()[3].y < -10)
-	    p->vehicle->updateHealth(1000);
+	    p->vehicle->updateHealth(10000);
 
     AI* ai = dynamic_cast<AI*> (p);
     if (ai != nullptr && !ai->isDead())
