@@ -13,7 +13,7 @@ ScreenOverlay::ScreenOverlay()
 	hasTexture = 0;
 	mixColour = 0;
 	mixAmount = 0.5f;
-	updateColours = false;
+	updateColours = true;
 	rotateZ = 0;
 	transparency = 1.f;
 
@@ -243,7 +243,7 @@ void ScreenOverlay::Render(GLuint type, const vec3 &colour)
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shader.program);
 	glBindVertexArray(vertexArray);
-	if (!UpdateColors)
+	if (updateColours)
 		updateColourBuffer(colour);
 
 	if (type == GL_POINTS) {
