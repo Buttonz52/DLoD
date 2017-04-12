@@ -32,7 +32,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
     astarVertices.push_back(v);
   }
 
-  gameState = new GameState(astarVertices, spawnPoints);
+  gameState = new GameState(astarVertices, itemSpawnPoints);
 
   arena = initArena(arenaTexFilename, arenaFilepath);
   arenaMap = arenaMapFile;
@@ -90,6 +90,8 @@ bool Game::start()
   
   // Enter the game Loop
   gameState->timer.start();
+  for (ItemSpawner* s : gameState->itemSpawners)
+    s->timer.start();
   gameLoop();
 
   // Clean up and Display the win screen
@@ -349,8 +351,16 @@ void Game::gameLoop()
 	    p->layTrap = false;
 	    p->ableToTrap = false;
     }
-		
   }
+
+    for (ItemSpawner* spawner : gameState->itemSpawners)
+    {
+      if (spawner->timer.getTicks() > spawner->spawnTime) {
+        spawner->spawnItem(skybox);
+        physX.initItem(spawner->item);
+      }
+        
+    }
 
     // CHECK GAMEOVER
     int aliveCount = 0;

@@ -1,11 +1,13 @@
-#include "ItemSpawner.h"
+#include "GEO\item\ItemSpawner.h"
 
 
 
-ItemSpawner::ItemSpawner(vector<ItemType> types, vec3 pos)
+ItemSpawner::ItemSpawner(vector<int> types, vec3 pos)
 {
   position = pos;
   itemTypes = types;
+
+  spawnTime = 15 + (rand() % 5) * 1000;
 }
 
 
@@ -15,18 +17,21 @@ ItemSpawner::~ItemSpawner()
 
 void ItemSpawner::spawnItem(GEO * skybox)
 {
+  timer.stop();
+  timer.reset();
+
   int i = rand() % itemTypes.size();
-  item = new Item(itemTypes[i], this);
+  item = new Item(ItemType(itemTypes[i]), this);
 
   mat4 m = mat4(1);
   m[3] = vec4(position, 1);
   item->setModelMatrix(m);
 
   item->setScale(vec3(2));
-  item->setColour(vec3(1, 1, 0));
+  item->setColour(vec3(0, 1, 0));
 
-  if (!item->initMesh(itemModels[itemTypes[i]]))
-    cout << "Failed to initialize item mesh. " + itemModels[itemTypes[i]] << endl;
+  if (!item->initMesh("/ObjModels/bearTrap.obj"))
+    cout << "Failed to initialize item mesh. " << endl;
 
   item->addShaders("shaders/toon.vert", "shaders/toon.frag");
 

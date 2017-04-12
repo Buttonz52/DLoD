@@ -18,6 +18,16 @@ void empTrap(Vehicle* v)
   v->stun = make_pair(true, 5000 + v->timer.getTicks());
 }
 
+void healthPack(Vehicle* v)
+{
+  v->heal(10);
+}
+
+void armourPack(Vehicle* v)
+{
+  v->repair(10);
+}
+
 
 Item::Item(ItemType type, ItemSpawner* s)
 {
@@ -34,6 +44,15 @@ Item::Item(ItemType type, ItemSpawner* s)
   case EmpTrap:
     onPickUp = empTrap;
     break;
+
+  case HealthPack:
+    onPickUp = healthPack;
+    break;
+
+  case ArmourPack:
+    onPickUp = armourPack;
+    break;
+
 
   default:
     break;

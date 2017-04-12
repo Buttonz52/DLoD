@@ -7,6 +7,7 @@ LargeVehicle::LargeVehicle()
 	filename = "cars/largeCarBody.obj";
 	maxVelocity = 60;
 	health = 120;
+  initHealth = 120;
 	armour = 40;
 	armourFilename = "armour/LargeArmour.obj";
 	initArmour = 40;

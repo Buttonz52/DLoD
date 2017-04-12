@@ -6,26 +6,27 @@
 
 class Item;
 
-vector<string> itemModels =
-{
-  "/ObjModels/bearTrap.obj",
-  "/ObjModels/bearTrap.obj"
-};
+//vector<string> itempickModels =
+//{
+//  "/ObjModels/bearTrap.obj",
+//  "/ObjModels/bearTrap.obj"
+//};
 
 class ItemSpawner
 {
 public:
   vec3 position;
-  vector<ItemType> itemTypes;
+  vector<int> itemTypes;
   Item* item;
+
+  double spawnTime; // 20 seconds
 
   Timer timer;
 
-  ItemSpawner(vector<ItemType>, vec3);
+  ItemSpawner(vector<int>, vec3);
   ~ItemSpawner();
 
   void spawnItem(GEO*);
-  void initItem(Item*, GEO*);
 };
 
 #endif 

@@ -88,9 +88,11 @@ void AI::getInput(GameState* state)
 	}
 
 	double distNPU = 999999999;
-	for (Item* item : state->items)
+	for (ItemSpawner* spawner : state->itemSpawners)
 	{
-		if (item->isTrap)
+    Item* item = spawner->item;
+
+		if (item == nullptr || item->isTrap)
 			continue;
 
 		if (nearestPickUp != nullptr)

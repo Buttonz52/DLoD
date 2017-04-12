@@ -33,7 +33,7 @@ GameState::GameState(vector<vec3> vertices, vector<vec3> itemSpawnLocations)
   }
 
 
-  vector<ItemType> itemTypes = { HealthPack, ArmourPack };
+  vector<int> itemTypes = { HealthPack, ArmourPack };
   for (vec3 pos : itemSpawnLocations)
     itemSpawners.push_back(new ItemSpawner(itemTypes, pos));
 

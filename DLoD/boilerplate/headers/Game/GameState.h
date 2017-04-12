@@ -3,7 +3,6 @@
 
 #include "GEO\player\Player.h"
 #include "GEO\item\ItemSpawner.h"
-#include "GEO\item\Item.h"
 #include "GEO\AStarNode.h"
 
 
@@ -12,7 +11,6 @@ class GameState
 public:
   
   vector<Player*> players;
-  vector<Item*> items;
   vector<ItemSpawner*> itemSpawners;
 
   OctTree* nodes;
