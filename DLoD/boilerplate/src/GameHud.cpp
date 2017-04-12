@@ -114,6 +114,7 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	radarPoints.GenerateVertices(positions, colour, &vector<vec2>(0));
 	radarPoints.setPosition(vec3(0.8, 0.8, 0));
 	radarPoints.setScale(vec3(0.1f, 0.15f, 1));
+	radarPoints.setTransparency(0.4f);
 	radarPoints.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	//arena map background
@@ -167,29 +168,28 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 
 //Updates radar point values (i.e., the cars)
 ///TODO: Fix scale of position points in comparison to map, add colours?
-void GameHud::UpdateRadar(const vector<vec3> *positions) {
+void GameHud::UpdateRadar(const vector<vec3> *positions, const vector<vec3> *colours) {
 	vector<vec3> newPositions;
 	vec3 newVec;
 	for (int i = 0; i < positions->size(); i++) {
-		newVec = radarPoints.Normalize(positions->at(i));
+		newVec = positions->at(i) * 0.003f;
 
 		//Since 2D and y vec is useless for radar map, want x and z coordinates instead
-		///TODO: Fix radar scaling and stuff
-		//newPositions.push_back(vec3(-newVec.x/newVec.y, newVec.z/newVec.y,0) * 0.003f);
 		newPositions.push_back(vec3(-newVec.x, newVec.z, 0));
 
 	}
 	radarPoints.UpdateVertices(&newPositions);
+	radarPoints.updateColourBuffer2(*colours);
 }
 
 //render hud
-void GameHud::Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour, const bool &canLayTrap) {
+void GameHud::Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour, const vector<vec3> *colours, const bool &canLayTrap) {
 	//update values
 	int kerning = 30;
 	healthTex.UpdateGameText(health, kerning);
 	armourTex.UpdateGameText(armour, kerning);
 	velocityTex.UpdateGameText(velocity, kerning);
-	UpdateRadar(positions);
+	UpdateRadar(positions, colours);
 
 	//render widgets.  Render in order widget -> border ->background in order to show properly
 	healthTitle.Render(GL_TRIANGLES, colour);

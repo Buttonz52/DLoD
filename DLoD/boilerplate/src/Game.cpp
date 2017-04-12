@@ -299,7 +299,10 @@ void Game::gameLoop()
 		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
 		  if (players[i]->isDead())
 			 switchCamText.Render(GL_TRIANGLES, vColour);
-		  gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, canLayTrap);
+		  vector<vec3> radarColours;
+		  for (int i = 0; i < players.size(); i++)
+			  radarColours.push_back(*players[i]->getColour());
+		  gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, &radarColours, canLayTrap);
 		//  shadow.display();
 
 	  }
@@ -482,7 +485,9 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	arena->setEnvironmentMap(skybox->getTexture());
 	arena->setReflectance(0.5);
 	arena->setExposure(0.7);
-	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
+	if (!arena->initTexture("textures/gold.png", GL_TEXTURE_2D)) {
+	//if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
+
 		cout << "Failed to initialize arena ground texture." << endl;
 	}
 

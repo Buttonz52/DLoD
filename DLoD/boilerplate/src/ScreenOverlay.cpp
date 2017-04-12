@@ -13,13 +13,14 @@ ScreenOverlay::ScreenOverlay()
 	hasTexture = 0;
 	mixColour = 0;
 	mixAmount = 0.5f;
-
+	updateColours = false;
 	rotateZ = 0;
 	transparency = 1.f;
 
 	vertexArray = -1;
 	vertexBuffer = -1;
 	textureBuffer = -1;
+	colourBuffer = -1;
 	elementCount = 0;
 
 	_scale = vec3(1);
@@ -107,6 +108,10 @@ bool ScreenOverlay::GenerateBorder(float scale_x, float scale_y, const float &th
 
 	};
 	elementCount = vertices.size();
+	colours.clear();
+	for (int i = 0; i < elementCount; i++)
+		colours.push_back(col);
+
 	return Initialize();
 }
 //makes a square/rectangle depending on scale
@@ -127,6 +132,8 @@ bool ScreenOverlay::GenerateSquareVertices(float scale_x, float scale_y, const v
 		
 	};
 	elementCount = vertices.size();
+	for (int i = 0; i < elementCount; i++)
+		colours.push_back(col);
 	return Initialize();
 }
 
@@ -136,6 +143,8 @@ bool ScreenOverlay::GenerateVertices(const vector<vec3> *verts, const vec3 &col,
 	uvs = *uv;
 	colour = col;
 	elementCount = vertices.size();
+	for (int i = 0; i < elementCount; i++)
+		colours.push_back(col);
 	return Initialize();
 }
 
@@ -148,6 +157,25 @@ bool ScreenOverlay::initTexture(const string &filename, GLuint target) {
 
 void ScreenOverlay::setColour(const vec3 &c) {
 	colour = c;
+	updateColourBuffer(c);
+
+}
+
+void ScreenOverlay::updateColourBuffer(const vec3 &colour) {
+	colours.clear();
+	for (int i = 0; i < elementCount; i++) {
+		colours.push_back(colour);
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, colours.size() * sizeof(vec3), colours.data());
+}
+
+void ScreenOverlay::updateColourBuffer2(const vector<vec3> &Colours) {
+	this->colours.clear();
+	colours = Colours;
+	glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, colours.size() * sizeof(vec3), colours.data());
+	updateColours = false;
 }
 
 vec3 & ScreenOverlay::getColour() {
@@ -171,7 +199,8 @@ bool ScreenOverlay::Initialize() {
 	// these vertex attribute indices correspond to those specified for the
 	// input variables in the vertex shader
 	const GLuint VERTEX_INDEX = 0;
-	const GLuint UV_INDEX = 1;
+	const GLuint COLOUR_INDEX = 1;
+	const GLuint UV_INDEX = 2;
 
 	// create a vertex array object encapsulating all our vertex attributes
 	glGenVertexArrays(1, &vertexArray);
@@ -194,6 +223,11 @@ bool ScreenOverlay::Initialize() {
 		glEnableVertexAttribArray(UV_INDEX);
 	}
 
+	glGenBuffers(1, &colourBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
+	glBufferData(GL_ARRAY_BUFFER, colours.size() * sizeof(vec3), colours.data(), GL_STATIC_DRAW);
+	glVertexAttribPointer(COLOUR_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(COLOUR_INDEX);
 	// unbind our buffers, resetting to default state
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -209,6 +243,8 @@ void ScreenOverlay::Render(GLuint type, const vec3 &colour)
 	// scene geometry, then tell OpenGL to draw our geometry
 	glUseProgram(shader.program);
 	glBindVertexArray(vertexArray);
+	if (!UpdateColors)
+		updateColourBuffer(colour);
 
 	if (type == GL_POINTS) {
 		glPointSize(10.f);
@@ -309,7 +345,7 @@ void ScreenOverlay::Destroy() {
 	texture.DestroyTexture();
 	glDeleteBuffers(1, &vertexBuffer);
 	glDeleteBuffers(1, &textureBuffer);
-
+	glDeleteBuffers(1, &colourBuffer);
 	glDeleteVertexArrays(1, &vertexArray);
 }
 

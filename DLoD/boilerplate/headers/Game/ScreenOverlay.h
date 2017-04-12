@@ -37,6 +37,8 @@ public:
 	void Render(GLuint type, const vec3 &colour);
 
 	void setColour(const vec3 &c);
+	void updateColourBuffer(const vec3 & colour);
+	void updateColourBuffer2(const vector<vec3>& colours);
 	vec3 & getColour();
 
 	void setPosition(const vec3 &pos);
@@ -69,13 +71,14 @@ private:
 	float rotateZ, transparency, mixAmount;
 
 	vec3 _scale, position, colour;
-
+	bool updateColours;
 	GLuint vertexArray;
 	GLuint vertexBuffer;
 	GLuint textureBuffer;
+	GLuint colourBuffer;
 	GLsizei elementCount;
 
-	vector<vec3> vertices;
+	vector<vec3> vertices, colours;
 	vector<vec2> uvs;
 
 	Texture texture;

@@ -12,7 +12,7 @@ public:
 	~GameHud();
 
 	//updates positions of cars to render to radar portion of hud
-	void UpdateRadar(const vector<vec3>* positions);
+	void UpdateRadar(const vector<vec3>* positions, const vector<vec3> *colours);
 
 	void InitializeMenu(const vec3 & colour);
 
@@ -24,7 +24,9 @@ public:
 	//renders all widgets
 	//void Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour);
 
-	void Render(const string & health, const string & armour, const string & velocity, const vector<vec3>* positions, const vec3 & colour, const bool & canLayTrap);
+	//void Render(const string & health, const string & armour, const string & velocity, const vector<vec3>* positions, const vec3 & colour, const bool & canLayTrap);
+
+	void Render(const string & health, const string & armour, const string & velocity, const vector<vec3>* positions, const vec3 & colour, const vector<vec3>* colours, const bool & canLayTrap);
 
 	void RenderEndGame(const int & menuIndex, const vec3 & colour);
 
