@@ -2,7 +2,6 @@
 
 Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int numPlayers, const vector<vec3> spawnPoints, const vector<vec3> itemSpawnPoints)
 {
-
 	pause = false, restart = false;
 	menuIndex = 0;
 	//set cameras so overtop and far-ish away from cars
@@ -19,6 +18,8 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   shadow.initShadow();
   physX.init(4);
 
+  srand(time(NULL));
+
   initSkyBox(skyboxFilepath);
 
   //create the starnode
@@ -31,7 +32,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
     astarVertices.push_back(v);
   }
 
-  gameState = new GameState(astarVertices);
+  gameState = new GameState(astarVertices, spawnPoints);
 
   arena = initArena(arenaTexFilename, arenaFilepath);
   arenaMap = arenaMapFile;
@@ -336,7 +337,7 @@ void Game::gameLoop()
 	    vec3 vPos = vec3(M[3]);
 	    vec3 dis = vec3(0, 8, 0);
 
-	    Item* item = new Item(p->trap);
+	    Item* item = new Item(p->trap, nullptr);
 	    mat4 m = mat4(1);
 	    m[3] = vec4(vPos + dis, 1);
 	    item->setModelMatrix(m);
@@ -439,7 +440,6 @@ void Game::initItem(Item* item)
   }
   item->addShaders("shaders/toon.vert", "shaders/toon.frag");
   
-
   mat3 scaleM = mat3(1);
   scaleM[0][0] = item->getScale().x;
   scaleM[1][1] = item->getScale().y;

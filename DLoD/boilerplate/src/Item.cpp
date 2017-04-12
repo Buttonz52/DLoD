@@ -19,8 +19,12 @@ void empTrap(Vehicle* v)
 }
 
 
-Item::Item(ItemType type)
+Item::Item(ItemType type, ItemSpawner* s)
 {
+  spawner = s;
+  
+  isTrap = (spawner == nullptr);
+
   switch (type)
   {
   case DamageTrap:

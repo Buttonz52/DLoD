@@ -225,6 +225,10 @@ void PhysXMain::initItem(Item* item)
   shape->setSimulationFilterData(simFilterData);
 
   body->attachShape(*shape);
+
+  if (item->spawner != nullptr)
+    body->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
+
   gScene->addActor(*body);
   geoMap.insert(make_pair(body, item));
 }
