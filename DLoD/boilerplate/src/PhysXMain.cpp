@@ -226,10 +226,15 @@ void PhysXMain::initItem(Item* item)
 
   body->attachShape(*shape);
 
-  if (item->spawner != nullptr)
+  if (item->spawner != nullptr){
     body->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
+    body->setAngularDamping(0.0);
+    body->setAngularVelocity(PxVec3(0.0, 0.75, 0.0));
+  }
 
   gScene->addActor(*body);
+
+
   geoMap.insert(make_pair(body, item));
 }
 
