@@ -430,7 +430,6 @@ void Game::initVehicle(Vehicle* v, int type)
 void Game::initItem(Item* item)
 {
   item->setScale(vec3(2));
-  item->setColour(vec3(1, 1, 0));
 
   if (!item->initMesh("/ObjModels/bearTrap.obj")) {	//dead mesh
     cout << "Failed to initialize bear trap." << endl;
