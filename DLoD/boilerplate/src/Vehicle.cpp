@@ -478,9 +478,9 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 {
 	//make a timer or something so not pulsing crazily
 	if (canPulseColour) {
-		int denom;
+		int denom = int(ceil(health / 6.0));
 		//check not dividing by 0.  Fiddle with the 6 to find a good timing of pulsation.
-		int(ceil(health)/6) <= 0 ? denom = 1 : denom = int(ceil(health)/6);
+		int(ceil(health)/6) <= 0 ? denom = 0 : denom = int(ceil(health)/6);
 		//pulse based on how much health you have -> faster pulse - less health
 		if ((timer.getTicks() % denom) == 0) {
 			colour -= vec3(0.1);
@@ -490,6 +490,13 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 			mesh.UpdateColour(&colour);
 		}
 	}
+  
+  if (dead && !deadColourActivated)
+  {
+    deadColourActivated = true;
+    vec3 c(0);
+    mesh.UpdateColour(&c);
+  }
 
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry

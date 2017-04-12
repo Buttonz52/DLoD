@@ -10,6 +10,7 @@ class Vehicle :
 {
 protected:
 
+  bool deadColourActivated = false;
   bool dead;
   // Stores the Vehicle Health
   float health;

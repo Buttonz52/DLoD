@@ -39,18 +39,22 @@ Item::Item(ItemType type, ItemSpawner* s)
   {
   case DamageTrap:
     onPickUp = damageTrap;
+    setColour(vec3(1, 1, 0));
     break;
 
   case EmpTrap:
     onPickUp = empTrap;
+    setColour(vec3(0, 0, 1));
     break;
 
   case HealthPack:
     onPickUp = healthPack;
+    setColour(vec3(1, 0, 0));
     break;
 
   case ArmourPack:
     onPickUp = armourPack;
+    setColour(vec3(0, 1, 0));
     break;
 
 
