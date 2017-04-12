@@ -23,7 +23,7 @@ void GameHud::InitializeMenu(const vec3 &colour) {
 
 	//arena map background
 	if (!pauseBkgrd.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init arena map." << endl;
+	//	cout << "Failed to init arena map." << endl;
 	}
 
 	pauseBkgrd.GenerateSquareVertices(1, 1, vec3(0.6, 0.5, 1));
@@ -69,7 +69,6 @@ void GameHud::InitializeEndGame(const vector<string> &playerNames, const vector 
 //initialize hud
 void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, const string &arenaFilename) {
 	int kerning = 30;
-	cout << "Initializing hud. " << endl;
 	//health
 	healthTitle.InitializeGameText("Health:", vec3(-0.98, 0.88, 0), colour, kerning);
 	healthTitle.setScale(vec3(0.8));
@@ -114,12 +113,12 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	radarPoints.GenerateVertices(positions, colour, &vector<vec2>(0));
 	radarPoints.setPosition(vec3(0.8, 0.8, 0));
 	radarPoints.setScale(vec3(0.1f, 0.15f, 1));
-	radarPoints.setTransparency(0.4f);
+	//radarPoints.setTransparency(0.4f);
 	radarPoints.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	//arena map background
 	if (!radarBkgrd.initTexture(arenaFilename, GL_TEXTURE_2D)) {
-		cout << "Failed to init arena map." << endl;
+	//	cout << "Failed to init arena map." << endl;
 	}
 
 	radarBkgrd.GenerateSquareVertices(0.2, 0.2, vec3(0.6, 0.5, 1));
@@ -136,7 +135,7 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 
 	//arena map background
 	if (!dpadTexture.initTexture("textures/XboxControllerDPad.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init arena map." << endl;
+	//	cout << "Failed to init arena map." << endl;
 	}
 	dpadTexture.GenerateSquareVertices(0.15, 0.18, vec3(0.6, 0.5, 0.1));
 	dpadTexture.setPosition(vec3(-0.83,-0.8,0));
@@ -147,7 +146,7 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	dpadBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	if (!weaponUpD.initTexture("textures/itemImgs/bearTrap.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init arena map." << endl;
+	//	cout << "Failed to init arena map." << endl;
 	}
 	weaponUpD.setMixFlag(1);
 	weaponUpD.GenerateSquareVertices(0.06, 0.07, vec3(1,1,0));
@@ -156,7 +155,7 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	weaponUpD.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	if (!weaponLeftD.initTexture("textures/itemImgs/bearTrap.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init arena map." << endl;
+	//	cout << "Failed to init arena map." << endl;
 	}
 
 	weaponLeftD.setMixFlag(1);

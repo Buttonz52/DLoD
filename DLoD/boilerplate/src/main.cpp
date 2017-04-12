@@ -112,7 +112,7 @@ int main(int argc, char *argv[])
 	int numPlayers;
 	while (!glfwWindowShouldClose(window)) {
 		if (!audio.Init()) {
-			cout << "Failed to init audio." << endl;
+		//	cout << "Failed to init audio." << endl;
 		}
 		//Initialize "Loading screen"
 		TitleScreen ts;
@@ -122,10 +122,9 @@ int main(int argc, char *argv[])
 			ts.Destroy();
 			audio.FreeMusic();
 
-			cout << "num players: " << numPlayers << endl;
 			////init music
 			if (!audio.InitMusic(mainMusic.c_str())) {
-				cout << "Failed to load music." << endl;
+			//	cout << "Failed to load music." << endl;
 			}
 			//enable depth buffer testing
 			glEnable(GL_DEPTH_TEST);
@@ -133,13 +132,11 @@ int main(int argc, char *argv[])
 			getSpawnPoints();
 			getItemSpawnPoints();
 
-			PrintDirections();
-
 			//glfwSetWindowPos(window, 0,0);
 			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
 
 			if (!audio.PlayMusic()) {
-				cout << "Failed to play music" << endl;
+			//	cout << "Failed to play music" << endl;
 			}
 
 			if (!game.start()) {
@@ -162,14 +159,6 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-void PrintDirections() {
-	cout << "Directions: " << endl;
-	cout << "UP/DOWN/LEFT/RIGHT: Move Block" << endl;
-	cout << "Xbox R-trigger: acclerate" << endl;
-	cout << "Xbox B-Button: decelerate" << endl;
-	cout << "Xbox L-Stick: turning" << endl;
-	cout << "ESC: Exit program" << endl;
-}
 
 void getSpawnPoints()
 {
@@ -177,7 +166,7 @@ void getSpawnPoints()
 	GEO *spawnGEO = new GEO();
 
 	if (!spawnGEO->initMesh(meshname)) {
-		cout << "Failed to init arena" << endl;
+	//	cout << "Failed to init arena" << endl;
 	}
 
 	spawnPoints = spawnGEO->getMesh().vertices;
@@ -195,7 +184,7 @@ void getItemSpawnPoints()
 	GEO *spawnGEO = new GEO();
 
 	if (!spawnGEO->initMesh(meshname)) {
-		cout << "Failed to init arena" << endl;
+	//	cout << "Failed to init arena" << endl;
 	}
 
 	itemSpawnPoints = spawnGEO->getMesh().vertices;

@@ -72,7 +72,7 @@ bool Mesh::Initialize() {
 }
 void Mesh::UpdateColour(const vec3 *colour) {
 	vector<vec3> colours;
-	for (int i = 0; i < vertices.size(); i++) {
+	for (int i = 0; i < elementCount; i++) {
 		colours.push_back(*colour);
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);

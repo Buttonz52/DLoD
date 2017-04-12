@@ -368,20 +368,13 @@ bool ScreenOverlay::InitQuad(const string &tex,
 {
 	if (!strcmp(tex.c_str(),"")) {
 		if (!initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
-			cout << "Failed to init loadBkgrnd." << endl;
+	//		cout << "Failed to init loadBkgrnd." << endl;
 			return false;
 		}
 	}
 
-#if DEBUG
-	cout << "Init loadBkgrd shaders ";
-#endif
-	InitializeShaders(vert, frag);
-#if DEBUG
-	cout << " -initialized";
-#endif
 	if (!GenerateSquareVertices(x_scale,y_scale,colour)) {
-		cout << "Failed to initialize screen overlay." << endl;
+	//	cout << "Failed to initialize screen overlay." << endl;
 		return false;
 	}
 	//setPosition(position);
@@ -394,7 +387,7 @@ void ScreenOverlay::InitializeGameText(const string &text, const vec3 &position,
 	isFontTex = 1;
 	setColour(colour);
 	if (!initTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init fonts." << endl;
+	//	cout << "Failed to init fonts." << endl;
 	}
 	InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 	vector<vec3> verts;
@@ -415,7 +408,7 @@ void ScreenOverlay::InitializeGameText(const string &text, const vec3 &position,
 
 	//if (!fontTex->GenerateSquareVertices(0.1, 0.1, vec3(0))) {
 	if (!GenerateVertices(&verts, colour, &uvs)) {
-		cout << "Failed to initialize font overlay." << endl;
+		//cout << "Failed to initialize font overlay." << endl;
 	}
 
 	setPosition(position);

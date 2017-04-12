@@ -64,7 +64,7 @@ void TitleScreen::readRules(GLFWwindow *window, XboxController *ctrller, Audio *
 	rulesBackText.InitializeGameText("Press B to go back", vec3(-0.15,0.1,0), vec3(0,0,1), 30);
 	rulesBackText.setScale(vec3(0.5));
 	if (!rulesScreen.initTexture("textures/rulesScreen.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init rules screen." << endl;
+	//	cout << "Failed to init rules screen." << endl;
 	}
 	rulesScreen.GenerateSquareVertices(1, 1, vec3(0,0,0));
 
@@ -148,13 +148,13 @@ void TitleScreen::InitializeTitleScreen() {
 
 											//Initialize button textures
 	if (!menuButtons[0].initTexture("textures/START.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init start texture." << endl;
+//		cout << "Failed to init start texture." << endl;
 	}
 	if (!menuButtons[1].initTexture("textures/RULES.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init rules texture." << endl;
+	//	cout << "Failed to init rules texture." << endl;
 	}
 	if (!menuButtons[2].initTexture("textures/EXIT.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init exit texture." << endl;
+	//	cout << "Failed to init exit texture." << endl;
 	}
 
 	menuButtons[3].InitializeGameText("DERBY LEAGUE", vec3(-0.6, 0.6, 0), vec3(0, 0, 0), 20);
@@ -227,13 +227,13 @@ void TitleScreen::InitializeCarScreen() {
 
 	//vehicle choice buttons
 	if (!menuButtons[carButtonInitIndex].initTexture("textures/carImgs/lightCar.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init light car texture." << endl;
+	//	cout << "Failed to init light car texture." << endl;
 	}
 	if (!menuButtons[carButtonInitIndex + 1].initTexture("textures/carImgs/mediumCar.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init medium car texture." << endl;
+	//	cout << "Failed to init medium car texture." << endl;
 	}
 	if (!menuButtons[carButtonInitIndex + 2].initTexture("textures/carImgs/heavyCar.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init heavy car texture." << endl;
+	//	cout << "Failed to init heavy car texture." << endl;
 	}
 
 	menuButtons[carButtonInitIndex].setPosition(vec3(-0.4, 0, 0));
@@ -264,13 +264,13 @@ void TitleScreen::InitializeChooseScreen() {
 
 	//init transparent arena textures
 	if (!menuButtons[arenaButtonInitIndex].initTexture("textures/arenaImgs/bowl.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init bowl texture." << endl;
+	//	cout << "Failed to init bowl texture." << endl;
 	}
 	if (!menuButtons[arenaButtonInitIndex + 1].initTexture("textures/arenaImgs/devil.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init devil texture." << endl;
+	//	cout << "Failed to init devil texture." << endl;
 	}
 	if (!menuButtons[arenaButtonInitIndex + 2].initTexture("textures/arenaImgs/wrap.png", GL_TEXTURE_2D)) {
-		cout << "Failed to init wrap texture." << endl;
+	//	cout << "Failed to init wrap texture." << endl;
 	}
 
 	//initialize which button cursor will be on upon starting
@@ -280,16 +280,16 @@ void TitleScreen::InitializeChooseScreen() {
 
 								//textures for skybox choice buttons
 	if (!menuButtons[skyboxButtonInitIndex].initTexture("textures/ely_cloudtop/cloudtop_bk.tga", GL_TEXTURE_2D)) {
-		cout << "Failed to init bpArena2 texture." << endl;
+	//	cout << "Failed to init bpArena2 texture." << endl;
 	}
 	if (!menuButtons[skyboxButtonInitIndex + 1].initTexture("textures/nec_hell/hell_lf.tga", GL_TEXTURE_2D)) {
-		cout << "Failed to init bpArena2 texture." << endl;
+	//	cout << "Failed to init bpArena2 texture." << endl;
 	}
 	if (!menuButtons[skyboxButtonInitIndex + 2].initTexture("textures/mp_deviltooth/devils-tooth_lf.tga", GL_TEXTURE_2D)) {
-		cout << "Failed to init bpArena2 texture." << endl;
+	//	cout << "Failed to init bpArena2 texture." << endl;
 	}
 	if (!menuButtons[skyboxButtonInitIndex + 3].initTexture("textures/mp_emerald/emerald-summit_lf.tga", GL_TEXTURE_2D)) {
-		cout << "Failed to init bpArena2 texture." << endl;
+	//	cout << "Failed to init bpArena2 texture." << endl;
 	}
 
 	//gererate for buttons
@@ -403,10 +403,10 @@ int TitleScreen::KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio 
 bool TitleScreen::DisplayTitle(GLFWwindow *window, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers) {
 	vector <XboxController> controllers;
 	if (!audio->InitMusic(titleMusic.c_str())) {
-		cout << "Failed to init title music." << endl;
+	//	cout << "Failed to init title music." << endl;
 	}
 	if (!audio->PlayMusic()) {
-		cout << "Failed to play music" << endl;
+	//	cout << "Failed to play music" << endl;
 	}
 	isArenaSkyboxScreen = false;
 	isMultiplayerScreen = false;

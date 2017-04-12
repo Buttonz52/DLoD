@@ -9,7 +9,6 @@ Vehicle::Vehicle()
 	armour = 30;
 	health = 100;	
 	lowHealth = health / 2;
-	cout << "Low health:"<< lowHealth << endl;
 	dead = false;
 	canPulseColour = false;
 
@@ -270,7 +269,6 @@ void Vehicle::checkDead() {
 		health = 0;
 		
 		if (!dead) {
-			cout << "ded" << endl;
 			timeOfDeath = timer.getTicks();
 			if (!timer.isStopped())
 				timer.stop();
@@ -327,7 +325,7 @@ bool Vehicle::initMesh(const string &file) {
 	mesh.AddColour(colour);
 
 	if (!mesh.ReadMesh("models/" + filename)) {
-		cout << "Error reading alive car" << endl;
+		//cout << "Error reading alive car" << endl;
 		return 0;
 	}
 
@@ -358,13 +356,13 @@ void Vehicle::giveMeArmour(const vec3 &colour) {
 	armourGEO->setColour(vec3(greyscale));
 
 	if (!armourGEO->initMesh(armourFilename)) {
-		cout << "Error reading armour mesh." << endl;
+	//	cout << "Error reading armour mesh." << endl;
 		return;
 	}
 	armourGEO->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
 	if (!armourGEO->initBuffers()) {
-		cout << "Could not initialize buffers for game object " << filename << endl;
+	//	cout << "Could not initialize buffers for game object " << filename << endl;
 	}
 
 
@@ -392,7 +390,7 @@ void Vehicle::giveMeWheels()
 		wheel->setColour(vec3(0, 0, 0));
 		string filename = "wheels/mediumCarTire.obj";
 		if (!wheel->initMesh(filename)) {
-			cout << "Error reading wheel mesh" << endl;
+		//	cout << "Error reading wheel mesh" << endl;
 		}
 
 		wheel->addShaders("shaders/toon.vert", "shaders/toon.frag");
@@ -401,7 +399,7 @@ void Vehicle::giveMeWheels()
 			wheel->getMesh().vertices[i] = scaleM * wheel->getMesh().vertices[i];
 
 		if (!wheel->initBuffers()) {
-			cout << "Could not initialize buffers for game object " << filename << endl;
+		//	cout << "Could not initialize buffers for game object " << filename << endl;
 		}
 
 		children.push_back(wheel);

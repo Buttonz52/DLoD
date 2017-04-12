@@ -93,9 +93,6 @@
     <ClCompile Include="src\Mesh.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
-      <Filter>Source Files\GameEngine</Filter>
-    </ClCompile>
     <ClCompile Include="src\Audio.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
@@ -147,9 +144,6 @@
     <ClCompile Include="src\TitleScreen.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shadow.cpp">
-      <Filter>Source Files\GEO</Filter>
-    </ClCompile>
     <ClCompile Include="src\AStarNode.cpp">
       <Filter>Source Files\GEO</Filter>
     </ClCompile>
@@ -179,6 +173,9 @@
     </ClCompile>
     <ClCompile Include="src\ItemSpawner.cpp">
       <Filter>Source Files\GEO\itempickup</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -245,9 +242,6 @@
     <ClInclude Include="headers\Game\TitleScreen.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="headers\GEO\Shadow.h">
-      <Filter>Header Files\GEO</Filter>
-    </ClInclude>
     <ClInclude Include="headers\GEO\AStarNode.h">
       <Filter>Header Files\GEO</Filter>
     </ClInclude>
@@ -309,18 +303,6 @@
     </None>
     <None Include="shaders\screenOverlay.vert">
       <Filter>Shaders\Vertex</Filter>
-    </None>
-    <None Include="shaders\shadow.vert">
-      <Filter>Shaders\Vertex</Filter>
-    </None>
-    <None Include="shaders\shadow.frag">
-      <Filter>Shaders\Fragment</Filter>
-    </None>
-    <None Include="shaders\simpleDepthShader.vert">
-      <Filter>Shaders\Vertex</Filter>
-    </None>
-    <None Include="shaders\simpleDepthShader.frag">
-      <Filter>Shaders\Fragment</Filter>
     </None>
     <None Include="shaders\billboard.vert">
       <Filter>Shaders\Vertex</Filter>

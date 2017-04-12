@@ -159,7 +159,6 @@
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\ScreenOverlay.cpp" />
     <ClCompile Include="src\Shader.cpp" />
-    <ClCompile Include="src\Shadow.cpp" />
     <ClCompile Include="src\SnippetVehicleCreate.cpp" />
     <ClCompile Include="src\SnippetVehicleFilterShader.cpp" />
     <ClCompile Include="src\SnippetVehicleNoDriveCreate.cpp" />
@@ -194,7 +193,6 @@
     <ClInclude Include="headers\GEO\player\AI.h" />
     <ClInclude Include="headers\GEO\player\Human.h" />
     <ClInclude Include="headers\GEO\player\Player.h" />
-    <ClInclude Include="headers\GEO\Shadow.h" />
     <ClInclude Include="headers\GEO\vehicle\LargeVehicle.h" />
     <ClInclude Include="headers\GEO\vehicle\LightVehicle.h" />
     <ClInclude Include="headers\GEO\vehicle\MediumVehicle.h" />
@@ -213,10 +211,6 @@
     <None Include="shaders\hdr.vert" />
     <None Include="shaders\screenOverlay.frag" />
     <None Include="shaders\screenOverlay.vert" />
-    <None Include="shaders\shadow.frag" />
-    <None Include="shaders\shadow.vert" />
-    <None Include="shaders\simpleDepthShader.frag" />
-    <None Include="shaders\simpleDepthShader.vert" />
     <None Include="shaders\skybox.frag" />
     <None Include="shaders\skybox.vert" />
     <None Include="shaders\phong.frag" />

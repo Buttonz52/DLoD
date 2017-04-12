@@ -158,16 +158,13 @@ bool GEO::initMesh(const string &filename) {
 	//Get all information for mesh
 
 	if (!mesh.ReadMesh("models/" + filename)) {
-		cout << "Error reading mesh" << endl;
+	//	cout << "Error reading mesh" << endl;
 		return 0;
 	}
 	if (!mesh.Initialize()) {
-		cout << "Error  with initializiation of mesh"<<endl;
+	//	cout << "Error  with initializiation of mesh"<<endl;
 		return 0;
 	}
-
-	//cout << "number of verts: " << mesh.vertices.size() << endl;
-	//cout << "Loaded " << filename << endl;
 	return 1;
 }
 

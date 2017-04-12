@@ -72,7 +72,6 @@ vector <string> arenaMapFilenames = {
 //Audio music;
 
 // OpenGL utility and support function prototypes
-void PrintDirections();
 void getSpawnPoints();
 void getItemSpawnPoints();
 // Mesh functions
