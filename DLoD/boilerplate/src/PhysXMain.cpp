@@ -97,7 +97,7 @@ VehicleDesc PhysXMain::initLightVehicleDesc()
 
 VehicleDesc PhysXMain::initLargeVehicleDesc()
 {
-	const PxF32 chassisMass = 1600.0;
+	const PxF32 chassisMass = 1450.0;
 	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
 	const PxVec3 chassisMOI
 	((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
