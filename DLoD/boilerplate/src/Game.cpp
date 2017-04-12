@@ -359,7 +359,7 @@ void Game::gameLoop()
 
     for (ItemSpawner* spawner : gameState->itemSpawners)
     {
-      if (spawner->timer.getTicks() > spawner->spawnTime) {
+      if (spawner->timer.getTicks() > spawner->spawnTime && spawner->item == nullptr) {
         spawner->spawnItem(skybox);
         physX.initItem(spawner->item);
       }

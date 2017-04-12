@@ -6,12 +6,6 @@
 
 class Item;
 
-//vector<string> itempickModels =
-//{
-//  "/ObjModels/bearTrap.obj",
-//  "/ObjModels/bearTrap.obj"
-//};
-
 class ItemSpawner
 {
 public:
