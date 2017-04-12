@@ -149,7 +149,7 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	//	cout << "Failed to init arena map." << endl;
 	}
 	weaponUpD.setMixFlag(1);
-	weaponUpD.GenerateSquareVertices(0.06, 0.07, vec3(1,1,0));
+	weaponUpD.GenerateSquareVertices(0.06, 0.07, vec3(0,0,1));
 	weaponUpD.setPosition(vec3(-0.83, -0.66, 0));
 	weaponUpD.setTransparency(0.8f);
 	weaponUpD.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
@@ -159,7 +159,7 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	}
 
 	weaponLeftD.setMixFlag(1);
-	weaponLeftD.GenerateSquareVertices(0.06, 0.07, vec3(0, 0, 1));
+	weaponLeftD.GenerateSquareVertices(0.06, 0.07, vec3(1, 1, 0));
 	weaponLeftD.setPosition(vec3(-0.93, -0.79, 0));
 	weaponLeftD.setTransparency(0.8f);
 	weaponLeftD.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");

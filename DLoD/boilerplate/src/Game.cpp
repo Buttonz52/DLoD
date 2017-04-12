@@ -275,6 +275,8 @@ void Game::gameLoop()
 		  glEnable(GL_CULL_FACE);
 		  glCullFace(GL_BACK);
 
+      ResizeViewport(i, numPlayerScreens, width, height);
+
 		  arena->Render(viewMatrix, projectionMatrix, lightSource);
 
 		  glDisable(GL_CULL_FACE);
@@ -429,8 +431,6 @@ void Game::initVehicle(Vehicle* v, int type)
 //
 void Game::initItem(Item* item)
 {
-  item->setScale(vec3(2));
-
   if (!item->initMesh("/ObjModels/bearTrap.obj")) {	//dead mesh
    // cout << "Failed to initialize bear trap." << endl;
   }

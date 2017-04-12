@@ -478,9 +478,9 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 {
 	//make a timer or something so not pulsing crazily
 	if (canPulseColour) {
-		int denom = int(ceil(health / 6.0));
+    int denom;
 		//check not dividing by 0.  Fiddle with the 6 to find a good timing of pulsation.
-		int(ceil(health)/6) <= 0 ? denom = 0 : denom = int(ceil(health)/6);
+		int(ceil(health)/6) <= 0 ? denom = 1 : denom = int(ceil(health)/6);
 		//pulse based on how much health you have -> faster pulse - less health
 		if ((timer.getTicks() % denom) == 0) {
 			colour -= vec3(0.1);

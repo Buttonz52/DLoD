@@ -146,12 +146,12 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 			turn = controller->LeftStick_X();
 
 		//lay damage trap
-		if (controller->GetButtonPressed(XBtns.DPad_Up)) {
+		if (controller->GetButtonPressed(XBtns.DPad_Left) || controller->GetButtonPressed(XBtns.R_Shoulder)) {
 			layTrap = true;
 			trap = DamageTrap;
 		}
 		//lay empty trap
-		if (controller->GetButtonPressed(XBtns.DPad_Left)) {
+		if (controller->GetButtonPressed(XBtns.DPad_Up) || controller->GetButtonPressed(XBtns.L_Shoulder)) {
 			layTrap = true;
 			trap = EmpTrap;
 		}

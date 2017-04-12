@@ -30,9 +30,6 @@ void ItemSpawner::spawnItem(GEO * skybox)
   mat4 m = mat4(1);
   m[3] = vec4(position, 1);
   item->setModelMatrix(m);
-
-  item->setScale(vec3(2));
-
   if (!item->initMesh(itempickModels[i]))
     cout << "Failed to initialize item mesh. " << endl;
 

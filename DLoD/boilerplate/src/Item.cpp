@@ -31,6 +31,7 @@ void armourPack(Vehicle* v)
 
 Item::Item(ItemType type, ItemSpawner* s)
 {
+  setScale(vec3(3));
   spawner = s;
   
   isTrap = (spawner == nullptr);
