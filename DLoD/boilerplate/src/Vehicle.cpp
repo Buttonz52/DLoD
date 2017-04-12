@@ -469,7 +469,9 @@ string Vehicle::getVelocityString() {
 		retStr = "0" + playerVelocity;
 		break;
 	default:
-		retStr = playerVelocity;
+    //else, assuming the size is >3 
+		//retStr = playerVelocity;
+    retStr = "99";
 	}
 	return retStr;
 }

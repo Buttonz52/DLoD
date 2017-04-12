@@ -208,7 +208,7 @@ void PhysXMain::initVehicle(Vehicle* v, int type)
 
 void PhysXMain::initItem(Item* item)
 {
-  PxShape* shape = gPhysics->createShape(PxBoxGeometry(1, 1, 1), *gMaterial);
+  PxShape* shape = gPhysics->createShape(PxBoxGeometry(1.3, 1.3, 1), *gMaterial);
 
   vec3 pos = item->getModelMatrix()[3];
 

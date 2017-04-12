@@ -102,7 +102,7 @@ bool Game::start()
 	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	//  for (int i = 0; i < numPlayerScreens; i++) {
 		  ResizeViewport(0, 1, width, height);
-		  endGameText.InitializeGameText("RETIRE", vec3(-0.4, 0, 0), vec3(1,0.5,0.3), 30);
+		  endGameText.InitializeGameText("RETIRE", vec3(-0.4, 0, 0), vec3(0), 30);
 		  endGameText.Render(GL_TRIANGLES, endGameText.getColour());
 	//  }
   }

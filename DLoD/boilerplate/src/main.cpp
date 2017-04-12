@@ -74,8 +74,12 @@ int main(int argc, char *argv[])
 	// Get the desktop resolution.
 
 	window = glfwCreateWindow(width, height, "Derby League of Destruction",0,0);
+  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+  const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+  glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
 
-	if (!window) {
+  if (!window) {
 		cout << "Program failed to create GLFW window, TERMINATING" << endl;
 		glfwTerminate();
 		return -1;
@@ -88,7 +92,7 @@ int main(int argc, char *argv[])
 	// set keyboard callback function and make our context current (active)
 	glfwSetKeyCallback(window, KeyCallback);
 	glfwSetWindowSizeCallback(window, resizeCallback);
-
+  
 	//Intialize GLAD
 #ifndef LAB_LINUX
 	if (!gladLoadGL())
@@ -106,7 +110,7 @@ int main(int argc, char *argv[])
 
 	//glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	//glfwWindowHint(GLFW_SRGB_CAPABLE, GL_TRUE);
-	glClearColor(0.0f, 51.f / 255.f, 102.f / 255.f, 1.0f);
+	glClearColor(51.f / 255.f, 1.f, 153.f / 255.f, 1.0);
 
 
 	int numPlayers;
