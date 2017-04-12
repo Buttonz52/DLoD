@@ -7,7 +7,7 @@ ItemSpawner::ItemSpawner(vector<int> types, vec3 pos)
   position = pos;
   itemTypes = types;
 
-  spawnTime = 15 + (rand() % 5) * 1000;
+  spawnTime = (15 + rand() % 5) * 1000;
 }
 
 

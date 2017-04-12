@@ -91,8 +91,10 @@ void PhysXMain::collisionFunction(PxContactModifyPair* const pairs, PxU32 count)
 
         item->onPickUp(car);
 
-        if (item->spawner != nullptr)
+        if (item->spawner != nullptr) {
+          item->spawner->item = nullptr;
           item->spawner->timer.start();
+        }
 
         // remove the item
         map<PxRigidActor*, GEO*>::iterator itr = geoMap.begin();
