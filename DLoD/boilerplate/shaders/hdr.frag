@@ -18,8 +18,8 @@ in vec4 positionLightSpace;
 // first output is mapped to the framebuffer's colour index by default
 out vec4 FragmentColour;
 uniform sampler2D sampler;
-uniform samplerCube radiancemap;
 uniform sampler2D shadowmap;
+uniform samplerCube radiancemap;
 
 uniform float exposure;
 uniform float reflectance;
@@ -47,7 +47,8 @@ void main(void)
 {
 	//2D texture
 	vec4 imageColour = texture(sampler,uv.xy);
-
+	float diffuse = max( 0.0, dot( N, normalize(L - P)));
+	
 	//get "uv" coordinates for skybox using normal and reflection vectors
 	vec3 v = normalize(V); 
 	vec3 r = reflect(-v, N);
@@ -57,12 +58,15 @@ void main(void)
 
 	float shadow = ShadowCalculation(positionLightSpace);
 	//incorporate Fresnel effect to the environment map + the image
-	vec3 shaded =  vec3((1-shadow) * (FresnelReflectance(vec3(reflectance), NdotV ) * nits.xyz) + imageColour.xyz);
+	vec3 shaded =  vec3((1-shadow) * (FresnelReflectance(vec3(reflectance), NdotV ) * nits.xyz)*exposure + (imageColour.xyz*diffuse));
 	
-	FragmentColour = vec4(shaded *exposure, 1.f);	//don't mess with the alphas, that is bad news
+	FragmentColour = vec4(shaded, 1.f);	//don't mess with the alphas, that is bad news
 
 	//testing purposes
 //	float depth = texture(shadowmap,uv.xy).r;
 	//FragmentColour = vec4(vec3(depth),1.f);
 	//FragmentColour = texture(shadowmap, uv.xy);
+//	float deep = gl_FragCoord.z * 2-1;
+//	float boop = (2.f *100)/(100+1-deep*(99))/100;
+//	FragmentColour = vec4(vec3(boop),1.f);
 }

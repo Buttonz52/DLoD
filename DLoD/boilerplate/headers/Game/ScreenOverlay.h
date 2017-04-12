@@ -29,7 +29,7 @@ public:
 	void GenerateTextUVs(vector<vec2>& uvs, const char & ch);
 
 	void InitVideo();
-
+	void setTexture(Texture *tex);
 	void UpdateBuffers(const vector<vec2> *uvs);
 	void UpdateVertices(const vector<vec3> *vertices);
 	//void UpdateGameText(const string & text);

@@ -271,10 +271,10 @@ void GEO::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightS
 	glm::mat4 lightProjection, lightView;
 	glm::mat4 lightSpaceMatrix;
 	GLfloat near_plane = 0.001f, far_plane = 1000.f;
-	lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
+	//lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
 	//lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, -1000.f, 1000.f);
 
-	//lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
+	lightProjection = glm::perspective(float(M_PI / 3),1920.f/1080.f,near_plane, far_plane);
 	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;
 	//lightSpaceMatrix = _projection * lightView;
@@ -323,9 +323,9 @@ void GEO::RenderShadow(const mat4 &_view, const mat4 &_projection, const vec3 &_
 	mat4 M = getModelMatrix();
 	glm::mat4 lightProjection, lightView;
 	glm::mat4 lightSpaceMatrix;
-	GLfloat near_plane = 1.f, far_plane = 7.f;
-	//lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
-	lightProjection = glm::ortho(-10.f, 10.f, -10.f, 10.f, near_plane, far_plane);
+	GLfloat near_plane = 0.1f, far_plane = 1000.f;
+	lightProjection = glm::ortho(-600.0f, 600.0f, -600.0f, 600.0f, near_plane, far_plane);
+	//lightProjection = glm::ortho(-1000.f, 1000.f, -1000.f, 1000.f, near_plane, far_plane);
 
 	lightView = glm::lookAt(_lightSource, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
 	lightSpaceMatrix = lightProjection * lightView;

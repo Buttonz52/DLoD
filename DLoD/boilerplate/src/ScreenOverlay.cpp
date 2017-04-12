@@ -33,6 +33,10 @@ ScreenOverlay::~ScreenOverlay()
 	Destroy();
 }
 
+void ScreenOverlay::setTexture(Texture *tex) {
+	texture = *tex;
+	hasTexture = true;
+}
 //init shaders
 void ScreenOverlay::InitializeShaders(const string & vert, const string & frag)
 {

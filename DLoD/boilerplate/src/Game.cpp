@@ -129,6 +129,7 @@ bool Game::start()
   vector<clock_t> ToDs;
   
   //Adds players in rank based on when they died
+
   for (int i = 0; i < players.size(); i++) {
 	  std::stringstream fmt;
 	  Human* human = dynamic_cast<Human*> (players[i]);
@@ -148,13 +149,13 @@ bool Game::start()
 	  //Else, iterate over list and find proper location
 	  else {
 		  bool inList = false;
-		  for (int j = 0; i < ToDs.size(); j++) {
+		  for (int j = 0; j < ToDs.size(); j++) {
 			  if (!inList) {
 				  //died earlier than person
-				  if (players[i]->getTimeOfDeath() > ToDs[j]) {
-					  loserVectorNames.insert(loserVectorNames.begin() + j-1, fmt.str());	
-					  loserVectorColours.insert(loserVectorColours.begin() + j-1, *players[i]->getColour());
-					  ToDs.insert(ToDs.begin() + j-1, players[i]->getTimeOfDeath());
+				  if (players[i]->getTimeOfDeath() > ToDs[j] && ToDs[j] !=0) {
+					  loserVectorNames.insert(loserVectorNames.begin() + j, fmt.str());	
+					  loserVectorColours.insert(loserVectorColours.begin() + j, *players[i]->getColour());
+					  ToDs.insert(ToDs.begin() + j, players[i]->getTimeOfDeath());
 					  inList = true;
 				  }
 			  }
@@ -266,11 +267,10 @@ void Game::gameLoop()
 		
 		  //render shadows (this isn't working)
 		  shadow.bindForWriting();
-		  glClear(GL_DEPTH_BUFFER_BIT);
 		//  glEnable(GL_CULL_FACE);
 		//  glCullFace(GL_BACK);
 		  //  glEnable(GL_FRAMEBUFFER_SRGB);
-		  arena->RenderShadow(viewMatrix, projectionMatrix, lightSource);
+		  arena->RenderShadow(viewMatrix, projectionMatrix,lightSource);
 		  //	  glDisable(GL_FRAMEBUFFER_SRGB);
 
 		//  glDisable(GL_CULL_FACE);
@@ -285,16 +285,20 @@ void Game::gameLoop()
 		  glCullFace(GL_BACK);
 		  //bind shadow map to arena (isn't working, draws black so either framebuffer is
 		  //empty or texture not appearing properly
-		  shadow.bindForReading(&arena->getShader());
+		  
+		  //shadow.bindForReading(&arena->getShader());
+		  glEnable(GL_DEPTH_TEST);
 		  arena->Render(viewMatrix, projectionMatrix, lightSource);
 
 		  glDisable(GL_CULL_FACE);
-		  shadow.unbindTexture();
+		 // shadow.unbindTexture();
 		//  shadow.bindForReading(&skybox->getShader());
 		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
 		  if (players[i]->isDead())
 			 switchCamText.Render(GL_TRIANGLES, vColour);
 		  gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, canLayTrap);
+		//  shadow.display();
+
 	  }
 
 	  glfwSwapBuffers(window);
@@ -466,7 +470,8 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 		cout << "Failed to init arena" << endl;
 	}
 	arena->setEnvironmentMap(skybox->getTexture());
-	arena->setReflectance(0.1);
+	arena->setReflectance(0.5);
+	arena->setExposure(0.7);
 	if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 		cout << "Failed to initialize arena ground texture." << endl;
 	}

@@ -1,12 +1,13 @@
 #pragma once
 #include "GEO.h"
+#include "Game/ScreenOverlay.h"
 class Shadow: public GEO
 {
 public:
 	GLuint SHADOW_WIDTH, SHADOW_HEIGHT;
 	GLuint depthMapFBO;
-	GLuint depthMap;
-
+	//GLuint depthMap;
+	Shader *shadowShader;
 	Shadow();
 	~Shadow();
 	void initShadow();
@@ -14,6 +15,7 @@ public:
 	void Destroy();
 	void endRender();
 	void bindForWriting();
+	void display();
 	void bindForReading(Shader * shader);
 	void unbindTexture();
 	//void bindForReading(GLenum TexUnit);
