@@ -14,7 +14,6 @@ private:
 	float fov;
 	float _near;
 	float _far;
-
 	//float exposure;
   float asp;
 	
@@ -53,6 +52,5 @@ public:
 
 	void followVehicle(Vehicle*);
 };
-
 
 #endif

@@ -1,7 +1,5 @@
 #include "GEO\player\Human.h"
 
-
-
 Human::Human(int i, Audio *audio) : Player(i)
 {
 	this->audio = audio;
@@ -246,3 +244,4 @@ bool Human::pressedPause() {
 bool Human::restartGame() {
 	return restart;
 }
+

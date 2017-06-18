@@ -1,7 +1,8 @@
 #ifndef VEHICLE_H
 #define VEHICLE_H
-#include "..\GEO.h"
-#include "..\..\Game\timer.h"
+#include "GEO\GEO.h"
+#include "Game\timer.h"
+
 
 using namespace physx;
 

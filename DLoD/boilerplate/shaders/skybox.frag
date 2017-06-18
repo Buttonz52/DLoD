@@ -6,7 +6,6 @@
 // ==========================================================================
 #version 410
 
-// interpolated colour received from vertex stage
 in vec3 uv;
 
 uniform samplerCube sampler;		//cubemap

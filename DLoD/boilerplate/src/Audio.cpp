@@ -37,6 +37,7 @@ void Audio::FreeMusic() {
 	Mix_FreeMusic(music_file);
 	//Mix_CloseAudio();
 }
+
 //Clean up resources.
 void Audio::CleanUp()
 {
@@ -62,6 +63,7 @@ void Audio::ChangeMusicVolume(const int &volume) {
 void Audio::PlaySfx(Mix_Chunk *sfx, const int &volume, const int &channel) {
 	Mix_VolumeChunk(sfx, volume);
 	Mix_PlayChannel(channel, sfx, 0);
+
 }
 
 void Audio::ResumeMusic() {

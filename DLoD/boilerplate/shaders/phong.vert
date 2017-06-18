@@ -22,7 +22,6 @@ out vec3 N;
 out vec3 L;
 out vec3 P;
 out vec3 V;
-//out vec3 uv;
 
 void main()
 {

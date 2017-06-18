@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 void clearScreen() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -35,6 +34,7 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     default:
       break;
   }
+
 }
 
 //Jeremy Hart, CPSC 587 code, handles resizing glfw window
@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 {
 	skyboxIndex = 0;
 	arenaIndex = 0;
+
 	// initialize the GLFW windowing system
 	if (!glfwInit()) {
 		cout << "ERROR: GLFW failed to initialize, TERMINATING" << endl;
@@ -92,7 +93,6 @@ int main(int argc, char *argv[])
 	// set keyboard callback function and make our context current (active)
 	glfwSetKeyCallback(window, KeyCallback);
 	glfwSetWindowSizeCallback(window, resizeCallback);
-  
 	//Intialize GLAD
 #ifndef LAB_LINUX
 	if (!gladLoadGL())
@@ -170,7 +170,6 @@ int main(int argc, char *argv[])
 	cout << "Goodbye!" << endl;
 	return 0;
 }
-
 
 void getSpawnPoints()
 {

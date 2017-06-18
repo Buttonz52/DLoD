@@ -1,10 +1,7 @@
 /* Class for loading screen/projection stuff.
 */
 
-
 #include "Game\ScreenOverlay.h"
-
-
 
 ScreenOverlay::ScreenOverlay()
 {
@@ -38,6 +35,7 @@ void ScreenOverlay::setTexture(Texture *tex) {
 	texture = *tex;
 	hasTexture = true;
 }
+
 //init shaders
 void ScreenOverlay::InitializeShaders(const string & vert, const string & frag)
 {
@@ -124,7 +122,6 @@ bool ScreenOverlay::GenerateSquareVertices(float scale_x, float scale_y, const v
 		vec3(1 * scale_x,-1*scale_y,0),
 		vec3(1 * scale_x,1*scale_y,0)
 	};
-
 	uvs = { vec2(0,1),
 		vec2(0,0),
 		vec2(1,1),
@@ -192,6 +189,7 @@ void ScreenOverlay::UpdateVertices(const vector<vec3> *vertices) {
 	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices->size() * sizeof(vec3), vertices->data());
 	elementCount = vertices->size();
 }
+
 bool ScreenOverlay::Initialize() {
 
 	/* Initialization of buffers for mesh goes here */
@@ -228,6 +226,7 @@ bool ScreenOverlay::Initialize() {
 	glBufferData(GL_ARRAY_BUFFER, colours.size() * sizeof(vec3), colours.data(), GL_STATIC_DRAW);
 	glVertexAttribPointer(COLOUR_INDEX, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(COLOUR_INDEX);
+
 	// unbind our buffers, resetting to default state
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -339,6 +338,7 @@ void ScreenOverlay::setTransparency(const float &t) {
 float ScreenOverlay::getTransparency() {
 	return transparency;
 }
+
 void ScreenOverlay::Destroy() {
 	shader.DestroyShaders();
 	texture.DestroyTexture();

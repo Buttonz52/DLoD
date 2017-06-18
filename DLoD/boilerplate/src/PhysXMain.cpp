@@ -60,7 +60,6 @@ VehicleDesc PhysXMain::initMediumVehicleDesc()
 	return vehicleDesc;
 }
 
-
 VehicleDesc PhysXMain::initLightVehicleDesc()
 {
 	const PxF32 chassisMass = 1000.0;
@@ -129,7 +128,6 @@ VehicleDesc PhysXMain::initLargeVehicleDesc()
 }
 
 void PhysXMain::init(const int numVehicles)
-
 {
 	gFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, gAllocator, gErrorCallback);
 	PxProfileZoneManager* profileZoneManager = &PxProfileZoneManager::createProfileZoneManager(gFoundation);
@@ -149,7 +147,6 @@ void PhysXMain::init(const int numVehicles)
 	sceneDesc.cpuDispatcher = gDispatcher;
 	sceneDesc.filterShader = VehicleFilterShader;	//this will give us heck later
 	//sceneDesc.simulationEventCallback = &gContactReportCallback;
-
 	sceneDesc.contactModifyCallback = new ContactModifyCallback(this);
 	gScene = gPhysics->createScene(sceneDesc);
 
@@ -238,8 +235,6 @@ void PhysXMain::initItem(Item* item)
   geoMap.insert(make_pair(body, item));
 }
 
-
-
 void PhysXMain::initArena(GEO *arena) {
 	PxTriangleMesh* tMesh = initTriangleMesh(arena);
 	if (tMesh != NULL) {
@@ -299,7 +294,6 @@ PxTriangleMesh* PhysXMain::initTriangleMesh(GEO *geo) {
 	PxDefaultMemoryInputData readBuffer(writeBuffer.getData(), writeBuffer.getSize());
 	return gPhysics->createTriangleMesh(readBuffer);
 }
-
 
 void PhysXMain::stepPhysics(bool interactive, vector<GEO *> g)
 {

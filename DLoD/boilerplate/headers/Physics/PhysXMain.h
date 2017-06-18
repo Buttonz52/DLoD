@@ -17,7 +17,6 @@
 
 using namespace physx;
 
-
 struct ContactModFlags
 {
 	enum
@@ -64,12 +63,12 @@ public:
 	VehicleDesc initLargeVehicleDesc();
 	void initVehicle(Vehicle* v, int type);	// 0 = light, 1 = medium, 2 = large
 
-  void initItem(Item * item);
+	void initItem(Item * item);
 
 	void initArena(GEO *arena);
 	PxTriangleMesh *initTriangleMesh(GEO * geo);
 
-  void collisionFunction(PxContactModifyPair* const, PxU32);
+	void collisionFunction(PxContactModifyPair* const, PxU32);
 
 	void stepPhysics(bool interactive, vector<GEO *> g);
 	void cleanupPhysics(bool interactive);

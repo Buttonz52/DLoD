@@ -32,7 +32,6 @@ vec3 fresnelReflectance(vec3 R0, float cos) {
 
 */
 
-
 void main(void)
 {
 	//Simple Phong/toon shading

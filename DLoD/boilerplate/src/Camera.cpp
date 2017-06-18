@@ -101,7 +101,7 @@ mat4 Camera::calculateViewMatrix()
 	float z = radius * sin(alt) * sin(azu - M_PI / 2);
 
 	position = vec3(x, y, z);
-  vec3 eye(x, y, z);
+	vec3 eye(x, y, z);
 	vec3 up(0.0f, 1.0f, 0.0f);
 
 	mat4 view = lookAt(eye, center, up);

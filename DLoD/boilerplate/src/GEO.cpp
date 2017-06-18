@@ -13,6 +13,7 @@ GEO::GEO()
 	transparency = 1.f;
 	exposure = 1.f;
 	reflectance = 0.04f;
+
 }
 
 GEO::~GEO()
@@ -165,6 +166,7 @@ bool GEO::initMesh(const string &filename) {
 	//	cout << "Error  with initializiation of mesh"<<endl;
 		return 0;
 	}
+
 	return 1;
 }
 
@@ -218,6 +220,7 @@ void GEO::setEnvironmentMap(const Texture &em) {
 	hasEnvMap = 1;
 	environmentMap = em;
 }
+
 Mesh& GEO::getMesh()
 {
 	return mesh;

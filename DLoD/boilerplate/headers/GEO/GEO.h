@@ -20,6 +20,7 @@ public:
 
     vector<GEO*> children;
     void removeChild(GEO*);
+
 	
 	bool hasTexture;
 	bool isSkybox;

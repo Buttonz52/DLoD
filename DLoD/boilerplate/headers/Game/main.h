@@ -74,7 +74,6 @@ vector <string> arenaMapFilenames = {
 // OpenGL utility and support function prototypes
 void getSpawnPoints();
 void getItemSpawnPoints();
-// Mesh functions
 
 //PhysX object
 PhysXMain PhysX;

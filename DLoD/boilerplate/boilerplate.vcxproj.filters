@@ -81,6 +81,12 @@
     <ClCompile Include="..\middleware\glad\src\glad.c">
       <Filter>Source Files\External</Filter>
     </ClCompile>
+<<<<<<< HEAD
+=======
+    <ClCompile Include="src\AI.cpp">
+      <Filter>Source Files\GEO\player</Filter>
+    </ClCompile>
+>>>>>>> e234ffde28f3aac07f8bc69dc8dd16b7c1206636
     <ClCompile Include="src\Player.cpp">
       <Filter>Source Files\GEO\player</Filter>
     </ClCompile>
@@ -93,6 +99,15 @@
     <ClCompile Include="src\Mesh.cpp">
       <Filter>Source Files\GameEngine</Filter>
     </ClCompile>
+<<<<<<< HEAD
+=======
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>Source Files\GameEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+>>>>>>> e234ffde28f3aac07f8bc69dc8dd16b7c1206636
     <ClCompile Include="src\Audio.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
@@ -114,6 +129,12 @@
     <ClCompile Include="src\Vehicle.cpp">
       <Filter>Source Files\GEO\vehicle</Filter>
     </ClCompile>
+<<<<<<< HEAD
+=======
+    <ClCompile Include="src\Light.cpp">
+      <Filter>Source Files\GEO</Filter>
+    </ClCompile>
+>>>>>>> e234ffde28f3aac07f8bc69dc8dd16b7c1206636
     <ClCompile Include="src\XboxController.cpp">
       <Filter>Source Files\Controller</Filter>
     </ClCompile>
@@ -135,6 +156,7 @@
     <ClCompile Include="src\SnippetVehicleNoDriveCreate.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="src\ContactModifyCallback.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
@@ -182,6 +204,22 @@
     <ClInclude Include="headers\GEO\GEO.h">
       <Filter>Header Files\GEO</Filter>
     </ClInclude>
+=======
+    <ClCompile Include="src\ScreenOverlay.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="headers\GameState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\GEO.h">
+      <Filter>Header Files\GEO</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\GEO\Light.h">
+      <Filter>Header Files\GEO</Filter>
+    </ClInclude>
+>>>>>>> e234ffde28f3aac07f8bc69dc8dd16b7c1206636
     <ClInclude Include="headers\GEO\player\AI.h">
       <Filter>Header Files\GEO\player</Filter>
     </ClInclude>
@@ -218,6 +256,15 @@
     <ClInclude Include="headers\GameEngine\Texture.h">
       <Filter>Header Files\GameEngine</Filter>
     </ClInclude>
+<<<<<<< HEAD
+=======
+    <ClInclude Include="headers\Physics\PhysXMain.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="\\samba.cs.ucalgary.ca\bzpetras\Downloads\DLoD-Abi\DLoD\boilerplate\XboxController.h">
+      <Filter>Header Files\Controller</Filter>
+    </ClInclude>
+>>>>>>> e234ffde28f3aac07f8bc69dc8dd16b7c1206636
     <ClInclude Include="headers\Physics\SnippetVehicleRaycast.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
@@ -230,6 +277,7 @@
     <ClInclude Include="headers\Physics\SnippetVehicleFilterShader.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="headers\Controller\XboxController.h">
       <Filter>Header Files\Controller</Filter>
     </ClInclude>
@@ -272,6 +320,11 @@
     <ClInclude Include="headers\GEO\item\ItemSpawner.h">
       <Filter>Header Files\GEO\itempickup</Filter>
     </ClInclude>
+=======
+    <ClInclude Include="headers\Game\ScreenOverlay.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+>>>>>>> e234ffde28f3aac07f8bc69dc8dd16b7c1206636
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\skybox.frag">
@@ -298,6 +351,7 @@
     <None Include="shaders\phong.vert">
       <Filter>Shaders\Vertex</Filter>
     </None>
+<<<<<<< HEAD
     <None Include="shaders\screenOverlay.frag">
       <Filter>Shaders\Fragment</Filter>
     </None>
@@ -314,6 +368,18 @@
       <Filter>Shaders\Fragment</Filter>
     </None>
     <None Include="shaders\hdr.vert">
+=======
+    <None Include="shaders\hud.vert">
+      <Filter>Shaders\Vertex</Filter>
+    </None>
+    <None Include="shaders\hud.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\sceneOverlay.frag">
+      <Filter>Shaders\Fragment</Filter>
+    </None>
+    <None Include="shaders\sceneOverlay.vert">
+>>>>>>> e234ffde28f3aac07f8bc69dc8dd16b7c1206636
       <Filter>Shaders\Vertex</Filter>
     </None>
   </ItemGroup>

@@ -250,6 +250,7 @@ float Vehicle::calculateDamage(const double &x, const double &y, const double &z
 bool Vehicle::isDead() {
 	return dead;
 }
+
 float Vehicle::getHealth()
 {
 	return health;

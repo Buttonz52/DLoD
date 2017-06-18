@@ -1,7 +1,5 @@
 #include "GEO\player\Player.h"
 
-
-
 Player::Player(int i)
 {
   identifier = i;

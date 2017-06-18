@@ -296,7 +296,7 @@ void customizeVehicleToLengthScale(const PxReal lengthScale, PxRigidDynamic* rig
 	customizeVehicleToLengthScale(lengthScale, rigidDynamic, wheelsSimData, (PxVehicleDriveSimData*)driveSimData);
 
 	//Ackermann geometry.
-	if(driveSimData)
+	if (driveSimData)
 	{
 		PxVehicleAckermannGeometryData ackermannData = driveSimData->getAckermannGeometryData();
 		ackermannData.mAxleSeparation *= lengthScale;

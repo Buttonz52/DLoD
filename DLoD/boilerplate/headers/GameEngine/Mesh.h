@@ -22,7 +22,6 @@ public:
 	bool ReadMesh(const string &filename);
 
 	void calculateMeshTangent();
-
 	void AddColour(const vec3 &colour);
 	void ClearMesh();
 	void DestroyMesh();

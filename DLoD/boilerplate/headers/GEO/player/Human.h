@@ -2,6 +2,7 @@
 #define HUMAN_H
 #include "Player.h"
 #include "../../Controller/XboxController.h"
+
 class Human :
 	public Player
 {
@@ -25,7 +26,6 @@ public:
   bool pressedPause();
 
   bool restartGame();
-
 
 };
 #endif

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Controls:
 
 ESC: close program
@@ -15,3 +16,28 @@ Notes:
 In this milestone we have 1 AI driver implemented who will continuously 
 drive towards the player. Traps will spawn above the car and fall down,
 on collision they will damage the player.
+=======
+ESC: close program
+P: Pause background audio
+I: translate camera up
+K: translate camera down
+J: translate camera left
+L: translate camera right
+RIGHT: rotate camera ccw
+LEFT: rotate camera cw
+UP: rotate camera up
+DOWN: rotate camera down
+TAB: change cameras
+SPACE: play sfx
+G: change GEOs
+W: move current GEO up
+A: move current GEO left
+S: move current GEO down
+D: move current GEO right
+E: move current GEO away
+Q: move current GEO towards
+1: scale GEO up
+2: scale GEO down
+MOUSE: drag to move camera 
+SCROLL: zoom in/out
+>>>>>>> e234ffde28f3aac07f8bc69dc8dd16b7c1206636

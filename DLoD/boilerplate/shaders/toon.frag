@@ -27,6 +27,7 @@ vec3 FresnelReflectance(vec3 R0, float cosine) {
 	return R0 + (vec3(1.f)-R0) * pow(1.0-cos(cosine),5.f);
 
 }
+
 void main(void)
 {
 	//Simple Phong/toon shading
@@ -44,6 +45,7 @@ void main(void)
 	else if (diffuse > 0.6) {
 		diffuse = 0.6f;
 	}
+
 	else if (diffuse > 0.4) {
 		diffuse = 0.4f;
 	}
@@ -64,3 +66,4 @@ void main(void)
 	
 	FragmentColour = vec4(shaded *exposure, 1.f);	//don't mess with the alphas, that is bad news
 }
+

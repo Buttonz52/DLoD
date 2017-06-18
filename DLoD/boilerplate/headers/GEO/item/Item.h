@@ -27,7 +27,6 @@ public:
   ItemSpawner* spawner;
 
   void (*onPickUp)(Vehicle* v);
-
 };
 
 #endif
