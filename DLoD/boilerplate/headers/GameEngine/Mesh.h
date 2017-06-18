@@ -16,7 +16,7 @@ public:
 	~Mesh();
 
 	bool Initialize();
-	void UpdateColour(const vec3 *colour);
+	void UpdateColour(const vec3 &colour);
 
 	bool InitializeTangentBuffer();
 	bool ReadMesh(const string &filename);

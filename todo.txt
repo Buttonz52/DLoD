@@ -1,0 +1,10 @@
+TODO June 17, 2017:
+-fix radar -positions fixed; TODO: fix radar colour - DONE
+-fix collision box for car
+-fix wheel placement on car: DONE
+-get video working on title screen?
+-shadows
+-timer mode for game - sudden death vs timed game: use interfaces for different game modes?  Have to refactor code
+-arena culling
+-fix game hud: armour and health: bars instead of numbers? Or both?
+-fix low health blinking of cars: FIXED

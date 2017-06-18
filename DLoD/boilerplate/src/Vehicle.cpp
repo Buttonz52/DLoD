@@ -8,7 +8,7 @@ Vehicle::Vehicle()
 	initArmour = 30;
 	armour = 30;
 	health = 100;	
-	lowHealth = health / 2;
+	lowHealth = health / 2.f;
 	dead = false;
 	canPulseColour = false;
 
@@ -272,11 +272,11 @@ void Vehicle::checkDead() {
 			timeOfDeath = timer.getTicks();
 			if (!timer.isStopped())
 				timer.stop();
-			colour = vec3(0);
-			mesh.UpdateColour(&colour);
+			mesh.UpdateColour(vec3());
 		}
 		canPulseColour = false;
 		dead = true;
+		mesh.UpdateColour(vec3());
 	}
 	else if (health >= lowHealth) {
 		canPulseColour = false;
@@ -377,7 +377,7 @@ void Vehicle::giveMeArmour(const vec3 &colour) {
 }
 void Vehicle::giveMeWheels()
 {
-	float wScale = 2.f;
+	float wScale = 3.f;
 	mat3 scaleM = mat3(1);
 	scaleM[0][0] = wScale;
 	scaleM[1][1] = wScale;
@@ -480,25 +480,19 @@ void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_li
 {
 	//make a timer or something so not pulsing crazily
 	if (canPulseColour) {
-    int denom;
+		int denom;
+		int healthCompare = int(ceil(health) / 6.f);
 		//check not dividing by 0.  Fiddle with the 6 to find a good timing of pulsation.
-		int(ceil(health)/6) <= 0 ? denom = 1 : denom = int(ceil(health)/6);
+		healthCompare <= 0 ? denom = 1 : denom = healthCompare;
 		//pulse based on how much health you have -> faster pulse - less health
 		if ((timer.getTicks() % denom) == 0) {
 			colour -= vec3(0.1);
 			//if colour = black, reset to initial colour
 			if (colour.x <= 0 && colour.y <= 0 && colour.z <= 0)
 				colour = initColour;
-			mesh.UpdateColour(&colour);
+			mesh.UpdateColour(colour);
 		}
 	}
-  
-  if (dead && !deadColourActivated)
-  {
-    deadColourActivated = true;
-    vec3 c(0);
-    mesh.UpdateColour(&c);
-  }
 
 	// bind our shader program and the vertex array object containing our
 	// scene geometry, then tell OpenGL to draw our geometry

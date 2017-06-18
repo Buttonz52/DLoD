@@ -10,14 +10,13 @@ class Vehicle :
 {
 protected:
 
-  bool deadColourActivated = false;
   bool dead;
   // Stores the Vehicle Health
   float health;
   float initHealth;
   float armour;
   float initArmour;
-  int lowHealth;
+  float lowHealth;
   vec3 initColour;
   string filename;
   string armourFilename;

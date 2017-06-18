@@ -70,10 +70,10 @@ bool Mesh::Initialize() {
 	// check for OpenGL errors and return false if error occurred
 	return !CheckGLErrors();
 }
-void Mesh::UpdateColour(const vec3 *colour) {
-	vector<vec3> colours;
-	for (int i = 0; i < elementCount; i++) {
-		colours.push_back(*colour);
+void Mesh::UpdateColour(const vec3 &colour) {
+	colours.clear();
+	for (int i = 0; i < vertices.size(); i++) {
+		colours.push_back(colour);
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, colours.size() * sizeof(vec3), colours.data());

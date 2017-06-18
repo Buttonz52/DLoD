@@ -114,6 +114,14 @@ int main(int argc, char *argv[])
 
 
 	int numPlayers;
+	ScreenOverlay loadPage;
+	loadPage.GenerateSquareVertices(1.f, 1.f, vec3(1.f));
+	loadPage.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+	if (!loadPage.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D))
+		std::cout << "Failed to initialize load page texture." << endl;
+	loadPage.Render(GL_TRIANGLE_STRIP, vec3());
+	glfwSwapBuffers(window);	//need this to output to screen
+
 	while (!glfwWindowShouldClose(window)) {
 		if (!audio.Init()) {
 		//	cout << "Failed to init audio." << endl;
@@ -153,7 +161,7 @@ int main(int argc, char *argv[])
 			ts.Destroy();
 		}
 	}
-
+	loadPage.Destroy();
 	audio.CleanUp();
 
 	glfwDestroyWindow(window);
@@ -174,7 +182,7 @@ void getSpawnPoints()
 	}
 
 	spawnPoints = spawnGEO->getMesh().vertices;
-
+	
 	for (int i = 0; i < spawnPoints.size(); i++)
 	{
 		spawnPoints[i] *= 30.f;

@@ -15,7 +15,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   numPlayerScreens = numPlayers;
   glfwGetWindowSize(window, &width, &height);
 
-  physX.init(4);
+  physX.init(8);
 
   srand(time(NULL));
 
@@ -56,7 +56,8 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
   //NOTE: This gets pretty slow, might want to think about multi-threading or trying to run in release mode (but need to link those libraries)
 
   srand(time(NULL));
-  for (int i = numPlayers; i < 4; i++) {
+  int totalPlayers = 8;
+  for (int i = numPlayers; i < totalPlayers; i++) {
 	  AI* ai = new AI(i);
 	  int aiRNGChoose = rand() % 3;
 	  ai->ChooseVehicle(aiRNGChoose);
@@ -70,7 +71,7 @@ Game::Game(GLFWwindow *w, Audio audio, const string &skyboxFilepath, const strin
     gameState->players.push_back(ai);
   }
   vector<vec3> positions;
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < totalPlayers; i++) {
 	  positions.emplace_back();
   }
 	gameHud.InitializeHud(*players[0]->vehicle->getColour(), &positions, arenaMap);
@@ -195,9 +196,10 @@ bool Game::start()
 
 void Game::gameLoop()
 {
-	vector<vec3> positions;
+	vector<vec3> positions, radarColours;
 	for (Player *p : players) {
 			positions.push_back(p->vehicle->getModelMatrix()[3]);
+			radarColours.push_back(*p->getColour());
 	}
   //Initialize hud
 
@@ -278,26 +280,27 @@ void Game::gameLoop()
       ResizeViewport(i, numPlayerScreens, width, height);
 
 		  arena->Render(viewMatrix, projectionMatrix, lightSource);
+	  
+		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
 
 		  glDisable(GL_CULL_FACE);
-		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
 		  if (players[i]->isDead())
 			 switchCamText.Render(GL_TRIANGLES, vColour);
-		  vector<vec3> radarColours;
-		  for (int i = 0; i < players.size(); i++)
-			  radarColours.push_back(*players[i]->getColour());
 		  gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, &radarColours, canLayTrap);
 	  }
 
 	  glfwSwapBuffers(window);
 	
     positions.clear();
+	radarColours.clear();
     // For all players get input
     for (Player* p : players)
     {
     //get radar points for radar map
-    if (!p->isDead())
-	    positions.push_back(p->vehicle->getModelMatrix()[3]);
+		if (!p->isDead()) {
+			positions.push_back(p->vehicle->getModelMatrix()[3]);
+			radarColours.push_back(*p->getColour());
+		}
     //kill player if out of bounds
     if (p->vehicle->getModelMatrix()[3].y < -10)
 	    p->vehicle->updateHealth(10000);
@@ -411,7 +414,7 @@ void Game::initSkyBox(const string &pathname)
 
 void Game::initVehicle(Vehicle* v, int type)
 {
-  v->setScale(vec3(1.5));
+  v->setScale(vec3(2.5));
  
   if (!v->initMesh("cube.obj")) {	//dead mesh
   //  cout << "Failed to initialize mesh." << endl;
@@ -436,7 +439,7 @@ void Game::initItem(Item* item)
   }
   item->addShaders("shaders/toon.vert", "shaders/toon.frag");
   
-  mat3 scaleM = mat3(1);
+  mat3 scaleM = mat3(3);
   scaleM[0][0] = item->getScale().x;
   scaleM[1][1] = item->getScale().y;
   scaleM[2][2] = item->getScale().z;
@@ -462,7 +465,7 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	//	cout << "Failed to init arena" << endl;
 	}
 	arena->setEnvironmentMap(skybox->getTexture());
-	arena->setReflectance(0.5);
+	arena->setReflectance(0.1);
 	arena->setExposure(0.7);
 	if (!arena->initTexture("textures/gold.png", GL_TEXTURE_2D)) {
 	//if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {

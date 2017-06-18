@@ -11,9 +11,9 @@ LargeVehicle::LargeVehicle()
 	armour = 40;
 	armourFilename = "armour/LargeArmour.obj";
 	initArmour = 40;
-	xoff = 2.3f;
-	zoff = 3.4;
-	centeroff = 0.1;
+	xoff = 4.4f;
+	zoff = 5.9;
+	centeroff = 0.25;
 }
 
 
