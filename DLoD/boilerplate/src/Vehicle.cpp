@@ -273,11 +273,11 @@ void Vehicle::checkDead() {
 			timeOfDeath = timer.getTicks();
 			if (!timer.isStopped())
 				timer.stop();
-			mesh.UpdateColour(vec3());
+			//mesh.UpdateColour(vec3(0));
 		}
 		canPulseColour = false;
 		dead = true;
-		mesh.UpdateColour(vec3());
+		mesh.UpdateColour(vec3(0));
 	}
 	else if (health >= lowHealth) {
 		canPulseColour = false;
@@ -574,7 +574,7 @@ void Vehicle::FlipVehicle() {
 	
 		//get base value for timer to enable flipping again
 		flipTime = timer.getTicks();
-		float force = 1000;
+		float force = 1500;
 		float torque = 1000;
 
 		// Get the rotation of the object

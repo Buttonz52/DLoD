@@ -70,18 +70,18 @@ void GameHud::InitializeEndGame(const vector<string> &playerNames, const vector 
 void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, const string &arenaFilename) {
 	int kerning = 30;
 	//health
-	healthTitle.InitializeGameText("Health:", vec3(-0.98, 0.88, 0), colour, kerning);
-	healthTitle.setScale(vec3(0.8));
+	healthTitle.InitializeGameText("Health:", vec3(-0.98, 0.8, 0), colour, kerning);
+	healthTitle.setScale(vec3(1.f));
 
-	healthTex.InitializeGameText("000", vec3(-0.73, 0.88, 0), colour, kerning);
-	healthTex.setScale(vec3(0.8));
+	healthTex.InitializeGameText("000", vec3(-0.73, 0.8, 0), colour, kerning);
+	healthTex.setScale(vec3(1.2f));
 
 	//armour
-	armourTitle.InitializeGameText("Armour:", vec3(-0.98, 0.78, 0), colour, kerning);
-	armourTitle.setScale(vec3(0.8));
+	armourTitle.InitializeGameText("Armour:", vec3(-0.98, 0.7, 0), colour, kerning);
+	armourTitle.setScale(vec3(1.f));
 
-	armourTex.InitializeGameText("000", vec3(-0.73, 0.78, 0), colour, kerning);
-	armourTex.setScale(vec3(0.8));
+	armourTex.InitializeGameText("000", vec3(-0.73, 0.7, 0), colour, kerning);
+	armourTex.setScale(vec3(1.2f));
 
 	//velocity
 	velocityTitle.InitializeGameText("mph", vec3(0.86, -0.85, 0), colour, kerning);
@@ -90,12 +90,12 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	velocityTex.setScale(vec3(3.f));
 
 	//border for health and armour
-	topLeftBkgrd.GenerateSquareVertices(0.2, 0.15, vec3(0.6, 0.5, 1));
-	topLeftBkgrd.setPosition(vec3(-0.8, 0.85, 0));
+	topLeftBkgrd.GenerateSquareVertices(0.3, 0.2, vec3(0.6, 0.5, 1));
+	topLeftBkgrd.setPosition(vec3(-0.8, 0.8, 0));
 	topLeftBkgrd.setTransparency(0.4f);
 	topLeftBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
-	topLeftBorder.GenerateBorder(0.2, 0.15, 0.1, vec3(0, 0, 0), vec3(-0.8, 0.85, 0));
+	topLeftBorder.GenerateBorder(0.3, 0.2, 0.1, vec3(0, 0, 0), vec3(-0.8, 0.8, 0));
 	topLeftBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 	//topLeftBorder.transparency = 0.5f;
 

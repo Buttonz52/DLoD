@@ -30,7 +30,7 @@ PhysXMain::~PhysXMain()
 VehicleDesc PhysXMain::initMediumVehicleDesc()
 {
 	const PxF32 chassisMass = 1300.0;
-	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
+	const PxVec3 chassisDims(8.f, 3.0f, 18.0f);	//this is for collision box
 	const PxVec3 chassisMOI
 		((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass /12.0f,
 			(chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
@@ -63,7 +63,7 @@ VehicleDesc PhysXMain::initMediumVehicleDesc()
 VehicleDesc PhysXMain::initLightVehicleDesc()
 {
 	const PxF32 chassisMass = 1000.0;
-	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
+	const PxVec3 chassisDims(8.f, 3.0f, 18.0f);
 	const PxVec3 chassisMOI
 	((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
 		(chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
@@ -97,7 +97,7 @@ VehicleDesc PhysXMain::initLightVehicleDesc()
 VehicleDesc PhysXMain::initLargeVehicleDesc()
 {
 	const PxF32 chassisMass = 1450.0;
-	const PxVec3 chassisDims(4.5f, 3.0f, 10.0f);
+	const PxVec3 chassisDims(8.f, 3.0f, 20.0f);
 	const PxVec3 chassisMOI
 	((chassisDims.y*chassisDims.y + chassisDims.z*chassisDims.z)*chassisMass / 12.0f,
 		(chassisDims.x*chassisDims.x + chassisDims.z*chassisDims.z)*0.8f*chassisMass / 12.0f,
@@ -203,6 +203,37 @@ void PhysXMain::initVehicle(Vehicle* v, int type)
 	geoMap.insert(make_pair(v->physXVehicle->getRigidDynamicActor(), v));	//lolz <---- this is great
 }
 
+void PhysXMain::initTrap(Item* item, const PxVec3 &velocity) {
+	PxShape* shape = gPhysics->createShape(PxBoxGeometry(1.3, 1.3, 1), *gMaterial);
+
+	vec3 pos = item->getModelMatrix()[3];
+
+	PxRigidDynamic *body = gPhysics->createRigidDynamic(PxTransform(PxVec3(pos.x, pos.y, pos.z)));
+
+	PxFilterData simFilterData;
+	simFilterData.word0 = COLLISION_FLAG_CHASSIS;
+	simFilterData.word1 = COLLISION_FLAG_CHASSIS_AGAINST;
+
+	PxFilterData qryFilterData;
+	setupNonDrivableSurface(qryFilterData);
+
+	shape->setQueryFilterData(qryFilterData);
+	shape->setSimulationFilterData(simFilterData);
+
+	body->attachShape(*shape);
+
+	if (item->spawner != nullptr) {
+		body->setActorFlag(PxActorFlag::eDISABLE_GRAVITY, true);
+		body->setAngularDamping(0.0);
+		body->setAngularVelocity(PxVec3(0.0, 0.75, 0.0));
+	}
+
+	gScene->addActor(*body);
+	float xForce = 100.f, yForce = 2000.f;
+	body->addForce(PxVec3(xForce*velocity.x, yForce, xForce*velocity.z));
+
+	geoMap.insert(make_pair(body, item));
+}
 void PhysXMain::initItem(Item* item)
 {
   PxShape* shape = gPhysics->createShape(PxBoxGeometry(1.3, 1.3, 1), *gMaterial);

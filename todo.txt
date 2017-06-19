@@ -1,6 +1,6 @@
 TODO June 17, 2017:
 -fix radar -positions fixed; TODO: fix radar colour - DONE
--fix collision box for car
+-fix collision box for car: DONE (June 18)
 -fix wheel placement on car: DONE
 -get video working on title screen?
 -shadows
@@ -8,3 +8,10 @@ TODO June 17, 2017:
 -arena culling
 -fix game hud: armour and health: bars instead of numbers? Or both?
 -fix low health blinking of cars: FIXED
+
+TODO June 18, 2017:
+-make visual studio organized in folders again: DONE
+-make traps more like projectiles: DONE
+-collision box for car: DONE
+-fix colour when dead: meh?
+-fix game hud: made health and armour fonts larger

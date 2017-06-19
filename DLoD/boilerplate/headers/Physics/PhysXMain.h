@@ -63,6 +63,8 @@ public:
 	VehicleDesc initLargeVehicleDesc();
 	void initVehicle(Vehicle* v, int type);	// 0 = light, 1 = medium, 2 = large
 
+	void initTrap(Item * item, const PxVec3 & velocity);
+
 	void initItem(Item * item);
 
 	void initArena(GEO *arena);

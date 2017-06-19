@@ -52,7 +52,8 @@ private:
   void initSkyBox(const string &pathname);
   GEO* initArena(const string &texfilename, const string &objfilename);
   void initVehicle(Vehicle * v, int type);
-  void initItem(Item * item);
+  void initItem(Item * item, const PxVec3 & velocity);
+ // void initItem(Item * item);
 
   void gameLoop();
 

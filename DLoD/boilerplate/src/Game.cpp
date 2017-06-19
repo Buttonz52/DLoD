@@ -280,10 +280,9 @@ void Game::gameLoop()
       ResizeViewport(i, numPlayerScreens, width, height);
 
 		  arena->Render(viewMatrix, projectionMatrix, lightSource);
-	  
+		  glDisable(GL_CULL_FACE);
 		  skybox->Render(viewMatrix, projectionMatrix, lightSource);
 
-		  glDisable(GL_CULL_FACE);
 		  if (players[i]->isDead())
 			 switchCamText.Render(GL_TRIANGLES, vColour);
 		  gameHud.Render(healthStr, armourStr, velocityStr, &positions, vColour, &radarColours, canLayTrap);
@@ -337,8 +336,9 @@ void Game::gameLoop()
 	    item->setModelMatrix(m);
 
 	    itemsToAdd.push_back(make_pair(p, gameState->timer.getTicks() + 5000));
+		PxVec3 velocity = p->vehicle->physXVehicle->getRigidDynamicActor()->getLinearVelocity();
 
-	    initItem(item);
+	    initItem(item, velocity);
 
 	    p->layTrap = false;
 	    p->ableToTrap = false;
@@ -401,13 +401,13 @@ void Game::initSkyBox(const string &pathname)
   skybox = new GEO();
   skybox->setColour(vec3(0, 0, 0));
   if (!skybox->initMesh("cube.obj")) {
-  //  cout << "Failed to initialize skybox mesh." << endl;
+    cout << "Failed to initialize skybox mesh." << endl;
   }
   //scale cube large
   skybox->setScale(vec3(1500.0));
   skybox->updateModelMatrix();
   if (!skybox->initSkybox(skyboxFiles)) {
-  //  cout << "Failed to initialize skybox texture." << endl;
+    cout << "Failed to initialize skybox texture." << endl;
   }
   skybox->addShaders("shaders/skybox.vert", "shaders/skybox.frag");
 }
@@ -417,13 +417,13 @@ void Game::initVehicle(Vehicle* v, int type)
   v->setScale(vec3(2.5));
  
   if (!v->initMesh("cube.obj")) {	//dead mesh
-  //  cout << "Failed to initialize mesh." << endl;
+    cout << "Failed to initialize mesh." << endl;
   }
   v->addShaders("shaders/toon.vert", "shaders/toon.frag");
 
 
   if (!v->initBuffers()) {
- //   cout << "Could not initialize buffers for game object car mesh"<< endl;
+    cout << "Could not initialize buffers for game object car mesh"<< endl;
   }
 
   physX.initVehicle(v, type);
@@ -432,10 +432,10 @@ void Game::initVehicle(Vehicle* v, int type)
 }
 
 //
-void Game::initItem(Item* item)
+void Game::initItem(Item* item, const PxVec3 &velocity)
 {
   if (!item->initMesh("/ObjModels/bearTrap.obj")) {	//dead mesh
-   // cout << "Failed to initialize bear trap." << endl;
+    cout << "Failed to initialize bear trap." << endl;
   }
   item->addShaders("shaders/toon.vert", "shaders/toon.frag");
   
@@ -450,7 +450,7 @@ void Game::initItem(Item* item)
   if (!item->initBuffers()) {
 	//  cout << "Could not initialize buffers for initialized item." << endl;
   }
-  physX.initItem(item);
+  physX.initTrap(item, velocity);
   item->setEnvironmentMap(skybox->getTexture());
   skybox->children.push_back(item);
 }
@@ -462,7 +462,7 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	arena->setColour(vec3(1, 0, 0));
 
 	if (!arena->initMesh(objfilename)) {
-	//	cout << "Failed to init arena" << endl;
+		cout << "Failed to init arena" << endl;
 	}
 	arena->setEnvironmentMap(skybox->getTexture());
 	arena->setReflectance(0.1);
@@ -470,7 +470,7 @@ GEO* Game::initArena(const string &texfilename, const string &objfilename) {
 	if (!arena->initTexture("textures/gold.png", GL_TEXTURE_2D)) {
 	//if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
 
-	//	cout << "Failed to initialize arena ground texture." << endl;
+		cout << "Failed to initialize arena ground texture." << endl;
 	}
 
 	arena->addShaders("shaders/hdr.vert", "shaders/hdr.frag");
