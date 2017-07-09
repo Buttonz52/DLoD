@@ -13,6 +13,9 @@ public:
 	void gameLoop();
 	bool start();
 private: 
+	int endGameTickNum;
+	int currentTicks;
 	Timer gameTimer;
+	bool timeOver;
 };
 

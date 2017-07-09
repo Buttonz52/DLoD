@@ -6,6 +6,9 @@ TimedGame::~TimedGame()
 
 TimedGame::TimedGame(GLFWwindow * w, Audio & audio, const string & skyboxFilepath, const string & arenaFilepath, const string & starObjFilename, const string & arenaMapFile, const vector<int>* humanVehicleChoice, const int & numPlayers, const vector<vec3>& spawnPoints, const vector<vec3>& itemSpawnPoints)
 {
+	timeOver = false;
+	int duration_seconds = 60;	//how long game lasts for
+	endGameTickNum = duration_seconds * 1000;	//amount of ticks to pass until game is over
 	pause = false, restart = false;
 	menuIndex = 0;
 	//set cameras so overtop and far-ish away from cars
@@ -85,21 +88,31 @@ TimedGame::TimedGame(GLFWwindow * w, Audio & audio, const string & skyboxFilepat
 
 bool TimedGame::start() {
 	if (!gameTimer.isStarted()) {
-		cout << "starting timer" << endl;
+		//cout << "starting timer" << endl;
 		gameTimer.start();
+		currentTicks = gameTimer.getTicks();
 	}
 	return GameFactory::start();
 }
 void TimedGame::UpdateHudInfo(Player * player, mat4 & projectionMatrix, mat4 & viewMatrix, vector<string>& strings, vec3 & vColour, bool & canLayTrap)
 {
-	cout << gameTimer.getTicks() << endl;
-	strings.push_back(string("" + gameTimer.getTicks()));
+	int numTicks = ((int)endGameTickNum - (int)currentTicks) / 1000;	//convert to seconds
 	GameFactory::UpdateHudInfo(player, projectionMatrix, viewMatrix, strings, vColour, canLayTrap);
+	if (numTicks < 10)
+		strings[3] = string("0" + to_string(numTicks));
+	else
+		strings[3] = to_string(numTicks);
 }
 
 void TimedGame::UpdateHudInfoEmpty(const vector<Player*> players, const int & i, mat4 & projectionMatrix, mat4 & viewMatrix, Camera & winningCam, Camera & overheadCam, vector<string>& strings, vec3 & vColour, const int & camIndex)
 {
+	//cout << endGameTickNum - currentTicks << endl;
+	int numTicks = ((int)endGameTickNum - (int)currentTicks) / 1000;	//convert to seconds
 	GameFactory::UpdateHudInfoEmpty(players, i, projectionMatrix, viewMatrix, winningCam, overheadCam, strings, vColour, camIndex);
+	if (numTicks < 10)
+		strings[3] = string("0" + to_string(numTicks));
+	else
+		strings[3] = to_string(numTicks);
 }
 
 
@@ -114,13 +127,14 @@ void TimedGame::gameLoop()
 
 	int frameCtr = 0;
 
-	while (!glfwWindowShouldClose(window) && !gameOver && !restart)
+	while (!glfwWindowShouldClose(window) && !gameOver && !restart && !timeOver)
 	{
 		//game paused
 		while (pause && !glfwWindowShouldClose(window)) {
 			goToGamePausedState();
 		}
-
+		//currentTicks = (int)gameTimer.getTicks();
+		(currentTicks = (int) gameTimer.getTicks())> endGameTickNum ? timeOver = true : 0;	//check for time over
 		// Add items to the scene
 		vector<pair<Player*, int>>::iterator itr = itemsToAdd.begin();
 		while (itr != itemsToAdd.end()) {
@@ -157,10 +171,10 @@ void TimedGame::gameLoop()
 			viewports = 4;
 		}
 		mat4 projectionMatrix, viewMatrix;
-		const int hudStrings_size = 3;
+		const int hudStrings_size = 4;
 		vector<string> hudStrings;
 		for (int i = 0; i < hudStrings_size; i++) {
-			hudStrings.push_back("0");
+			hudStrings.push_back("00");
 		}
 		bool canLayTrap;
 		vec3 vColour;
@@ -168,7 +182,7 @@ void TimedGame::gameLoop()
 			//getviewport
 
 			// Render
-			//make sure rendering a player screen that 
+			//make sure rendering a player screen that 4
 			//1) exists
 			//2) is not dead
 			//3) is defined as a human

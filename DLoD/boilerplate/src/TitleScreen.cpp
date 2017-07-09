@@ -201,15 +201,16 @@ void TitleScreen::InitializeMultiplayerScreen() {
 	}
 
 	//screen overlays for number of players
-	menuButtons[0].InitializeGameText("How many players?", vec3(-0.6, 0.4, 0), vec3(0), 30);
+	menuButtons[0].InitializeGameText("How many players?", vec3(-0.6, 0.5, 0), vec3(0), 30);
 	menuButtons[0].setScale(vec3(2.f));
 	for (int i = 1; i < 5; i++) {
-		menuButtons[i].InitializeGameText(to_string(i), vec3(-0.6 + (2 * i*0.1), -0.2, 0), vec3(0, 0, 0), 20);
+		menuButtons[i].InitializeGameText(to_string(i), vec3(-0.6 + (2 * i*0.1), -0.1, 0), vec3(0, 0, 0), 20);
 		menuButtons[i].setScale(vec3(3.f));
 
 	}
-	menuButtons[5].InitializeGameText("Choose mode:", vec3(-0.4, -0.4, 0), vec3(0), 30);
-	menuButtons[6].InitializeGameText("Timed", vec3(-0.6, -0.6, 0), vec3(0), 30);
+	menuButtons[5].InitializeGameText("Choose mode:", vec3(-0.6, -0.4, 0), vec3(0), 30);
+	menuButtons[5].setScale(vec3(2.f));
+	menuButtons[6].InitializeGameText("Timed", vec3(-0.4, -0.6, 0), vec3(0), 30);
 	menuButtons[7].InitializeGameText("Sudden Death", vec3(0.0, -0.6, 0), vec3(0), 30);
 
 	//initialize which button cursor will be on upon starting

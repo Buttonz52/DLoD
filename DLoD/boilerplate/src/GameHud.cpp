@@ -91,7 +91,7 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	armourTex.setScale(vec3(1.2f));
 
 	if (mode == time) {
-		timeTex.InitializeGameText("100", vec3(-0.2, 0.7, 0), colour, kerning);
+		timeTex.InitializeGameText("00", vec3(-0.2, 0.7, 0), colour, kerning);
 		timeTex.setScale(vec3(3.f));
 	}
 
@@ -201,6 +201,9 @@ void GameHud::Render(vector<string> &hudStrings, const vector<vec3>*positions, c
 	armourTex.UpdateGameText(hudStrings[1], kerning);
 	velocityTex.UpdateGameText(hudStrings[2], kerning);
 	
+	/*if (mode == time) {
+		timeTex.UpdateGameText(, kerning);
+	}*/
 	mode == time ? timeTex.UpdateGameText(hudStrings[3], kerning) : 0;
 	UpdateRadar(positions, colours);
 

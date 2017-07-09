@@ -30,3 +30,9 @@ todo July 5, 2017:
 todo July 7. 2017:
 -different game modes work, title screen working 
 -TODO: get the timer working -> fix the game loop and have the game loop end when the timer ends
+
+TODO July 8, 2017:
+-timer is officially working and timed game works
+-TODO: get the game loop to put message "TIME OVER" instead of just "RETIRE"
+-better armour and health huds -> not just numbers, maybe progress bar
+-sfx for throwing traps, hitting traps, getting health/armour (different sfx for each trap?)
