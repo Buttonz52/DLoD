@@ -1,6 +1,0 @@
-cloudtop_rt.tga
-cloudtop_lf.tga
-cloudtop_up.tga
-cloudtop_dn.tga
-cloudtop_bk.tga
-cloudtop_ft.tga

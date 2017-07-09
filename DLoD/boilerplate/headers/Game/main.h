@@ -7,7 +7,9 @@
 #include "Controller/XboxController.h"
 #include "TitleScreen.h"
 //#include "GEO/Shadow.h"
-#include "Game.h"
+#include "GameFactory.h"
+#include "TimedGame.h"
+#include "SuddenDeathGame.h"
 
 using namespace std;
 
@@ -18,7 +20,7 @@ vector<vec3> spawnPoints;
 vector<vec3> itemSpawnPoints;
 //test cameras
 
-int camIndex = 0, geoIndex = 0;	//index of test cameras
+int camIndex = 0, geoIndex = 0, modeIndex=0; 
 
 int width = 1920, height = 1080;
 int numPlayers = 1;

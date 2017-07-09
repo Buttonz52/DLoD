@@ -1,7 +1,0 @@
-ashcanyon_rt.tga
-ashcanyon_lf.tga
-ashcanyon_up.tga
-ashcanyon_dn.tga
-ashcanyon_bk.tga
-ashcanyon_ft.tga
-ashcanyon_bump.png

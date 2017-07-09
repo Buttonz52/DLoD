@@ -1,11 +1,17 @@
+Wants:
+-shadows
+-movie playing in title screen
+-timer mode for game - sudden death vs timed game: use interfaces for different game modes?  Have to refactor code
+-arena culling
+-different music for different levels
+
 TODO June 17, 2017:
 -fix radar -positions fixed; TODO: fix radar colour - DONE
 -fix collision box for car: DONE (June 18)
 -fix wheel placement on car: DONE
 -get video working on title screen?
 -shadows
--timer mode for game - sudden death vs timed game: use interfaces for different game modes?  Have to refactor code
--arena culling
+
 -fix game hud: armour and health: bars instead of numbers? Or both?
 -fix low health blinking of cars: FIXED
 
@@ -15,3 +21,12 @@ TODO June 18, 2017:
 -collision box for car: DONE
 -fix colour when dead: meh?
 -fix game hud: made health and armour fonts larger
+-different music for di
+
+todo July 5, 2017:
+-got the game mode in Title screen, but it sucks
+-fix the game mode mode index and the crashing
+
+todo July 7. 2017:
+-different game modes work, title screen working 
+-TODO: get the timer working -> fix the game loop and have the game loop end when the timer ends

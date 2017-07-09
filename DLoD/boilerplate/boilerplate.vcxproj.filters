@@ -17,9 +17,6 @@
     <ClCompile Include="src\ContactModifyCallback.cpp">
       <Filter>src\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="src\Game.cpp">
-      <Filter>src\Game</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameHud.cpp">
       <Filter>src\Game</Filter>
     </ClCompile>
@@ -98,6 +95,15 @@
     <ClCompile Include="src\PhysXMain.cpp">
       <Filter>src\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameFactory.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SuddenDeathGame.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TimedGame.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GEO\player\AI.h">
@@ -114,9 +120,6 @@
     </ClInclude>
     <ClInclude Include="headers\Physics\ContactModifyCallback.h">
       <Filter>headers\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Game\Game.h">
-      <Filter>headers\Game</Filter>
     </ClInclude>
     <ClInclude Include="headers\Game\GameHud.h">
       <Filter>headers\Game</Filter>
@@ -192,6 +195,15 @@
     </ClInclude>
     <ClInclude Include="headers\Physics\SnippetVehicleTireFriction.h">
       <Filter>headers\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\TimedGame.h">
+      <Filter>headers\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\SuddenDeathGame.h">
+      <Filter>headers\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\GameFactory.h">
+      <Filter>headers\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

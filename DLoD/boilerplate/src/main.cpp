@@ -31,6 +31,9 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 
 	case GLFW_KEY_N:
 		audio.PlaySfx(audio.chicken, MIX_MAX_VOLUME,3);
+
+	case GLFW_KEY_ESCAPE:
+		glfwSetWindowShouldClose(window, true);
     default:
       break;
   }
@@ -75,10 +78,10 @@ int main(int argc, char *argv[])
 	// Get the desktop resolution.
 
 	window = glfwCreateWindow(width, height, "Derby League of Destruction",0,0);
-  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-  GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-  const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-  glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
+  //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+ // GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+ // const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+  //glfwSetWindowMonitor(window, monitor, 0, 0, mode->width, mode->height, mode->refreshRate);
 
   if (!window) {
 		cout << "Program failed to create GLFW window, TERMINATING" << endl;
@@ -130,7 +133,7 @@ int main(int argc, char *argv[])
 		TitleScreen ts;
 		humanVehicleChoice.clear();
 		glDisable(GL_DEPTH_TEST);
-		if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex, &humanVehicleChoice, numPlayers)) {
+		if (ts.DisplayTitle(window, &testController, &audio, skyboxIndex, arenaIndex, &humanVehicleChoice, numPlayers, modeIndex)) {
 			ts.Destroy();
 			audio.FreeMusic();
 
@@ -145,13 +148,31 @@ int main(int argc, char *argv[])
 			getItemSpawnPoints();
 
 			//glfwSetWindowPos(window, 0,0);
-			Game game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
+			GameFactory *game;
+			switch (modeIndex) {
 
+			case 0:
+				game = new TimedGame(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex], &humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
+				//game = new GameFactory(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
+				//game = &g1;
+				cout << "timed" << endl;
+				break;
+			case 1:
+				//game = new GameFactory(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex], &humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
+				//game = &g1;
+				cout << " death" << endl;
+				game = new SuddenDeathGame(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex], &humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
+				break;
+			default:
+				game = new GameFactory(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex], &humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
+			}
+			//GameFactory game(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex],&humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
+			//game = &g;
 			if (!audio.PlayMusic()) {
 			//	cout << "Failed to play music" << endl;
 			}
 
-			if (!game.start()) {
+			if (!game->start()) {
 				glfwSetWindowShouldClose(window, true);
 			}
 		}

@@ -143,7 +143,7 @@
     <ClCompile Include="src\Audio.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\ContactModifyCallback.cpp" />
-    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\GameFactory.cpp" />
     <ClCompile Include="src\GameHud.cpp" />
     <ClCompile Include="src\GameState.cpp" />
     <ClCompile Include="src\GEO.cpp" />
@@ -164,7 +164,9 @@
     <ClCompile Include="src\SnippetVehicleNoDriveCreate.cpp" />
     <ClCompile Include="src\SnippetVehicleRaycast.cpp" />
     <ClCompile Include="src\SnippetVehicleTireFriction.cpp" />
+    <ClCompile Include="src\SuddenDeathGame.cpp" />
     <ClCompile Include="src\Texture.cpp" />
+    <ClCompile Include="src\TimedGame.cpp" />
     <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\TitleScreen.cpp" />
     <ClCompile Include="src\Utility.cpp" />
@@ -177,11 +179,13 @@
     <ClInclude Include="headers\GameEngine\Texture.h" />
     <ClInclude Include="headers\GameEngine\Shader.h" />
     <ClInclude Include="headers\Game\Audio.h" />
-    <ClInclude Include="headers\Game\Game.h" />
+    <ClInclude Include="headers\Game\GameFactory.h" />
     <ClInclude Include="headers\Game\GameHud.h" />
     <ClInclude Include="headers\Game\GameState.h" />
     <ClInclude Include="headers\Game\main.h" />
     <ClInclude Include="headers\Game\ScreenOverlay.h" />
+    <ClInclude Include="headers\Game\SuddenDeathGame.h" />
+    <ClInclude Include="headers\Game\TimedGame.h" />
     <ClInclude Include="headers\Game\Timer.h" />
     <ClInclude Include="headers\Game\TitleScreen.h" />
     <ClInclude Include="headers\Game\Utility.h" />

@@ -6,11 +6,18 @@ GameHud::GameHud()
 {
 }
 
+GameHud::GameHud(const gameMode &version) {
+	mode = version;
+
+}
 
 GameHud::~GameHud()
 {
 }
 
+void GameHud::setMode(const gameMode &version) {
+	mode = version;
+}
 
 void GameHud::InitializeMenu(const vec3 &colour) {
 	int kerning = 30;
@@ -82,6 +89,11 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 
 	armourTex.InitializeGameText("000", vec3(-0.73, 0.7, 0), colour, kerning);
 	armourTex.setScale(vec3(1.2f));
+
+	if (mode == time) {
+		timeTex.InitializeGameText("100", vec3(-0.2, 0.7, 0), colour, kerning);
+		timeTex.setScale(vec3(3.f));
+	}
 
 	//velocity
 	velocityTitle.InitializeGameText("mph", vec3(0.86, -0.85, 0), colour, kerning);
@@ -182,12 +194,14 @@ void GameHud::UpdateRadar(const vector<vec3> *positions, const vector<vec3> *col
 }
 
 //render hud
-void GameHud::Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour, const vector<vec3> *colours, const bool &canLayTrap) {
+void GameHud::Render(vector<string> &hudStrings, const vector<vec3>*positions, const vec3 &colour, const vector<vec3> *colours, const bool &canLayTrap) {
 	//update values
 	int kerning = 30;
-	healthTex.UpdateGameText(health, kerning);
-	armourTex.UpdateGameText(armour, kerning);
-	velocityTex.UpdateGameText(velocity, kerning);
+	healthTex.UpdateGameText(hudStrings[0], kerning);
+	armourTex.UpdateGameText(hudStrings[1], kerning);
+	velocityTex.UpdateGameText(hudStrings[2], kerning);
+	
+	mode == time ? timeTex.UpdateGameText(hudStrings[3], kerning) : 0;
 	UpdateRadar(positions, colours);
 
 	//render widgets.  Render in order widget -> border ->background in order to show properly
@@ -195,6 +209,7 @@ void GameHud::Render(const string &health, const string &armour, const string &v
 	armourTitle.Render(GL_TRIANGLES, colour);
 	healthTex.Render(GL_TRIANGLES, colour);
 	armourTex.Render(GL_TRIANGLES, colour);
+	mode == time ? timeTex.Render(GL_TRIANGLES, colour) : 0;
 	topLeftBorder.Render(GL_TRIANGLES, colour);
 	topLeftBkgrd.Render(GL_TRIANGLE_STRIP, topLeftBkgrd.getColour());
 

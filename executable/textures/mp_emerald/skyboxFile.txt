@@ -1,7 +1,0 @@
-emerald-summit_rt.tga
-emerald-summit_lf.tga
-emerald-summit_up.tga
-emerald-summit_dn.tga
-emerald-summit_bk.tga
-emerald-summit_ft.tga
-emerald-summit_bump.tga

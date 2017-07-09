@@ -1,7 +1,0 @@
-hell_rt.tga
-hell_lf.tga
-hell_up.tga
-hell_dn.tga
-hell_bk.tga
-hell_ft.tga
-hell_bump.png

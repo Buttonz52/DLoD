@@ -8,8 +8,15 @@
 class GameHud
 {
 public:
+	enum gameMode {
+		time, sudden_death
+	};
+
 	GameHud();
+	GameHud(const gameMode & version);
 	~GameHud();
+
+	void setMode(const gameMode & version);
 
 	//updates positions of cars to render to radar portion of hud
 	void UpdateRadar(const vector<vec3>* positions, const vector<vec3> *colours);
@@ -26,7 +33,9 @@ public:
 
 	//void Render(const string & health, const string & armour, const string & velocity, const vector<vec3>* positions, const vec3 & colour, const bool & canLayTrap);
 
-	void Render(const string & health, const string & armour, const string & velocity, const vector<vec3>* positions, const vec3 & colour, const vector<vec3>* colours, const bool & canLayTrap);
+	//void Render(const string & health, const string & armour, const string & velocity, const vector<vec3>* positions, const vec3 & colour, const vector<vec3>* colours, const bool & canLayTrap);
+
+	void Render(vector<string>& hudStrings, const vector<vec3>* positions, const vec3 & colour, const vector<vec3>* colours, const bool & canLayTrap);
 
 	void RenderEndGame(const int & menuIndex, const vec3 & colour);
 
@@ -35,8 +44,10 @@ public:
 	//void RenderMenu(const int & menuIndex);
 
 private:
+	gameMode mode;
 	//widgets of game hud
 	ScreenOverlay	healthTex, armourTex,
+		timeTex,
 		healthTitle, armourTitle,
 		topLeftBkgrd, topLeftBorder,
 		botRightBorder, botRightBkgrd,

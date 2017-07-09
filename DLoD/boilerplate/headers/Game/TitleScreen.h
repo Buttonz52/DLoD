@@ -21,7 +21,7 @@ public:
 	void InitializeChooseScreen();
 
 	void Render();
-	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector <int> *humanVehicleChoice, int &numPlayers);
+	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector <int> *humanVehicleChoice, int &numPlayers, int &modeIndex);
 
 	void newMenuIndex(int &newMenuIndex, const int &newInitIndex, int &initIndex, int &maxIndex, const int &addIndex);
 	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
@@ -30,11 +30,13 @@ public:
 private:
 	bool isQuit, isStart, 
 		isRules, isLoadScreen, 
+		isMode,
 		isChooseArena, isChooseSkybox, 
 		isMultiplayerScreen, isCarScreen,
 		isArenaSkyboxScreen;
 
 	int menuIndex,
+		modeInitIndex,
 		multiplayerInitIndex,
 		arenaButtonInitIndex,
 		skyboxButtonInitIndex,
@@ -57,7 +59,7 @@ private:
 	Mix_Chunk *click, *press, *back, *rev1, *rev2, *rev3, *rev4;
 
 	void pressStart(Audio *audio);
-	void readRules(GLFWwindow * window, XboxController * ctrller, Audio * audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers);
+	void readRules(GLFWwindow * window, XboxController * ctrller, Audio * audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers, int &modeIndex);
 	void DisplayVideo(Audio *audio);
 	void CheckTimeout(Audio *audio);
 	void pressQuit();
