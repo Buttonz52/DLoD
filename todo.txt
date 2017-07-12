@@ -36,3 +36,4 @@ TODO July 8, 2017:
 -TODO: get the game loop to put message "TIME OVER" instead of just "RETIRE"
 -better armour and health huds -> not just numbers, maybe progress bar
 -sfx for throwing traps, hitting traps, getting health/armour (different sfx for each trap?)
+-update rules screen/controls

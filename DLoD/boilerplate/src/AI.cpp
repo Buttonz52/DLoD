@@ -27,7 +27,7 @@ bool vecContains(vector<AStarNode*> vec, AStarNode* node)
 
 AI::AI(int i) : Player(i)
 {
-
+	type = ai;
 }
 
 

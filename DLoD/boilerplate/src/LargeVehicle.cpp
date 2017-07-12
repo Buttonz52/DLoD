@@ -2,8 +2,10 @@
 
 
 
-LargeVehicle::LargeVehicle()
+LargeVehicle::LargeVehicle(Audio *audio, const playerType &type)
 {
+	this->type = type;
+	this->audio = audio;
 	filename = "cars/largeCarBody.obj";
 	maxVelocity = 60;
 	health = 120;

@@ -133,12 +133,12 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	//	cout << "Failed to init arena map." << endl;
 	}
 
-	radarBkgrd.GenerateSquareVertices(0.2, 0.2, vec3(0.6, 0.5, 1));
-	radarBkgrd.setPosition(vec3(0.8, 0.8, 0));
+	radarBkgrd.GenerateSquareVertices(0.2f, 0.2f, vec3(0.6f, 0.5f, 1.f));
+	radarBkgrd.setPosition(vec3(0.8f, 0.8f, 0.f));
 	radarBkgrd.setTransparency(0.4f);
 	radarBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
-	radarBorder.GenerateBorder(0.2, 0.2, 0.1, vec3(0, 0, 0), vec3(0.8, 0.8, 0));
+	radarBorder.GenerateBorder(0.2f, 0.2f, 0.1f, vec3(0.f, 0.f, 0.f), vec3(0.8f, 0.8f, 0.f));
 	radarBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	//screen border

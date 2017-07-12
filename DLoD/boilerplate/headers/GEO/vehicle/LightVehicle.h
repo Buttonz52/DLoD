@@ -5,7 +5,7 @@ class LightVehicle :
 	public Vehicle
 {
 public:
-	LightVehicle();
+	LightVehicle(Audio *audio, const playerType &type);
 	~LightVehicle();
 };
 

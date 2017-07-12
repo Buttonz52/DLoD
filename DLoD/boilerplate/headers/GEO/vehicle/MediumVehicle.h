@@ -4,7 +4,7 @@ class MediumVehicle :
 	public Vehicle
 {
 public:
-	MediumVehicle();
+	MediumVehicle(Audio *audio, const playerType &type);
 	~MediumVehicle();
 };
 

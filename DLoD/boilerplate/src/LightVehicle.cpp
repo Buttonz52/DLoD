@@ -2,8 +2,10 @@
 
 
 
-LightVehicle::LightVehicle()
+LightVehicle::LightVehicle(Audio *audio, const playerType &type)
 {
+	this->type = type;
+	this->audio = audio;
 	filename = "cars/lightCarBody.obj";
 	maxVelocity = 80;
 	health = 100;

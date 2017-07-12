@@ -10,21 +10,30 @@
 void damageTrap(Vehicle* v)
 {
   v->updateHealth(30);
+  if (v->getPlayerType() == human)
+	v->playSFX("hitDmg", MIX_MAX_VOLUME, hitItem);
 }
 
 void empTrap(Vehicle* v)
 {
-  v->stun = make_pair(true, 5000 + v->timer.getTicks());
+	v->stun = make_pair(true, 5000 + v->timer.getTicks());
+	if (v->getPlayerType() ==human)
+		v->playSFX("hitStun", MIX_MAX_VOLUME, hitItem);
 }
 
 void healthPack(Vehicle* v)
 {
   v->heal(10);
+  if (v->getPlayerType() == human)
+	v->playSFX("getHealth", MIX_MAX_VOLUME, hitItem);
 }
 
 void armourPack(Vehicle* v)
 {
   v->repair(10);
+  if (v->getPlayerType() == human)
+	v->playSFX("armourAndSelect", MIX_MAX_VOLUME, hitItem);
+
 }
 
 

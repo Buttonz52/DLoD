@@ -2,15 +2,13 @@
 
 Human::Human(int i, Audio *audio) : Player(i)
 {
+	type = human;
 	this->audio = audio;
   camIndex = 0;
   numCams = 1;
   controller = new XboxController(i+1);
   restart = false;
   pausePressed = false;
-  click = Mix_LoadWAV("sfx/keyClick.wav");
-  back = Mix_LoadWAV("sfx/keyClick.wav");
-  horn = Mix_LoadWAV("sfx/horn.wav");
 }
 
 
@@ -93,16 +91,19 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 		  {
 			  layTrap = true;
 			  trap = DamageTrap;
+			  audio->PlaySfx("throwDmg", MIX_MAX_VOLUME / 2, throwTrap);
 		  }
 		  state = glfwGetKey(window, GLFW_KEY_S);
 		  if (state == GLFW_PRESS)
 		  {
 			  layTrap = true;
 			  trap = EmpTrap;
+			  audio->PlaySfx("throwStun", MIX_MAX_VOLUME / 2, throwTrap);
+
 		  }
 
 		  if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-			  audio->PlaySfx(horn, MIX_MAX_VOLUME/2, 1);
+			  audio->PlaySfx("horn", MIX_MAX_VOLUME/2, select);
 			  vehicle->FlipVehicle();
 		  }
 
@@ -147,15 +148,19 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 		if (controller->GetButtonPressed(XBtns.DPad_Left) || controller->GetButtonPressed(XBtns.R_Shoulder)) {
 			layTrap = true;
 			trap = DamageTrap;
+			audio->PlaySfx("throwDmg", MIX_MAX_VOLUME / 2, throwTrap);
+
 		}
 		//lay empty trap
 		if (controller->GetButtonPressed(XBtns.DPad_Up) || controller->GetButtonPressed(XBtns.L_Shoulder)) {
 			layTrap = true;
 			trap = EmpTrap;
+			audio->PlaySfx("throwStun", MIX_MAX_VOLUME / 2, throwTrap);
+
 		}
 		//flip car
 		if (controller->GetButtonPressed(XBtns.Y)) {
-			audio->PlaySfx(horn, MIX_MAX_VOLUME/2, 1);
+			audio->PlaySfx("horn", MIX_MAX_VOLUME/2, throwTrap);
 				vehicle->FlipVehicle();
 		}
 		vehicle->turn(turn);
@@ -186,24 +191,24 @@ void Human::menuControls(GLFWwindow* window, bool &pause, int &index)
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 			pause = false;
 			pausePressed = false;
-			audio->PlaySfx(back, MIX_MAX_VOLUME,1);
+			audio->PlaySfx("back", MIX_MAX_VOLUME,menu);
 			Sleep(300);
 		}
 		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
 			index -= 1;
-			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			audio->PlaySfx("toggle", MIX_MAX_VOLUME,menu);
 			Sleep(150);
 		}
 		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
 			index += 1;
-			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			audio->PlaySfx("toggle", MIX_MAX_VOLUME,menu);
 			Sleep(150);
 		}
 		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
 			menuItemPressed = true;
 			pausePressed = false;
 			pause = false;
-			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			audio->PlaySfx("armourAndSelect", MIX_MAX_VOLUME,select);
 			Sleep(300);
 
 		}
@@ -212,24 +217,24 @@ void Human::menuControls(GLFWwindow* window, bool &pause, int &index)
 		if (controller->GetButtonPressed(XBtns.StartBtn)) {
 			pause = false;
 			pausePressed = false;
-			audio->PlaySfx(back, MIX_MAX_VOLUME,1);
+			audio->PlaySfx("back", MIX_MAX_VOLUME,menu);
 			Sleep(300);
 		}
 		if (controller->GetButtonPressed(XBtns.DPad_Up)) {
 			index -= 1;
-			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			audio->PlaySfx("toggle", MIX_MAX_VOLUME,menu);
 			Sleep(150);
 		}
 		if (controller->GetButtonPressed(XBtns.DPad_Down)) {
 			index += 1;
-			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			audio->PlaySfx("toggle", MIX_MAX_VOLUME,menu);
 			Sleep(150);
 		}
 		if (controller->GetButtonPressed(XBtns.A)) {
 			menuItemPressed = true;
 			pausePressed = false;
 			pause = false;
-			audio->PlaySfx(click, MIX_MAX_VOLUME,1);
+			audio->PlaySfx("armourAndSelect", MIX_MAX_VOLUME,select);
 			Sleep(300);
 		}
 	}

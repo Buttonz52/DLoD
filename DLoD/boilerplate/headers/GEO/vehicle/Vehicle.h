@@ -5,12 +5,14 @@
 
 
 using namespace physx;
-
+enum playerType {
+	human, ai
+};
 class Vehicle :
 	public GEO
 {
 protected:
-
+	playerType type;
   bool dead;
   // Stores the Vehicle Health
   float health;
@@ -31,9 +33,11 @@ protected:
   float centeroff;
   clock_t timeOfDeath;
   clock_t flipTime;
+  void initStartVariables();
 
 public:
 	Vehicle();
+	Vehicle(Audio *audio, const playerType &type);
 	virtual ~Vehicle();
 
   PxVehicleNoDrive* physXVehicle;
@@ -73,7 +77,7 @@ public:
 
   void giveMeArmour(const vec3 & colour);
 
-	Mix_Chunk *crash, *explosion;
+	//Mix_Chunk *crash, *explosion;
 
 	float getHealth();
 	float calculateDamage(const double &, const double &, const double &, const double &);
@@ -87,6 +91,8 @@ public:
 
 	string getVelocityString();
 	int getTimeOfDeath();
+
+	playerType getPlayerType();
 };
 
 #endif

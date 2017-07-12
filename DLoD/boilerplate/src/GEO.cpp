@@ -1,18 +1,12 @@
 #include "GEO\GEO.h"
 
-GEO::GEO()
+GEO::GEO() {
+	initStartVariables();
+}
+GEO::GEO(Audio *audio)
 {
-	position = vec3(0);
-	scale = vec3(1.f);
-	xRotation = 0; yRotation = 0; zRotation = 0;
-	hasTexture = 0;
-	isSkybox = 0;
-	mixColour = 0;
-	hasEnvMap = 0;
-	colour = vec3(1,1,1);
-	transparency = 1.f;
-	exposure = 1.f;
-	reflectance = 0.04f;
+	this->audio = audio;
+	initStartVariables();
 
 }
 
@@ -21,6 +15,20 @@ GEO::~GEO()
   shutdown();
   for (GEO* child : children)
     delete child;
+}
+
+void GEO::initStartVariables() {
+	position = vec3(0);
+	scale = vec3(1.f);
+	xRotation = 0; yRotation = 0; zRotation = 0;
+	hasTexture = 0;
+	isSkybox = 0;
+	mixColour = 0;
+	hasEnvMap = 0;
+	colour = vec3(1, 1, 1);
+	transparency = 1.f;
+	exposure = 1.f;
+	reflectance = 0.04f;
 }
 
 void GEO::removeChild(GEO * child)
@@ -297,7 +305,7 @@ void GEO::shutdown()
     child->shutdown();
 }
 
-void GEO::playSFX(const string &name, const int &volume, const int &channel)
+void GEO::playSFX(const string &name, const int &volume, const channel &channel)
 {
-	audio.PlaySfx(sfxMap[name], volume, channel);
+	audio->PlaySfx(name, volume, channel);
 }

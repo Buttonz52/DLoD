@@ -6,6 +6,7 @@
 #include "GEO\vehicle\LightVehicle.h"
 #include "GEO\Camera.h"
 #include "GEO\item\Item.h"
+
 class Player
 {
 public:
@@ -18,7 +19,7 @@ public:
 	Camera* playerCam;
 
 	virtual void getInput();
-	void ChooseVehicle(int choice);
+	void ChooseVehicle(int choice, Audio *audio);
 	bool isDead();
 	vec3 * getColour();
 
@@ -27,8 +28,8 @@ public:
   bool ableToFlip = false;
   ItemType trap;
   int getTimeOfDeath();
-
-private: 
+protected:
+	playerType type;
 	void SetPlayerColour();
 	vec3 colour;
 	int timeOfDeath;

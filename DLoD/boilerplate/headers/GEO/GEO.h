@@ -16,10 +16,11 @@ class GEO
 {
 public:
 	GEO();
+	GEO(Audio * audio);
 	virtual ~GEO();
 
     vector<GEO*> children;
-    void removeChild(GEO*);
+	void removeChild(GEO*);
 
 	
 	bool hasTexture;
@@ -74,7 +75,7 @@ public:
 	vec3 * getColour();
 
 	virtual void shutdown();		//destroy shader, texture, mesh
-	void playSFX(const string & name, const int & volume, const int & channel);
+	void playSFX(const string & name, const int & volume, const channel & channel);
 	Mesh mesh;
 
 protected:
@@ -91,8 +92,10 @@ protected:
 	Shader shader;
 	Texture texture, environmentMap;
 	vector<vec3> tangentMesh;
-	Audio audio;
-	map<string, Mix_Chunk*> sfxMap;	//map of sounds
+	Audio *audio;
+
+	virtual void initStartVariables();
+	//map<string, Mix_Chunk*> sfxMap;	//map of sounds
 
 };
 #endif

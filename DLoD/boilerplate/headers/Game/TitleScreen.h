@@ -56,7 +56,7 @@ private:
 
 	Timer timer; 
 	
-	Mix_Chunk *click, *press, *back, *rev1, *rev2, *rev3, *rev4;
+	//Mix_Chunk *click, *press, *back, *rev1, *rev2, *rev3, *rev4;
 
 	void pressStart(Audio *audio);
 	void readRules(GLFWwindow * window, XboxController * ctrller, Audio * audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers, int &modeIndex);

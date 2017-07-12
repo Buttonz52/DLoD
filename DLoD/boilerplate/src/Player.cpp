@@ -2,6 +2,7 @@
 
 Player::Player(int i)
 {
+	type = human;	//default
   identifier = i;
   SetPlayerColour();	//Colours initialized here based on your player ID (what player you are)
   playerCam = new Camera();
@@ -62,20 +63,20 @@ void Player::getInput()
 
 }
 
-void Player::ChooseVehicle(int choice) {
+void Player::ChooseVehicle(int choice, Audio *audio) {
 	//random choice between vehicle classes
 	switch (choice) {
 	case 0:
-		vehicle = new LightVehicle();
+		vehicle = new LightVehicle(audio, type);
 		break;
 	case 1:
-		vehicle = new MediumVehicle();
+		vehicle = new MediumVehicle(audio, type);
 		break;
 	case 2:
-		vehicle = new LargeVehicle();
+		vehicle = new LargeVehicle(audio, type);
 		break;
 	default:
-		vehicle = new MediumVehicle();
+		vehicle = new MediumVehicle(audio, type);
 		break;
 	}
 	vehicle->setColour(colour);

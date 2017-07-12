@@ -1,27 +1,37 @@
 #include "GEO\vehicle\Vehicle.h"
 
 
+Vehicle::Vehicle() {
+	initStartVariables();
+}
 
-Vehicle::Vehicle()
+Vehicle::Vehicle(Audio *audio, const playerType &type)
 {
+	this->type = type;
+	this->audio = audio;
+	initStartVariables();
+}
+
+void Vehicle::initStartVariables() {
+	type = ai;
 	timer.start();
 	initArmour = 30;
 	armour = 30;
-	health = 100;	
+	health = 100;
 	lowHealth = health / 2.f;
 	dead = false;
 	canPulseColour = false;
 
 	//initialize crash sound and place in map
-	crash = Mix_LoadWAV("sfx/carCrash.wav");
-	explosion = Mix_LoadWAV("sfx/explosion.wav");
-	sfxMap.insert(make_pair("crash", crash));
-	sfxMap.insert(make_pair("explosion", explosion));
+	//crash = Mix_LoadWAV("sfx/carCrash.wav");
+	//explosion = Mix_LoadWAV("sfx/explosion.wav");
+	//sfxMap.insert(make_pair("crash", crash));
+	//sfxMap.insert(make_pair("explosion", explosion));
 
 	filename = "cars/mediumCarBody.obj";
 	armourFilename = "armour/MediumArmour.obj";
 	torqueSpeed = 18000.0;
-	colour = vec3(1,0, 0);
+	colour = vec3(1, 0, 0);
 	initColour = colour;
 	reflectance = 0.3f;
 	timeOfDeath = -1;
@@ -29,12 +39,10 @@ Vehicle::Vehicle()
 	ableToFlip = true;
 }
 
-
 Vehicle::~Vehicle()
 {
-	audio.CleanUp();
 	if (!timer.isStopped())
-		timer.stop();
+	timer.stop();
 }
 int Vehicle::getTimeOfDeath() {
 	return timeOfDeath;
@@ -274,10 +282,11 @@ void Vehicle::checkDead() {
 			if (!timer.isStopped())
 				timer.stop();
 			//mesh.UpdateColour(vec3(0));
+			playSFX("explosion", MIX_MAX_VOLUME, throwTrap);
+			canPulseColour = false;
+			dead = true;
+			mesh.UpdateColour(vec3(0));
 		}
-		canPulseColour = false;
-		dead = true;
-		mesh.UpdateColour(vec3(0));
 	}
 	else if (health >= lowHealth) {
 		canPulseColour = false;
@@ -477,6 +486,9 @@ string Vehicle::getVelocityString() {
 	return retStr;
 }
 
+playerType Vehicle::getPlayerType() {
+	return type;
+}
 void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
 {
 	//make a timer or something so not pulsing crazily

@@ -48,7 +48,7 @@ GameFactory::GameFactory(GLFWwindow *w, Audio &audio, const string &skyboxFilepa
 	for (int i = 0; i < numPlayers; i++) {
 		Human* human = new Human(i, &audio);
 		human->setNumCams(5);
-		human->ChooseVehicle(humanVehicleChoice->at(i));
+		human->ChooseVehicle(humanVehicleChoice->at(i), &audio);
 		human->vehicle->setPosition(spawnPoints[i]);
 		human->vehicle->setEnvironmentMap(skybox->getTexture());
 		initVehicle(human->vehicle, humanVehicleChoice->at(i));
@@ -69,7 +69,7 @@ GameFactory::GameFactory(GLFWwindow *w, Audio &audio, const string &skyboxFilepa
 	for (int i = numPlayers; i < totalPlayers; i++) {
 		AI* ai = new AI(i);
 		int aiRNGChoose = rand() % 3;
-		ai->ChooseVehicle(aiRNGChoose);
+		ai->ChooseVehicle(aiRNGChoose, &audio);
 		ai->vehicle->setPosition(spawnPoints[i]);
 		ai->vehicle->setEnvironmentMap(skybox->getTexture());
 		initVehicle(ai->vehicle, aiRNGChoose);

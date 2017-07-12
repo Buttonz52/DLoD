@@ -2,8 +2,10 @@
 
 
 
-MediumVehicle::MediumVehicle()
+MediumVehicle::MediumVehicle(Audio *audio, const playerType &type)
 {
+	this->type = type;
+	this->audio = audio;
 	filename = "cars/mediumCarBody.obj";
 	maxVelocity = 70;
 	health = 110;

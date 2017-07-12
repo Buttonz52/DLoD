@@ -26,11 +26,11 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
       break;
 
     case GLFW_KEY_E:
-      audio.PlaySfx(audio.horn, MIX_MAX_VOLUME,3);
+      audio.PlaySfx("horn", MIX_MAX_VOLUME,menu);
       break;
 
 	case GLFW_KEY_N:
-		audio.PlaySfx(audio.chicken, MIX_MAX_VOLUME,3);
+		audio.PlaySfx("chicken", MIX_MAX_VOLUME,menu);
 
 	//case GLFW_KEY_ESCAPE:
 	//	glfwSetWindowShouldClose(window, true);
@@ -129,7 +129,10 @@ int main(int argc, char *argv[])
 
 	while (!glfwWindowShouldClose(window)) {
 		if (!audio.Init()) {
-		//	cout << "Failed to init audio." << endl;
+			cout << "Failed to init audio." << endl;
+		}
+		if (!audio.InitAllSounds()) {
+			cout << "Failed to init sounds:" << endl;
 		}
 		//Initialize "Loading screen"
 		TitleScreen ts;

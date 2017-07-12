@@ -4,7 +4,7 @@ class LargeVehicle :
 	public Vehicle
 {
 public:
-	LargeVehicle();
+	LargeVehicle(Audio * audio, const playerType &type);
 	~LargeVehicle();
 };
 

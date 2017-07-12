@@ -19,14 +19,15 @@ class Item :
 	public GEO
 {
 public:
-	Item(ItemType, ItemSpawner*);
+	//Item(ItemType, ItemSpawner*);
+	Item(ItemType type, ItemSpawner * s);
 	~Item();
 
   bool isTrap;
 
   ItemSpawner* spawner;
 
-  void (*onPickUp)(Vehicle* v);
+  void (*onPickUp)(Vehicle* v);	//function as variables
 };
 
 #endif
