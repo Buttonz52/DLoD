@@ -9,7 +9,7 @@ GameFactory::~GameFactory()
 {
 }
 
-GameFactory::GameFactory(GLFWwindow *w, Audio &audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> *humanVehicleChoice, const int &numPlayers, const vector<vec3> &spawnPoints, const vector<vec3> &itemSpawnPoints)
+GameFactory::GameFactory(GLFWwindow *w, Audio &audio, const string &skyboxFilepath, const string &arenaFilepath, const string &starObjFilename, const string &arenaMapFile, const vector<int> &humanVehicleChoice, const int &numPlayers, const vector<vec3> &spawnPoints, const vector<vec3> &itemSpawnPoints)
 {
 	pause = false, restart = false;
 	menuIndex = 0;
@@ -48,10 +48,10 @@ GameFactory::GameFactory(GLFWwindow *w, Audio &audio, const string &skyboxFilepa
 	for (int i = 0; i < numPlayers; i++) {
 		Human* human = new Human(i, &audio);
 		human->setNumCams(5);
-		human->ChooseVehicle(humanVehicleChoice->at(i), &audio);
+		human->ChooseVehicle(humanVehicleChoice[i], &audio);
 		human->vehicle->setPosition(spawnPoints[i]);
 		human->vehicle->setEnvironmentMap(skybox->getTexture());
-		initVehicle(human->vehicle, humanVehicleChoice->at(i));
+		initVehicle(human->vehicle, humanVehicleChoice[i]);
 		skybox->children.push_back(human->vehicle);
 		players.push_back(human);
 
@@ -91,10 +91,10 @@ bool GameFactory::start()
 {
 	// start the game loop
 
-	pauseText.setScale(vec3(4.f));
+	pauseText.SetScale(vec3(4.f));
 	pauseText.InitializeGameText("PAUSE", vec3(-0.4, 0.5, 0), vec3(1, 0.5, 0.3), 30);
 
-	switchCamText.setScale(vec3(0.5f));
+	switchCamText.SetScale(vec3(0.5f));
 	switchCamText.InitializeGameText("Press <TAB> or <BACK> to change between cameras", vec3(-0.4, -0.8, 0), vec3(1, 1, 1), 30);
 
 	// Enter the game Loop
@@ -107,7 +107,7 @@ bool GameFactory::start()
 
 	///TODO: implmement for all screens -> lose/win for appropriate player
 	ScreenOverlay endGameText;
-	endGameText.setScale(vec3(4.f));
+	endGameText.SetScale(vec3(4.f));
 	if (!gameOver) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		//  for (int i = 0; i < numPlayerScreens; i++) {

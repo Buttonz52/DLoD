@@ -10,7 +10,7 @@ public:
 
 	int isFontTex;
 	void InitializeShaders(const string &vert, const string &frag);
-	bool initTexture(const string &filename, GLuint target);
+	bool InitTexture(const string &filename, GLuint target);
 	bool InitQuad(const string &tex,
 		const string &vert,
 		const string &frag,
@@ -18,8 +18,6 @@ public:
 		const float y,
 		const vec3 &col);
 	void InitializeGameText(const string & text, const vec3 & position, const vec3 & colour, int kerning);
-
-	void UpdateGameText(const string & text, const int & kerning);
 
 	bool Initialize();
 
@@ -29,37 +27,37 @@ public:
 	void GenerateTextUVs(vector<vec2>& uvs, const char & ch);
 
 	void InitVideo();
-	void setTexture(Texture *tex);
-	void UpdateBuffers(const vector<vec2> *uvs);
-	void UpdateVertices(const vector<vec3> *vertices);
-	//void UpdateGameText(const string & text);
+	void SetTexture(Texture *tex);
+	void UpdateGameText(const string & text, const int & kerning);
+	void UpdateUVBuffer(const vector<vec2>* uvs);
+	void UpdateVertexBuffer(const vector<vec3>* vertices);
 
 	void Render(GLuint type, const vec3 &colour);
 
-	void setColour(const vec3 &c);
-	void updateColourBuffer(const vec3 & colour);
-	void updateColourBuffer2(const vector<vec3>& colours);
+	void SetColour(const vec3 &c);
+	void UpdateColourBuffer(const vec3 & colour);
+	void UpdateColourBuffer2(const vector<vec3>& colours);
 	vec3 & getColour();
 
-	void setPosition(const vec3 &pos);
-	vec3 & getPosition();
+	void SetPosition(const vec3 &pos);
+	vec3 & GetPosition();
 
-	void setRotateZ(const float &r);
+	void SetRotateZ(const float &r);
 
-	void setHasTexture(const bool &);
-	int getHasTexture();
+	void SetHasTexture(const bool &);
+	int GetHasTexture();
 
-	void setMixFlag(const bool &);
-	int getMixFlag();
+	void SetMixFlag(const bool &);
+	int GetMixFlag();
 
-	void setMixAmount(const float &);
-	float getMixAmount();
+	void SetMixAmount(const float &);
+	float GetMixAmount();
 
-	void setTransparency(const float &);
-	float getTransparency();
+	void SetTransparency(const float &);
+	float GetTransparency();
 
-	void setScale(const vec3 &s);
-	vec3 & getScale();
+	void SetScale(const vec3 &s);
+	vec3 & GetScale();
 
 	void Destroy();
 

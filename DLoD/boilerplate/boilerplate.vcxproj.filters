@@ -104,6 +104,30 @@
     <ClCompile Include="src\TimedGame.cpp">
       <Filter>src\Game</Filter>
     </ClCompile>
+    <ClCompile Include="src\Screen.cpp">
+      <Filter>src\Game\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ArenaScreen.cpp">
+      <Filter>src\Game\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CarScreen.cpp">
+      <Filter>src\Game\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainScreen.cpp">
+      <Filter>src\Game\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RulesScreen.cpp">
+      <Filter>src\Game\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MultiplayerScreen.cpp">
+      <Filter>src\Game\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ModeScreen.cpp">
+      <Filter>src\Game\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SkyboxScreen.cpp">
+      <Filter>src\Game\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GEO\player\AI.h">
@@ -204,6 +228,30 @@
     </ClInclude>
     <ClInclude Include="headers\Game\GameFactory.h">
       <Filter>headers\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Title\Screen.h">
+      <Filter>headers\Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Title\CarScreen.h">
+      <Filter>headers\Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Title\ArenaScreen.h">
+      <Filter>headers\Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Title\RulesScreen.h">
+      <Filter>headers\Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Title\MainScreen.h">
+      <Filter>headers\Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Title\MultiplayerScreen.h">
+      <Filter>headers\Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Title\ModeScreen.h">
+      <Filter>headers\Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Title\SkyboxScreen.h">
+      <Filter>headers\Game\Title</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -316,6 +364,12 @@
     </Filter>
     <Filter Include="src\Physics">
       <UniqueIdentifier>{7a5260ce-60e3-43e1-8ce1-7e3f3f681d24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="headers\Game\Title">
+      <UniqueIdentifier>{d914998a-12ca-4938-a3f8-8f1957225a4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Game\Title">
+      <UniqueIdentifier>{6f920c35-1eaa-4ad8-96c3-3590b7253c2c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

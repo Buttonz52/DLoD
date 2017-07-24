@@ -22,26 +22,26 @@ void GameHud::setMode(const gameMode &version) {
 void GameHud::InitializeMenu(const vec3 &colour) {
 	int kerning = 30;
 	resumeText.InitializeGameText("RESUME", vec3(-0.27, 0.0, 0), colour, kerning);
-	resumeText.setScale(vec3(2));
+	resumeText.SetScale(vec3(2));
 	restartText.InitializeGameText("RESTART", vec3(-0.3, -0.2, 0), colour, kerning);
-	restartText.setScale(vec3(2));
+	restartText.SetScale(vec3(2));
 	quitText.InitializeGameText("QUIT", vec3(-0.2, -0.4, 0), colour, kerning);
-	quitText.setScale(vec3(2));
+	quitText.SetScale(vec3(2));
 
 	//arena map background
-	if (!pauseBkgrd.initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+	if (!pauseBkgrd.InitTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
 	//	cout << "Failed to init arena map." << endl;
 	}
 
 	pauseBkgrd.GenerateSquareVertices(1, 1, vec3(0.6, 0.5, 1));
-	pauseBkgrd.setMixFlag(1);
-	pauseBkgrd.setMixAmount(0.5);
+	pauseBkgrd.SetMixFlag(1);
+	pauseBkgrd.SetMixAmount(0.5);
 	pauseBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 	
 	//border for health and armour
 	pauseBox.GenerateSquareVertices(0.25, 0.32, vec3(0.6, 0.7, 1));
-	pauseBox.setPosition(vec3(-0.055, -0.07, 0));
-	pauseBox.setTransparency(0.5f);
+	pauseBox.SetPosition(vec3(-0.055, -0.07, 0));
+	pauseBox.SetTransparency(0.5f);
 	pauseBox.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	pauseBorder.GenerateBorder(0.25, 0.32, 0.01, vec3(0, 0, 0), vec3(-0.055, -0.07, 0));
@@ -49,8 +49,8 @@ void GameHud::InitializeMenu(const vec3 &colour) {
 
 }
 void GameHud::InitializeEndGame(const vector<string> &playerNames, const vector <vec3> &colours) {
-	quitText.setPosition(vec3(-0.19, -0.9, 0));
-	restartText.setPosition(vec3(-0.29, -0.7, 0));
+	quitText.SetPosition(vec3(-0.19, -0.9, 0));
+	restartText.SetPosition(vec3(-0.29, -0.7, 0));
 	std::stringstream fmt1;
 	int kerning = 30;
 	fmt1 << "1st place: " << playerNames[0];
@@ -65,7 +65,7 @@ void GameHud::InitializeEndGame(const vector<string> &playerNames, const vector 
 	fmt4 << "4th place: " << playerNames[3];
 	fourthPlace.InitializeGameText(fmt4.str(), vec3(-0.35, -0.3, 0), colours[3], kerning);
 	endGameOverlay.GenerateSquareVertices(0.5, 0.5, vec3(1));
-	endGameOverlay.setTransparency(0.5f);
+	endGameOverlay.SetTransparency(0.5f);
 
 	endGameOverlay.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 	firstPlace.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
@@ -78,33 +78,33 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	int kerning = 30;
 	//health
 	healthTitle.InitializeGameText("Health:", vec3(-0.98, 0.8, 0), colour, kerning);
-	healthTitle.setScale(vec3(1.f));
+	healthTitle.SetScale(vec3(1.f));
 
 	healthTex.InitializeGameText("000", vec3(-0.73, 0.8, 0), colour, kerning);
-	healthTex.setScale(vec3(1.2f));
+	healthTex.SetScale(vec3(1.2f));
 
 	//armour
 	armourTitle.InitializeGameText("Armour:", vec3(-0.98, 0.7, 0), colour, kerning);
-	armourTitle.setScale(vec3(1.f));
+	armourTitle.SetScale(vec3(1.f));
 
 	armourTex.InitializeGameText("000", vec3(-0.73, 0.7, 0), colour, kerning);
-	armourTex.setScale(vec3(1.2f));
+	armourTex.SetScale(vec3(1.2f));
 
 	if (mode == time) {
 		timeTex.InitializeGameText("00", vec3(-0.2, 0.7, 0), colour, kerning);
-		timeTex.setScale(vec3(3.f));
+		timeTex.SetScale(vec3(3.f));
 	}
 
 	//velocity
 	velocityTitle.InitializeGameText("mph", vec3(0.86, -0.85, 0), colour, kerning);
 
 	velocityTex.InitializeGameText("00", vec3(0.62, -0.95, 0), colour, kerning);
-	velocityTex.setScale(vec3(3.f));
+	velocityTex.SetScale(vec3(3.f));
 
 	//border for health and armour
 	topLeftBkgrd.GenerateSquareVertices(0.3, 0.2, vec3(0.6, 0.5, 1));
-	topLeftBkgrd.setPosition(vec3(-0.8, 0.8, 0));
-	topLeftBkgrd.setTransparency(0.4f);
+	topLeftBkgrd.SetPosition(vec3(-0.8, 0.8, 0));
+	topLeftBkgrd.SetTransparency(0.4f);
 	topLeftBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	topLeftBorder.GenerateBorder(0.3, 0.2, 0.1, vec3(0, 0, 0), vec3(-0.8, 0.8, 0));
@@ -113,8 +113,8 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 
 	//border for velocity
 	botRightBkgrd.GenerateSquareVertices(0.2, 0.2, vec3(0.6, 0.5, 1));
-	botRightBkgrd.setPosition(vec3(0.8, -0.8, 0));
-	botRightBkgrd.setTransparency(0.4f);
+	botRightBkgrd.SetPosition(vec3(0.8, -0.8, 0));
+	botRightBkgrd.SetTransparency(0.4f);
 	botRightBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	botRightBorder.GenerateBorder(0.2, 0.2, 0.1, colour, vec3(0.8, -0.8, 0));
@@ -123,19 +123,19 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 
 	//initialize radar
 	radarPoints.GenerateVertices(positions, colour, &vector<vec2>(0));
-	radarPoints.setPosition(vec3(0.8, 0.8, 0));
-	radarPoints.setScale(vec3(0.1f, 0.15f, 1));
-	//radarPoints.setTransparency(0.4f);
+	radarPoints.SetPosition(vec3(0.8, 0.8, 0));
+	radarPoints.SetScale(vec3(0.1f, 0.15f, 1));
+	//radarPoints.SetTransparency(0.4f);
 	radarPoints.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	//arena map background
-	if (!radarBkgrd.initTexture(arenaFilename, GL_TEXTURE_2D)) {
+	if (!radarBkgrd.InitTexture(arenaFilename, GL_TEXTURE_2D)) {
 	//	cout << "Failed to init arena map." << endl;
 	}
 
 	radarBkgrd.GenerateSquareVertices(0.2f, 0.2f, vec3(0.6f, 0.5f, 1.f));
-	radarBkgrd.setPosition(vec3(0.8f, 0.8f, 0.f));
-	radarBkgrd.setTransparency(0.4f);
+	radarBkgrd.SetPosition(vec3(0.8f, 0.8f, 0.f));
+	radarBkgrd.SetTransparency(0.4f);
 	radarBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	radarBorder.GenerateBorder(0.2f, 0.2f, 0.1f, vec3(0.f, 0.f, 0.f), vec3(0.8f, 0.8f, 0.f));
@@ -146,34 +146,34 @@ void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, c
 	screenBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	//arena map background
-	if (!dpadTexture.initTexture("textures/XboxControllerDPad.png", GL_TEXTURE_2D)) {
+	if (!dpadTexture.InitTexture("textures/XboxControllerDPad.png", GL_TEXTURE_2D)) {
 	//	cout << "Failed to init arena map." << endl;
 	}
 	dpadTexture.GenerateSquareVertices(0.15, 0.18, vec3(0.6, 0.5, 0.1));
-	dpadTexture.setPosition(vec3(-0.83,-0.8,0));
-	dpadTexture.setTransparency(0.4f);
+	dpadTexture.SetPosition(vec3(-0.83,-0.8,0));
+	dpadTexture.SetTransparency(0.4f);
 	dpadTexture.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	dpadBorder.GenerateBorder(0.17, 0.2, 0.1, vec3(0), vec3(-0.83,-0.8,0));
 	dpadBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
-	if (!weaponUpD.initTexture("textures/itemImgs/bearTrap.png", GL_TEXTURE_2D)) {
+	if (!weaponUpD.InitTexture("textures/itemImgs/bearTrap.png", GL_TEXTURE_2D)) {
 	//	cout << "Failed to init arena map." << endl;
 	}
-	weaponUpD.setMixFlag(1);
+	weaponUpD.SetMixFlag(1);
 	weaponUpD.GenerateSquareVertices(0.06, 0.07, vec3(0,0,1));
-	weaponUpD.setPosition(vec3(-0.83, -0.66, 0));
-	weaponUpD.setTransparency(0.8f);
+	weaponUpD.SetPosition(vec3(-0.83, -0.66, 0));
+	weaponUpD.SetTransparency(0.8f);
 	weaponUpD.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
-	if (!weaponLeftD.initTexture("textures/itemImgs/bearTrap.png", GL_TEXTURE_2D)) {
+	if (!weaponLeftD.InitTexture("textures/itemImgs/bearTrap.png", GL_TEXTURE_2D)) {
 	//	cout << "Failed to init arena map." << endl;
 	}
 
-	weaponLeftD.setMixFlag(1);
+	weaponLeftD.SetMixFlag(1);
 	weaponLeftD.GenerateSquareVertices(0.06, 0.07, vec3(1, 1, 0));
-	weaponLeftD.setPosition(vec3(-0.93, -0.79, 0));
-	weaponLeftD.setTransparency(0.8f);
+	weaponLeftD.SetPosition(vec3(-0.93, -0.79, 0));
+	weaponLeftD.SetTransparency(0.8f);
 	weaponLeftD.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 }
 
@@ -189,8 +189,8 @@ void GameHud::UpdateRadar(const vector<vec3> *positions, const vector<vec3> *col
 		newPositions.push_back(vec3(-newVec.x, newVec.z, 0));
 
 	}
-	radarPoints.UpdateVertices(&newPositions);
-	radarPoints.updateColourBuffer2(*colours);
+	radarPoints.UpdateVertexBuffer(&newPositions);
+	radarPoints.UpdateColourBuffer2(*colours);
 }
 
 //render hud
@@ -227,15 +227,15 @@ void GameHud::Render(vector<string> &hudStrings, const vector<vec3>*positions, c
 
 	dpadBorder.Render(GL_TRIANGLES, colour);
 	if (canLayTrap) {
-		weaponUpD.setMixAmount(0.5);
+		weaponUpD.SetMixAmount(0.5);
 		weaponUpD.Render(GL_TRIANGLE_STRIP, weaponUpD.getColour());
-		weaponLeftD.setMixAmount(0.5);
+		weaponLeftD.SetMixAmount(0.5);
 		weaponLeftD.Render(GL_TRIANGLE_STRIP, weaponLeftD.getColour());
 	}
 	else {
-		weaponUpD.setMixAmount(1.f);
+		weaponUpD.SetMixAmount(1.f);
 		weaponUpD.Render(GL_TRIANGLE_STRIP, vec3(0));
-		weaponLeftD.setMixAmount(1.f);
+		weaponLeftD.SetMixAmount(1.f);
 		weaponLeftD.Render(GL_TRIANGLE_STRIP, vec3(0));
 	}
 	dpadTexture.Render(GL_TRIANGLE_STRIP, dpadTexture.getColour());
@@ -247,12 +247,12 @@ void GameHud::RenderEndGame(const int &menuIndex, const vec3 &colour) {
 	float multiplyColour = 0.3f;
 
 	if (menuIndex == 0) {
-		quitText.setColour(colour * multiplyColour);
-		restartText.setColour(colour);
+		quitText.SetColour(colour * multiplyColour);
+		restartText.SetColour(colour);
 	}
 	else {
-		quitText.setColour(colour);
-		restartText.setColour(colour*multiplyColour);
+		quitText.SetColour(colour);
+		restartText.SetColour(colour*multiplyColour);
 	}
 
 	quitText.Render(GL_TRIANGLES, quitText.getColour());
@@ -266,19 +266,19 @@ void GameHud::RenderEndGame(const int &menuIndex, const vec3 &colour) {
 void GameHud::RenderMenu(const int &menuIndex, const vec3 &colour) {
 	float multiplyColour = 0.3f;
 	if (menuIndex == 0) {
-		restartText.setColour(colour*multiplyColour);
-		quitText.setColour(colour * multiplyColour);
-		resumeText.setColour(colour);
+		restartText.SetColour(colour*multiplyColour);
+		quitText.SetColour(colour * multiplyColour);
+		resumeText.SetColour(colour);
 	}
 	else if (menuIndex == 1) {
-		quitText.setColour(colour * multiplyColour);
-		restartText.setColour(colour);
-		resumeText.setColour(colour * multiplyColour);
+		quitText.SetColour(colour * multiplyColour);
+		restartText.SetColour(colour);
+		resumeText.SetColour(colour * multiplyColour);
 	}
 	else {
-		quitText.setColour(colour);
-		restartText.setColour(colour*multiplyColour);
-		resumeText.setColour(colour*multiplyColour);
+		quitText.SetColour(colour);
+		restartText.SetColour(colour*multiplyColour);
+		resumeText.SetColour(colour*multiplyColour);
 	}
 	quitText.Render(GL_TRIANGLES, quitText.getColour());
 	resumeText.Render(GL_TRIANGLES, resumeText.getColour());

@@ -300,7 +300,7 @@ void GEO::shutdown()
 {
 	shader.DestroyShaders();
 	texture.DestroyTexture();
-
+	mesh.DestroyMesh();
   for (GEO* child : children)
     child->shutdown();
 }

@@ -164,6 +164,7 @@ void Mesh::ClearMesh() {
 }
 
 void Mesh::DestroyMesh() {
+	ClearMesh();
 	glDeleteBuffers(1, &vertexBuffer);
 	glDeleteBuffers(1, &normalBuffer);
 	glDeleteBuffers(1, &indicesBuffer);

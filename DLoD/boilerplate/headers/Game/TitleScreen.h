@@ -5,6 +5,15 @@
 #include "Controller/XboxController.h"
 #include "Audio.h"
 #include "Game\timer.h"
+#include "Title\Screen.h"
+#include "Title\MainScreen.h"
+#include "Title\RulesScreen.h"
+#include "Title\MultiplayerScreen.h"
+#include "Title\ModeScreen.h"
+#include "Title\CarScreen.h"
+#include "Title\ArenaScreen.h"
+#include "Title\SkyboxScreen.h"
+
 
 class TitleScreen
 {
@@ -12,56 +21,29 @@ public:
 	TitleScreen();
 	~TitleScreen();
 
-	bool isStartPressed();
-	bool isQuitPressed();
-
-	void InitializeTitleScreen();
-	void InitializeMultiplayerScreen();
-	void InitializeCarScreen();
-	void InitializeChooseScreen();
-
 	void Render();
-	bool DisplayTitle(GLFWwindow *, XboxController *controller, Audio *audio, int &skyboxIndex, int &arenaIndex, vector <int> *humanVehicleChoice, int &numPlayers, int &modeIndex);
-
-	void newMenuIndex(int &newMenuIndex, const int &newInitIndex, int &initIndex, int &maxIndex, const int &addIndex);
-	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
+	bool Initialize(GLFWwindow *, XboxController *, Audio *);
+	int Run(int &skyboxIndex, int &arenaIndex, vector<int> &humanVehicleChoice, int &numPlayers, int & mode);
 	void Destroy();
 
 private:
-	bool isQuit, isStart, 
-		isRules, isLoadScreen, 
-		isMode,
-		isChooseArena, isChooseSkybox, 
-		isMultiplayerScreen, isCarScreen,
-		isArenaSkyboxScreen;
+	Screen *currentScreen;
+	bool isQuit, isStart;
 
-	int menuIndex,
-		modeInitIndex,
-		multiplayerInitIndex,
-		arenaButtonInitIndex,
-		skyboxButtonInitIndex,
-		carButtonInitIndex,
-		controllerIndex;
-
-	int numMenuButtons;
-	int initIndex, maxIndex;
-	int pauseTime;
-	int clickChannel, backChannel, revChannel1, revChannel2;
+	int pauseTime, clickChannel, backChannel, revChannel1, revChannel2,
+		vehicleIndex;
 	string titleMusic = "music/Faded_intro.wav";
 
 	vec3 selectColour, pressColour, prevColour;
+	GLFWwindow *window;
+	XboxController *controller;
+	vector <XboxController> controllers;
+	Audio *audio;
 
 	ScreenOverlay background;
-	vector<ScreenOverlay> menuButtons;
 
 	Timer timer; 
 	
-	//Mix_Chunk *click, *press, *back, *rev1, *rev2, *rev3, *rev4;
-
 	void pressStart(Audio *audio);
-	void readRules(GLFWwindow * window, XboxController * ctrller, Audio * audio, int &skyboxIndex, int &arenaIndex, vector<int> *humanVehicleChoice, int &numPlayers, int &modeIndex);
-	void DisplayVideo(Audio *audio);
-	void CheckTimeout(Audio *audio);
 	void pressQuit();
-	void toggleMenuIndex(const int &s, Audio *audio, const int &initIndex, const int &maxIndex);
 };

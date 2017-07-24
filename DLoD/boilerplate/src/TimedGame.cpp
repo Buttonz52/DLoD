@@ -4,7 +4,7 @@ TimedGame::~TimedGame()
 {
 }
 
-TimedGame::TimedGame(GLFWwindow * w, Audio & audio, const string & skyboxFilepath, const string & arenaFilepath, const string & starObjFilename, const string & arenaMapFile, const vector<int>* humanVehicleChoice, const int & numPlayers, const vector<vec3>& spawnPoints, const vector<vec3>& itemSpawnPoints)
+TimedGame::TimedGame(GLFWwindow * w, Audio & audio, const string & skyboxFilepath, const string & arenaFilepath, const string & starObjFilename, const string & arenaMapFile, const vector<int> &humanVehicleChoice, const int & numPlayers, const vector<vec3>& spawnPoints, const vector<vec3>& itemSpawnPoints)
 {
 	timeOver = false;
 	int duration_seconds = 60;	//how long game lasts for
@@ -46,10 +46,10 @@ TimedGame::TimedGame(GLFWwindow * w, Audio & audio, const string & skyboxFilepat
 	for (int i = 0; i < numPlayers; i++) {
 		Human* human = new Human(i, &audio);
 		human->setNumCams(5);
-		human->ChooseVehicle(humanVehicleChoice->at(i), &audio);
+		human->ChooseVehicle(humanVehicleChoice[i], &audio);
 		human->vehicle->setPosition(spawnPoints[i]);
 		human->vehicle->setEnvironmentMap(skybox->getTexture());
-		initVehicle(human->vehicle, humanVehicleChoice->at(i));
+		initVehicle(human->vehicle, humanVehicleChoice[i]);
 		skybox->children.push_back(human->vehicle);
 		players.push_back(human);
 
@@ -94,7 +94,7 @@ bool TimedGame::start() {
 	}
 	return GameFactory::start();
 }
-void TimedGame::UpdateHudInfo(Player * player, mat4 & projectionMatrix, mat4 & viewMatrix, vector<string>& strings, vec3 & vColour, bool & canLayTrap)
+void TimedGame::UpdateHudInfo(Player *player, mat4 & projectionMatrix, mat4 & viewMatrix, vector<string>& strings, vec3 & vColour, bool & canLayTrap)
 {
 	int numTicks = ((int)endGameTickNum - (int)currentTicks) / 1000;	//convert to seconds
 	GameFactory::UpdateHudInfo(player, projectionMatrix, viewMatrix, strings, vColour, canLayTrap);

@@ -31,7 +31,7 @@ ScreenOverlay::~ScreenOverlay()
 	Destroy();
 }
 
-void ScreenOverlay::setTexture(Texture *tex) {
+void ScreenOverlay::SetTexture(Texture *tex) {
 	texture = *tex;
 	hasTexture = true;
 }
@@ -147,18 +147,18 @@ bool ScreenOverlay::GenerateVertices(const vector<vec3> *verts, const vec3 &col,
 
 
 //init texture
-bool ScreenOverlay::initTexture(const string &filename, GLuint target) {
+bool ScreenOverlay::InitTexture(const string &filename, GLuint target) {
 	hasTexture = 1;
 	return texture.InitializeTexture(filename, target);
 }
 
-void ScreenOverlay::setColour(const vec3 &c) {
+void ScreenOverlay::SetColour(const vec3 &c) {
 	colour = c;
-	updateColourBuffer(c);
+	UpdateColourBuffer(c);
 
 }
 
-void ScreenOverlay::updateColourBuffer(const vec3 &colour) {
+void ScreenOverlay::UpdateColourBuffer(const vec3 &colour) {
 	colours.clear();
 	for (int i = 0; i < elementCount; i++) {
 		colours.push_back(colour);
@@ -167,7 +167,7 @@ void ScreenOverlay::updateColourBuffer(const vec3 &colour) {
 	glBufferSubData(GL_ARRAY_BUFFER, 0, colours.size() * sizeof(vec3), colours.data());
 }
 
-void ScreenOverlay::updateColourBuffer2(const vector<vec3> &Colours) {
+void ScreenOverlay::UpdateColourBuffer2(const vector<vec3> &Colours) {
 	this->colours.clear();
 	colours = Colours;
 	glBindBuffer(GL_ARRAY_BUFFER, colourBuffer);
@@ -179,15 +179,15 @@ vec3 & ScreenOverlay::getColour() {
 	return colour;
 }
 //initialize buffers
-void ScreenOverlay::UpdateBuffers(const vector<vec2> *uvs) {
+void ScreenOverlay::UpdateUVBuffer(const vector<vec2> *u) {
 	glBindBuffer(GL_ARRAY_BUFFER, textureBuffer);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, uvs->size() * sizeof(vec2), uvs->data());
+	glBufferSubData(GL_ARRAY_BUFFER, 0, u->size() * sizeof(vec2), u->data());
 }
 
-void ScreenOverlay::UpdateVertices(const vector<vec3> *vertices) {
+void ScreenOverlay::UpdateVertexBuffer(const vector<vec3> *v) {
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, vertices->size() * sizeof(vec3), vertices->data());
-	elementCount = vertices->size();
+	glBufferSubData(GL_ARRAY_BUFFER, 0, v->size() * sizeof(vec3), v->data());
+	elementCount = v->size();
 }
 
 bool ScreenOverlay::Initialize() {
@@ -243,7 +243,7 @@ void ScreenOverlay::Render(GLuint type, const vec3 &colour)
 	glUseProgram(shader.program);
 	glBindVertexArray(vertexArray);
 	if (updateColours)
-		updateColourBuffer(colour);
+		UpdateColourBuffer(colour);
 
 	if (type == GL_POINTS) {
 		glPointSize(10.f);
@@ -275,7 +275,7 @@ void ScreenOverlay::Render(GLuint type, const vec3 &colour)
 }
 
 //Sets position of overlay
-void ScreenOverlay::setPosition(const vec3 &pos) {
+void ScreenOverlay::SetPosition(const vec3 &pos) {
 	position = pos;
 
 	//Check that in bounds, clamp if not.
@@ -293,49 +293,49 @@ void ScreenOverlay::setPosition(const vec3 &pos) {
 	}
 }
 
-vec3 & ScreenOverlay::getPosition() {
+vec3 & ScreenOverlay::GetPosition() {
 	return position;
 }
 //rotate overlay in Z direction
-void ScreenOverlay::setRotateZ(const float &r) {
+void ScreenOverlay::SetRotateZ(const float &r) {
 	rotateZ = r;
 }
 
-void ScreenOverlay::setScale(const vec3 &s) {
+void ScreenOverlay::SetScale(const vec3 &s) {
 	_scale = s;
 }
-vec3 & ScreenOverlay::getScale() {
+vec3 & ScreenOverlay::GetScale() {
 	return _scale;
 }
-void ScreenOverlay::setHasTexture(const bool &b) {
+void ScreenOverlay::SetHasTexture(const bool &b) {
 	hasTexture = b;
 }
 
-int ScreenOverlay::getHasTexture() {
+int ScreenOverlay::GetHasTexture() {
 	return hasTexture;
 }
 
 
-void ScreenOverlay::setMixFlag(const bool &b) {
+void ScreenOverlay::SetMixFlag(const bool &b) {
 	mixColour = b;
 }
 
-int ScreenOverlay::getMixFlag() {
+int ScreenOverlay::GetMixFlag() {
 	return mixColour;
 }
 
-void ScreenOverlay::setMixAmount(const float &c) {
+void ScreenOverlay::SetMixAmount(const float &c) {
 	mixAmount = c;
 }
-float ScreenOverlay::getMixAmount() {
+float ScreenOverlay::GetMixAmount() {
 	return mixAmount;
 }
 
 
-void ScreenOverlay::setTransparency(const float &t) {
+void ScreenOverlay::SetTransparency(const float &t) {
 	transparency = t;
 }
-float ScreenOverlay::getTransparency() {
+float ScreenOverlay::GetTransparency() {
 	return transparency;
 }
 
@@ -367,7 +367,7 @@ bool ScreenOverlay::InitQuad(const string &tex,
 	const vec3 &colour) 
 {
 	if (!strcmp(tex.c_str(),"")) {
-		if (!initTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
+		if (!InitTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
 	//		cout << "Failed to init loadBkgrnd." << endl;
 			return false;
 		}
@@ -385,8 +385,8 @@ bool ScreenOverlay::InitQuad(const string &tex,
 
 void ScreenOverlay::InitializeGameText(const string &text, const vec3 &position, const vec3 &colour, int kerning) {
 	isFontTex = 1;
-	setColour(colour);
-	if (!initTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
+	SetColour(colour);
+	if (!InitTexture("fonts/grim12x12.png", GL_TEXTURE_2D)) {
 	//	cout << "Failed to init fonts." << endl;
 	}
 	InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
@@ -411,7 +411,7 @@ void ScreenOverlay::InitializeGameText(const string &text, const vec3 &position,
 		//cout << "Failed to initialize font overlay." << endl;
 	}
 
-	setPosition(position);
+	SetPosition(position);
 }
 void ScreenOverlay::UpdateGameText(const string &text, const int &kerning) {
 	vector<vec2> uvs;
@@ -428,8 +428,9 @@ void ScreenOverlay::UpdateGameText(const string &text, const int &kerning) {
 		verts.push_back(vec3(0.05 + float(index) / kerning, 0.1, 0));
 		index++;
 	}
-	UpdateBuffers(&uvs);
-	UpdateVertices(&verts);
+	UpdateUVBuffer(&uvs);
+	UpdateVertexBuffer(&verts);
+	UpdateColourBuffer(colour);
 }
 
 void ScreenOverlay::GenerateTextUVs(vector <vec2> &uvs, const char &ch) {

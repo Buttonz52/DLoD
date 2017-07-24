@@ -79,9 +79,11 @@ void getItemSpawnPoints();
 
 //PhysX object
 PhysXMain PhysX;
-
+GEO arena , skybox;
+Camera cam;
+int prevArenaIndex, prevSkyboxIndex;
 //controller
-XboxController testController(1);
+XboxController controller(1);
 
 // --------------------------------------------------------------------------
 #endif

@@ -1,6 +1,6 @@
 #include "Game\SuddenDeathGame.h"
 
-SuddenDeathGame::SuddenDeathGame(GLFWwindow * w, Audio & audio, const string & skyboxFilepath, const string & arenaFilepath, const string & starObjFilename, const string & arenaMapFile, const vector<int>* humanVehicleChoice, const int & numPlayers, const vector<vec3>& spawnPoints, const vector<vec3>& itemSpawnPoints)
+SuddenDeathGame::SuddenDeathGame(GLFWwindow * w, Audio & audio, const string & skyboxFilepath, const string & arenaFilepath, const string & starObjFilename, const string & arenaMapFile, const vector<int> &humanVehicleChoice, const int & numPlayers, const vector<vec3>& spawnPoints, const vector<vec3>& itemSpawnPoints)
 {
 	pause = false, restart = false;
 	menuIndex = 0;
@@ -39,10 +39,10 @@ SuddenDeathGame::SuddenDeathGame(GLFWwindow * w, Audio & audio, const string & s
 	for (int i = 0; i < numPlayers; i++) {
 		Human* human = new Human(i, &audio);
 		human->setNumCams(5);
-		human->ChooseVehicle(humanVehicleChoice->at(i), &audio);
+		human->ChooseVehicle(humanVehicleChoice[i], &audio);
 		human->vehicle->setPosition(spawnPoints[i]);
 		human->vehicle->setEnvironmentMap(skybox->getTexture());
-		initVehicle(human->vehicle, humanVehicleChoice->at(i));
+		initVehicle(human->vehicle, humanVehicleChoice[i]);
 		skybox->children.push_back(human->vehicle);
 		players.push_back(human);
 
