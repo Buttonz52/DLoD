@@ -28,14 +28,12 @@ void TitleScreen::pressQuit() {
 
 //render all components
 void TitleScreen::Render() {
-	//background.Render(GL_TRIANGLE_STRIP, background.getColour());	//render "loading screen"
-
 	if (currentScreen != NULL)
 		currentScreen->Render();
 
 }
 
-int TitleScreen::Run(int &skyboxIndex, int &arenaIndex, vector<int> &humanVehicleChoice, int &numPlayers, int & mode) {
+int TitleScreen::Run(vector<int> &humanVehicleChoice, int &numPlayers, int & mode) {
 	currentScreen->Run();
 	if (!currentScreen->checkVisible()) {
 		switch (currentScreen->getScreenIndex()) {
@@ -117,37 +115,8 @@ int TitleScreen::Run(int &skyboxIndex, int &arenaIndex, vector<int> &humanVehicl
 					currentScreen->isVisible = true;
 				}
 				else {
-					currentScreen->Destroy();
-					currentScreen = new ArenaScreen(window, controller, audio);
-					currentScreen->Initialize();
+					isStart = true;
 				}
-			}
-			break;
-			//arena choice
-		case 5:
-			if (currentScreen->goBack()) {
-				currentScreen->Destroy();
-				currentScreen = new CarScreen(window, controllers, audio, numPlayers);
-				currentScreen->Initialize();
-				vehicleIndex = 0;
-			}
-			else {
-				arenaIndex = currentScreen->returnIndex();
-				currentScreen->Destroy();
-				currentScreen = new SkyboxScreen(window, controller, audio);
-				currentScreen->Initialize();
-			}
-			break;
-		case 6:
-			if (currentScreen->goBack()) {
-				currentScreen->Destroy();
-				currentScreen = new ArenaScreen(window, controller, audio);
-				currentScreen->Initialize();
-				vehicleIndex = 0;
-			}
-			else {
-				skyboxIndex = currentScreen->returnIndex();
-				isStart = true;
 			}
 			break;
 		default:
@@ -185,8 +154,6 @@ bool TitleScreen::Initialize(GLFWwindow *w, XboxController *c, Audio *a) {
 		cout << "Failed to play music" << endl;
 		return false;
 	}
-	//background.GenerateSquareVertices(1, 1, vec3(51.f / 255.f, 1.f, 153.f / 255.f));	//invalid_enum occurs here
-	//background.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
 
 	//initialize title screen
 	currentScreen = new MainScreen(window, controller, audio);
@@ -197,6 +164,5 @@ bool TitleScreen::Initialize(GLFWwindow *w, XboxController *c, Audio *a) {
 
 //clean up
 void TitleScreen::Destroy() {
-	//background.Destroy();
 	currentScreen->Destroy();
 }

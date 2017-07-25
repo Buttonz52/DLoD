@@ -28,9 +28,7 @@ MainScreen::~MainScreen()
 
 void MainScreen::Run()
 {
-	//cout << "run" << endl;
 	int key = KeyCallback(window, controller, audio);
-	//cout << key << endl;
 	switch (key) {	//check key callback 
 	case 0:
 		toggleMenuIndex(-1, initIndex, maxIndex);
@@ -73,7 +71,8 @@ bool MainScreen::checkRules() {
 void MainScreen::Initialize()
 {
 	//vector of buttons
-	for (int i = 0; i < 6; i++)
+	int numButtons = 5;
+	for (int i = 0; i < numButtons; i++)
 		menuButtons.emplace_back();
 
 	//set colours of buttons for now
@@ -91,10 +90,10 @@ void MainScreen::Initialize()
 	menuButtons[3].SetScale(vec3(2));
 	menuButtons[4].SetScale(vec3(2));
 
-	menuButtons[5].GenerateSquareVertices(0.25, 0.25, vec3(1));
+	/*menuButtons[5].GenerateSquareVertices(0.25, 0.25, vec3(1));
 	menuButtons[5].InitTexture("textures/DLoDLogo.png", GL_TEXTURE_2D);
 	menuButtons[5].SetPosition(vec3(0.4, -0.1, 0));
-
+*/
 	//initialize which button cursor will be on upon starting
 	menuButtons[0].SetMixFlag(1); //init
 	prevColour = vec3(0.2, 0.2, 0);	//colour for first button

@@ -23,7 +23,7 @@ public:
 
 	void Render();
 	bool Initialize(GLFWwindow *, XboxController *, Audio *);
-	int Run(int &skyboxIndex, int &arenaIndex, vector<int> &humanVehicleChoice, int &numPlayers, int & mode);
+	int Run(vector<int> &humanVehicleChoice, int &numPlayers, int & mode);
 	void Destroy();
 
 private:

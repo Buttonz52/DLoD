@@ -83,9 +83,6 @@ int Screen::KeyCallback(GLFWwindow * window, XboxController * ctrller, Audio * a
 		else if (ctrller->GetButtonPressed(XBtns.B)) {
 			return 5;
 		}
-		else if (ctrller->GetButtonPressed(XBtns.X)) {
-			return 6;
-		}
 		else {
 			return -1;
 		}
@@ -123,12 +120,6 @@ int Screen::KeyCallback(GLFWwindow * window, XboxController * ctrller, Audio * a
 	state = glfwGetKey(window, GLFW_KEY_B);
 	if (state == GLFW_PRESS)
 		return 5;
-
-	//mystery
-	state = glfwGetKey(window, GLFW_KEY_N);
-	if (state == GLFW_PRESS)
-		return 6;
-
 	return -1;
 }
 

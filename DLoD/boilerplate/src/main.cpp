@@ -14,6 +14,43 @@ void ErrorCallback(int error, const char* description)
 	cout << description << endl;
 }
 
+void IncIndex(const int &size, int &index) {
+	index++;
+	if (index >= size) {
+		index = 0;
+	}
+}
+
+int CheckArenaSkyboxCallback(GLFWwindow * window, XboxController * ctrller)
+{
+	//controller
+	if (ctrller->Connected()) {
+		if (ctrller->GetButtonPressed(XBtns.X)) {
+			return 0;
+		}
+		else if (ctrller->GetButtonPressed(XBtns.Y)) {
+			return 1;
+		}
+		else {
+			return -1;
+		}
+	}
+
+	//keyboard input for player 1 only
+	//else if (ctrller->GetIndex() == 0) {
+	int state;
+	//mystery
+	state = glfwGetKey(window, GLFW_KEY_A);
+	if (state == GLFW_PRESS)
+		return 0;
+
+	state = glfwGetKey(window, GLFW_KEY_S);
+	if (state == GLFW_PRESS) {
+		return 1;
+	}
+	return -1;
+}
+
 void InitSkybox() {
 	string pathname = skyboxFilePathnames[skyboxIndex];
 	string skyboxConfigFile = pathname + "skyboxFile.txt";
@@ -69,7 +106,7 @@ void InitArena() {
 	//arena.addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
 	arena.addShaders("shaders/hdr.vert", "shaders/hdr.frag");
 
-	arena.setScale(vec3(30.f));
+	arena.setScale(vec3(20.f));
 	arena.setPosition(vec3(0, 0, 0));
 	arena.updateModelMatrix();
 }
@@ -199,6 +236,11 @@ int main(int argc, char *argv[])
 	if (!audio.InitAllSounds()) {
 		cout << "Failed to init sounds:" << endl;
 	}
+	ScreenOverlay arenaSkyboxInstruction;
+	arenaSkyboxInstruction.InitializeGameText("Press X and Y to change arena and location", vec3(-0.5, -0.8, 0), vec3(), 30);
+	arenaSkyboxInstruction.SetScale(vec3(0.6));
+	arenaSkyboxInstruction.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
 	TitleScreen ts;
 	if (!InitializeTitleScreen(ts, window, &controller, &audio))
 		return -1;
@@ -206,37 +248,42 @@ int main(int argc, char *argv[])
 	humanVehicleChoice.clear();
 	InitSkybox();
 	InitArena();
-	vec3 light = vec3(100, 0, 0);
+	vec3 light = vec3(5, 0, 0);
 	//fix angle and radius of camera
-	cam.setAlt(0);
-	cam.setRadius(500);
+	//cam.setAlt();
+	cam.setRadius(450);
+	int t = 0;
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 		if (prevSkyboxIndex != skyboxIndex) {
+			prevSkyboxIndex = skyboxIndex;
 			skybox.shutdown();
 			InitSkybox();
 		}
 		if (prevArenaIndex != arenaIndex) {
+			prevArenaIndex = arenaIndex;
 			arena.shutdown();
 			InitArena();
 		}
 		mat4 proj = cam.calculateProjectionMatrix();
 		mat4 view = cam.calculateViewMatrix();
-		//glEnable(GL_CULL_FACE);
-		//glCullFace(GL_BACK);
-		//fix how arena and skybox are rendering
-		arena.Render(view, proj, light);
-		//glDisable(GL_CULL_FACE);
 
+		arena.Render(view, proj, light);
 		skybox.Render(view, proj, light);
+		arenaSkyboxInstruction.Render(GL_TRIANGLES, vec3());
+
+		arenaSkyboxInstruction.SetTransparency(t * 0.1);
+		t > 10 ? t = 0 : t++;
 		cam.incrementAzu(0.01f);
 		glDisable(GL_DEPTH_TEST);
-
-		int ts_state = ts.Run(skyboxIndex, arenaIndex, humanVehicleChoice, numPlayers, modeIndex);
-		if (ts_state != 0) {
+		int asState = CheckArenaSkyboxCallback(window, &controller);
+		asState == 0 ? IncIndex(arenaObjFilenames.size(), arenaIndex) : 0;
+		asState == 1 ? IncIndex(skyboxFilePathnames.size(), skyboxIndex) : 0;
+		int ts_state = ts.Run(humanVehicleChoice, numPlayers, modeIndex);
+		if (ts_state != 0)
 			continue;
-		}
+
 		arena.shutdown();
 		skybox.shutdown();
 		ts.Destroy();
@@ -258,10 +305,8 @@ int main(int argc, char *argv[])
 
 		case 0:
 			game = new TimedGame(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex], humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
-			cout << "timed" << endl;
 			break;
 		case 1:
-			cout << " death" << endl;
 			game = new SuddenDeathGame(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex], humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
 			break;
 		default:
@@ -329,3 +374,4 @@ void getItemSpawnPoints()
 		itemSpawnPoints[i] *= 30.f;
 	}
 }
+
