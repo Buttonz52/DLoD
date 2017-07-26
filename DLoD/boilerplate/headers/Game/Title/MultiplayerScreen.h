@@ -5,7 +5,7 @@ class MultiplayerScreen :
 {
 public:
 	MultiplayerScreen();
-	MultiplayerScreen(GLFWwindow * w, XboxController * x, Audio * a);
+	MultiplayerScreen(GLFWwindow * w, XboxController * x, Audio * a, vec3 &c);
 	~MultiplayerScreen();
 	void Run();
 	void Initialize();

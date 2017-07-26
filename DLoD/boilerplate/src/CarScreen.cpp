@@ -11,7 +11,7 @@ CarScreen::CarScreen() :Screen()
 	kerning = 32;
 };
 
-CarScreen::CarScreen(GLFWwindow * w, vector<XboxController> &x, Audio * a, const int &numPlayers) :Screen(w,NULL,a)
+CarScreen::CarScreen(GLFWwindow * w, vector<XboxController> &x, Audio * a, const int &numPlayers, vec3 &c) :Screen(w,NULL,a,c)
 {
 	maxIndex = 2;
 	screenIndex = 4;
@@ -19,7 +19,6 @@ CarScreen::CarScreen(GLFWwindow * w, vector<XboxController> &x, Audio * a, const
 	numHumans = numPlayers;
 	controllers = x;
 	kerning = 32;
-	cout << "num controllers: " << controllers.size() << endl;
 };
 
 CarScreen::~CarScreen()
@@ -44,14 +43,15 @@ void CarScreen::Run()
 		menuButtons[menuIndex].SetMixFlag(1);
 
 		controllerIndex++;
-		cout << "controller index: " << controllerIndex << endl;
 		isVisible = false;
 
 		std::stringstream fmt;
-		//fmt << "Poooop" << endl;
-		fmt << "Player " << controllerIndex + 1 << ", choose your vehicle";
+		int controllerIndexTextInt = controllerIndex + 1;
+		if (controllerIndexTextInt <= numHumans) {
+			fmt << "Player " << controllerIndexTextInt << ", choose your vehicle";
+			menuButtons[3].UpdateGameText(fmt.str(), kerning);
+		}
 		menuButtons[menuIndex].SetColour(selectColour);	//indicate choice
-		menuButtons[3].UpdateGameText(fmt.str(), kerning);
 	}
 		break;
 		//press "back"
@@ -81,7 +81,7 @@ void CarScreen::Initialize()
 	if (!menuButtons[2].InitTexture("textures/carImgs/heavyCar.png", GL_TEXTURE_2D)) {
 		cout << "Failed to init heavy car texture." << endl;
 	}
-	menuButtons[3].InitializeGameText("Player 1, choose your vehicle", vec3(-0.95, 0.4, 0), vec3(0), kerning);
+	menuButtons[3].InitializeGameText("Player 1, choose your vehicle", vec3(-0.95, 0.4, 0), textColour, kerning);
 	menuButtons[3].SetScale(vec3(2.f));
 
 	menuButtons[0].SetPosition(vec3(-0.4, 0, 0));
@@ -95,7 +95,6 @@ void CarScreen::Initialize()
 	//initialize which button cursor will be on upon starting
 	menuButtons[0].SetColour(selectColour);	//is set to green initially
 	menuButtons[0].SetMixFlag(1); //init
-	prevColour = vec3(0, 0, 0);	//colour for first button
 
 	for (int i = 0; i < numButtons; i++)
 		menuButtons[i].InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");

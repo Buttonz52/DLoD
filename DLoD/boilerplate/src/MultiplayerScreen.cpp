@@ -9,7 +9,7 @@ MultiplayerScreen::MultiplayerScreen() :Screen()
 	kerning = 20;
 };
 
-MultiplayerScreen::MultiplayerScreen(GLFWwindow *w, XboxController *x, Audio *a) : Screen(w, x, a) {
+MultiplayerScreen::MultiplayerScreen(GLFWwindow *w, XboxController *x, Audio *a, vec3 &c) : Screen(w, x, a, c) {
 	maxIndex = 3;
 	screenIndex = 2;
 	kerning = 20;
@@ -56,18 +56,17 @@ void MultiplayerScreen::Initialize()
 		menuButtons.emplace_back();
 	}
 	for (int i = 0; i < 4; i++) {
-		menuButtons[i].InitializeGameText(to_string(i+1), vec3(-0.4 + (2 * i*0.1), -0.1, 0), vec3(0, 0, 0), kerning);
+		menuButtons[i].InitializeGameText(to_string(i+1), vec3(-0.4 + (2 * i*0.1), -0.1, 0), textColour, kerning);
 		menuButtons[i].SetScale(vec3(3.f));
 
 	}
 	//screen overlays for number of players
-	menuButtons[4].InitializeGameText("How many players?", vec3(-0.6, 0.4, 0), vec3(0), kerning + 10);
+	menuButtons[4].InitializeGameText("How many players?", vec3(-0.6, 0.4, 0), textColour, kerning + 10);
 	menuButtons[4].SetScale(vec3(2.f));
 
 	//initialize which button cursor will be on upon starting
 	menuButtons[0].SetColour(selectColour);	//is set to green initially
 	menuButtons[0].SetMixFlag(1); //init
-	prevColour = vec3(0, 0, 0);	//colour for first button
 
 	for (int i = 0; i < numButtons; i++)
 		menuButtons[i].InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");

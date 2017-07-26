@@ -12,14 +12,13 @@ MainScreen::MainScreen() :Screen()
 	kerning = 20;
 };
 
-MainScreen::MainScreen(GLFWwindow *w, XboxController *x, Audio *a) : Screen(w,x,a){
+MainScreen::MainScreen(GLFWwindow *w, XboxController *x, Audio *a, vec3 &c) : Screen(w,x,a, c){
 	initIndex = 0;
 	maxIndex = 2;
 	quit = false;
 	rulesScreen = false;
 	screenIndex = 0;
 	kerning = 20;
-
 }
 
 MainScreen::~MainScreen()
@@ -41,10 +40,8 @@ void MainScreen::Run()
 		{
 		case 0:
 			audio->PlaySfx("armourAndSelect", MIX_MAX_VOLUME, select);
-			//destroy menu buttons
-			for (int i = 0; i < menuButtons.size(); i++)
-				menuButtons[i].Destroy();
-
+			menuButtons[menuIndex].SetColour(pressColour);	//indicate choice
+			menuButtons[menuIndex].SetMixFlag(1);
 			isVisible = false;
 			break;
 		case 1:
@@ -76,16 +73,14 @@ void MainScreen::Initialize()
 		menuButtons.emplace_back();
 
 	//set colours of buttons for now
-	menuButtons[0].SetColour(selectColour);	//is set to green initially
-
 	float menuXPosition = -0.6;
 	float menuYPosition = -0.2;
-	menuButtons[0].InitializeGameText("START", vec3(menuXPosition, menuYPosition, 0), selectColour, kerning);
-	menuButtons[1].InitializeGameText("CONTROLS", vec3(menuXPosition, menuYPosition - 0.1, 0), vec3(0.2, 0.2, 0), kerning);
-	menuButtons[2].InitializeGameText("QUIT", vec3(menuXPosition, menuYPosition - 0.2, 0), vec3(0.2, 0.2, 0), kerning);
+	menuButtons[0].InitializeGameText("START", vec3(menuXPosition, menuYPosition, 0), textColour, kerning);
+	menuButtons[1].InitializeGameText("CONTROLS", vec3(menuXPosition, menuYPosition - 0.1, 0), textColour, kerning);
+	menuButtons[2].InitializeGameText("QUIT", vec3(menuXPosition, menuYPosition - 0.2, 0), textColour, kerning);
 
-	menuButtons[3].InitializeGameText("DERBY LEAGUE", vec3(-0.6, 0.6, 0), vec3(0, 0, 0), kerning);
-	menuButtons[4].InitializeGameText("OF DESTRUCTION", vec3(-0.7, 0.3, 0), vec3(0, 0, 0), kerning);
+	menuButtons[3].InitializeGameText("DERBY LEAGUE", vec3(-0.6, 0.6, 0), textColour, kerning);
+	menuButtons[4].InitializeGameText("OF DESTRUCTION", vec3(-0.7, 0.3, 0), textColour, kerning);
 
 	menuButtons[3].SetScale(vec3(2));
 	menuButtons[4].SetScale(vec3(2));
@@ -95,8 +90,8 @@ void MainScreen::Initialize()
 	menuButtons[5].SetPosition(vec3(0.4, -0.1, 0));
 */
 	//initialize which button cursor will be on upon starting
+	menuButtons[0].SetColour(selectColour);	//is set to green initially
 	menuButtons[0].SetMixFlag(1); //init
-	prevColour = vec3(0.2, 0.2, 0);	//colour for first button
 
 	//generate vertices/scale
 	float buttonWidth = 0.2;

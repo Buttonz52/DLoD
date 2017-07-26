@@ -107,9 +107,6 @@
     <ClCompile Include="src\Screen.cpp">
       <Filter>src\Game\Title</Filter>
     </ClCompile>
-    <ClCompile Include="src\ArenaScreen.cpp">
-      <Filter>src\Game\Title</Filter>
-    </ClCompile>
     <ClCompile Include="src\CarScreen.cpp">
       <Filter>src\Game\Title</Filter>
     </ClCompile>
@@ -125,7 +122,7 @@
     <ClCompile Include="src\ModeScreen.cpp">
       <Filter>src\Game\Title</Filter>
     </ClCompile>
-    <ClCompile Include="src\SkyboxScreen.cpp">
+    <ClCompile Include="src\PlayButtonScreen.cpp">
       <Filter>src\Game\Title</Filter>
     </ClCompile>
   </ItemGroup>
@@ -251,6 +248,9 @@
       <Filter>headers\Game\Title</Filter>
     </ClInclude>
     <ClInclude Include="headers\Game\Title\SkyboxScreen.h">
+      <Filter>headers\Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\Title\PlayButtonScreen.h">
       <Filter>headers\Game\Title</Filter>
     </ClInclude>
   </ItemGroup>

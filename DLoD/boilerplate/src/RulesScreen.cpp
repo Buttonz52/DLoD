@@ -10,7 +10,7 @@ RulesScreen::RulesScreen() :Screen()
 	kerning = 30;
 };
 
-RulesScreen::RulesScreen(GLFWwindow *w, XboxController *x, Audio *a) : Screen(w,x,a){
+RulesScreen::RulesScreen(GLFWwindow *w, XboxController *x, Audio *a) : Screen(w,x,a, vec3()){
 	pauseTime = 100;
 	timeCounter = 0;
 	screenIndex = 1;

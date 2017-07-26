@@ -7,7 +7,7 @@ ModeScreen::ModeScreen() :Screen()
 	kerning = 30;
 };
 
-ModeScreen::ModeScreen(GLFWwindow *w, XboxController *x, Audio *a) : Screen(w, x, a) {
+ModeScreen::ModeScreen(GLFWwindow *w, XboxController *x, Audio *a, vec3 &c) : Screen(w, x, a, c) {
 	maxIndex = 1;
 	screenIndex = 3;
 	kerning = 30;
@@ -28,6 +28,8 @@ void ModeScreen::Run() {
 		case 4:
 			isVisible = false;
 			audio->PlaySfx("armourAndSelect", MIX_MAX_VOLUME,select);
+			menuButtons[menuIndex].SetColour(pressColour);	//indicate choice
+			menuButtons[menuIndex].SetMixFlag(1);
 			break;
 			//press "back"
 		case 5:
@@ -45,9 +47,9 @@ void ModeScreen::Initialize() {
 		menuButtons.emplace_back();
 	}
 
-	menuButtons[0].InitializeGameText("Timed", vec3(-0.6, 0, 0), vec3(0), kerning);
-	menuButtons[1].InitializeGameText("Sudden Death", vec3(0.0, 0, 0), vec3(0), kerning);
-	menuButtons[2].InitializeGameText("Choose mode", vec3(-0.4, 0.4, 0), vec3(0), kerning);
+	menuButtons[0].InitializeGameText("Timed", vec3(-0.6, 0, 0), textColour, kerning);
+	menuButtons[1].InitializeGameText("Sudden Death", vec3(0.0, 0, 0), textColour, kerning);
+	menuButtons[2].InitializeGameText("Choose mode", vec3(-0.4, 0.4, 0), textColour, kerning);
 	
 	for (int i =0; i <numButtons; i++)
 		menuButtons[i].SetScale(vec3(2.f));
@@ -55,7 +57,6 @@ void ModeScreen::Initialize() {
 	//initialize which button cursor will be on upon starting
 	menuButtons[0].SetColour(selectColour);	//is set to green initially
 	menuButtons[0].SetMixFlag(1); //init
-	prevColour = vec3(0, 0, 0);	//colour for first button
 
 	for (int i = 0; i < numButtons; i++)
 		menuButtons[i].InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");

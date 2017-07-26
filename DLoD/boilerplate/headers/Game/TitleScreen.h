@@ -11,10 +11,9 @@
 #include "Title\MultiplayerScreen.h"
 #include "Title\ModeScreen.h"
 #include "Title\CarScreen.h"
-#include "Title\ArenaScreen.h"
-#include "Title\SkyboxScreen.h"
+#include "Title\PlayButtonScreen.h"
 
-
+using namespace glm;
 class TitleScreen
 {
 public:
@@ -22,9 +21,15 @@ public:
 	~TitleScreen();
 
 	void Render();
+	int Run(vector<int>& humanVehicleChoice, int & numPlayers, int & mode, vec3 & newColour);
 	bool Initialize(GLFWwindow *, XboxController *, Audio *);
-	int Run(vector<int> &humanVehicleChoice, int &numPlayers, int & mode);
+	void UpdateColour(const vec3 & colour);
 	void Destroy();
+
+	void InitCarScreen(GLFWwindow * w, vector<XboxController>& c, Audio * a, const int & numPlayers,vec3 & co);
+	void InitModeScreen(GLFWwindow * w, XboxController * c, Audio * a, vec3 & co);
+	void InitMainScreen(GLFWwindow * w, XboxController * c, Audio * a, vec3 & co);
+	void InitMultiplayerScreen(GLFWwindow * w, XboxController * c, Audio * a, vec3 & co);
 
 private:
 	Screen *currentScreen;
@@ -34,7 +39,7 @@ private:
 		vehicleIndex;
 	string titleMusic = "music/Faded_intro.wav";
 
-	vec3 selectColour, pressColour, prevColour;
+	vec3 textColour;
 	GLFWwindow *window;
 	XboxController *controller;
 	vector <XboxController> controllers;

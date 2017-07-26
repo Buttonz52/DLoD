@@ -10,12 +10,13 @@ class Screen {
 public:
 	bool isVisible;
 	Screen();
-	Screen(GLFWwindow * w, XboxController * x, Audio * a);
+	Screen(GLFWwindow * w, XboxController * x, Audio * a, vec3 & c);
 	virtual ~Screen();
 	virtual void Initialize();
 	virtual void Render();
 	virtual void Destroy();
 	virtual void Run();
+	void UpdateColour(const vec3 & newColour);
 	bool checkVisible();
 	void toggleMenuIndex(const int & s, const int & initIndex, const int & maxIndex);
 	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
@@ -33,6 +34,7 @@ protected:
 	vec3 selectColour;
 	vec3 pressColour;
 	vec3 prevColour;
+	vec3 textColour;
 	int menuIndex;
 	int kerning;
 	int screenIndex;

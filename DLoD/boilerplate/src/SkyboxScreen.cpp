@@ -9,7 +9,7 @@ SkyboxScreen::SkyboxScreen() :Screen()
 	kerning = 30;
 };
 
-SkyboxScreen::SkyboxScreen(GLFWwindow * w, XboxController * x, Audio * a) :Screen(w,x,a)
+SkyboxScreen::SkyboxScreen(GLFWwindow * w, XboxController * x, Audio * a) :Screen(w,x,a, vec3())
 {
 	maxIndex = 3;
 	screenIndex = 6;

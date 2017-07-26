@@ -13,22 +13,24 @@ Screen::Screen()
 	menuIndex = 0;
 	backPress = false;
 	kerning = 30;
+	textColour = vec3();
 }
 
-Screen::Screen(GLFWwindow *w, XboxController *x, Audio *a) {
+Screen::Screen(GLFWwindow *w, XboxController *x, Audio *a, vec3 &c) {
 	window = w;
 	controller = x;
 	audio = a;
 	isVisible = true;
 	selectColour = vec3(1, 0.5, 0.5);
 	pressColour = vec3(1, 0, 1);
-	prevColour = vec3(0);
+	prevColour = c;
 	screenIndex = -1;
 	initIndex = 0;
 	maxIndex = 0;
 	menuIndex = 0;
 	backPress = false;
 	kerning = 30;
+	textColour = c;
 }
 
 Screen::~Screen()
@@ -41,6 +43,14 @@ void Screen::Initialize()
 
 void Screen::Run() {
 
+}
+
+void Screen::UpdateColour(const vec3 &newColour) {
+	prevColour = newColour;
+	for (int i = 0; i < menuButtons.size(); i++) {
+		if (menuButtons[i].GetMixFlag() != 1)
+			menuButtons[i].SetColour(newColour);
+	}
 }
 
 void Screen::Render()

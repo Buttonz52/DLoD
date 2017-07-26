@@ -5,7 +5,7 @@ class ModeScreen :
 {
 public:
 	ModeScreen();
-	ModeScreen(GLFWwindow * w, XboxController * x, Audio * a);
+	ModeScreen(GLFWwindow * w, XboxController * x, Audio * a, vec3 &c);
 	~ModeScreen();
 	void Run();
 	void Initialize();

@@ -51,6 +51,32 @@ int CheckArenaSkyboxCallback(GLFWwindow * window, XboxController * ctrller)
 	return -1;
 }
 
+vec3 SkyboxColour(GLFWwindow *w) {
+	//unsigned int fbo;
+	//glGenFramebuffers(1, &fbo);
+	//glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+	//glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, skybox.getTexture().textureID, 0);
+	//if (!glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) {
+	//	cout << "Error creating framebuffer" << endl;
+	//}
+	int x, y;
+	glfwGetWindowSize(w, &x, &y);
+	cout << x << " " << y << endl;
+	unsigned char colour[3];
+	glReadPixels(10, y-100, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &colour);
+
+	float newCol[3];
+	for (int i = 0; i < 3; i++)
+		newCol[i] = colour[i] / 255.f;
+	for (int i = 0; i < 3; i++)
+		cout << newCol[i] << " ";
+	cout << "|| " << endl;
+	vec3 newColour = vec3(1-newCol[0], 1-newCol[1], 1-newCol[2]);
+	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	//glDeleteFramebuffers(1, &fbo);
+	return newColour;
+}
+
 void InitSkybox() {
 	string pathname = skyboxFilePathnames[skyboxIndex];
 	string skyboxConfigFile = pathname + "skyboxFile.txt";
@@ -98,16 +124,12 @@ void InitArena() {
 	arena.setEnvironmentMap(skybox.getTexture());
 	arena.setReflectance(0.1);
 	arena.setExposure(0.7);
-	if (!arena.initTexture("textures/gold.png", GL_TEXTURE_2D)) {
-		//if (!arena->initTexture("textures/ground.png", GL_TEXTURE_2D)) {
-
+	if (!arena.initTexture("textures/gold.png", GL_TEXTURE_2D))
 		cout << "Failed to initialize arena ground texture." << endl;
-	}
-	//arena.addShaders("shaders/tex2D.vert", "shaders/tex2D.frag");
 	arena.addShaders("shaders/hdr.vert", "shaders/hdr.frag");
 
 	arena.setScale(vec3(20.f));
-	arena.setPosition(vec3(0, 0, 0));
+	arena.setPosition(vec3(0, -100, 0));
 	arena.updateModelMatrix();
 }
 // handles keyboard input events
@@ -236,18 +258,23 @@ int main(int argc, char *argv[])
 	if (!audio.InitAllSounds()) {
 		cout << "Failed to init sounds:" << endl;
 	}
-	ScreenOverlay arenaSkyboxInstruction;
-	arenaSkyboxInstruction.InitializeGameText("Press X and Y to change arena and location", vec3(-0.5, -0.8, 0), vec3(), 30);
-	arenaSkyboxInstruction.SetScale(vec3(0.6));
-	arenaSkyboxInstruction.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
+	InitSkybox();
+	vec3 newColour = SkyboxColour(window);
+	InitArena();
 
 	TitleScreen ts;
 	if (!InitializeTitleScreen(ts, window, &controller, &audio))
 		return -1;
 
 	humanVehicleChoice.clear();
-	InitSkybox();
-	InitArena();
+
+	ts.UpdateColour(newColour);
+	ScreenOverlay arenaSkyboxInstruction;
+	arenaSkyboxInstruction.InitializeGameText("Press X and Y to change arena and location", vec3(-0.5, -0.8, 0), newColour, 30);
+	arenaSkyboxInstruction.SetScale(vec3(0.6));
+	arenaSkyboxInstruction.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
+
 	vec3 light = vec3(5, 0, 0);
 	//fix angle and radius of camera
 	//cam.setAlt();
@@ -257,10 +284,14 @@ int main(int argc, char *argv[])
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 		if (prevSkyboxIndex != skyboxIndex) {
-			prevSkyboxIndex = skyboxIndex;
+			//prevSkyboxIndex = skyboxIndex;
 			skybox.shutdown();
 			InitSkybox();
+			newColour = SkyboxColour(window);
+			ts.UpdateColour(newColour);
+			arenaSkyboxInstruction.SetColour(newColour);
 		}
+
 		if (prevArenaIndex != arenaIndex) {
 			prevArenaIndex = arenaIndex;
 			arena.shutdown();
@@ -274,13 +305,22 @@ int main(int argc, char *argv[])
 		arenaSkyboxInstruction.Render(GL_TRIANGLES, vec3());
 
 		arenaSkyboxInstruction.SetTransparency(t * 0.1);
-		t > 10 ? t = 0 : t++;
-		cam.incrementAzu(0.01f);
+
+		t > 10 ? t = 0: t++;
+
+		//messing around with this timing
+		if (t ==0 || prevSkyboxIndex != skyboxIndex) {
+			prevSkyboxIndex = skyboxIndex;
+			newColour = SkyboxColour(window);
+			ts.UpdateColour(newColour);
+			arenaSkyboxInstruction.SetColour(newColour);
+		}
+		cam.incrementAzu(0.005f);
 		glDisable(GL_DEPTH_TEST);
 		int asState = CheckArenaSkyboxCallback(window, &controller);
 		asState == 0 ? IncIndex(arenaObjFilenames.size(), arenaIndex) : 0;
 		asState == 1 ? IncIndex(skyboxFilePathnames.size(), skyboxIndex) : 0;
-		int ts_state = ts.Run(humanVehicleChoice, numPlayers, modeIndex);
+		int ts_state = ts.Run(humanVehicleChoice, numPlayers, modeIndex, newColour);
 		if (ts_state != 0)
 			continue;
 

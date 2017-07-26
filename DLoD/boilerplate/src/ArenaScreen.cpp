@@ -9,7 +9,7 @@ ArenaScreen::ArenaScreen() :Screen()
 	kerning = 30;
 };
 
-ArenaScreen::ArenaScreen(GLFWwindow * w, XboxController * x, Audio * a) :Screen(w,x,a)
+ArenaScreen::ArenaScreen(GLFWwindow * w, XboxController * x, Audio * a) :Screen(w,x,a, vec3())
 {
 	maxIndex = 2;
 	screenIndex = 5;

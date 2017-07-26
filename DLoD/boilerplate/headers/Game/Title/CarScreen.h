@@ -5,7 +5,7 @@ class CarScreen :
 {
 public:
 	CarScreen();
-	CarScreen(GLFWwindow * w, vector<XboxController> &x, Audio * a, const int &numPlayers);
+	CarScreen(GLFWwindow * w, vector<XboxController> &x, Audio * a, const int &numPlayers, vec3 &c);
 	~CarScreen();
 
 	void Run();

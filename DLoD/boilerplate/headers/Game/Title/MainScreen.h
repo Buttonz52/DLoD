@@ -5,7 +5,7 @@ class MainScreen :
 {
 public:
 	MainScreen();
-	MainScreen(GLFWwindow * w, XboxController * x, Audio * a);
+	MainScreen(GLFWwindow * w, XboxController * x, Audio * a, vec3 &c);
 	~MainScreen();
 	void Run();
 	bool checkRules();
