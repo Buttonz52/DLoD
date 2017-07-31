@@ -141,7 +141,9 @@
     <ClCompile Include="src\AI.cpp" />
     <ClCompile Include="src\AStarNode.cpp" />
     <ClCompile Include="src\Audio.cpp" />
+    <ClCompile Include="src\EndGameScreen.cpp" />
     <ClCompile Include="src\ModeScreen.cpp" />
+    <ClCompile Include="src\PauseScreen.cpp" />
     <ClCompile Include="src\PlayButtonScreen.cpp" />
     <ClCompile Include="src\RulesScreen.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -186,10 +188,12 @@
     <ClInclude Include="headers\GameEngine\Texture.h" />
     <ClInclude Include="headers\GameEngine\Shader.h" />
     <ClInclude Include="headers\Game\Audio.h" />
+    <ClInclude Include="headers\Game\EndGameScreen.h" />
     <ClInclude Include="headers\Game\GameFactory.h" />
     <ClInclude Include="headers\Game\GameHud.h" />
     <ClInclude Include="headers\Game\GameState.h" />
     <ClInclude Include="headers\Game\main.h" />
+    <ClInclude Include="headers\Game\PauseScreen.h" />
     <ClInclude Include="headers\Game\ScreenOverlay.h" />
     <ClInclude Include="headers\Game\SuddenDeathGame.h" />
     <ClInclude Include="headers\Game\TimedGame.h" />

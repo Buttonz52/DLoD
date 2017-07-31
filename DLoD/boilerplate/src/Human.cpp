@@ -180,69 +180,9 @@ void Human::vehicleControls(GLFWwindow* window, bool &pause)
 		  pause = true;
 		  Sleep(300);
 	  }
-
-
   }
 }
 
-void Human::menuControls(GLFWwindow* window, bool &pause, int &index)
-{
-	if (!controller->Connected()) {
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-			pause = false;
-			pausePressed = false;
-			audio->PlaySfx("back", MIX_MAX_VOLUME,menu);
-			Sleep(300);
-		}
-		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-			index -= 1;
-			audio->PlaySfx("toggle", MIX_MAX_VOLUME,menu);
-			Sleep(150);
-		}
-		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-			index += 1;
-			audio->PlaySfx("toggle", MIX_MAX_VOLUME,menu);
-			Sleep(150);
-		}
-		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
-			menuItemPressed = true;
-			pausePressed = false;
-			pause = false;
-			audio->PlaySfx("armourAndSelect", MIX_MAX_VOLUME,select);
-			Sleep(300);
-
-		}
-	}
-	else {
-		if (controller->GetButtonPressed(XBtns.StartBtn)) {
-			pause = false;
-			pausePressed = false;
-			audio->PlaySfx("back", MIX_MAX_VOLUME,menu);
-			Sleep(300);
-		}
-		if (controller->GetButtonPressed(XBtns.DPad_Up)) {
-			index -= 1;
-			audio->PlaySfx("toggle", MIX_MAX_VOLUME,menu);
-			Sleep(150);
-		}
-		if (controller->GetButtonPressed(XBtns.DPad_Down)) {
-			index += 1;
-			audio->PlaySfx("toggle", MIX_MAX_VOLUME,menu);
-			Sleep(150);
-		}
-		if (controller->GetButtonPressed(XBtns.A)) {
-			menuItemPressed = true;
-			pausePressed = false;
-			pause = false;
-			audio->PlaySfx("armourAndSelect", MIX_MAX_VOLUME,select);
-			Sleep(300);
-		}
-	}
-}
-
-bool Human::MenuItemSelected() {
-	return menuItemPressed;
-}
 bool Human::pressedPause() {
 	return pausePressed;
 }

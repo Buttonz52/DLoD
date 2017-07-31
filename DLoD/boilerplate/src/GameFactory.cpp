@@ -84,16 +84,10 @@ GameFactory::GameFactory(GLFWwindow *w, Audio &audio, const string &skyboxFilepa
 		positions.emplace_back();
 	}
 	gameHud.InitializeHud(*players[0]->vehicle->getColour(), &positions, arenaMap);
-	gameHud.InitializeMenu(vec3(1, 0, 1));
 }
 
 bool GameFactory::start()
 {
-	// start the game loop
-
-	pauseText.SetScale(vec3(4.f));
-	pauseText.InitializeGameText("PAUSE", vec3(-0.4, 0.5, 0), vec3(1, 0.5, 0.3), 30);
-
 	switchCamText.SetScale(vec3(0.5f));
 	switchCamText.InitializeGameText("Press <TAB> or <BACK> to change between cameras", vec3(-0.4, -0.8, 0), vec3(1, 1, 1), 30);
 
@@ -140,8 +134,8 @@ bool GameFactory::start()
 	vector<vec3> loserVectorColours;
 	vector<clock_t> ToDs;
 
+	///TODO: make this into a virtual function
 	//Adds players in rank based on when they died
-
 	for (int i = 0; i < players.size(); i++) {
 		std::stringstream fmt;
 		Human* human = dynamic_cast<Human*> (players[i]);
@@ -181,22 +175,8 @@ bool GameFactory::start()
 			}
 		}
 	}
-	gameHud.InitializeEndGame(loserVectorNames, loserVectorColours);
-	pauseText.InitializeGameText("END GAME", vec3(-0.57, 0.5, 0), vec3(1, 0.5, 0.3), 30);
+	goToEndGameState(loserVectorNames, loserVectorColours);
 
-	while (!restart && !glfwWindowShouldClose(window))
-	{
-		h->pausePressed = true;
-		for (Player* p : players)
-		{
-			Human* human = dynamic_cast<Human*> (p);
-			if (human != nullptr) {
-				goToEndGameState();
-			}
-		}
-
-		glfwPollEvents();
-	}
 	delete skybox;
 	delete arena;
 	physX.cleanupPhysics(true);
@@ -217,9 +197,8 @@ void GameFactory::gameLoop()
 	while (!glfwWindowShouldClose(window) && !gameOver && !restart)
 	{
 		//game paused
-		while (pause && !glfwWindowShouldClose(window)) {
+		if (pause)
 			goToGamePausedState();
-		}
 
 		// Add items to the scene
 		vector<pair<Player*, int>>::iterator itr = itemsToAdd.begin();
@@ -524,89 +503,83 @@ void GameFactory::ResizeViewport(const int index, const int numPlayerScreens, co
 	glViewport((index % 2)*float(width) / 2, vHeight, width / wSplit, height / hSplit);
 }
 
-void GameFactory::goToEndGameState() {
-	//audio.ChangeMusicVolume(MIX_MAX_VOLUME / 4);	//volume decreased
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	vec3 pauseColour(0);	//colour for pause menu
-	for (Player *p : players) {
-		Human* human = dynamic_cast<Human*> (p);
-		//get pause input for human that pressed pause
-		if (human != nullptr && human->pressedPause()) {
-			pauseColour = *human->getColour();	//set pause menu colour
-			human->menuControls(window, pause, menuIndex);
-			//index check
-			if (menuIndex > 1)
-				menuIndex = 0;
-			if (menuIndex < 0)
-				menuIndex = 1;
-			if (human->MenuItemSelected()) {
-				switch (menuIndex) {
-				case 0:
-					restart = true;
-					break;
-				case 1:	//pressed "quit"
-					glfwSetWindowShouldClose(window, true);
-					break;
-				}
-			}
-		}
-	}
+void GameFactory::goToEndGameState(const vector<string>&names, const vector<vec3> &colours) {
 	//resize viewport so renders fullscreen
 	ResizeViewport(0, 1, width, height);
-	pauseText.Render(GL_TRIANGLES, pauseColour);
-	gameHud.RenderEndGame(menuIndex, pauseColour);	//render menu
-
-	glfwSwapBuffers(window);
-	glfwPollEvents();
-	//volume back to max volume
-	//audio.ChangeMusicVolume(MIX_MAX_VOLUME);
-
+	vec3 pauseColour = vec3();
+	//player 1 input only 
+	Human *h = dynamic_cast<Human*> (players[0]);
+	if (h != nullptr) {
+		pauseColour = *h->getColour();
+		EndGameScreen pScreen(window, h->controller, h->audio, pauseColour, names, colours);
+		pScreen.Initialize();
+		while (!glfwWindowShouldClose(window) && h != nullptr && !restart) {
+			pScreen.Run();
+			if (!pScreen.checkVisible()) {
+				if (pScreen.isQuit) {
+					restart = false;
+					glfwSetWindowShouldClose(window, true);
+				}
+				//this works
+				else if (pScreen.isRestart) {
+					restart = true;
+				}
+			}
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			pScreen.Render();
+			glfwSwapBuffers(window);
+			glfwPollEvents();
+			Sleep(150);	//slow down input
+		}
+		pScreen.Destroy();
+	}
 }
+
 //State when the game is paused (start button/esc pressed) in game
 void GameFactory::goToGamePausedState() {
-	//	audio.ChangeMusicVolume(MIX_MAX_VOLUME / 4);	//volume decreased
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	vec3 pauseColour(0);	//colour for pause menu
+	//resize viewport so renders fullscreen
+	ResizeViewport(0, 1, width, height);
+	vec3 pauseColour;
+	Human *h = NULL;
 	for (Player *p : players) {
 		Human* human = dynamic_cast<Human*> (p);
 		//get pause input for human that pressed pause
 		if (human != nullptr && human->pressedPause()) {
 			pauseColour = *human->getColour();	//set pause menu colour
-			human->menuControls(window, pause, menuIndex);
-			//index check
-			if (menuIndex > 2)
-				menuIndex = 0;
-			if (menuIndex < 0)
-				menuIndex = 2;
-			if (human->MenuItemSelected()) {
-				switch (menuIndex) {
-				case 0:	//pressed "resume"
-					human->menuItemPressed = false;
-					audio.ChangeMusicVolume(MIX_MAX_VOLUME);
-					break;
-				case 1:
-					restart = true;
-					break;
-				case 2:	//pressed "quit"
-					glfwSetWindowShouldClose(window, true);
-					break;
-				default:	//pressed "resume"
-					human->menuItemPressed = false;
-					audio.ChangeMusicVolume(MIX_MAX_VOLUME);
-					break;
-				}
-			}
+			h = human;
+			break;
 		}
 	}
-	//resize viewport so renders fullscreen
-	ResizeViewport(0, 1, width, height);
-	pauseText.Render(GL_TRIANGLES, pauseColour);
-	gameHud.RenderMenu(menuIndex, pauseColour);	//render menu
 
-	glfwSwapBuffers(window);
-	glfwPollEvents();
-	//volume back to max volume
-	//audio.ChangeMusicVolume(MIX_MAX_VOLUME);
+	PauseScreen pScreen(window, h->controller, h->audio, pauseColour);
+	pScreen.Initialize();
+	while (!glfwWindowShouldClose(window) && h != nullptr && h->pressedPause()) {
+		pScreen.Run();
+		if (!pScreen.checkVisible()) {
+			//this works
+			if (pScreen.goBack()) {
+				pause = false;
+				h->pausePressed = false;
+			}
+			//this works
+			else if (pScreen.isQuit) {
+				glfwSetWindowShouldClose(window, true);
+				return;
+			}
+			//this works
+			else if (pScreen.isRestart) {
+				pause = false;
+				restart = true;
+				h->pausePressed = false;
+			}
+		}
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		pScreen.Render();
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+		Sleep(150);	//slow down input
+	}
+	pScreen.Destroy();
 }
 
 //updates information for the game hud if it is a player

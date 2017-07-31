@@ -76,7 +76,6 @@ SuddenDeathGame::SuddenDeathGame(GLFWwindow * w, Audio & audio, const string & s
 	}
 	gameHud.setMode(GameHud::sudden_death);
 	gameHud.InitializeHud(*players[0]->vehicle->getColour(), &positions, arenaMap);
-	gameHud.InitializeMenu(vec3(1, 0, 1));
 }
 
 

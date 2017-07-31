@@ -21,27 +21,10 @@ public:
 	//updates positions of cars to render to radar portion of hud
 	void UpdateRadar(const vector<vec3>* positions, const vector<vec3> *colours);
 
-	void InitializeMenu(const vec3 & colour);
-
-	void InitializeEndGame(const vector<string>& playerNames, const vector<vec3>& colours);
-	
 	//initializes hud
 	void InitializeHud(const vec3 &colour, const vector<vec3>*positions, const string &reanaFilename);
 
-	//renders all widgets
-	//void Render(const string &health, const string &armour, const string &velocity, const vector<vec3>*positions, const vec3 &colour);
-
-	//void Render(const string & health, const string & armour, const string & velocity, const vector<vec3>* positions, const vec3 & colour, const bool & canLayTrap);
-
-	//void Render(const string & health, const string & armour, const string & velocity, const vector<vec3>* positions, const vec3 & colour, const vector<vec3>* colours, const bool & canLayTrap);
-
 	void Render(vector<string>& hudStrings, const vector<vec3>* positions, const vec3 & colour, const vector<vec3>* colours, const bool & canLayTrap);
-
-	void RenderEndGame(const int & menuIndex, const vec3 & colour);
-
-	void RenderMenu(const int & menuIndex, const vec3 & colour);
-
-	//void RenderMenu(const int & menuIndex);
 
 private:
 	gameMode mode;
@@ -54,14 +37,8 @@ private:
 		velocityTitle, velocityTex,
 		radarBkgrd, radarBorder,
 		radarPoints, screenBorder,
-		resumeText, quitText,
-		pauseBkgrd, pauseBox,
-		pauseBorder, restartText,
 		dpadTexture, dpadBorder,
-		weaponUpD, weaponLeftD,
-		firstPlace, secondPlace,
-		thirdPlace, fourthPlace,
-		endGameOverlay;
+		weaponUpD, weaponLeftD;
 	;
 };
 

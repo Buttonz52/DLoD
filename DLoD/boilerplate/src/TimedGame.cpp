@@ -83,12 +83,11 @@ TimedGame::TimedGame(GLFWwindow * w, Audio & audio, const string & skyboxFilepat
 	}
 	gameHud.setMode(GameHud::time);
 	gameHud.InitializeHud(*players[0]->vehicle->getColour(), &positions, arenaMap);
-	gameHud.InitializeMenu(vec3(1, 0, 1));
 }
 
 bool TimedGame::start() {
+	//start game timer
 	if (!gameTimer.isStarted()) {
-		//cout << "starting timer" << endl;
 		gameTimer.start();
 		currentTicks = gameTimer.getTicks();
 	}

@@ -20,9 +20,7 @@ public:
   void getInput(GLFWwindow * window, bool & pause);
   void getGameOverInput(GLFWwindow*, bool&);
   void vehicleControls(GLFWwindow * window, bool & pause);
-  void menuControls(GLFWwindow * window, bool & pause, int & index);
   void gameOverControls(GLFWwindow*, bool&);
-  bool MenuItemSelected();
   bool pressedPause();
 
   bool restartGame();

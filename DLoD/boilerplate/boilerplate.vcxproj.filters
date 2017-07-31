@@ -125,6 +125,12 @@
     <ClCompile Include="src\PlayButtonScreen.cpp">
       <Filter>src\Game\Title</Filter>
     </ClCompile>
+    <ClCompile Include="src\PauseScreen.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EndGameScreen.cpp">
+      <Filter>src\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\GEO\player\AI.h">
@@ -252,6 +258,12 @@
     </ClInclude>
     <ClInclude Include="headers\Game\Title\PlayButtonScreen.h">
       <Filter>headers\Game\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\PauseScreen.h">
+      <Filter>headers\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="headers\Game\EndGameScreen.h">
+      <Filter>headers\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

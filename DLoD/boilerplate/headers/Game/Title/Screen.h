@@ -19,7 +19,7 @@ public:
 	void UpdateColour(const vec3 & newColour);
 	bool checkVisible();
 	void toggleMenuIndex(const int & s, const int & initIndex, const int & maxIndex);
-	int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
+	virtual int KeyCallback(GLFWwindow* window, XboxController *ctrller, Audio *audio);
 	virtual int returnIndex();
 	int getScreenIndex();
 	bool goBack();

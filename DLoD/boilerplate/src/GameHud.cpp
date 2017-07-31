@@ -19,60 +19,6 @@ void GameHud::setMode(const gameMode &version) {
 	mode = version;
 }
 
-void GameHud::InitializeMenu(const vec3 &colour) {
-	int kerning = 30;
-	resumeText.InitializeGameText("RESUME", vec3(-0.27, 0.0, 0), colour, kerning);
-	resumeText.SetScale(vec3(2));
-	restartText.InitializeGameText("RESTART", vec3(-0.3, -0.2, 0), colour, kerning);
-	restartText.SetScale(vec3(2));
-	quitText.InitializeGameText("QUIT", vec3(-0.2, -0.4, 0), colour, kerning);
-	quitText.SetScale(vec3(2));
-
-	//arena map background
-	if (!pauseBkgrd.InitTexture("textures/DLoDLogo.png", GL_TEXTURE_2D)) {
-	//	cout << "Failed to init arena map." << endl;
-	}
-
-	pauseBkgrd.GenerateSquareVertices(1, 1, vec3(0.6, 0.5, 1));
-	pauseBkgrd.SetMixFlag(1);
-	pauseBkgrd.SetMixAmount(0.5);
-	pauseBkgrd.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-	
-	//border for health and armour
-	pauseBox.GenerateSquareVertices(0.25, 0.32, vec3(0.6, 0.7, 1));
-	pauseBox.SetPosition(vec3(-0.055, -0.07, 0));
-	pauseBox.SetTransparency(0.5f);
-	pauseBox.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-
-	pauseBorder.GenerateBorder(0.25, 0.32, 0.01, vec3(0, 0, 0), vec3(-0.055, -0.07, 0));
-	pauseBorder.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-
-}
-void GameHud::InitializeEndGame(const vector<string> &playerNames, const vector <vec3> &colours) {
-	quitText.SetPosition(vec3(-0.19, -0.9, 0));
-	restartText.SetPosition(vec3(-0.29, -0.7, 0));
-	std::stringstream fmt1;
-	int kerning = 30;
-	fmt1 << "1st place: " << playerNames[0];
-	firstPlace.InitializeGameText(fmt1.str(), vec3(-0.35, 0.3, 0), colours[0], kerning);
-	std::stringstream fmt2;
-	fmt2 << "2nd place: " << playerNames[1];
-	secondPlace.InitializeGameText(fmt2.str(), vec3(-0.35, 0.1, 0), colours[1], kerning);
-	std::stringstream fmt3;
-	fmt3 << "3rd place: " << playerNames[2];
-	thirdPlace.InitializeGameText(fmt3.str(), vec3(-0.35, -0.1, 0), colours[2], kerning);
-	std::stringstream fmt4;
-	fmt4 << "4th place: " << playerNames[3];
-	fourthPlace.InitializeGameText(fmt4.str(), vec3(-0.35, -0.3, 0), colours[3], kerning);
-	endGameOverlay.GenerateSquareVertices(0.5, 0.5, vec3(1));
-	endGameOverlay.SetTransparency(0.5f);
-
-	endGameOverlay.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-	firstPlace.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-	secondPlace.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-	thirdPlace.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-	fourthPlace.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
-}
 //initialize hud
 void GameHud::InitializeHud(const vec3 &colour, const vector<vec3> *positions, const string &arenaFilename) {
 	int kerning = 30;
@@ -200,10 +146,7 @@ void GameHud::Render(vector<string> &hudStrings, const vector<vec3>*positions, c
 	healthTex.UpdateGameText(hudStrings[0], kerning);
 	armourTex.UpdateGameText(hudStrings[1], kerning);
 	velocityTex.UpdateGameText(hudStrings[2], kerning);
-	
-	/*if (mode == time) {
-		timeTex.UpdateGameText(, kerning);
-	}*/
+
 	mode == time ? timeTex.UpdateGameText(hudStrings[3], kerning) : 0;
 	UpdateRadar(positions, colours);
 
@@ -241,49 +184,4 @@ void GameHud::Render(vector<string> &hudStrings, const vector<vec3>*positions, c
 	dpadTexture.Render(GL_TRIANGLE_STRIP, dpadTexture.getColour());
 
 	screenBorder.Render(GL_TRIANGLES, colour);
-}
-
-void GameHud::RenderEndGame(const int &menuIndex, const vec3 &colour) {
-	float multiplyColour = 0.3f;
-
-	if (menuIndex == 0) {
-		quitText.SetColour(colour * multiplyColour);
-		restartText.SetColour(colour);
-	}
-	else {
-		quitText.SetColour(colour);
-		restartText.SetColour(colour*multiplyColour);
-	}
-
-	quitText.Render(GL_TRIANGLES, quitText.getColour());
-	restartText.Render(GL_TRIANGLES, restartText.getColour());
-	firstPlace.Render(GL_TRIANGLES, firstPlace.getColour());
-	secondPlace.Render(GL_TRIANGLES, secondPlace.getColour());
-	thirdPlace.Render(GL_TRIANGLES, thirdPlace.getColour());
-	fourthPlace.Render(GL_TRIANGLES, fourthPlace.getColour());
-	endGameOverlay.Render(GL_TRIANGLE_STRIP, endGameOverlay.getColour());
-}
-void GameHud::RenderMenu(const int &menuIndex, const vec3 &colour) {
-	float multiplyColour = 0.3f;
-	if (menuIndex == 0) {
-		restartText.SetColour(colour*multiplyColour);
-		quitText.SetColour(colour * multiplyColour);
-		resumeText.SetColour(colour);
-	}
-	else if (menuIndex == 1) {
-		quitText.SetColour(colour * multiplyColour);
-		restartText.SetColour(colour);
-		resumeText.SetColour(colour * multiplyColour);
-	}
-	else {
-		quitText.SetColour(colour);
-		restartText.SetColour(colour*multiplyColour);
-		resumeText.SetColour(colour*multiplyColour);
-	}
-	quitText.Render(GL_TRIANGLES, quitText.getColour());
-	resumeText.Render(GL_TRIANGLES, resumeText.getColour());
-	restartText.Render(GL_TRIANGLES, restartText.getColour());
-	pauseBorder.Render(GL_TRIANGLES, colour);
-	pauseBox.Render(GL_TRIANGLE_STRIP, pauseBox.getColour());
-	pauseBkgrd.Render(GL_TRIANGLE_STRIP, vec3(0));// vec3(1.f - colour) * 0.3f);
 }
