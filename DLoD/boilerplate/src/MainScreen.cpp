@@ -55,7 +55,10 @@ void MainScreen::Run()
 			break;
 		}
 		break;
+	default:
+		return;
 	}
+
 }
 
 bool MainScreen::checkQuit() {

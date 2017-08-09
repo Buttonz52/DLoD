@@ -33,40 +33,45 @@ string mainMusic = "music/TimeLapse.wav";
 
 int skyboxIndex, arenaIndex;
 //skybox file paths
-vector<string> skyboxFilePathnames = {
-	"textures/ely_cloudtop/",
-	"textures/nec_hell/",
-	"textures/mp_deviltooth/",
-	"textures/mp_emerald/"
-};
+vector<string> skyboxFilePathnames, arenaObjFilenames, itemSpawnObjFilenames;
+//vector<string> skyboxFilePathnames;/* = {
+//	"textures/ely_cloudtop/",
+//	"textures/nec_hell/",
+//	"textures/mp_deviltooth/",
+//	"textures/mp_emerald/"
+//};*/
+//
+////arena obj files
+//vector <string> arenaObjFilenames;/* = {
+//	"arenas/bowl.obj",
+//	"arenas/devil.obj",
+//	"arenas/wrap.obj" */
 
-//arena obj files
-vector <string> arenaObjFilenames = {
-	"arenas/bowl.obj",
-	"arenas/devil.obj",
-	"arenas/wrap.obj"
-};
-
-vector<string> spawnObjFilenames = {
-	"spawns/spawn.obj",
-	"spawns/spawn.obj",
-	"spawns/spawn.obj"
-};
-
-vector<string> itemSpawnObjFilenames = {
-	"itemspawns/bowlitemspawn.obj",
-	"itemspawns/devilitemspawn.obj",
-	"itemspawns/wrapitemspawn.obj"
-};
+//
+//vector<string> spawnObjFilenames = {
+//	"spawns/spawn.obj",
+//};
+//
+//vector<string> itemSpawnObjFilenames = {
+//	"itemspawns/bowlitemspawn.obj",
+//	"itemspawns/devilitemspawn.obj",
+//	"itemspawns/wrapitemspawn.obj",
+//	"itemspawns/bowlitemspawn.obj",
+//	"itemspawns/bowlitemspawn.obj"
+//};
 
 vector<string> starObjFilenames = {
 	"starNodes/bowl.obj",
 	"starNodes/devil.obj",
-	"starNodes/wrap.obj"
+	"starNodes/wrap.obj",
+	"starNodes/bowl.obj",
+	"starNodes/bowl.obj"
 };
 
 //arena radar
 vector <string> arenaMapFilenames = {
+	"textures/arenaImgs/radar/circle.png",
+	"textures/arenaImgs/radar/circle.png",
 	"textures/arenaImgs/radar/circle.png",
 	"textures/arenaImgs/radar/circle.png",
 	"textures/arenaImgs/radar/circle.png"

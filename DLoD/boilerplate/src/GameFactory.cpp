@@ -134,51 +134,14 @@ bool GameFactory::start()
 	vector<vec3> loserVectorColours;
 	vector<clock_t> ToDs;
 
-	///TODO: make this into a virtual function
-	//Adds players in rank based on when they died
-	for (int i = 0; i < players.size(); i++) {
-		std::stringstream fmt;
-		Human* human = dynamic_cast<Human*> (players[i]);
-		//Player 
-		if (human != nullptr)
-			fmt << "Player " << i + 1;
-		//Otherwise, is an AI
-		else
-			fmt << "AI " << i - (numPlayerScreens - 1);
-
-		//If not dead, then automatically goes to front of list
-		if (!players[i]->isDead()) {
-			loserVectorNames.insert(loserVectorNames.begin(), fmt.str());	//first place
-			loserVectorColours.insert(loserVectorColours.begin(), *players[i]->getColour());
-			ToDs.insert(ToDs.begin(), 0);
-		}
-		//Else, iterate over list and find proper location
-		else {
-			bool inList = false;
-			for (int j = 0; j < ToDs.size(); j++) {
-				if (!inList) {
-					//died earlier than person
-					if (players[i]->getTimeOfDeath() > ToDs[j] && ToDs[j] != 0) {
-						loserVectorNames.insert(loserVectorNames.begin() + j, fmt.str());
-						loserVectorColours.insert(loserVectorColours.begin() + j, *players[i]->getColour());
-						ToDs.insert(ToDs.begin() + j, players[i]->getTimeOfDeath());
-						inList = true;
-					}
-				}
-			}
-			//If not in list, then push to back of list (last place)
-			if (!inList)
-			{
-				loserVectorNames.push_back(fmt.str());
-				loserVectorColours.push_back(*players[i]->getColour());
-				ToDs.push_back(players[i]->getTimeOfDeath());
-			}
-		}
-	}
+	calculateRank(loserVectorNames, loserVectorColours, ToDs);
 	goToEndGameState(loserVectorNames, loserVectorColours);
 
 	delete skybox;
 	delete arena;
+	delete gameState;
+	for (int i = 0; i < players.size(); i++)
+		delete players[i];
 	physX.cleanupPhysics(true);
 	return restart;
 }
@@ -364,6 +327,59 @@ void GameFactory::gameLoop()
 	}
 }
 
+void GameFactory::calculateRank(vector<string> &loserNames, vector<vec3> &loserColours, vector<clock_t> &ToDs) {
+
+	///TODO: make this into a virtual function
+	//Adds players in rank based on when they died
+	for (int i = 0; i < players.size(); i++) {
+		std::stringstream fmt = formatRank(players[i], numPlayerScreens, i);
+
+		//If not dead, then automatically goes to front of list
+		if (!players[i]->isDead()) {
+			loserNames.insert(loserNames.begin(), fmt.str());	//first place
+			loserColours.insert(loserColours.begin(), *players[i]->getColour());
+			ToDs.insert(ToDs.begin(), 0);
+		}
+		//Else, iterate over list and find proper location
+		else {
+			bool inList = false;
+			for (int j = 0; j < ToDs.size(); j++) {
+				if (!inList) {
+					//died earlier than person
+					if (players[i]->getTimeOfDeath() > ToDs[j] && ToDs[j] != 0) {
+						loserNames.insert(loserNames.begin() + j, fmt.str());
+						loserColours.insert(loserColours.begin() + j, *players[i]->getColour());
+						ToDs.insert(ToDs.begin() + j, players[i]->getTimeOfDeath());
+						inList = true;
+					}
+				}
+			}
+			//If not in list, then push to back of list (last place)
+			if (!inList)
+			{
+				loserNames.push_back(fmt.str());
+				loserColours.push_back(*players[i]->getColour());
+				ToDs.push_back(players[i]->getTimeOfDeath());
+			}
+		}
+	}
+}
+
+std::stringstream GameFactory::formatRank(Player *p, const int &numPlayerScreens, const int &index) {
+	std::stringstream fmt;
+	float armour = p->vehicle->getArmour();
+	float health = p->vehicle->getHealth();
+	Human* human = dynamic_cast<Human*> (p);
+	//Player 
+	if (human != nullptr)
+		fmt << "Player " << p->identifier+1;
+	//Otherwise, is an AI
+	else
+		fmt << "AI " << p->identifier+1;
+	fmt << " Health: " << int(health) << " Armour: " << int(armour);
+	return fmt;
+
+}
 void GameFactory::initSkyBox(const string &pathname)
 {
 	string skyboxConfigFile = pathname + "skyboxFile.txt";
@@ -514,24 +530,28 @@ void GameFactory::goToEndGameState(const vector<string>&names, const vector<vec3
 		EndGameScreen pScreen(window, h->controller, h->audio, pauseColour, names, colours);
 		pScreen.Initialize();
 		while (!glfwWindowShouldClose(window) && h != nullptr && !restart) {
-			pScreen.Run();
-			if (!pScreen.checkVisible()) {
-				if (pScreen.isQuit) {
-					restart = false;
-					glfwSetWindowShouldClose(window, true);
-				}
-				//this works
-				else if (pScreen.isRestart) {
-					restart = true;
+			if (!timer.checkSleep()) {
+				pScreen.Run();
+				timer.startSleep(150);
+				if (!pScreen.checkVisible()) {
+					if (pScreen.isQuit) {
+						restart = false;
+						glfwSetWindowShouldClose(window, true);
+					}
+					//this works
+					else if (pScreen.isRestart) {
+						restart = true;
+					}
 				}
 			}
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			pScreen.Render();
 			glfwSwapBuffers(window);
 			glfwPollEvents();
-			Sleep(150);	//slow down input
+		//	Sleep(150);	//slow down input
 		}
 		pScreen.Destroy();
+		h = nullptr;
 	}
 }
 
@@ -540,45 +560,48 @@ void GameFactory::goToGamePausedState() {
 	//resize viewport so renders fullscreen
 	ResizeViewport(0, 1, width, height);
 	vec3 pauseColour;
-	Human *h = NULL;
+	Human *human = nullptr;
 	for (Player *p : players) {
-		Human* human = dynamic_cast<Human*> (p);
+		human = dynamic_cast<Human*> (p);
 		//get pause input for human that pressed pause
 		if (human != nullptr && human->pressedPause()) {
 			pauseColour = *human->getColour();	//set pause menu colour
-			h = human;
 			break;
 		}
+		//human = nullptr;
 	}
 
-	PauseScreen pScreen(window, h->controller, h->audio, pauseColour);
+	PauseScreen pScreen(window, human->controller, human->audio, pauseColour);
 	pScreen.Initialize();
-	while (!glfwWindowShouldClose(window) && h != nullptr && h->pressedPause()) {
-		pScreen.Run();
-		if (!pScreen.checkVisible()) {
-			//this works
-			if (pScreen.goBack()) {
-				pause = false;
-				h->pausePressed = false;
-			}
-			//this works
-			else if (pScreen.isQuit) {
-				glfwSetWindowShouldClose(window, true);
-				return;
-			}
-			//this works
-			else if (pScreen.isRestart) {
-				pause = false;
-				restart = true;
-				h->pausePressed = false;
+	while (!glfwWindowShouldClose(window) && human != nullptr && human->pressedPause()) {
+		if (!timer.checkSleep()) {
+			pScreen.Run();
+			timer.startSleep(150);
+			if (!pScreen.checkVisible()) {
+				//this works
+				if (pScreen.goBack()) {
+					pause = false;
+					human->pausePressed = false;
+				}
+				//this works
+				else if (pScreen.isQuit) {
+					glfwSetWindowShouldClose(window, true);
+					return;
+				}
+				//this works
+				else if (pScreen.isRestart) {
+					pause = false;
+					restart = true;
+					human->pausePressed = false;
+				}
 			}
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		pScreen.Render();
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-		Sleep(150);	//slow down input
 	}
+	Sleep(150);	//slow down input
 	pScreen.Destroy();
 }
 

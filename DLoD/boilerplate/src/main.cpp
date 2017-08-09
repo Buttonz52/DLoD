@@ -14,6 +14,20 @@ void ErrorCallback(int error, const char* description)
 	cout << description << endl;
 }
 
+bool InitFiles(vector<string> &files, const string &filename) {
+	files.clear();
+	ifstream f_stream(filename);
+	if (!f_stream.is_open()) {
+		cout << "Error reading file " << filename << endl;
+		return false;
+	}
+	string line;
+	while (getline(f_stream, line)) {
+		files.push_back(line);
+		cout << line << "|" << endl;
+	}
+}
+
 void IncIndex(const int &size, int &index) {
 	index++;
 	if (index >= size) {
@@ -61,16 +75,12 @@ vec3 SkyboxColour(GLFWwindow *w) {
 	//}
 	int x, y;
 	glfwGetWindowSize(w, &x, &y);
-	cout << x << " " << y << endl;
 	unsigned char colour[3];
 	glReadPixels(10, y-100, 1, 1, GL_RGB, GL_UNSIGNED_BYTE, &colour);
 
 	float newCol[3];
 	for (int i = 0; i < 3; i++)
 		newCol[i] = colour[i] / 255.f;
-	for (int i = 0; i < 3; i++)
-		cout << newCol[i] << " ";
-	cout << "|| " << endl;
 	vec3 newColour = vec3(1-newCol[0], 1-newCol[1], 1-newCol[2]);
 	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	//glDeleteFramebuffers(1, &fbo);
@@ -114,6 +124,7 @@ void InitSkybox() {
 	}
 	skybox.addShaders("shaders/skybox.vert", "shaders/skybox.frag");
 }
+
 void InitArena() {
 	prevArenaIndex = arenaIndex;
 	arena.setColour(vec3(1, 0, 0));
@@ -155,7 +166,6 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
     default:
       break;
   }
-
 }
 
 //Jeremy Hart, CPSC 587 code, handles resizing glfw window
@@ -187,6 +197,9 @@ int main(int argc, char *argv[])
 	arenaIndex = 0;
 	prevArenaIndex = 0;
 	prevSkyboxIndex = 0;
+	InitFiles(arenaObjFilenames, "config/arenaConfig.txt");
+	InitFiles(skyboxFilePathnames, "config/skyboxConfig.txt");
+	InitFiles(itemSpawnObjFilenames, "config/spawnConfig.txt");
 	// initialize the GLFW windowing system
 	if (!glfwInit()) {
 		cout << "ERROR: GLFW failed to initialize, TERMINATING" << endl;
@@ -245,6 +258,9 @@ int main(int argc, char *argv[])
 
 
 	int numPlayers;
+	Timer timer;
+	if (!timer.isStarted())
+		timer.start();
 	ScreenOverlay loadPage;
 	loadPage.GenerateSquareVertices(1.f, 1.f, vec3(1.f));
 	loadPage.InitializeShaders("shaders/screenOverlay.vert", "shaders/screenOverlay.frag");
@@ -284,15 +300,17 @@ int main(int argc, char *argv[])
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glEnable(GL_DEPTH_TEST);
 		if (prevSkyboxIndex != skyboxIndex) {
+			timer.startSleep(300);
 			//prevSkyboxIndex = skyboxIndex;
 			skybox.shutdown();
 			InitSkybox();
 			newColour = SkyboxColour(window);
-			ts.UpdateColour(newColour);
 			arenaSkyboxInstruction.SetColour(newColour);
+			ts.UpdateColour(newColour);
 		}
 
 		if (prevArenaIndex != arenaIndex) {
+			timer.startSleep(300);
 			prevArenaIndex = arenaIndex;
 			arena.shutdown();
 			InitArena();
@@ -306,20 +324,22 @@ int main(int argc, char *argv[])
 
 		arenaSkyboxInstruction.SetTransparency(t * 0.1);
 
-		t > 10 ? t = 0: t++;
+		t > 50 ? t = 0: t++;
 
 		//messing around with this timing
-		if (t ==0 || prevSkyboxIndex != skyboxIndex) {
+		if (prevSkyboxIndex != skyboxIndex) {
 			prevSkyboxIndex = skyboxIndex;
 			newColour = SkyboxColour(window);
 			ts.UpdateColour(newColour);
 			arenaSkyboxInstruction.SetColour(newColour);
 		}
-		cam.incrementAzu(0.005f);
+		cam.incrementAzu(0.001f);
 		glDisable(GL_DEPTH_TEST);
-		int asState = CheckArenaSkyboxCallback(window, &controller);
-		asState == 0 ? IncIndex(arenaObjFilenames.size(), arenaIndex) : 0;
-		asState == 1 ? IncIndex(skyboxFilePathnames.size(), skyboxIndex) : 0;
+		if (!timer.checkSleep()) {
+			int asState = CheckArenaSkyboxCallback(window, &controller);
+			asState == 0 ? IncIndex(arenaObjFilenames.size(), arenaIndex) : 0;
+			asState == 1 ? IncIndex(skyboxFilePathnames.size(), skyboxIndex) : 0;
+		}
 		int ts_state = ts.Run(humanVehicleChoice, numPlayers, modeIndex, newColour);
 		if (ts_state != 0)
 			continue;
@@ -343,6 +363,7 @@ int main(int argc, char *argv[])
 		GameFactory *game;
 		switch (modeIndex) {
 
+		//potential memory leak
 		case 0:
 			game = new TimedGame(window, audio, skyboxFilePathnames[skyboxIndex], arenaObjFilenames[arenaIndex], starObjFilenames[arenaIndex], arenaMapFilenames[arenaIndex], humanVehicleChoice, numPlayers, spawnPoints, itemSpawnPoints);
 			break;
@@ -358,17 +379,23 @@ int main(int argc, char *argv[])
 		//if no restart, then game is over
 		if (!game->start()) {
 			glfwSetWindowShouldClose(window, true);
+			delete game;
 		}
 		else {
+			delete game;
 			if (!InitializeTitleScreen(ts, window, &controller, &audio))
 				return -1;
+			InitFiles(arenaObjFilenames, "config/arenaConfig.txt");
+			InitFiles(skyboxFilePathnames, "config/skyboxConfig.txt");
+			InitFiles(itemSpawnObjFilenames, "config/spawnConfig.txt");
+			timer.reset();
 			InitSkybox();
 			InitArena();
 		}
 	}
-	arena.shutdown();
-	skybox.shutdown();
-	ts.Destroy();
+	//arena.shutdown();
+	//skybox.shutdown();
+	//ts.Destroy();
 	glfwSetWindowShouldClose(window, true);
 	
 	loadPage.Destroy();
@@ -383,7 +410,8 @@ int main(int argc, char *argv[])
 
 void getSpawnPoints()
 {
-	string meshname = spawnObjFilenames[arenaIndex];
+	string meshname = "spawns/spawn.obj";
+		;
 	GEO *spawnGEO = new GEO();
 
 	if (!spawnGEO->initMesh(meshname)) {
@@ -396,6 +424,7 @@ void getSpawnPoints()
 	{
 		spawnPoints[i] *= 30.f;
 	}
+	delete spawnGEO;
 }
 
 void getItemSpawnPoints()
@@ -413,5 +442,6 @@ void getItemSpawnPoints()
 	{
 		itemSpawnPoints[i] *= 30.f;
 	}
+	delete spawnGEO;
 }
 

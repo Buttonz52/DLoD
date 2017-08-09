@@ -9,11 +9,12 @@ PauseScreen::PauseScreen() :Screen()
 	screenIndex = 6;
 }
 
-PauseScreen::PauseScreen(GLFWwindow *w, XboxController *x, Audio *a, vec3 &c) : Screen(w, x, a, c) {
+PauseScreen::PauseScreen(GLFWwindow *w, XboxController *x, Audio *a, vec3 &c) : Screen(w, x, a, vec3()) {
 	initIndex = 0;
 	maxIndex = 2;
 	screenIndex = 6;
 	kerning = 30;
+	selectColour = c;
 	isRestart = false;
 	isQuit = false;
 }
@@ -107,10 +108,12 @@ void PauseScreen::Run()
 
 	//back or escape/start
 	case 5:
-	case 6:
+	//case 6:
 		backPress = true;
 		isVisible = false;
 		audio->PlaySfx("back", MIX_MAX_VOLUME, select);
 		break;
+	default:
+		return;
 	}
 }

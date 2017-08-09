@@ -11,11 +11,15 @@ public:
 	void UpdateHudInfo(Player *player, mat4 & projectionMatrix, mat4 & viewMatrix, vector<string>& strings, vec3 & vColour, bool & canLayTrap);
 	void UpdateHudInfoEmpty(const vector<Player*> players, const int & i, mat4 & projectionMatrix, mat4 & viewMatrix, Camera & winningCam, Camera & overheadCam, vector<string>& strings, vec3 & vColour, const int & camIndex);
 	void gameLoop();
+	void calculateRank(vector<string>& loserNames, vector<vec3>& loserColours, vector<clock_t>& ToDs);
+	bool compareArmour(const Player * p1, const Player * p2);
+	int compareHealth(const Player * p1, const Player * p2);
 	bool start();
 private: 
 	int endGameTickNum;
 	int currentTicks;
 	Timer gameTimer;
 	bool timeOver;
+
 };
 

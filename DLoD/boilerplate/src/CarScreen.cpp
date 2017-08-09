@@ -36,7 +36,6 @@ void CarScreen::Run()
 		break;
 		//press "select"
 	case 4: {
-		cout << menuIndex << endl;
 		audio->PlaySfx("armourAndSelect", MIX_MAX_VOLUME, select);
 		//set flag to false
 		menuButtons[menuIndex].SetColour(pressColour);	//indicate choice
@@ -60,6 +59,8 @@ void CarScreen::Run()
 		isVisible = false;
 		audio->PlaySfx("back", MIX_MAX_VOLUME, select);
 		break;
+	default:
+		return;
 	}
 }
 

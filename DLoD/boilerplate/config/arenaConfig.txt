@@ -1,0 +1,3 @@
+arenas/bowl3.obj
+arenas/devil3.obj
+arenas/wrap2.obj

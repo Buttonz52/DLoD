@@ -6,6 +6,9 @@ Timer::Timer()
   pausedAt = 0;
   paused = false;
   started = false;
+  isSleep = false;
+  startedSleep = 0;
+  sleepDuration = 0;
 }
 
 bool Timer::isStarted()
@@ -76,4 +79,23 @@ clock_t Timer::getTicks()
     return pausedAt - startedAt;
 
   return clock() - startedAt;
+}
+
+bool Timer::checkSleep() {
+	if (isSleep) {
+		if (startedSleep + sleepDuration < clock()) {
+			isSleep = false;
+			//std::cout << "Still sleeping" << std::endl;
+		}
+	}
+	return isSleep;
+}
+
+void Timer::startSleep(const clock_t &sleepAmount) {
+	if (!isSleep) {
+		//std::cout << "starting sleep" << std::endl;
+		isSleep = true;
+		startedSleep = clock();
+		sleepDuration = sleepAmount;
+	}
 }

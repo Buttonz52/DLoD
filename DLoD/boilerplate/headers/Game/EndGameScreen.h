@@ -6,6 +6,7 @@ public:
 	EndGameScreen();
 	EndGameScreen(GLFWwindow * w, XboxController * x, Audio * a, vec3 & c, const vector<string>&, const vector<vec3>&);
 	~EndGameScreen();
+	string formatRank(const string & player, const int & index);
 	void Initialize();
 	void Run();
 	bool isRestart, isQuit;

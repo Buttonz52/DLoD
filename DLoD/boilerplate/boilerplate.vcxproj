@@ -199,7 +199,6 @@
     <ClInclude Include="headers\Game\TimedGame.h" />
     <ClInclude Include="headers\Game\Timer.h" />
     <ClInclude Include="headers\Game\TitleScreen.h" />
-    <ClInclude Include="headers\Game\Title\ArenaScreen.h" />
     <ClInclude Include="headers\Game\Title\ModeScreen.h" />
     <ClInclude Include="headers\Game\Title\PlayButtonScreen.h" />
     <ClInclude Include="headers\Game\Title\RulesScreen.h" />
@@ -207,7 +206,6 @@
     <ClInclude Include="headers\Game\Title\MainScreen.h" />
     <ClInclude Include="headers\Game\Title\MultiplayerScreen.h" />
     <ClInclude Include="headers\Game\Title\Screen.h" />
-    <ClInclude Include="headers\Game\Title\SkyboxScreen.h" />
     <ClInclude Include="headers\Game\Utility.h" />
     <ClInclude Include="headers\GEO\AStarNode.h" />
     <ClInclude Include="headers\GEO\Camera.h" />

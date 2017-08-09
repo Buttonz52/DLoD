@@ -238,9 +238,6 @@
     <ClInclude Include="headers\Game\Title\CarScreen.h">
       <Filter>headers\Game\Title</Filter>
     </ClInclude>
-    <ClInclude Include="headers\Game\Title\ArenaScreen.h">
-      <Filter>headers\Game\Title</Filter>
-    </ClInclude>
     <ClInclude Include="headers\Game\Title\RulesScreen.h">
       <Filter>headers\Game\Title</Filter>
     </ClInclude>
@@ -251,9 +248,6 @@
       <Filter>headers\Game\Title</Filter>
     </ClInclude>
     <ClInclude Include="headers\Game\Title\ModeScreen.h">
-      <Filter>headers\Game\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="headers\Game\Title\SkyboxScreen.h">
       <Filter>headers\Game\Title</Filter>
     </ClInclude>
     <ClInclude Include="headers\Game\Title\PlayButtonScreen.h">

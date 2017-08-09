@@ -45,8 +45,11 @@ void MultiplayerScreen::Run()
 		isVisible = false;
 		audio->PlaySfx("back", MIX_MAX_VOLUME, select);
 		break;
+	default:
+		return;
 	}
 }
+
 
 void MultiplayerScreen::Initialize()
 {

@@ -285,6 +285,7 @@ void Vehicle::checkDead() {
 			playSFX("explosion", MIX_MAX_VOLUME, throwTrap);
 			canPulseColour = false;
 			dead = true;
+			//shutdown();
 			mesh.UpdateColour(vec3(0));
 		}
 	}
@@ -491,6 +492,8 @@ playerType Vehicle::getPlayerType() {
 }
 void Vehicle::Render(const mat4 &_view, const mat4 &_projection, const vec3 &_lightSource)
 {
+	//if (dead)
+	//	return;
 	//make a timer or something so not pulsing crazily
 	if (canPulseColour) {
 		int denom;

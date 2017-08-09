@@ -4,6 +4,7 @@
 #include "Game/Audio.h"
 #include "Game/ScreenOverlay.h"
 #include "Controller/XboxController.h"
+#include "Game/Timer.h"
 
 //Use this class to extend and fix the crappy title screen code
 class Screen {
@@ -39,6 +40,8 @@ protected:
 	int kerning;
 	int screenIndex;
 	bool backPress;
+	Timer timer;
+	int inputPause;
 };
 
 #endif

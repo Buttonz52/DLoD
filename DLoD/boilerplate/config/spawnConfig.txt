@@ -1,0 +1,3 @@
+itemspawns/bowlitemspawn.obj
+itemspawns/devilitemspawn.obj
+itemspawns/wrapitemspawn.obj

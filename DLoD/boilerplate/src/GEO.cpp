@@ -301,8 +301,9 @@ void GEO::shutdown()
 	shader.DestroyShaders();
 	texture.DestroyTexture();
 	mesh.DestroyMesh();
-  for (GEO* child : children)
-    child->shutdown();
+	for (GEO* child : children) {
+		child->shutdown();
+	}
 }
 
 void GEO::playSFX(const string &name, const int &volume, const channel &channel)

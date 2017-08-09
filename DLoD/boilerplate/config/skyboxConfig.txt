@@ -1,0 +1,6 @@
+textures/ely_cloudtop/
+textures/nec_hell/
+textures/mp_deviltooth/
+textures/mp_emerald/
+textures/ame_ash/
+textures/jf_nuke/

@@ -4,4 +4,3 @@ nuke_up.tga
 nuke_dn.tga
 nuke_bk.tga
 nuke_ft.tga
-nuke_bump.tga

@@ -17,27 +17,30 @@ ModeScreen::~ModeScreen()
 }
 
 void ModeScreen::Run() {
-		switch (KeyCallback(window, controller, audio)) {	//check key callback 
-		case 2:
-			toggleMenuIndex(1, initIndex, maxIndex);
-			break;
-		case 3:
-			toggleMenuIndex(-1, initIndex, maxIndex);
-			break;
-			//press "select"
-		case 4:
-			isVisible = false;
-			audio->PlaySfx("armourAndSelect", MIX_MAX_VOLUME,select);
-			menuButtons[menuIndex].SetColour(pressColour);	//indicate choice
-			menuButtons[menuIndex].SetMixFlag(1);
-			break;
-			//press "back"
-		case 5:
-			isVisible = false;
-			backPress = true;
-			audio->PlaySfx("back", MIX_MAX_VOLUME, select);
-			break;
-		}
+	switch (KeyCallback(window, controller, audio)) {	//check key callback 
+	case 2:
+		toggleMenuIndex(1, initIndex, maxIndex);
+		break;
+	case 3:
+		toggleMenuIndex(-1, initIndex, maxIndex);
+		break;
+		//press "select"
+	case 4:
+		isVisible = false;
+		audio->PlaySfx("armourAndSelect", MIX_MAX_VOLUME, select);
+		menuButtons[menuIndex].SetColour(pressColour);	//indicate choice
+		menuButtons[menuIndex].SetMixFlag(1);
+		break;
+		//press "back"
+	case 5:
+		isVisible = false;
+		backPress = true;
+		audio->PlaySfx("back", MIX_MAX_VOLUME, select);
+		break;
+
+	default:
+		return;
+	}
 }
 
 void ModeScreen::Initialize() {

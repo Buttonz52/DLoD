@@ -91,7 +91,59 @@ bool TimedGame::start() {
 		gameTimer.start();
 		currentTicks = gameTimer.getTicks();
 	}
-	return GameFactory::start();
+	switchCamText.SetScale(vec3(0.5f));
+	switchCamText.InitializeGameText("Press <TAB> or <BACK> to change between cameras", vec3(-0.4, -0.8, 0), vec3(1, 1, 1), 30);
+
+	// Enter the game Loop
+	gameState->timer.start();
+	for (ItemSpawner* s : gameState->itemSpawners)
+		s->timer.start();
+	gameLoop();
+
+	// Clean up and Display the win screen
+
+	///TODO: implmement for all screens -> lose/win for appropriate player
+	ScreenOverlay endGameText;
+	endGameText.SetScale(vec3(4.f));
+	if (!gameOver) {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//  for (int i = 0; i < numPlayerScreens; i++) {
+		ResizeViewport(0, 1, width, height);
+		endGameText.InitializeGameText("TIME OVER", vec3(-0.7, 0, 0), vec3(0), 30);
+		endGameText.Render(GL_TRIANGLES, endGameText.getColour());
+		//  }
+	}
+	else {
+		for (int i = 0; i < numPlayerScreens; i++) {
+			ResizeViewport(i, numPlayerScreens, width, height);
+			if (players[i]->isDead()) {
+				endGameText.InitializeGameText("LOSE!", vec3(-0.35, 0, 0), vec3(1, 0, 0), 30);
+			}
+			else {
+				endGameText.InitializeGameText("WIN!", vec3(-0.3, 0, 0), vec3(0, 1, 0), 30);
+			}
+			endGameText.Render(GL_TRIANGLES, endGameText.getColour());
+		}
+	}
+	glfwSwapBuffers(window);
+	Sleep(1000);
+	//	audio.PlaySfx(winSFX);
+	//	audio.PlaySfx(loseSFX);
+
+	bool pause = true;
+	Human *h = dynamic_cast<Human*> (players[0]);
+
+	vector <string> loserVectorNames;
+	vector<vec3> loserVectorColours;
+	vector<clock_t> ToDs;
+
+	calculateRank(loserVectorNames, loserVectorColours, ToDs);
+	goToEndGameState(loserVectorNames, loserVectorColours);
+
+	delete skybox;
+	delete arena;
+	physX.cleanupPhysics(true);
+	return restart;
 }
 void TimedGame::UpdateHudInfo(Player *player, mat4 & projectionMatrix, mat4 & viewMatrix, vector<string>& strings, vec3 & vColour, bool & canLayTrap)
 {
@@ -297,3 +349,97 @@ void TimedGame::gameLoop()
 		glfwPollEvents();
 	}
 }
+
+void TimedGame::calculateRank(vector<string> &loserNames, vector<vec3> &loserColours, vector<clock_t> &ToDs) {
+	cout << "calculating rank timed game" << endl;
+	///TODO: make this into a virtual function
+	//Adds players in rank based on when they died
+	vector<Player*> alivePlayers;
+	vector<string> aliveNames;
+	vector<vec3> aliveColours;
+	for (int i = 0; i < players.size(); i++) {
+		std::stringstream fmt = formatRank(players[i], numPlayerScreens, i);
+
+		//If not dead, then put in vector to deal with later
+		if (!players[i]->isDead()) {
+			alivePlayers.push_back(players[i]);
+
+		}
+		//Else, iterate over list and find proper location
+		else {
+			bool inList = false;
+			for (int j = 0; j < ToDs.size(); j++) {
+				if (!inList) {
+					//died earlier than person
+					if (players[i]->getTimeOfDeath() > ToDs[j] && ToDs[j] != 0) {
+						loserNames.insert(loserNames.begin() + j, fmt.str());
+						loserColours.insert(loserColours.begin() + j, *players[i]->getColour());
+						ToDs.insert(ToDs.begin() + j, players[i]->getTimeOfDeath());
+						inList = true;
+					}
+				}
+			}
+			//If not in list, then push to back of list (last place)
+			if (!inList)
+			{
+				loserNames.push_back(fmt.str());
+				loserColours.push_back(*players[i]->getColour());
+				ToDs.push_back(players[i]->getTimeOfDeath());
+			}
+		}
+	}
+	//Players still alive.
+	//need to check which player has most health/armour and rank them
+	//based on that.
+	//cout << "Initial: " << endl;
+	//for (int i = 0; i < alivePlayers.size(); i++) {
+	//	cout << alivePlayers[i]->vehicle->getHealth() << " " << alivePlayers[i]->vehicle->getArmour() << endl;
+	//}
+
+	int numAlive = alivePlayers.size();
+	int j = 0;
+	//sort most health/least health
+	while (j <numAlive) {
+		for (int i = j+1; i < numAlive; i++) {
+			cout << i << " " <<j << endl;
+			int compare = compareHealth(alivePlayers[j], alivePlayers[i]);
+			if (compare ==1) {
+				std::swap(alivePlayers[j], alivePlayers[i]);
+			}
+			//equal health, compare armour
+			else if (compare == 0) {
+				if (compareArmour(alivePlayers[j], alivePlayers[i]))
+					std::swap(alivePlayers[j], alivePlayers[i]);
+			}
+		}
+		j++;
+	}
+
+	//cout << "Final: " << endl;
+	//for (int i = 0; i < numAlive; i++) {
+	//	cout << alivePlayers[i]->vehicle->getHealth() << " " << alivePlayers[i]->vehicle->getArmour() << endl;
+	//}
+	for (int i = numAlive-1; i >=0; i--) {
+		std::stringstream fmt = formatRank(alivePlayers[i], numPlayerScreens, i);
+		loserNames.insert(loserNames.begin(), fmt.str());	//first place
+		loserColours.insert(loserColours.begin(), *alivePlayers[i]->getColour());
+		ToDs.insert(ToDs.begin(), 0);
+	}
+}
+
+int TimedGame::compareHealth(const Player *p1, const Player *p2) {
+	if (p1->vehicle->getHealth() < p2->vehicle->getHealth()) {
+		return 1;
+	}
+	if (p1->vehicle->getHealth() == p2->vehicle->getHealth())
+		return 0;
+	return -1;
+}
+
+bool TimedGame::compareArmour(const Player *p1, const Player *p2) {
+	if (p1->vehicle->getArmour() < p2->vehicle->getArmour()) {
+		return true;
+	}
+	return false;
+}
+

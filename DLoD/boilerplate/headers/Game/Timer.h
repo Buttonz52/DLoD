@@ -2,7 +2,7 @@
 #define TIMER_H
 
 #include <ctime>
-
+#include <iostream>
 class Timer
 {
   clock_t startedAt;
@@ -25,6 +25,11 @@ public:
   void reset();
 
   clock_t getTicks();
+  bool checkSleep();
+  void startSleep(const clock_t & sleepAmount);
+private:
+	bool isSleep;
+	clock_t startedSleep, sleepDuration;
 };
 
 #endif

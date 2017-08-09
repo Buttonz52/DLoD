@@ -53,13 +53,16 @@ protected:
 
 	virtual void UpdateHudInfoEmpty(const vector <Player*> players, const int &i, mat4 &projectionMatrix, mat4 &viewMatrix, Camera &winningCam, Camera &overheadCam, vector<string> &strings,vec3 &vColour, const int &camIndex);
 
+	void calculateRank(vector<string>& loserNames, vector<vec3>& loserColours, vector<clock_t>& ToDs);
+
+	std::stringstream formatRank(Player * p, const int & numPlayerScreens, const int &index);
+
 	void initSkyBox(const string &pathname);
 	GEO* initArena(const string &texfilename, const string &objfilename);
 	void initVehicle(Vehicle * v, int type);
 	void initItem(Item * item, const PxVec3 & velocity);
 
 	virtual void gameLoop();
-
 public:
 	virtual bool start();
 	GameFactory();

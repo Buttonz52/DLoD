@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "Utility.h"
 #include "GameEngine/Mesh.h"
 #include "ScreenOverlay.h"
@@ -13,12 +14,15 @@
 #include "Title\CarScreen.h"
 #include "Title\PlayButtonScreen.h"
 
+
 using namespace glm;
 class TitleScreen
 {
 public:
 	TitleScreen();
 	~TitleScreen();
+
+	void resetScreen();
 
 	void Render();
 	int Run(vector<int>& humanVehicleChoice, int & numPlayers, int & mode, vec3 & newColour);
@@ -32,7 +36,8 @@ public:
 	void InitMultiplayerScreen(GLFWwindow * w, XboxController * c, Audio * a, vec3 & co);
 
 private:
-	Screen *currentScreen;
+
+	Screen * currentScreen;
 	bool isQuit, isStart;
 
 	int pauseTime, clickChannel, backChannel, revChannel1, revChannel2,
@@ -48,7 +53,8 @@ private:
 	ScreenOverlay background;
 
 	Timer timer; 
-	
+	vector<Screen> screens;
+
 	void pressStart(Audio *audio);
 	void pressQuit();
 };

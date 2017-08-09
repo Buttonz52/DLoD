@@ -14,6 +14,7 @@ Screen::Screen()
 	backPress = false;
 	kerning = 30;
 	textColour = vec3();
+	inputPause = 150;
 }
 
 Screen::Screen(GLFWwindow *w, XboxController *x, Audio *a, vec3 &c) {
@@ -31,6 +32,7 @@ Screen::Screen(GLFWwindow *w, XboxController *x, Audio *a, vec3 &c) {
 	backPress = false;
 	kerning = 30;
 	textColour = c;
+	inputPause = 1500;
 }
 
 Screen::~Screen()
@@ -39,10 +41,13 @@ Screen::~Screen()
 
 void Screen::Initialize()
 {
+	if (!timer.isStarted())
+		timer.start();
 }
 
 void Screen::Run() {
-
+	if (timer.checkSleep())
+		return;
 }
 
 void Screen::UpdateColour(const vec3 &newColour) {

@@ -43,7 +43,8 @@ void RulesScreen::Run() {
 		audio->PlaySfx("back", MIX_MAX_VOLUME, menu);
 		isVisible = false;
 		return;
-	}menuButtons[1].SetTransparency(float(timeCounter % 20)*0.1);
+		timer.startSleep(inputPause);
+	}menuButtons[1].SetTransparency(float(timeCounter % 20)*0.05);
 	//Sleep(pauseTime);		//slow down input so not crazy fast
 	timeCounter++;
 }
